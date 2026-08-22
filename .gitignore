@@ -1,0 +1,57 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+ENV/
+
+# Environment Variables
+.env
+.env.local
+
+# Jupyter Notebooks Checkpoints
+.ipynb_checkpoints
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Trained Models & Large Weights (Keep configs/model_cards in git, ignore large bin/safetensors)
+models/bert_classifier/*.safetensors
+models/bert_classifier/*.bin
+models/llama_extractor/*.safetensors
+models/llama_extractor/*.bin
+models/experiments/wandb/
+*.pt
+*.pth
+
+# Vector Stores & Cache
+data/vector_store/chroma/
+*.sqlite3
+
+# OS Specific
+.DS_Store
+Thumbs.db
