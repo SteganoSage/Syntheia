@@ -55,3 +55,6 @@ data/vector_store/chroma/
 # OS Specific
 .DS_Store
 Thumbs.db
+
+# Implementation Plans
+/implementation-plans
