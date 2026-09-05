@@ -1,0 +1,38 @@
+{
+  "agent": "extraction_api_baseline",
+  "scenario": "data/test_cases/loan_processing/scenario_01.txt",
+  "num_requirements": 5,
+  "latency_seconds": 26.32,
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall provide a mobile-responsive online loan application portal",
+      "priority": "High",
+      "category_hint": "Functional, Usability"
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall verify applicant identity through Aadhaar-based eKYC",
+      "priority": "High",
+      "category_hint": "Functional, Regulatory, Security"
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall fetch applicant credit scores from CIBIL in real-time",
+      "priority": "High",
+      "category_hint": "Functional, Integration"
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall route loan applications exceeding 50 lakhs for manual approval from a senior officer",
+      "priority": "Medium",
+      "category_hint": "Business, Functional"
+    },
+    {
+      "id": "REQ-005",
+      "statement": "The system shall handle all application data in compliance with RBI digital lending guidelines",
+      "priority": "High",
+      "category_hint": "Regulatory, Data-management"
+    }
+  ]
+}

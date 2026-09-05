@@ -42,14 +42,11 @@ def build_pipeline():
 
 
 if __name__ == "__main__":
-    SAMPLE_SCENARIO = (
-        "We need an online loan application portal where customers can apply "
-        "from their mobile phones. The application must verify identity "
-        "through Aadhaar-based eKYC. Credit scores should be fetched from "
-        "CIBIL in real-time. Applications above 50 lakhs need manual approval "
-        "from a senior officer. All data must comply with RBI's digital "
-        "lending guidelines."
-    )
+    from pathlib import Path
+
+    SAMPLE_SCENARIO = Path(
+        "data/test_cases/loan_processing/scenario_01.txt"
+    ).read_text().strip()
 
     pipeline = build_pipeline()
     final_state = pipeline.invoke({"text": SAMPLE_SCENARIO, "requirements": []})

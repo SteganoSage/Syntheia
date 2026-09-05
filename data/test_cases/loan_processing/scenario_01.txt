@@ -1,0 +1,1 @@
+We need an online loan application portal where customers can apply from their mobile phones. The application must verify identity through Aadhaar-based eKYC. Credit scores should be fetched from CIBIL in real-time. Applications above 50 lakhs need manual approval from a senior officer. All data must comply with RBI's digital lending guidelines.
