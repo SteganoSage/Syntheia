@@ -1,0 +1,429 @@
+{
+    "dataset": "day5_classification_gold_seed",
+    "purpose": "Candidate gold-standard multi-label requirements for evaluating the Day 5 zero-shot and few-shot classification baselines. NOT verified truth yet -- every entry needs a human pass before use.",
+    "status": "UNVERIFIED_CANDIDATE_SET",
+    "instructions_for_reviewers": [
+        "For each requirement, confirm the 'categories' list is correct and complete against the 13-category taxonomy below. Add/remove labels as needed.",
+        "Flip 'verified' to true only after a human has checked it.",
+        "Entries sourced from day4_extraction_baseline.json had their category_hint tightened/expanded to the exact taxonomy strings -- double-check these especially, since hints were free text.",
+        "Once verified, freeze this file as the Day 5 / Month 4 held-out eval set. Do NOT fold it into the Day 7 training corpus (200+ examples) -- keep it separate so fine-tuned-vs-baseline comparisons stay valid.",
+        "If you trim to a smaller set for speed, keep at least 2-3 examples per category so per-category F1 isn't computed on n=1."
+    ],
+    "categories_taxonomy": [
+        "Business",
+        "Stakeholder",
+        "Functional",
+        "Security",
+        "Privacy",
+        "Regulatory",
+        "Performance",
+        "Availability",
+        "Usability",
+        "Data-management",
+        "Integration",
+        "Audit/Reporting",
+        "Operational"
+    ],
+    "requirements": [
+        {
+            "id": "REQ-001",
+            "statement": "The system shall provide a mobile-responsive online loan application portal accessible on both Android and iOS browsers.",
+            "categories": [
+                "Functional",
+                "Usability"
+            ],
+            "domain": "loan_origination",
+            "source": "day4_extraction_baseline",
+            "verified": true,
+            "reviewer_notes": "Matches original category_hint directly."
+        },
+        {
+            "id": "REQ-002",
+            "statement": "The system shall verify applicant identity through Aadhaar-based eKYC before allowing submission of a loan application.",
+            "categories": [
+                "Functional",
+                "Regulatory",
+                "Security",
+                "Privacy"
+            ],
+            "domain": "loan_origination",
+            "source": "day4_extraction_baseline",
+            "verified": false,
+            "reviewer_notes": "Added Privacy beyond original hint (Functional, Regulatory, Security) since Aadhaar handling implies personal-data concerns. Confirm."
+        },
+        {
+            "id": "REQ-003",
+            "statement": "The system shall fetch applicant credit scores from CIBIL in real-time and return the result within 3 seconds.",
+            "categories": [
+                "Functional",
+                "Integration",
+                "Performance"
+            ],
+            "domain": "loan_origination",
+            "source": "day4_extraction_baseline",
+            "verified": false,
+            "reviewer_notes": "Added Performance -- the '3 seconds' target was not in the original statement, I inferred it as an example of a testable performance clause. Adjust or remove if not accurate."
+        },
+        {
+            "id": "REQ-004",
+            "statement": "The system shall route loan applications exceeding \u20b950 lakhs to a senior loan officer for manual approval.",
+            "categories": [
+                "Business",
+                "Functional",
+                "Stakeholder"
+            ],
+            "domain": "loan_origination",
+            "source": "day4_extraction_baseline",
+            "verified": false,
+            "reviewer_notes": "Added Stakeholder since 'senior loan officer' is a named actor/role. Confirm this counts under your Stakeholder definition."
+        },
+        {
+            "id": "REQ-005",
+            "statement": "The system shall handle all applicant data in compliance with RBI's Digital Lending Guidelines, including data localization requirements.",
+            "categories": [
+                "Regulatory",
+                "Data-management",
+                "Privacy"
+            ],
+            "domain": "loan_origination",
+            "source": "day4_extraction_baseline",
+            "verified": false,
+            "reviewer_notes": "Added Privacy beyond original hint (Regulatory, Data-management). Confirm."
+        },
+        {
+            "id": "REQ-006",
+            "statement": "The system shall allow a loan applicant to save an in-progress application and resume it within 30 days.",
+            "categories": [
+                "Functional",
+                "Usability",
+                "Data-management"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-007",
+            "statement": "The system shall calculate the applicant's debt-to-income ratio using declared income and existing CIBIL liabilities to determine loan eligibility.",
+            "categories": [
+                "Business",
+                "Functional"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-008",
+            "statement": "The system shall encrypt all applicant PII, including PAN and Aadhaar numbers, at rest using AES-256 encryption.",
+            "categories": [
+                "Security",
+                "Privacy",
+                "Data-management"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-009",
+            "statement": "The system shall retain loan application and supporting KYC documents for a minimum of 8 years in accordance with RBI record-retention norms.",
+            "categories": [
+                "Data-management",
+                "Regulatory"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-010",
+            "statement": "The system shall notify the applicant via SMS and email at each stage of the loan approval workflow: submitted, under review, approved, disbursed.",
+            "categories": [
+                "Functional",
+                "Stakeholder",
+                "Integration"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-011",
+            "statement": "The system shall generate a monthly compliance report listing all loan applications that required manual override of automated approval rules.",
+            "categories": [
+                "Audit/Reporting",
+                "Regulatory"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-012",
+            "statement": "The loan origination service shall maintain 99.9% uptime during business hours, 9 AM to 6 PM IST, excluding scheduled maintenance windows.",
+            "categories": [
+                "Availability",
+                "Operational"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-013",
+            "statement": "The system shall alert the operations on-call team if the CIBIL API integration fails for more than five consecutive requests.",
+            "categories": [
+                "Operational",
+                "Integration"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-014",
+            "statement": "The system shall support at least 500 concurrent loan application submissions without response times exceeding 5 seconds.",
+            "categories": [
+                "Performance"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-015",
+            "statement": "The system shall allow the credit risk team to configure and update loan eligibility scoring thresholds without requiring a code deployment.",
+            "categories": [
+                "Stakeholder",
+                "Business",
+                "Functional",
+                "Operational"
+            ],
+            "domain": "loan_origination",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-016",
+            "statement": "The system shall capture a live selfie and match it against the Aadhaar photograph using facial recognition during customer onboarding.",
+            "categories": [
+                "Functional",
+                "Security",
+                "Regulatory",
+                "Privacy"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-017",
+            "statement": "The system shall mask the customer's Aadhaar number, showing only the last 4 digits, on all screens except during the verification step.",
+            "categories": [
+                "Privacy",
+                "Security",
+                "Regulatory"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-018",
+            "statement": "The system shall onboard a new customer end-to-end, from document upload to account activation, within 10 minutes on average.",
+            "categories": [
+                "Performance",
+                "Functional",
+                "Usability"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-019",
+            "statement": "The system shall allow the compliance team to review and approve or reject customer onboarding cases flagged for manual KYC review.",
+            "categories": [
+                "Stakeholder",
+                "Functional",
+                "Regulatory"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-020",
+            "statement": "The system shall log every access to a customer's KYC documents, including the user ID, timestamp, and reason for access.",
+            "categories": [
+                "Audit/Reporting",
+                "Security"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-021",
+            "statement": "The onboarding portal shall be usable by first-time digital banking users with no prior training, following WCAG 2.1 AA accessibility guidelines.",
+            "categories": [
+                "Usability"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-022",
+            "statement": "The system shall integrate with the UIDAI Aadhaar authentication API to perform real-time identity verification.",
+            "categories": [
+                "Integration",
+                "Regulatory"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-023",
+            "statement": "The system shall automatically purge onboarding documents for rejected applications after 90 days unless legally required to retain them.",
+            "categories": [
+                "Data-management",
+                "Privacy",
+                "Regulatory"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-024",
+            "statement": "The onboarding service shall be available 24/7 with a maximum planned downtime of 4 hours per month for maintenance.",
+            "categories": [
+                "Availability",
+                "Operational"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-025",
+            "statement": "The system shall support onboarding volumes of up to 10,000 new customers per day during festive-season promotional campaigns.",
+            "categories": [
+                "Performance",
+                "Business"
+            ],
+            "domain": "kyc_onboarding",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-026",
+            "statement": "The system shall process a UPI payment request and confirm success or failure to the payer within 5 seconds.",
+            "categories": [
+                "Functional",
+                "Performance"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-027",
+            "statement": "The system shall route failed payment transactions to a reconciliation queue for the operations team to investigate within 24 hours.",
+            "categories": [
+                "Operational",
+                "Functional"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-028",
+            "statement": "The system shall maintain an immutable audit trail of every payment transaction, including amount, timestamp, and both parties' account references.",
+            "categories": [
+                "Audit/Reporting",
+                "Data-management",
+                "Regulatory"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-029",
+            "statement": "The payments gateway shall encrypt all transaction data in transit using TLS 1.2 or higher.",
+            "categories": [
+                "Security",
+                "Regulatory"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-030",
+            "statement": "The system shall integrate with the NPCI UPI switch to process real-time interbank fund transfers.",
+            "categories": [
+                "Integration",
+                "Functional"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-031",
+            "statement": "The finance team shall be able to generate a daily settlement report reconciling all processed payment transactions against the core banking ledger.",
+            "categories": [
+                "Stakeholder",
+                "Audit/Reporting",
+                "Business"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        },
+        {
+            "id": "REQ-032",
+            "statement": "The payments platform shall maintain 99.95% availability, given its role as a critical real-time financial service.",
+            "categories": [
+                "Availability",
+                "Business"
+            ],
+            "domain": "payments",
+            "source": "synthetic-needs-review",
+            "verified": false,
+            "reviewer_notes": ""
+        }
+    ]
+}

@@ -1,0 +1,1015 @@
+{
+  "ground_truth_file": "data/training/classification/ground_truth.json",
+  "total_requirements": 32,
+  "baselines": {
+    "zero_shot": {
+      "micro_f1": 0.8072,
+      "macro_f1": 0.8186,
+      "exact_match_rate": 0.4062,
+      "avg_latency_seconds": 23.202
+    },
+    "few_shot": {
+      "micro_f1": 0.8402,
+      "macro_f1": 0.8567,
+      "exact_match_rate": 0.5312,
+      "avg_latency_seconds": 30.548
+    }
+  },
+  "zero_shot_details": {
+    "classifier": "Zero-Shot (Gemini)",
+    "total_requirements": 32,
+    "micro_f1": 0.8072,
+    "macro_f1": 0.8186,
+    "exact_match_rate": 0.4062,
+    "total_latency_seconds": 742.473,
+    "avg_latency_seconds": 23.202,
+    "per_requirement": [
+      {
+        "id": "REQ-001",
+        "statement": "The system shall provide a mobile-responsive online loan application portal accessible on both Android and iOS browsers.",
+        "true_categories": [
+          "Functional",
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Usability"
+        ],
+        "exact_match": true,
+        "latency_seconds": 54.043
+      },
+      {
+        "id": "REQ-002",
+        "statement": "The system shall verify applicant identity through Aadhaar-based eKYC before allowing submission of a loan application.",
+        "true_categories": [
+          "Functional",
+          "Regulatory",
+          "Security",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Security",
+          "Regulatory",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 4.356
+      },
+      {
+        "id": "REQ-003",
+        "statement": "The system shall fetch applicant credit scores from CIBIL in real-time and return the result within 3 seconds.",
+        "true_categories": [
+          "Functional",
+          "Integration",
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Performance",
+          "Integration"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.187
+      },
+      {
+        "id": "REQ-004",
+        "statement": "The system shall route loan applications exceeding \u20b950 lakhs to a senior loan officer for manual approval.",
+        "true_categories": [
+          "Business",
+          "Functional",
+          "Stakeholder"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Functional"
+        ],
+        "exact_match": false,
+        "latency_seconds": 19.463
+      },
+      {
+        "id": "REQ-005",
+        "statement": "The system shall handle all applicant data in compliance with RBI's Digital Lending Guidelines, including data localization requirements.",
+        "true_categories": [
+          "Regulatory",
+          "Data-management",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Regulatory",
+          "Privacy",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 11.567
+      },
+      {
+        "id": "REQ-006",
+        "statement": "The system shall allow a loan applicant to save an in-progress application and resume it within 30 days.",
+        "true_categories": [
+          "Functional",
+          "Usability",
+          "Data-management"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Usability",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.186
+      },
+      {
+        "id": "REQ-007",
+        "statement": "The system shall calculate the applicant's debt-to-income ratio using declared income and existing CIBIL liabilities to determine loan eligibility.",
+        "true_categories": [
+          "Business",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Business",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.282
+      },
+      {
+        "id": "REQ-008",
+        "statement": "The system shall encrypt all applicant PII, including PAN and Aadhaar numbers, at rest using AES-256 encryption.",
+        "true_categories": [
+          "Security",
+          "Privacy",
+          "Data-management"
+        ],
+        "predicted_categories": [
+          "Security",
+          "Privacy",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 67.261
+      },
+      {
+        "id": "REQ-009",
+        "statement": "The system shall retain loan application and supporting KYC documents for a minimum of 8 years in accordance with RBI record-retention norms.",
+        "true_categories": [
+          "Data-management",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Regulatory",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.264
+      },
+      {
+        "id": "REQ-010",
+        "statement": "The system shall notify the applicant via SMS and email at each stage of the loan approval workflow: submitted, under review, approved, disbursed.",
+        "true_categories": [
+          "Functional",
+          "Stakeholder",
+          "Integration"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 67.571
+      },
+      {
+        "id": "REQ-011",
+        "statement": "The system shall generate a monthly compliance report listing all loan applications that required manual override of automated approval rules.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Regulatory",
+          "Audit/Reporting"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.541
+      },
+      {
+        "id": "REQ-012",
+        "statement": "The loan origination service shall maintain 99.9% uptime during business hours, 9 AM to 6 PM IST, excluding scheduled maintenance windows.",
+        "true_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 4.663
+      },
+      {
+        "id": "REQ-013",
+        "statement": "The system shall alert the operations on-call team if the CIBIL API integration fails for more than five consecutive requests.",
+        "true_categories": [
+          "Operational",
+          "Integration"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration",
+          "Operational"
+        ],
+        "exact_match": false,
+        "latency_seconds": 9.045
+      },
+      {
+        "id": "REQ-014",
+        "statement": "The system shall support at least 500 concurrent loan application submissions without response times exceeding 5 seconds.",
+        "true_categories": [
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Performance"
+        ],
+        "exact_match": true,
+        "latency_seconds": 18.303
+      },
+      {
+        "id": "REQ-015",
+        "statement": "The system shall allow the credit risk team to configure and update loan eligibility scoring thresholds without requiring a code deployment.",
+        "true_categories": [
+          "Stakeholder",
+          "Business",
+          "Functional",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Operational"
+        ],
+        "exact_match": false,
+        "latency_seconds": 16.409
+      },
+      {
+        "id": "REQ-016",
+        "statement": "The system shall capture a live selfie and match it against the Aadhaar photograph using facial recognition during customer onboarding.",
+        "true_categories": [
+          "Functional",
+          "Security",
+          "Regulatory",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Security",
+          "Integration",
+          "Regulatory"
+        ],
+        "exact_match": false,
+        "latency_seconds": 21.215
+      },
+      {
+        "id": "REQ-017",
+        "statement": "The system shall mask the customer's Aadhaar number, showing only the last 4 digits, on all screens except during the verification step.",
+        "true_categories": [
+          "Privacy",
+          "Security",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Security",
+          "Privacy",
+          "Regulatory"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.521
+      },
+      {
+        "id": "REQ-018",
+        "statement": "The system shall onboard a new customer end-to-end, from document upload to account activation, within 10 minutes on average.",
+        "true_categories": [
+          "Performance",
+          "Functional",
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Performance",
+          "Business"
+        ],
+        "exact_match": false,
+        "latency_seconds": 35.53
+      },
+      {
+        "id": "REQ-019",
+        "statement": "The system shall allow the compliance team to review and approve or reject customer onboarding cases flagged for manual KYC review.",
+        "true_categories": [
+          "Stakeholder",
+          "Functional",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Stakeholder",
+          "Regulatory"
+        ],
+        "exact_match": true,
+        "latency_seconds": 4.154
+      },
+      {
+        "id": "REQ-020",
+        "statement": "The system shall log every access to a customer's KYC documents, including the user ID, timestamp, and reason for access.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Security"
+        ],
+        "predicted_categories": [
+          "Audit/Reporting",
+          "Functional",
+          "Privacy",
+          "Regulatory",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.9
+      },
+      {
+        "id": "REQ-021",
+        "statement": "The onboarding portal shall be usable by first-time digital banking users with no prior training, following WCAG 2.1 AA accessibility guidelines.",
+        "true_categories": [
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Usability"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.922
+      },
+      {
+        "id": "REQ-022",
+        "statement": "The system shall integrate with the UIDAI Aadhaar authentication API to perform real-time identity verification.",
+        "true_categories": [
+          "Integration",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 22.226
+      },
+      {
+        "id": "REQ-023",
+        "statement": "The system shall automatically purge onboarding documents for rejected applications after 90 days unless legally required to retain them.",
+        "true_categories": [
+          "Data-management",
+          "Privacy",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Privacy",
+          "Regulatory",
+          "Data-management"
+        ],
+        "exact_match": false,
+        "latency_seconds": 29.294
+      },
+      {
+        "id": "REQ-024",
+        "statement": "The onboarding service shall be available 24/7 with a maximum planned downtime of 4 hours per month for maintenance.",
+        "true_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 134.578
+      },
+      {
+        "id": "REQ-025",
+        "statement": "The system shall support onboarding volumes of up to 10,000 new customers per day during festive-season promotional campaigns.",
+        "true_categories": [
+          "Performance",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Performance"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.128
+      },
+      {
+        "id": "REQ-026",
+        "statement": "The system shall process a UPI payment request and confirm success or failure to the payer within 5 seconds.",
+        "true_categories": [
+          "Functional",
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Performance",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 2.771
+      },
+      {
+        "id": "REQ-027",
+        "statement": "The system shall route failed payment transactions to a reconciliation queue for the operations team to investigate within 24 hours.",
+        "true_categories": [
+          "Operational",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 29.015
+      },
+      {
+        "id": "REQ-028",
+        "statement": "The system shall maintain an immutable audit trail of every payment transaction, including amount, timestamp, and both parties' account references.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Data-management",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Audit/Reporting",
+          "Data-management",
+          "Functional",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 45.0
+      },
+      {
+        "id": "REQ-029",
+        "statement": "The payments gateway shall encrypt all transaction data in transit using TLS 1.2 or higher.",
+        "true_categories": [
+          "Security",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Security",
+          "Privacy"
+        ],
+        "exact_match": false,
+        "latency_seconds": 20.826
+      },
+      {
+        "id": "REQ-030",
+        "statement": "The system shall integrate with the NPCI UPI switch to process real-time interbank fund transfers.",
+        "true_categories": [
+          "Integration",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration"
+        ],
+        "exact_match": true,
+        "latency_seconds": 29.48
+      },
+      {
+        "id": "REQ-031",
+        "statement": "The finance team shall be able to generate a daily settlement report reconciling all processed payment transactions against the core banking ledger.",
+        "true_categories": [
+          "Stakeholder",
+          "Audit/Reporting",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Audit/Reporting",
+          "Integration",
+          "Stakeholder"
+        ],
+        "exact_match": false,
+        "latency_seconds": 45.704
+      },
+      {
+        "id": "REQ-032",
+        "statement": "The payments platform shall maintain 99.95% availability, given its role as a critical real-time financial service.",
+        "true_categories": [
+          "Availability",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Availability"
+        ],
+        "exact_match": false,
+        "latency_seconds": 19.064
+      }
+    ]
+  },
+  "few_shot_details": {
+    "classifier": "Few-Shot (Gemini)",
+    "total_requirements": 32,
+    "micro_f1": 0.8402,
+    "macro_f1": 0.8567,
+    "exact_match_rate": 0.5312,
+    "total_latency_seconds": 977.538,
+    "avg_latency_seconds": 30.548,
+    "per_requirement": [
+      {
+        "id": "REQ-001",
+        "statement": "The system shall provide a mobile-responsive online loan application portal accessible on both Android and iOS browsers.",
+        "true_categories": [
+          "Functional",
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Usability"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.57
+      },
+      {
+        "id": "REQ-002",
+        "statement": "The system shall verify applicant identity through Aadhaar-based eKYC before allowing submission of a loan application.",
+        "true_categories": [
+          "Functional",
+          "Regulatory",
+          "Security",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Regulatory",
+          "Integration",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 18.217
+      },
+      {
+        "id": "REQ-003",
+        "statement": "The system shall fetch applicant credit scores from CIBIL in real-time and return the result within 3 seconds.",
+        "true_categories": [
+          "Functional",
+          "Integration",
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration",
+          "Performance"
+        ],
+        "exact_match": true,
+        "latency_seconds": 21.919
+      },
+      {
+        "id": "REQ-004",
+        "statement": "The system shall route loan applications exceeding \u20b950 lakhs to a senior loan officer for manual approval.",
+        "true_categories": [
+          "Business",
+          "Functional",
+          "Stakeholder"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Functional",
+          "Stakeholder"
+        ],
+        "exact_match": true,
+        "latency_seconds": 7.803
+      },
+      {
+        "id": "REQ-005",
+        "statement": "The system shall handle all applicant data in compliance with RBI's Digital Lending Guidelines, including data localization requirements.",
+        "true_categories": [
+          "Regulatory",
+          "Data-management",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Regulatory",
+          "Privacy",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 16.503
+      },
+      {
+        "id": "REQ-006",
+        "statement": "The system shall allow a loan applicant to save an in-progress application and resume it within 30 days.",
+        "true_categories": [
+          "Functional",
+          "Usability",
+          "Data-management"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Usability",
+          "Stakeholder"
+        ],
+        "exact_match": false,
+        "latency_seconds": 137.334
+      },
+      {
+        "id": "REQ-007",
+        "statement": "The system shall calculate the applicant's debt-to-income ratio using declared income and existing CIBIL liabilities to determine loan eligibility.",
+        "true_categories": [
+          "Business",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Functional"
+        ],
+        "exact_match": true,
+        "latency_seconds": 4.694
+      },
+      {
+        "id": "REQ-008",
+        "statement": "The system shall encrypt all applicant PII, including PAN and Aadhaar numbers, at rest using AES-256 encryption.",
+        "true_categories": [
+          "Security",
+          "Privacy",
+          "Data-management"
+        ],
+        "predicted_categories": [
+          "Security",
+          "Privacy",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 2.313
+      },
+      {
+        "id": "REQ-009",
+        "statement": "The system shall retain loan application and supporting KYC documents for a minimum of 8 years in accordance with RBI record-retention norms.",
+        "true_categories": [
+          "Data-management",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Regulatory",
+          "Data-management"
+        ],
+        "exact_match": true,
+        "latency_seconds": 18.744
+      },
+      {
+        "id": "REQ-010",
+        "statement": "The system shall notify the applicant via SMS and email at each stage of the loan approval workflow: submitted, under review, approved, disbursed.",
+        "true_categories": [
+          "Functional",
+          "Stakeholder",
+          "Integration"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Stakeholder"
+        ],
+        "exact_match": false,
+        "latency_seconds": 13.338
+      },
+      {
+        "id": "REQ-011",
+        "statement": "The system shall generate a monthly compliance report listing all loan applications that required manual override of automated approval rules.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Audit/Reporting",
+          "Regulatory"
+        ],
+        "exact_match": true,
+        "latency_seconds": 18.594
+      },
+      {
+        "id": "REQ-012",
+        "statement": "The loan origination service shall maintain 99.9% uptime during business hours, 9 AM to 6 PM IST, excluding scheduled maintenance windows.",
+        "true_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 19.02
+      },
+      {
+        "id": "REQ-013",
+        "statement": "The system shall alert the operations on-call team if the CIBIL API integration fails for more than five consecutive requests.",
+        "true_categories": [
+          "Operational",
+          "Integration"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration",
+          "Operational"
+        ],
+        "exact_match": false,
+        "latency_seconds": 4.826
+      },
+      {
+        "id": "REQ-014",
+        "statement": "The system shall support at least 500 concurrent loan application submissions without response times exceeding 5 seconds.",
+        "true_categories": [
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Performance"
+        ],
+        "exact_match": true,
+        "latency_seconds": 2.456
+      },
+      {
+        "id": "REQ-015",
+        "statement": "The system shall allow the credit risk team to configure and update loan eligibility scoring thresholds without requiring a code deployment.",
+        "true_categories": [
+          "Stakeholder",
+          "Business",
+          "Functional",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Stakeholder",
+          "Functional",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 22.577
+      },
+      {
+        "id": "REQ-016",
+        "statement": "The system shall capture a live selfie and match it against the Aadhaar photograph using facial recognition during customer onboarding.",
+        "true_categories": [
+          "Functional",
+          "Security",
+          "Regulatory",
+          "Privacy"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Security",
+          "Regulatory",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 22.086
+      },
+      {
+        "id": "REQ-017",
+        "statement": "The system shall mask the customer's Aadhaar number, showing only the last 4 digits, on all screens except during the verification step.",
+        "true_categories": [
+          "Privacy",
+          "Security",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Privacy",
+          "Security",
+          "Functional",
+          "Regulatory"
+        ],
+        "exact_match": false,
+        "latency_seconds": 3.789
+      },
+      {
+        "id": "REQ-018",
+        "statement": "The system shall onboard a new customer end-to-end, from document upload to account activation, within 10 minutes on average.",
+        "true_categories": [
+          "Performance",
+          "Functional",
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Functional",
+          "Performance"
+        ],
+        "exact_match": false,
+        "latency_seconds": 17.252
+      },
+      {
+        "id": "REQ-019",
+        "statement": "The system shall allow the compliance team to review and approve or reject customer onboarding cases flagged for manual KYC review.",
+        "true_categories": [
+          "Stakeholder",
+          "Functional",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Stakeholder",
+          "Functional",
+          "Regulatory"
+        ],
+        "exact_match": false,
+        "latency_seconds": 67.777
+      },
+      {
+        "id": "REQ-020",
+        "statement": "The system shall log every access to a customer's KYC documents, including the user ID, timestamp, and reason for access.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Security"
+        ],
+        "predicted_categories": [
+          "Audit/Reporting",
+          "Functional",
+          "Privacy",
+          "Regulatory",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 4.81
+      },
+      {
+        "id": "REQ-021",
+        "statement": "The onboarding portal shall be usable by first-time digital banking users with no prior training, following WCAG 2.1 AA accessibility guidelines.",
+        "true_categories": [
+          "Usability"
+        ],
+        "predicted_categories": [
+          "Usability"
+        ],
+        "exact_match": true,
+        "latency_seconds": 198.099
+      },
+      {
+        "id": "REQ-022",
+        "statement": "The system shall integrate with the UIDAI Aadhaar authentication API to perform real-time identity verification.",
+        "true_categories": [
+          "Integration",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Integration",
+          "Regulatory"
+        ],
+        "exact_match": true,
+        "latency_seconds": 26.561
+      },
+      {
+        "id": "REQ-023",
+        "statement": "The system shall automatically purge onboarding documents for rejected applications after 90 days unless legally required to retain them.",
+        "true_categories": [
+          "Data-management",
+          "Privacy",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Privacy",
+          "Regulatory",
+          "Data-management"
+        ],
+        "exact_match": false,
+        "latency_seconds": 54.666
+      },
+      {
+        "id": "REQ-024",
+        "statement": "The onboarding service shall be available 24/7 with a maximum planned downtime of 4 hours per month for maintenance.",
+        "true_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "predicted_categories": [
+          "Availability",
+          "Operational"
+        ],
+        "exact_match": true,
+        "latency_seconds": 2.966
+      },
+      {
+        "id": "REQ-025",
+        "statement": "The system shall support onboarding volumes of up to 10,000 new customers per day during festive-season promotional campaigns.",
+        "true_categories": [
+          "Performance",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Performance",
+          "Business"
+        ],
+        "exact_match": true,
+        "latency_seconds": 25.072
+      },
+      {
+        "id": "REQ-026",
+        "statement": "The system shall process a UPI payment request and confirm success or failure to the payer within 5 seconds.",
+        "true_categories": [
+          "Functional",
+          "Performance"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Performance"
+        ],
+        "exact_match": true,
+        "latency_seconds": 23.09
+      },
+      {
+        "id": "REQ-027",
+        "statement": "The system shall route failed payment transactions to a reconciliation queue for the operations team to investigate within 24 hours.",
+        "true_categories": [
+          "Operational",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Business",
+          "Functional",
+          "Operational",
+          "Stakeholder"
+        ],
+        "exact_match": false,
+        "latency_seconds": 49.089
+      },
+      {
+        "id": "REQ-028",
+        "statement": "The system shall maintain an immutable audit trail of every payment transaction, including amount, timestamp, and both parties' account references.",
+        "true_categories": [
+          "Audit/Reporting",
+          "Data-management",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Audit/Reporting",
+          "Data-management",
+          "Functional",
+          "Security"
+        ],
+        "exact_match": false,
+        "latency_seconds": 67.766
+      },
+      {
+        "id": "REQ-029",
+        "statement": "The payments gateway shall encrypt all transaction data in transit using TLS 1.2 or higher.",
+        "true_categories": [
+          "Security",
+          "Regulatory"
+        ],
+        "predicted_categories": [
+          "Security",
+          "Data-management"
+        ],
+        "exact_match": false,
+        "latency_seconds": 57.938
+      },
+      {
+        "id": "REQ-030",
+        "statement": "The system shall integrate with the NPCI UPI switch to process real-time interbank fund transfers.",
+        "true_categories": [
+          "Integration",
+          "Functional"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Integration"
+        ],
+        "exact_match": true,
+        "latency_seconds": 3.058
+      },
+      {
+        "id": "REQ-031",
+        "statement": "The finance team shall be able to generate a daily settlement report reconciling all processed payment transactions against the core banking ledger.",
+        "true_categories": [
+          "Stakeholder",
+          "Audit/Reporting",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Functional",
+          "Stakeholder",
+          "Audit/Reporting",
+          "Integration"
+        ],
+        "exact_match": false,
+        "latency_seconds": 20.704
+      },
+      {
+        "id": "REQ-032",
+        "statement": "The payments platform shall maintain 99.95% availability, given its role as a critical real-time financial service.",
+        "true_categories": [
+          "Availability",
+          "Business"
+        ],
+        "predicted_categories": [
+          "Availability"
+        ],
+        "exact_match": false,
+        "latency_seconds": 20.9
+      }
+    ]
+  }
+}

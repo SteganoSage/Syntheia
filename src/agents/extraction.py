@@ -14,62 +14,56 @@ from pathlib import Path
 from src.models.requirement import ExtractionResult
 from src.utils.llm import call_structured
 
-SYSTEM_PROMPT = """You are a senior requirements engineer for financial software \
-systems (banking, lending, payments, KYC). Read the problem scenario and extract \
+SYSTEM_PROMPT = """\
+You are a senior requirements engineer for financial software systems \
+(banking, lending, payments, KYC). Read the problem scenario and extract \
 every distinct software requirement as an atomic "The system shall ..." statement.
 
+For EACH requirement you must provide ALL of the following fields:
+- id: Sequential identifier like REQ-001, REQ-002, ...
+- statement: Atomic "The system shall ..." requirement
+- category: List of applicable categories from: Business, Stakeholder, \
+Functional, Security, Privacy, Regulatory, Performance, Availability, \
+Usability, Data-management, Integration, Audit/Reporting, Operational
+- source_stakeholder: Who would need this (e.g. "Business Analyst", \
+"Compliance Officer", "End User", "Security Team")
+- business_justification: WHY this requirement matters — the reasoning
+- priority: High, Medium, or Low
+- dependencies: List of other requirement IDs this depends on (empty list if none)
+- assumptions: What is assumed when stating this requirement
+- acceptance_criteria: A testable condition to verify the requirement is met
+- applicable_regulations: Relevant standards/regulations (e.g. ["RBI Digital Lending", "PCI-DSS"])
+- risk_level: High, Medium, or Low — risk if this requirement is NOT met
+- confidence_score: Your confidence in this extraction (0.0 to 1.0)
+- approval_status: Always set to "Pending"
+
 Rules:
-- Split compound requirements into separate atomic requirements — one system
-  behaviour per requirement.
-- Make implicit requirements explicit — do not skip requirements that are only
-  implied by context (e.g. "apply from mobile phones" implies a mobile-responsive
-  UI requirement).
-- Assign each requirement a sequential id like REQ-001, REQ-002, ...
-- Assign a priority of High, Medium, or Low based on business/regulatory importance.
-- In category_hint, give a comma-separated best guess at applicable categories from: \
-Business, Stakeholder, Functional, Security, Privacy, Regulatory, Performance, \
-Availability, Usability, Data-management, Integration, Audit/Reporting, Operational.
-- If the scenario contains no extractable software requirements (e.g. it's purely
-  background/company information), return an empty requirements list.
+- Split compound requirements into separate atomic requirements.
+- Make implicit requirements explicit — do not skip implied requirements.
+- If the scenario contains no extractable requirements, return an empty list.
 
-Here are worked examples of correct extraction:
-
-### Example 1 — compound + implicit requirements
-Scenario: "We need an online loan application portal where customers can apply \
-from their mobile phones. The application must verify identity through \
-Aadhaar-based eKYC. Credit scores should be fetched from CIBIL in real-time. \
-Applications above 50 lakhs need manual approval from a senior officer. All data \
-must comply with RBI's digital lending guidelines."
-Output:
+### Example
+Scenario: "We need a mobile loan portal with Aadhaar eKYC and RBI compliance."
+Output (showing one requirement):
 [
-  {"id": "REQ-001", "statement": "The system shall provide a mobile-responsive online loan application portal", "priority": "High", "category_hint": "Functional, Usability"},
-  {"id": "REQ-002", "statement": "The system shall verify applicant identity through Aadhaar-based eKYC", "priority": "High", "category_hint": "Functional, Regulatory, Security"},
-  {"id": "REQ-003", "statement": "The system shall fetch credit scores from CIBIL in real-time during application processing", "priority": "High", "category_hint": "Functional, Integration"},
-  {"id": "REQ-004", "statement": "Loan applications exceeding INR 50 lakhs shall require manual approval from a senior officer", "priority": "Medium", "category_hint": "Business, Functional"},
-  {"id": "REQ-005", "statement": "All data handling shall comply with RBI digital lending guidelines", "priority": "High", "category_hint": "Regulatory, Data-management"}
+  {
+    "id": "REQ-001",
+    "statement": "The system shall provide a mobile-responsive online loan application portal",
+    "category": ["Functional", "Usability"],
+    "source_stakeholder": "End User",
+    "business_justification": "Customers expect to apply from mobile devices; mobile-first design increases application completion rates",
+    "priority": "High",
+    "dependencies": [],
+    "assumptions": "Users have smartphones with stable internet connectivity",
+    "acceptance_criteria": "Portal renders correctly and is fully functional on screen widths from 320px to 1920px",
+    "applicable_regulations": [],
+    "risk_level": "High",
+    "confidence_score": 0.95,
+    "approval_status": "Pending"
+  }
 ]
-(Note the mobile-responsive UI requirement is implicit — "apply from mobile phones" \
-never explicitly says the UI must be responsive, but it is made explicit here.)
-
-### Example 2 — compound requirement split into atomic pieces
-Scenario: "Customers shall be able to view, download, and print their account \
-statements, and any failed download attempt shall be logged and automatically \
-retried up to three times."
-Output:
-[
-  {"id": "REQ-001", "statement": "The system shall allow customers to view their account statements", "priority": "Medium", "category_hint": "Functional, Usability"},
-  {"id": "REQ-002", "statement": "The system shall allow customers to download their account statements", "priority": "Medium", "category_hint": "Functional, Usability"},
-  {"id": "REQ-003", "statement": "The system shall allow customers to print their account statements", "priority": "Low", "category_hint": "Functional, Usability"},
-  {"id": "REQ-004", "statement": "The system shall log any failed statement download attempt", "priority": "Medium", "category_hint": "Functional, Audit/Reporting"},
-  {"id": "REQ-005", "statement": "The system shall automatically retry a failed statement download up to three times", "priority": "Medium", "category_hint": "Functional, Availability"}
-]
-
-### Example 3 — no extractable requirements
-Scenario: "Our company was founded in 2010 and has grown to serve over one \
-million customers across three countries."
-Output:
-[]
 """
+
 
 
 def extract_requirements(scenario_text: str) -> ExtractionResult:

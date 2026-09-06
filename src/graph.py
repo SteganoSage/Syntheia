@@ -54,4 +54,11 @@ if __name__ == "__main__":
     print(f"Extracted {len(final_state['requirements'])} requirements:\n")
     for req in final_state["requirements"]:
         print(f"[{req.id}] ({req.priority}) {req.statement}")
-        print(f"    category_hint: {req.category_hint}\n")
+        print(f"    Categories:       {req.category}")
+        print(f"    Stakeholder:      {req.source_stakeholder}")
+        print(f"    Justification:    {req.business_justification}")
+        print(f"    Acceptance:       {req.acceptance_criteria}")
+        print(f"    Regulations:      {req.applicable_regulations}")
+        print(f"    Risk:             {req.risk_level}")
+        print(f"    Confidence:       {req.confidence_score}")
+        print()
