@@ -1,6 +1,6 @@
 {
   "dataset": "day7_classification_training_set",
-  "purpose": "Merged multi-label training corpus for the Day 9-11 fine-tuned BERT classifier. Combines external PROMISE-NFR examples, finance regulation-grounded synthetic requirements, and Claude-authored synthetic requirements across six domains. SEPARATE from ground_truth.json, which stays held out for evaluation.",
+  "purpose": "Merged multi-label training corpus for the Day 9-11 fine-tuned BERT classifier. Combines finance-specific requirements, regulation-grounded synthetic requirements, and Claude-authored synthetic requirements across six domains plus the Day 11 finance augmentation. The external PROMISE-NFR rows were dropped on Day 11 as single-label and off-domain. SEPARATE from ground_truth.json, which stays held out for evaluation.",
   "status": "PARTIALLY_UNVERIFIED -- human label pass in progress",
   "categories_taxonomy": [
     "Business",
@@ -18,625 +18,2016 @@
     "Operational"
   ],
   "stats": {
-    "total": 263,
+    "total": 380,
     "verified": 0,
-    "unverified": 263,
-    "avg_labels_per_requirement": 1.95,
+    "unverified": 380,
+    "avg_labels_per_requirement": 2.4,
     "label_distribution": {
-      "Business": 42,
-      "Stakeholder": 40,
-      "Functional": 73,
-      "Security": 55,
-      "Privacy": 29,
-      "Regulatory": 60,
-      "Performance": 28,
-      "Availability": 20,
-      "Usability": 35,
-      "Data-management": 22,
-      "Integration": 26,
-      "Audit/Reporting": 33,
-      "Operational": 51
+      "Business": 78,
+      "Stakeholder": 68,
+      "Functional": 153,
+      "Security": 81,
+      "Privacy": 49,
+      "Regulatory": 113,
+      "Performance": 37,
+      "Availability": 44,
+      "Usability": 48,
+      "Data-management": 53,
+      "Integration": 60,
+      "Audit/Reporting": 57,
+      "Operational": 70
     }
   },
   "requirements": [
     {
-      "id": "REQ-033",
-      "statement": "The website should use Flash to provide animation on the home page.",
+      "id": "FIN-001",
+      "statement": "The system shall allow customers to apply for personal loans, home loans, and business loans through a unified digital application.",
       "categories": [
-        "Operational"
+        "Functional",
+        "Business"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-034",
-      "statement": "The product shall be able to be installed in the specified environment within 1 working day.",
+      "id": "AUG-001",
+      "statement": "The system shall return a credit bureau score to the loan officer within 2 seconds at the 95th percentile of requests.",
       "categories": [
-        "Operational"
+        "Performance",
+        "Integration"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-035",
-      "statement": "The system shall provide the ability to maintain multiple operating environments for development, test, training and production.",
+      "id": "FIN-002",
+      "statement": "The system shall calculate EMI schedules based on principal, tenure, and interest rate, and display them to the applicant before loan confirmation.",
       "categories": [
-        "Operational"
+        "Functional",
+        "Business"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-036",
-      "statement": "The product must support Internet Explorer 5.5 and above.'",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-037",
-      "statement": "The Disputes applications shall interface with the Merchant Information Database.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-038",
-      "statement": "All adjustment requests must be sent to the Cardmember Posting and Billing System.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-039",
-      "statement": "The system shall be used within the specifications defined by the computers used by the Program Administrators/Nursing Staff Members.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-040",
-      "statement": "The product must support Internet Explorer 5.5 and above.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-041",
-      "statement": "The product shall interface with the ChoiceParts system once per day at approximately 1:00 AM.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-042",
-      "statement": "The product shall operate with every platform.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-043",
-      "statement": "The product shall display HTML properly in 80% of all HTML browsers tested (minimum is to test 8 browsers).",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-044",
-      "statement": "The product must support Mozilla Firefox 1.0 and above.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-045",
-      "statement": "Brio will provide buttons in the user interface that produce or export reports in xls or .123 file formats.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-046",
-      "statement": "If using CentOS or Redhat, then ensure when configuring MySQL for OpenEMR, STRICT_MODE must be disabled.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-047",
-      "statement": "The product shall communicate successfully with the database management system on 100% of all transactions.",
-      "categories": [
-        "Operational"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-048",
-      "statement": "Data integrity scripts will be run on a weekly basis to verify the integrity of the database.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-049",
-      "statement": "One insurance company shall not be able to view another insurance companys claim data.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-050",
-      "statement": "The product shall have the ability to receive automatic software updates as new threats emerge. 100% of customers will be able to receive automatic software updates transmitted to the installed product.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-051",
-      "statement": "The product shall ensure that only company employees or external users with company-approved user IDs may have product access.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-052",
-      "statement": "All credit card information will be encrypted in the database.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-053",
-      "statement": "100% of all logons shall be by either company employees or external users with company-approved user IDs.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-054",
-      "statement": "The system shall have the ability to display the last date and time the user logged onto the system at the time of logon.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-055",
-      "statement": "No invalid data shall be entered into the system.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-056",
-      "statement": "Customer will no longer be able to access the website.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-057",
-      "statement": "The system shall reveal private information only in compliance with the organization's information policy.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-058",
-      "statement": "ONLY users that exist in the UAS system with the RFS system assigned to their role(s) shall access the RFS system and use it.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-059",
-      "statement": "The Web-enabled portions of the application shall meet state-of-the-art Internet standards for graphics and design and for speed, reliability, and security for dynamic content and user interaction.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-060",
-      "statement": "The WCS system shall not allow automatic logins by any user.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-061",
-      "statement": "For e-prescribing and for CCHIT certification, EHR systems shall have the ability to support two-factor authentication.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-062",
-      "statement": "The system shall enable multiple simultaneous users, each with his or her own exclusive authentication.",
-      "categories": [
-        "Security"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-063",
-      "statement": "The product shall allow for customization of start page and views preferences.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-064",
-      "statement": "The system shall be intuitive to the Program Administrators/ Nursing Staff Members.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-065",
-      "statement": "The product shall be learned with two days onsite training",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-066",
-      "statement": "80% of the Collision Estimators shall agree their productivity has increase within 1 month of using the product.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-067",
-      "statement": "90% of new users are able to log into the system within 10 minutes.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-068",
-      "statement": "The product shall make the users want to use it.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-069",
-      "statement": "The product shall be available to players who understand English Spanish and French. The product shall allow the user to select the language upon accessing the product.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-070",
-      "statement": "90% of new users shall be able to start the display of Events or Activities within 90 minutes of using the product.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-071",
-      "statement": "The WCS system shall use appropriate nomenclature and terminology as defined by the Corporate Community Grants organization.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-072",
-      "statement": "95% of Adjusters and Collision Estimators shall find the product easy to use.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-073",
-      "statement": "The system shall be easy to use by the Program Administrators or Nursing Staff Members.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-074",
-      "statement": "One training session will be held for 100% of CCR users before system deployment (based on a CCR user being available)",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-075",
-      "statement": "100% of all selection and navigation functionality must be able to be activated or selected by either a mouse or a keyboard",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-076",
-      "statement": "The product shall be easy to learn by Adjusters and Collision Estimators. The product shall be learned with two days onsite training",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-077",
-      "statement": "All of the users shall be able to use the system after one day of training.",
-      "categories": [
-        "Usability"
-      ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
-      "verified": false
-    },
-    {
-      "id": "REQ-078",
-      "statement": "Recreation of C360Inventory Quantity Adjustment for the period of previous 30 days shall take no more than 30min.",
+      "id": "AUG-002",
+      "statement": "The system shall process at least 2,000 UPI payment authorisations per second during peak festival season traffic.",
       "categories": [
         "Performance"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-079",
-      "statement": "The Disputes application shall support 350 concurrent users without any degradation of performance in the application.",
+      "id": "FIN-003",
+      "statement": "The system shall verify the borrower's employment status by integrating with the EPFO (Employees' Provident Fund Organisation) database.",
       "categories": [
-        "Performance"
+        "Functional",
+        "Integration",
+        "Regulatory"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-080",
-      "statement": "The product shall provide Multi-threading and Load Balancing.",
+      "id": "AUG-003",
+      "statement": "The system shall complete end-of-day interest accrual for all savings accounts within a 90 minute batch window.",
       "categories": [
-        "Performance"
+        "Performance",
+        "Operational"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-081",
-      "statement": "System shall let administrator de-activate a customer account in under 1 minute. Customer will no longer be able to access the website.",
+      "id": "FIN-004",
+      "statement": "The system shall auto-reject loan applications where the applicant's CIBIL score is below the configurable threshold set by the credit risk team.",
       "categories": [
-        "Performance"
+        "Business",
+        "Functional",
+        "Stakeholder"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-082",
-      "statement": "The audit report shall be returned within 10 seconds.",
+      "id": "AUG-004",
+      "statement": "The loan application form shall render its first meaningful paint within 1.5 seconds over a 3G mobile connection.",
       "categories": [
-        "Performance"
+        "Performance",
+        "Usability"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-083",
-      "statement": "The search results shall be returned no later 30 seconds after the user has entered the search criteria",
+      "id": "FIN-005",
+      "statement": "The system shall disburse approved loan amounts directly to the borrower's bank account within 24 hours of final approval, as mandated by RBI digital lending norms.",
       "categories": [
-        "Performance"
+        "Functional",
+        "Regulatory",
+        "Business"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-084",
-      "statement": "System shall let administrator add/remove movies on the website in under 5 minutes. Entered movie information will be stored in the database and will now be available on the website.",
+      "id": "AUG-005",
+      "statement": "The system shall support 10,000 concurrent authenticated customer sessions without degradation of transaction response times.",
       "categories": [
         "Performance"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-085",
-      "statement": "The product shall have a maximum message processing time of 2 seconds",
+      "id": "FIN-006",
+      "statement": "The system shall maintain a complete audit trail of all loan status transitions including timestamps, actor IDs, and approval remarks.",
       "categories": [
-        "Performance"
+        "Audit/Reporting",
+        "Data-management",
+        "Regulatory"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-086",
-      "statement": "The recycled parts audit report shall be returned to the user within 10 seconds. The audit report shall be returned within 10 seconds.",
+      "id": "AUG-006",
+      "statement": "The system shall complete a full text search across five years of transaction history and return the first page of results within 3 seconds.",
       "categories": [
-        "Performance"
+        "Performance",
+        "Data-management"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-087",
-      "statement": "The system shall cater to 10 simultaneous users from 9am to 5pm.",
+      "id": "FIN-007",
+      "statement": "The system shall generate a Key Fact Statement (KFS) for every loan product and present it to the borrower before disbursement.",
       "categories": [
-        "Performance"
+        "Regulatory",
+        "Functional",
+        "Stakeholder"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-088",
-      "statement": "The system shall be scalable and adaptable to meet future growth and expansion needs.",
+      "id": "AUG-007",
+      "statement": "The fraud scoring engine shall evaluate each card transaction and return an approve or decline decision within 200 milliseconds.",
       "categories": [
-        "Performance"
+        "Performance",
+        "Security"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "cards",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-089",
-      "statement": "The search for recycled parts shall take no longer than 15 seconds. The search results shall be returned in under 15 seconds.",
+      "id": "FIN-008",
+      "statement": "The system shall allow borrowers to prepay or foreclose their loan without any penalty, in compliance with RBI guidelines.",
       "categories": [
-        "Performance"
+        "Functional",
+        "Regulatory",
+        "Business"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-090",
-      "statement": "On a 112k connection or faster the system response time for all operations must be no more than 3 seconds 90% of the time.",
+      "id": "AUG-008",
+      "statement": "The system shall generate a customer account statement covering a twelve month period within 5 seconds of the request.",
       "categories": [
-        "Performance"
+        "Performance",
+        "Functional"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
-      "id": "REQ-091",
-      "statement": "The response time of the product interface should not exceed 2 seconds 90% of the time.",
+      "id": "FIN-009",
+      "statement": "The system shall send automated repayment reminders via SMS and email 3 days before each EMI due date.",
       "categories": [
-        "Performance"
+        "Functional",
+        "Integration",
+        "Stakeholder"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
       "verified": false
     },
     {
-      "id": "REQ-092",
-      "statement": "System shall be able to handle all of the user requests or usage during business hours.",
+      "id": "AUG-009",
+      "statement": "The system shall sustain a throughput of 500 NACH mandate registrations per minute during collection cycles.",
+      "categories": [
+        "Performance",
+        "Integration"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-010",
+      "statement": "The system shall flag accounts with EMI overdue beyond 90 days as Non-Performing Assets (NPA) and notify the collections team.",
+      "categories": [
+        "Business",
+        "Regulatory",
+        "Stakeholder",
+        "Audit/Reporting"
+      ],
+      "domain": "digital_lending",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-010",
+      "statement": "The nightly reconciliation job shall process up to 5 million settlement records within a 4 hour window.",
+      "categories": [
+        "Performance",
+        "Operational",
+        "Data-management"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-011",
+      "statement": "The core banking system shall process NEFT transactions in batches every 30 minutes during operating hours.",
+      "categories": [
+        "Functional",
+        "Performance",
+        "Integration"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-011",
+      "statement": "The system shall complete onboarding identity verification within 60 seconds of document submission at the 90th percentile.",
+      "categories": [
+        "Performance",
+        "Functional"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-012",
+      "statement": "The system shall support RTGS transfers of amounts greater than INR 2 lakhs with settlement within 30 minutes.",
+      "categories": [
+        "Functional",
+        "Performance",
+        "Regulatory"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-012",
+      "statement": "The system shall ingest 50,000 bulk salary credit instructions within a 10 minute processing window.",
+      "categories": [
+        "Performance",
+        "Integration"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-013",
+      "statement": "The system shall maintain separate general ledger accounts for each product type (savings, current, FD, RD, loan) with daily reconciliation.",
+      "categories": [
+        "Data-management",
+        "Audit/Reporting",
+        "Business"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-013",
+      "statement": "The system shall return account balance queries within 500 milliseconds under peak load.",
       "categories": [
         "Performance"
       ],
-      "domain": "general_software_external",
-      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-014",
+      "statement": "The core banking system shall remain available 24/7 with a maximum unplanned downtime of 15 minutes per quarter.",
+      "categories": [
+        "Availability",
+        "Performance"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-014",
+      "statement": "The system shall re-price the entire retail loan portfolio within 30 minutes of a change in the benchmark lending rate.",
+      "categories": [
+        "Performance",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-015",
+      "statement": "The system shall automatically calculate and deduct TDS on fixed deposit interest exceeding INR 40,000 per financial year.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Business"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-015",
+      "statement": "The payment gateway shall maintain 99.95 percent monthly uptime measured excluding scheduled maintenance windows.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-016",
+      "statement": "The system shall generate daily, monthly, and quarterly regulatory returns for submission to RBI in the prescribed XML format.",
+      "categories": [
+        "Audit/Reporting",
+        "Regulatory",
+        "Data-management"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-016",
+      "statement": "The system shall recover from a primary database failure with a recovery time objective of 15 minutes and a recovery point objective of 1 minute.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-017",
+      "statement": "The system shall enforce dual-authorization for all inter-branch fund transfers exceeding INR 10 lakhs.",
+      "categories": [
+        "Security",
+        "Business",
+        "Functional"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-017",
+      "statement": "The customer mobile banking application shall remain functional in read-only mode when the core banking system is unavailable.",
+      "categories": [
+        "Availability",
+        "Usability"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-018",
+      "statement": "The system shall support multi-currency accounts and real-time forex conversion using rates published by RBI.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Regulatory"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-018",
+      "statement": "The system shall replicate all committed transactions synchronously to a geographically separate data centre.",
+      "categories": [
+        "Availability",
+        "Data-management"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-019",
+      "statement": "The system shall automatically freeze accounts flagged by the Financial Intelligence Unit (FIU) for suspicious transaction reporting.",
+      "categories": [
+        "Regulatory",
+        "Security",
+        "Functional"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-019",
+      "statement": "The system shall perform rolling deployments without terminating active customer sessions.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-020",
+      "statement": "The system shall archive transaction records older than 10 years to cold storage while maintaining searchability for regulatory audits.",
+      "categories": [
+        "Data-management",
+        "Availability",
+        "Regulatory"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-020",
+      "statement": "The UPI payment service shall degrade gracefully by queueing collect requests when the NPCI switch is unreachable.",
+      "categories": [
+        "Availability",
+        "Integration"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-021",
+      "statement": "The KYC system shall support V-CIP (Video-based Customer Identification Process) as per RBI circular for remote customer onboarding.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Integration"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-021",
+      "statement": "The system shall schedule all planned maintenance outside the hours of 06:00 to 23:00 local time.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-022",
+      "statement": "The system shall validate PAN card details against the NSDL/UTIITSL database and flag mismatches for manual review.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-022",
+      "statement": "The system shall fail over to a standby authentication service within 30 seconds of detecting primary service failure.",
+      "categories": [
+        "Availability",
+        "Security"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-023",
+      "statement": "The system shall perform PEP (Politically Exposed Person) and sanctions screening against OFAC and UN consolidated lists during onboarding.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Integration"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-023",
+      "statement": "The system shall retain full payment functionality during the failure of any single availability zone.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-024",
+      "statement": "The system shall trigger periodic KYC re-verification for high-risk customers every 2 years and medium-risk customers every 8 years.",
+      "categories": [
+        "Regulatory",
+        "Business",
+        "Operational"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-024",
+      "statement": "The ATM network monitoring service shall detect and report a terminal outage within 3 minutes of occurrence.",
+      "categories": [
+        "Availability",
+        "Operational",
+        "Integration"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-025",
+      "statement": "The system shall store all KYC documents in an encrypted document vault with role-based access control and access logging.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management",
+        "Audit/Reporting"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-025",
+      "statement": "The loan application shall allow an applicant to save a partially completed form and resume it later from any device.",
+      "categories": [
+        "Usability",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-026",
+      "statement": "The system shall generate a Suspicious Transaction Report (STR) and file it with FIU-IND within 7 days of detection.",
+      "categories": [
+        "Regulatory",
+        "Audit/Reporting",
+        "Functional"
+      ],
+      "domain": "aml_compliance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-026",
+      "statement": "The system shall present all fee and interest disclosures in the applicant's selected regional language before requiring consent.",
+      "categories": [
+        "Usability",
+        "Regulatory"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-027",
+      "statement": "The system shall monitor all transactions in real-time and flag patterns matching predefined money laundering typologies.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Performance"
+      ],
+      "domain": "aml_compliance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-027",
+      "statement": "The system shall meet WCAG 2.1 Level AA accessibility criteria on all customer facing screens.",
+      "categories": [
+        "Usability",
+        "Regulatory"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-028",
+      "statement": "The system shall maintain a customer risk profile that is automatically updated based on transaction behavior and adverse media screening.",
+      "categories": [
+        "Business",
+        "Security",
+        "Data-management"
+      ],
+      "domain": "aml_compliance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-028",
+      "statement": "The system shall display a progress indicator showing the applicant's current step and the remaining steps in the onboarding journey.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-029",
+      "statement": "The system shall generate Cash Transaction Reports (CTR) for all cash transactions exceeding INR 10 lakhs in a month.",
+      "categories": [
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "aml_compliance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-029",
+      "statement": "The system shall provide inline validation messages that identify the specific field in error and the corrective action required.",
+      "categories": [
+        "Usability",
+        "Functional"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-030",
+      "statement": "The compliance dashboard shall display pending STR filings, overdue KYC renewals, and regulatory submission deadlines.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Audit/Reporting"
+      ],
+      "domain": "aml_compliance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-030",
+      "statement": "The system shall allow a customer to complete video KYC using a mobile device without installing an additional application.",
+      "categories": [
+        "Usability",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-031",
+      "statement": "The UPI system shall process collect requests and pay requests within 3 seconds end-to-end.",
+      "categories": [
+        "Functional",
+        "Performance"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-031",
+      "statement": "The transaction history screen shall allow customers to filter by date range, amount range, and counterparty without a page reload.",
+      "categories": [
+        "Usability",
+        "Functional"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-032",
+      "statement": "The system shall validate the beneficiary VPA (Virtual Payment Address) against the NPCI mapper before initiating a transaction.",
+      "categories": [
+        "Functional",
+        "Integration"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-032",
+      "statement": "The system shall support keyboard-only navigation through the entire loan disbursement workflow for assistive technology users.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-033",
+      "statement": "The system shall support UPI transaction limits as defined by NPCI \u2014 currently INR 1 lakh per transaction for P2P and INR 5 lakhs for specific merchant categories.",
+      "categories": [
+        "Regulatory",
+        "Business",
+        "Functional"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-033",
+      "statement": "The system shall allow a customer to raise a dispute on a transaction directly from the transaction detail screen in no more than three taps.",
+      "categories": [
+        "Usability",
+        "Functional"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-034",
+      "statement": "The system shall handle UPI dispute resolution within the NPCI-mandated TAT of 5 business days for transaction-related complaints.",
+      "categories": [
+        "Regulatory",
+        "Operational",
+        "Stakeholder"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-034",
+      "statement": "The system shall display the total cost of credit, including all charges, on a single screen before the applicant accepts the offer.",
+      "categories": [
+        "Usability",
+        "Regulatory",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-035",
+      "statement": "The UPI payment gateway shall maintain 99.95% uptime with automatic failover to the disaster recovery site within 15 seconds.",
+      "categories": [
+        "Availability",
+        "Performance",
+        "Operational"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-035",
+      "statement": "The system shall retain KYC records for eight years following the closure of a customer relationship.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-036",
+      "statement": "The system shall reconcile all UPI transactions with the NPCI settlement file on a T+0 basis and flag discrepancies for the operations team.",
+      "categories": [
+        "Operational",
+        "Audit/Reporting",
+        "Integration"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-036",
+      "statement": "The system shall archive transaction records older than 24 months to cold storage while keeping them retrievable within 24 hours.",
+      "categories": [
+        "Data-management",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-037",
+      "statement": "The system shall support mandate registration for recurring UPI payments (UPI AutoPay) with customer consent and a configurable maximum amount.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Privacy"
+      ],
+      "domain": "upi_payments",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-037",
+      "statement": "The system shall maintain a golden record for each customer, deduplicating profiles matched on PAN and registered mobile number.",
+      "categories": [
+        "Data-management",
+        "Functional"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-038",
+      "statement": "The system shall tokenize credit and debit card numbers using PCI-DSS compliant tokenization and never store raw card data.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Data-management",
+        "Privacy"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-038",
+      "statement": "The system shall perform a full backup nightly and incremental backups every four hours, with restores tested quarterly.",
+      "categories": [
+        "Data-management",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-039",
+      "statement": "The system shall support 3D Secure 2.0 authentication for all online card transactions to reduce fraud liability.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-039",
+      "statement": "The system shall record the lineage of every derived credit risk attribute back to its source system and extraction timestamp.",
+      "categories": [
+        "Data-management",
+        "Audit/Reporting"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-040",
+      "statement": "The system shall detect and block card transactions originating from geographies where the cardholder has not previously transacted, unless whitelisted.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Business"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-040",
+      "statement": "The system shall purge the personal data of rejected loan applicants once the statutory retention period expires.",
+      "categories": [
+        "Data-management",
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-041",
+      "statement": "The card management system shall allow customers to set transaction limits, enable/disable international transactions, and lock/unlock cards via the mobile app.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder",
+        "Security"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-041",
+      "statement": "The system shall validate that every incoming account record conforms to the defined schema and reject non-conforming records with a reason code.",
+      "categories": [
+        "Data-management",
+        "Integration"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-042",
+      "statement": "The system shall process credit card billing cycles, generate monthly statements, and calculate minimum due amounts with applicable interest charges.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-042",
+      "statement": "The system shall maintain referential integrity between disbursement records and their originating loan applications.",
+      "categories": [
+        "Data-management"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-043",
+      "statement": "The system shall support real-time push notifications for every card transaction including amount, merchant name, and remaining available limit.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Integration"
+      ],
+      "domain": "card_processing",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-043",
+      "statement": "The system shall version every change to a customer's KYC document set and retain prior versions for the statutory period.",
+      "categories": [
+        "Data-management",
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-044",
+      "statement": "The wealth management portal shall display a consolidated view of the customer's portfolio across mutual funds, stocks, bonds, and fixed deposits.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "wealth_management",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-044",
+      "statement": "The system shall reconcile the customer master between the core banking system and the CRM daily and report discrepancies.",
+      "categories": [
+        "Data-management",
+        "Integration",
+        "Audit/Reporting"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-045",
+      "statement": "The system shall calculate portfolio returns using XIRR methodology and benchmark them against NIFTY 50 and category averages.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "wealth_management",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-045",
+      "statement": "The system shall obtain and record the customer's explicit consent before sharing their financial data with an account aggregator.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "open_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-046",
+      "statement": "The system shall execute mutual fund purchase and redemption orders via BSE StAR MF or NSE MFSS platforms within the applicable cut-off times.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Regulatory"
+      ],
+      "domain": "wealth_management",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-046",
+      "statement": "The system shall mask all but the last four digits of the account number on every screen accessible to contact centre agents.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Stakeholder"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-047",
+      "statement": "The system shall generate capital gains reports categorized as short-term and long-term for each financial year for tax filing purposes.",
+      "categories": [
+        "Audit/Reporting",
+        "Regulatory",
+        "Stakeholder"
+      ],
+      "domain": "wealth_management",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-047",
+      "statement": "The system shall allow a customer to withdraw previously granted data sharing consent and shall cease sharing within 24 hours.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "open_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-048",
+      "statement": "The system shall enforce SEBI-mandated cooling-off period of 15 days for new SIP registrations before the first installment is debited.",
+      "categories": [
+        "Regulatory",
+        "Business",
+        "Functional"
+      ],
+      "domain": "wealth_management",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-048",
+      "statement": "The system shall collect only the personal attributes necessary for the requested product and shall not require optional fields for approval.",
+      "categories": [
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-049",
+      "statement": "The system shall encrypt all customer financial data at rest using AES-256 and in transit using TLS 1.2 or higher.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-049",
+      "statement": "The system shall provide a customer with a machine readable export of their personal data within 30 days of a verified request.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-050",
+      "statement": "The system shall implement session timeout of 5 minutes of inactivity for all authenticated banking sessions.",
+      "categories": [
+        "Security",
+        "Usability"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-050",
+      "statement": "The system shall log every access to customer personal data with the accessing user, timestamp, and stated purpose.",
+      "categories": [
+        "Privacy",
+        "Audit/Reporting",
+        "Security"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-051",
+      "statement": "The system shall enforce multi-factor authentication (password + OTP) for all high-value financial transactions exceeding INR 25,000.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-051",
+      "statement": "The system shall pseudonymise customer identifiers in all non-production environments used for testing.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-052",
+      "statement": "The system shall support biometric authentication (fingerprint and face recognition) as an alternative login mechanism for mobile banking.",
+      "categories": [
+        "Security",
+        "Usability",
+        "Functional"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-052",
+      "statement": "The system shall notify affected customers and the regulator within 72 hours of confirming a personal data breach.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-053",
+      "statement": "The system shall log all administrative actions including user creation, role changes, and configuration modifications with tamper-evident audit trails.",
+      "categories": [
+        "Audit/Reporting",
+        "Security",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-053",
+      "statement": "The system shall restrict access to customer health information collected for insurance underwriting to authorised underwriters only.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Stakeholder"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-054",
+      "statement": "The system shall implement rate limiting on login attempts, locking the account after 5 consecutive failed attempts for 30 minutes.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Availability"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-054",
+      "statement": "The system shall obtain separate unbundled consent for marketing communications and shall not condition product approval on it.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Business"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-055",
+      "statement": "The banking platform shall achieve RPO (Recovery Point Objective) of zero data loss and RTO (Recovery Time Objective) of 4 hours for disaster recovery.",
+      "categories": [
+        "Availability",
+        "Data-management",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-055",
+      "statement": "The system shall query the CIBIL, Experian, and Equifax bureaus and shall proceed with the first successful response.",
+      "categories": [
+        "Integration",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-056",
+      "statement": "The system shall implement geographic redundancy with active-active data centres in two separate seismic zones within India.",
+      "categories": [
+        "Availability",
+        "Operational",
+        "Regulatory"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-056",
+      "statement": "The system shall consume the NPCI UPI switch API using mutual TLS authentication for all payment requests.",
+      "categories": [
+        "Integration",
+        "Security"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-057",
+      "statement": "The system shall maintain end-of-day backup of all transactional databases with encrypted offsite replication.",
+      "categories": [
+        "Data-management",
+        "Availability",
+        "Security"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-057",
+      "statement": "The system shall publish a disbursement event to the downstream accounting system within 60 seconds of funds release.",
+      "categories": [
+        "Integration",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-058",
+      "statement": "The system shall auto-scale compute resources to handle 3x normal traffic during salary days (1st and last week of month).",
+      "categories": [
+        "Performance",
+        "Availability",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-058",
+      "statement": "The system shall retry failed calls to the Aadhaar authentication service using exponential backoff for up to three attempts.",
+      "categories": [
+        "Integration",
+        "Operational"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-059",
+      "statement": "The system shall provide the relationship manager with a 360-degree customer view showing all products, transactions, complaints, and risk scores.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-059",
+      "statement": "The system shall expose a REST API allowing partner fintechs to originate loan applications on behalf of their customers.",
+      "categories": [
+        "Integration",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-060",
+      "statement": "The system shall comply with data localization requirements by storing all Indian customer financial data exclusively within data centres located in India.",
+      "categories": [
+        "Regulatory",
+        "Data-management",
+        "Privacy"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-060",
+      "statement": "The system shall reconcile settlement files received from the card network against internal transaction records daily.",
+      "categories": [
+        "Integration",
+        "Data-management",
+        "Audit/Reporting"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-061",
+      "statement": "The customer shall be able to download their account statement in PDF, CSV, and OFX formats for any date range within the last 10 years.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Data-management",
+        "Stakeholder"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-061",
+      "statement": "The system shall retrieve business turnover data from the GSTN portal for MSME loan underwriting.",
+      "categories": [
+        "Integration",
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-062",
+      "statement": "The system shall provide a configurable workflow engine for the branch manager to approve account opening, loan sanctioning, and limit enhancement requests.",
+      "categories": [
+        "Functional",
+        "Stakeholder",
+        "Business",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-062",
+      "statement": "The system shall open a circuit breaker that stops calls to an external credit bureau after five consecutive timeouts.",
+      "categories": [
+        "Integration",
+        "Availability",
+        "Operational"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-063",
+      "statement": "The system shall support scheduled fund transfers (standing instructions) with configurable frequency, amount, and validity period.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-063",
+      "statement": "The system shall accept webhook callbacks from the payment aggregator and shall verify the signature of every callback.",
+      "categories": [
+        "Integration",
+        "Security"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-064",
+      "statement": "The system shall allow customers to raise and track grievances through an integrated complaint management system with SLA-based escalation.",
+      "categories": [
+        "Functional",
+        "Stakeholder",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-064",
+      "statement": "The system shall synchronise the branch and ATM location master from the enterprise reference data service every 24 hours.",
+      "categories": [
+        "Integration",
+        "Data-management"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-065",
+      "statement": "The system shall integrate with the banking ombudsman portal for automated escalation of unresolved complaints beyond 30 days.",
+      "categories": [
+        "Integration",
+        "Regulatory",
+        "Operational",
+        "Stakeholder"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-065",
+      "statement": "The system shall enforce multi-factor authentication for all users initiating a fund transfer above ten thousand rupees.",
+      "categories": [
+        "Security",
+        "Functional"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-066",
+      "statement": "The insurance underwriting system shall calculate premium based on applicant age, medical history, sum assured, and policy tenure.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "insurance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-066",
+      "statement": "The system shall encrypt all cardholder data at rest using AES-256 and in transit using TLS 1.3.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Data-management"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-067",
+      "statement": "The system shall verify the policyholder's identity against IRDAI's central policyholder database before processing claim payouts.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Regulatory",
+        "Security"
+      ],
+      "domain": "insurance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-067",
+      "statement": "The system shall lock a customer account after five consecutive failed authentication attempts within fifteen minutes.",
+      "categories": [
+        "Security",
+        "Functional"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-068",
+      "statement": "The claims processing system shall achieve average claim settlement time of 15 days for non-investigation cases.",
+      "categories": [
+        "Performance",
+        "Business",
+        "Stakeholder"
+      ],
+      "domain": "insurance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-068",
+      "statement": "The system shall enforce role based access control so that a loan officer cannot approve an application they originated.",
+      "categories": [
+        "Security",
+        "Business",
+        "Stakeholder"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-069",
+      "statement": "The system shall generate IRDAI-mandated monthly premium collection and claims settlement reports in the prescribed template.",
+      "categories": [
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "insurance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-069",
+      "statement": "The system shall rotate all service account credentials every ninety days without service interruption.",
+      "categories": [
+        "Security",
+        "Operational"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-070",
+      "statement": "The system shall provide a self-service portal for policyholders to update nominee details, download policy documents, and track claim status.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "insurance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-070",
+      "statement": "The system shall scan all uploaded documents for malware before storing them in the document repository.",
+      "categories": [
+        "Security",
+        "Functional"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-071",
+      "statement": "The system shall support real-time account balance inquiry across all linked accounts with response time under 2 seconds.",
+      "categories": [
+        "Functional",
+        "Performance",
+        "Integration"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-071",
+      "statement": "The system shall record the geolocation and device fingerprint of every mobile banking login attempt.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Audit/Reporting"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-072",
+      "statement": "The internet banking portal shall be accessible 24/7 with planned maintenance windows restricted to 2 AM-4 AM IST on the last Sunday of each month.",
+      "categories": [
+        "Availability",
+        "Operational",
+        "Usability"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-072",
+      "statement": "The system shall decline any loan application where the applicant's debt to income ratio exceeds fifty percent.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-073",
+      "statement": "The system shall provide the compliance officer with a dashboard showing real-time status of all regulatory submissions, pending approvals, and upcoming deadlines.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-073",
+      "statement": "The system shall apply a risk based interest rate derived from the applicant's credit score band and the requested loan tenure.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-074",
+      "statement": "The system shall implement data masking on all non-production environments, replacing real customer data with synthetic equivalents.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Operational"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-074",
+      "statement": "The system shall allow a relationship manager to view the consolidated portfolio of all customers assigned to them.",
+      "categories": [
+        "Stakeholder",
+        "Functional"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-075",
+      "statement": "The system shall retain all financial transaction logs for a minimum of 10 years as per the Prevention of Money Laundering Act (PMLA).",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-075",
+      "statement": "The system shall escalate any loan application pending underwriter action for more than 48 hours to the branch manager.",
+      "categories": [
+        "Stakeholder",
+        "Business",
+        "Operational"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-076",
+      "statement": "The mobile banking app shall support offline mode for viewing recent transactions and account balances when network connectivity is unavailable.",
+      "categories": [
+        "Availability",
+        "Usability",
+        "Functional"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-076",
+      "statement": "The system shall enable a compliance officer to place a hold on any account flagged by the transaction monitoring engine.",
+      "categories": [
+        "Stakeholder",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "compliance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-077",
+      "statement": "The system shall generate automated alerts when system resource utilization exceeds 80% CPU or 85% memory for more than 5 consecutive minutes.",
+      "categories": [
+        "Operational",
+        "Performance",
+        "Availability"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-077",
+      "statement": "The system shall waive the processing fee for applicants who are existing customers with a relationship older than three years.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-078",
+      "statement": "The system shall support role-based access control with at least 15 predefined roles (teller, branch manager, compliance officer, auditor, etc.) and custom role creation.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-078",
+      "statement": "The system shall allow a credit committee member to record an approval decision with a mandatory written justification.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-079",
+      "statement": "The system shall obtain explicit, granular consent from customers before sharing their data with any third-party service provider.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-079",
+      "statement": "The system shall support a maker checker workflow in which no single operator can both create and authorise a beneficiary.",
+      "categories": [
+        "Business",
+        "Security",
+        "Stakeholder"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "FIN-080",
+      "statement": "The system shall provide customers with a right-to-be-forgotten mechanism that anonymizes their personal data while retaining legally required transaction records.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Data-management"
+      ],
+      "domain": "cross_cutting_finance",
+      "source": "synthetic-finance",
+      "verified": false
+    },
+    {
+      "id": "AUG-080",
+      "statement": "The system shall apply a late payment penalty automatically once the configured grace period lapses.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-081",
+      "statement": "The system shall generate a suspicious transaction report in the format prescribed by the financial intelligence unit.",
+      "categories": [
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "compliance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-082",
+      "statement": "The system shall maintain an immutable audit trail of every change to a customer's risk category, including the actor and the reason.",
+      "categories": [
+        "Audit/Reporting",
+        "Security",
+        "Data-management"
+      ],
+      "domain": "compliance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-083",
+      "statement": "The system shall produce a daily exception report listing all transactions that bypassed automated approval rules.",
+      "categories": [
+        "Audit/Reporting",
+        "Operational"
+      ],
+      "domain": "compliance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-084",
+      "statement": "The system shall allow an internal auditor to reconstruct the complete decision path of any rejected loan application.",
+      "categories": [
+        "Audit/Reporting",
+        "Stakeholder"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-085",
+      "statement": "The system shall emit structured application logs to the central observability platform with a correlation identifier per request.",
+      "categories": [
+        "Operational",
+        "Integration"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-086",
+      "statement": "The system shall raise an alert to the on-call engineer when the payment authorisation error rate exceeds two percent over five minutes.",
+      "categories": [
+        "Operational",
+        "Availability"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-087",
+      "statement": "The system shall allow an authorised administrator to configure business rules without a code deployment.",
+      "categories": [
+        "Operational",
+        "Business"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-088",
+      "statement": "The system shall expose a health check endpoint reporting the status of every downstream dependency.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Availability"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-089",
+      "statement": "The system shall allow a customer to schedule a standing instruction for recurring loan repayment on a chosen date each month.",
+      "categories": [
+        "Functional",
+        "Usability"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-090",
+      "statement": "The system shall recalculate and display the revised equated monthly instalment when a customer requests a change in loan tenure.",
+      "categories": [
+        "Functional",
+        "Business",
+        "Usability"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-091",
+      "statement": "The system shall block outward remittances to jurisdictions appearing on the sanctions list maintained by the compliance team.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "compliance",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
+      "id": "AUG-092",
+      "statement": "The system shall allow partial prepayment of a loan and shall recompute the amortisation schedule immediately.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
@@ -651,6 +2042,17 @@
       "verified": false
     },
     {
+      "id": "AUG-093",
+      "statement": "The system shall generate a unique reference number for every payment instruction and return it to the initiating channel.",
+      "categories": [
+        "Functional",
+        "Integration"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
       "id": "REQ-094",
       "statement": "The system shall ensure that any fees or charges payable to a Lending Service Provider are paid directly by the regulated lender and are never collected from the borrower.",
       "categories": [
@@ -659,6 +2061,18 @@
       ],
       "domain": "loan_origination",
       "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false
+    },
+    {
+      "id": "AUG-094",
+      "statement": "The system shall notify the customer by SMS and email within 30 seconds of any debit above the customer configured threshold.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Security"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
@@ -673,6 +2087,18 @@
       "verified": false
     },
     {
+      "id": "AUG-095",
+      "statement": "The system shall allow a customer to freeze and unfreeze their debit card instantly from the mobile application.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Usability"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
       "id": "REQ-096",
       "statement": "The system shall generate and present a digitally signed Key Facts Statement, including the Annual Percentage Rate, to the borrower before loan disbursement.",
       "categories": [
@@ -684,6 +2110,18 @@
       "verified": false
     },
     {
+      "id": "AUG-096",
+      "statement": "The system shall support cancellation of a loan application by the applicant at any stage before disbursement.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
+      "verified": false
+    },
+    {
       "id": "REQ-097",
       "statement": "The system shall offer the borrower a cooling-off period after loan sanction, during which they may exit the loan by repaying only the principal and a proportionate share of the APR, without additional penalty.",
       "categories": [
@@ -692,6 +2130,18 @@
       ],
       "domain": "loan_origination",
       "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false
+    },
+    {
+      "id": "AUG-097",
+      "statement": "The system shall present a consolidated dashboard of outstanding loans, due dates, and payment history to the customer.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-finance-augmentation",
       "verified": false
     },
     {
@@ -2918,962 +4368,6 @@
       ],
       "domain": "ecommerce",
       "source": "synthetic:claude-authored-ecommerce",
-      "verified": false
-    },
-    {
-      "id": "FIN-001",
-      "statement": "The system shall allow customers to apply for personal loans, home loans, and business loans through a unified digital application.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-002",
-      "statement": "The system shall calculate EMI schedules based on principal, tenure, and interest rate, and display them to the applicant before loan confirmation.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-003",
-      "statement": "The system shall verify the borrower's employment status by integrating with the EPFO (Employees' Provident Fund Organisation) database.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Regulatory"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-004",
-      "statement": "The system shall auto-reject loan applications where the applicant's CIBIL score is below the configurable threshold set by the credit risk team.",
-      "categories": [
-        "Business",
-        "Functional",
-        "Stakeholder"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-005",
-      "statement": "The system shall disburse approved loan amounts directly to the borrower's bank account within 24 hours of final approval, as mandated by RBI digital lending norms.",
-      "categories": [
-        "Functional",
-        "Regulatory",
-        "Business"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-006",
-      "statement": "The system shall maintain a complete audit trail of all loan status transitions including timestamps, actor IDs, and approval remarks.",
-      "categories": [
-        "Audit/Reporting",
-        "Data-management",
-        "Regulatory"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-007",
-      "statement": "The system shall generate a Key Fact Statement (KFS) for every loan product and present it to the borrower before disbursement.",
-      "categories": [
-        "Regulatory",
-        "Functional",
-        "Stakeholder"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-008",
-      "statement": "The system shall allow borrowers to prepay or foreclose their loan without any penalty, in compliance with RBI guidelines.",
-      "categories": [
-        "Functional",
-        "Regulatory",
-        "Business"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-009",
-      "statement": "The system shall send automated repayment reminders via SMS and email 3 days before each EMI due date.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Stakeholder"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-010",
-      "statement": "The system shall flag accounts with EMI overdue beyond 90 days as Non-Performing Assets (NPA) and notify the collections team.",
-      "categories": [
-        "Business",
-        "Regulatory",
-        "Stakeholder",
-        "Audit/Reporting"
-      ],
-      "domain": "digital_lending",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-011",
-      "statement": "The core banking system shall process NEFT transactions in batches every 30 minutes during operating hours.",
-      "categories": [
-        "Functional",
-        "Performance",
-        "Integration"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-012",
-      "statement": "The system shall support RTGS transfers of amounts greater than INR 2 lakhs with settlement within 30 minutes.",
-      "categories": [
-        "Functional",
-        "Performance",
-        "Regulatory"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-013",
-      "statement": "The system shall maintain separate general ledger accounts for each product type (savings, current, FD, RD, loan) with daily reconciliation.",
-      "categories": [
-        "Data-management",
-        "Audit/Reporting",
-        "Business"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-014",
-      "statement": "The core banking system shall remain available 24/7 with a maximum unplanned downtime of 15 minutes per quarter.",
-      "categories": [
-        "Availability",
-        "Performance"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-015",
-      "statement": "The system shall automatically calculate and deduct TDS on fixed deposit interest exceeding INR 40,000 per financial year.",
-      "categories": [
-        "Functional",
-        "Regulatory",
-        "Business"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-016",
-      "statement": "The system shall generate daily, monthly, and quarterly regulatory returns for submission to RBI in the prescribed XML format.",
-      "categories": [
-        "Audit/Reporting",
-        "Regulatory",
-        "Data-management"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-017",
-      "statement": "The system shall enforce dual-authorization for all inter-branch fund transfers exceeding INR 10 lakhs.",
-      "categories": [
-        "Security",
-        "Business",
-        "Functional"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-018",
-      "statement": "The system shall support multi-currency accounts and real-time forex conversion using rates published by RBI.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Regulatory"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-019",
-      "statement": "The system shall automatically freeze accounts flagged by the Financial Intelligence Unit (FIU) for suspicious transaction reporting.",
-      "categories": [
-        "Regulatory",
-        "Security",
-        "Functional"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-020",
-      "statement": "The system shall archive transaction records older than 10 years to cold storage while maintaining searchability for regulatory audits.",
-      "categories": [
-        "Data-management",
-        "Availability",
-        "Regulatory"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-021",
-      "statement": "The KYC system shall support V-CIP (Video-based Customer Identification Process) as per RBI circular for remote customer onboarding.",
-      "categories": [
-        "Functional",
-        "Regulatory",
-        "Integration"
-      ],
-      "domain": "kyc_onboarding",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-022",
-      "statement": "The system shall validate PAN card details against the NSDL/UTIITSL database and flag mismatches for manual review.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Regulatory"
-      ],
-      "domain": "kyc_onboarding",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-023",
-      "statement": "The system shall perform PEP (Politically Exposed Person) and sanctions screening against OFAC and UN consolidated lists during onboarding.",
-      "categories": [
-        "Security",
-        "Regulatory",
-        "Integration"
-      ],
-      "domain": "kyc_onboarding",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-024",
-      "statement": "The system shall trigger periodic KYC re-verification for high-risk customers every 2 years and medium-risk customers every 8 years.",
-      "categories": [
-        "Regulatory",
-        "Business",
-        "Operational"
-      ],
-      "domain": "kyc_onboarding",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-025",
-      "statement": "The system shall store all KYC documents in an encrypted document vault with role-based access control and access logging.",
-      "categories": [
-        "Security",
-        "Privacy",
-        "Data-management",
-        "Audit/Reporting"
-      ],
-      "domain": "kyc_onboarding",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-026",
-      "statement": "The system shall generate a Suspicious Transaction Report (STR) and file it with FIU-IND within 7 days of detection.",
-      "categories": [
-        "Regulatory",
-        "Audit/Reporting",
-        "Functional"
-      ],
-      "domain": "aml_compliance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-027",
-      "statement": "The system shall monitor all transactions in real-time and flag patterns matching predefined money laundering typologies.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Performance"
-      ],
-      "domain": "aml_compliance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-028",
-      "statement": "The system shall maintain a customer risk profile that is automatically updated based on transaction behavior and adverse media screening.",
-      "categories": [
-        "Business",
-        "Security",
-        "Data-management"
-      ],
-      "domain": "aml_compliance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-029",
-      "statement": "The system shall generate Cash Transaction Reports (CTR) for all cash transactions exceeding INR 10 lakhs in a month.",
-      "categories": [
-        "Regulatory",
-        "Audit/Reporting"
-      ],
-      "domain": "aml_compliance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-030",
-      "statement": "The compliance dashboard shall display pending STR filings, overdue KYC renewals, and regulatory submission deadlines.",
-      "categories": [
-        "Stakeholder",
-        "Functional",
-        "Audit/Reporting"
-      ],
-      "domain": "aml_compliance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-031",
-      "statement": "The UPI system shall process collect requests and pay requests within 3 seconds end-to-end.",
-      "categories": [
-        "Functional",
-        "Performance"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-032",
-      "statement": "The system shall validate the beneficiary VPA (Virtual Payment Address) against the NPCI mapper before initiating a transaction.",
-      "categories": [
-        "Functional",
-        "Integration"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-033",
-      "statement": "The system shall support UPI transaction limits as defined by NPCI \u2014 currently INR 1 lakh per transaction for P2P and INR 5 lakhs for specific merchant categories.",
-      "categories": [
-        "Regulatory",
-        "Business",
-        "Functional"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-034",
-      "statement": "The system shall handle UPI dispute resolution within the NPCI-mandated TAT of 5 business days for transaction-related complaints.",
-      "categories": [
-        "Regulatory",
-        "Operational",
-        "Stakeholder"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-035",
-      "statement": "The UPI payment gateway shall maintain 99.95% uptime with automatic failover to the disaster recovery site within 15 seconds.",
-      "categories": [
-        "Availability",
-        "Performance",
-        "Operational"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-036",
-      "statement": "The system shall reconcile all UPI transactions with the NPCI settlement file on a T+0 basis and flag discrepancies for the operations team.",
-      "categories": [
-        "Operational",
-        "Audit/Reporting",
-        "Integration"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-037",
-      "statement": "The system shall support mandate registration for recurring UPI payments (UPI AutoPay) with customer consent and a configurable maximum amount.",
-      "categories": [
-        "Functional",
-        "Regulatory",
-        "Privacy"
-      ],
-      "domain": "upi_payments",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-038",
-      "statement": "The system shall tokenize credit and debit card numbers using PCI-DSS compliant tokenization and never store raw card data.",
-      "categories": [
-        "Security",
-        "Regulatory",
-        "Data-management",
-        "Privacy"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-039",
-      "statement": "The system shall support 3D Secure 2.0 authentication for all online card transactions to reduce fraud liability.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Regulatory"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-040",
-      "statement": "The system shall detect and block card transactions originating from geographies where the cardholder has not previously transacted, unless whitelisted.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Business"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-041",
-      "statement": "The card management system shall allow customers to set transaction limits, enable/disable international transactions, and lock/unlock cards via the mobile app.",
-      "categories": [
-        "Functional",
-        "Usability",
-        "Stakeholder",
-        "Security"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-042",
-      "statement": "The system shall process credit card billing cycles, generate monthly statements, and calculate minimum due amounts with applicable interest charges.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-043",
-      "statement": "The system shall support real-time push notifications for every card transaction including amount, merchant name, and remaining available limit.",
-      "categories": [
-        "Functional",
-        "Usability",
-        "Integration"
-      ],
-      "domain": "card_processing",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-044",
-      "statement": "The wealth management portal shall display a consolidated view of the customer's portfolio across mutual funds, stocks, bonds, and fixed deposits.",
-      "categories": [
-        "Functional",
-        "Usability",
-        "Stakeholder"
-      ],
-      "domain": "wealth_management",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-045",
-      "statement": "The system shall calculate portfolio returns using XIRR methodology and benchmark them against NIFTY 50 and category averages.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "wealth_management",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-046",
-      "statement": "The system shall execute mutual fund purchase and redemption orders via BSE StAR MF or NSE MFSS platforms within the applicable cut-off times.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Regulatory"
-      ],
-      "domain": "wealth_management",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-047",
-      "statement": "The system shall generate capital gains reports categorized as short-term and long-term for each financial year for tax filing purposes.",
-      "categories": [
-        "Audit/Reporting",
-        "Regulatory",
-        "Stakeholder"
-      ],
-      "domain": "wealth_management",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-048",
-      "statement": "The system shall enforce SEBI-mandated cooling-off period of 15 days for new SIP registrations before the first installment is debited.",
-      "categories": [
-        "Regulatory",
-        "Business",
-        "Functional"
-      ],
-      "domain": "wealth_management",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-049",
-      "statement": "The system shall encrypt all customer financial data at rest using AES-256 and in transit using TLS 1.2 or higher.",
-      "categories": [
-        "Security",
-        "Privacy",
-        "Data-management"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-050",
-      "statement": "The system shall implement session timeout of 5 minutes of inactivity for all authenticated banking sessions.",
-      "categories": [
-        "Security",
-        "Usability"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-051",
-      "statement": "The system shall enforce multi-factor authentication (password + OTP) for all high-value financial transactions exceeding INR 25,000.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Regulatory"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-052",
-      "statement": "The system shall support biometric authentication (fingerprint and face recognition) as an alternative login mechanism for mobile banking.",
-      "categories": [
-        "Security",
-        "Usability",
-        "Functional"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-053",
-      "statement": "The system shall log all administrative actions including user creation, role changes, and configuration modifications with tamper-evident audit trails.",
-      "categories": [
-        "Audit/Reporting",
-        "Security",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-054",
-      "statement": "The system shall implement rate limiting on login attempts, locking the account after 5 consecutive failed attempts for 30 minutes.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Availability"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-055",
-      "statement": "The banking platform shall achieve RPO (Recovery Point Objective) of zero data loss and RTO (Recovery Time Objective) of 4 hours for disaster recovery.",
-      "categories": [
-        "Availability",
-        "Data-management",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-056",
-      "statement": "The system shall implement geographic redundancy with active-active data centres in two separate seismic zones within India.",
-      "categories": [
-        "Availability",
-        "Operational",
-        "Regulatory"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-057",
-      "statement": "The system shall maintain end-of-day backup of all transactional databases with encrypted offsite replication.",
-      "categories": [
-        "Data-management",
-        "Availability",
-        "Security"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-058",
-      "statement": "The system shall auto-scale compute resources to handle 3x normal traffic during salary days (1st and last week of month).",
-      "categories": [
-        "Performance",
-        "Availability",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-059",
-      "statement": "The system shall provide the relationship manager with a 360-degree customer view showing all products, transactions, complaints, and risk scores.",
-      "categories": [
-        "Stakeholder",
-        "Functional",
-        "Usability"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-060",
-      "statement": "The system shall comply with data localization requirements by storing all Indian customer financial data exclusively within data centres located in India.",
-      "categories": [
-        "Regulatory",
-        "Data-management",
-        "Privacy"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-061",
-      "statement": "The customer shall be able to download their account statement in PDF, CSV, and OFX formats for any date range within the last 10 years.",
-      "categories": [
-        "Functional",
-        "Usability",
-        "Data-management",
-        "Stakeholder"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-062",
-      "statement": "The system shall provide a configurable workflow engine for the branch manager to approve account opening, loan sanctioning, and limit enhancement requests.",
-      "categories": [
-        "Functional",
-        "Stakeholder",
-        "Business",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-063",
-      "statement": "The system shall support scheduled fund transfers (standing instructions) with configurable frequency, amount, and validity period.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-064",
-      "statement": "The system shall allow customers to raise and track grievances through an integrated complaint management system with SLA-based escalation.",
-      "categories": [
-        "Functional",
-        "Stakeholder",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-065",
-      "statement": "The system shall integrate with the banking ombudsman portal for automated escalation of unresolved complaints beyond 30 days.",
-      "categories": [
-        "Integration",
-        "Regulatory",
-        "Operational",
-        "Stakeholder"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-066",
-      "statement": "The insurance underwriting system shall calculate premium based on applicant age, medical history, sum assured, and policy tenure.",
-      "categories": [
-        "Functional",
-        "Business"
-      ],
-      "domain": "insurance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-067",
-      "statement": "The system shall verify the policyholder's identity against IRDAI's central policyholder database before processing claim payouts.",
-      "categories": [
-        "Functional",
-        "Integration",
-        "Regulatory",
-        "Security"
-      ],
-      "domain": "insurance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-068",
-      "statement": "The claims processing system shall achieve average claim settlement time of 15 days for non-investigation cases.",
-      "categories": [
-        "Performance",
-        "Business",
-        "Stakeholder"
-      ],
-      "domain": "insurance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-069",
-      "statement": "The system shall generate IRDAI-mandated monthly premium collection and claims settlement reports in the prescribed template.",
-      "categories": [
-        "Regulatory",
-        "Audit/Reporting"
-      ],
-      "domain": "insurance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-070",
-      "statement": "The system shall provide a self-service portal for policyholders to update nominee details, download policy documents, and track claim status.",
-      "categories": [
-        "Functional",
-        "Usability",
-        "Stakeholder"
-      ],
-      "domain": "insurance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-071",
-      "statement": "The system shall support real-time account balance inquiry across all linked accounts with response time under 2 seconds.",
-      "categories": [
-        "Functional",
-        "Performance",
-        "Integration"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-072",
-      "statement": "The internet banking portal shall be accessible 24/7 with planned maintenance windows restricted to 2 AM-4 AM IST on the last Sunday of each month.",
-      "categories": [
-        "Availability",
-        "Operational",
-        "Usability"
-      ],
-      "domain": "core_banking",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-073",
-      "statement": "The system shall provide the compliance officer with a dashboard showing real-time status of all regulatory submissions, pending approvals, and upcoming deadlines.",
-      "categories": [
-        "Stakeholder",
-        "Functional",
-        "Audit/Reporting",
-        "Regulatory"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-074",
-      "statement": "The system shall implement data masking on all non-production environments, replacing real customer data with synthetic equivalents.",
-      "categories": [
-        "Privacy",
-        "Security",
-        "Operational"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-075",
-      "statement": "The system shall retain all financial transaction logs for a minimum of 10 years as per the Prevention of Money Laundering Act (PMLA).",
-      "categories": [
-        "Data-management",
-        "Regulatory"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-076",
-      "statement": "The mobile banking app shall support offline mode for viewing recent transactions and account balances when network connectivity is unavailable.",
-      "categories": [
-        "Availability",
-        "Usability",
-        "Functional"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-077",
-      "statement": "The system shall generate automated alerts when system resource utilization exceeds 80% CPU or 85% memory for more than 5 consecutive minutes.",
-      "categories": [
-        "Operational",
-        "Performance",
-        "Availability"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-078",
-      "statement": "The system shall support role-based access control with at least 15 predefined roles (teller, branch manager, compliance officer, auditor, etc.) and custom role creation.",
-      "categories": [
-        "Security",
-        "Functional",
-        "Stakeholder"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-079",
-      "statement": "The system shall obtain explicit, granular consent from customers before sharing their data with any third-party service provider.",
-      "categories": [
-        "Privacy",
-        "Regulatory",
-        "Functional"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
-      "verified": false
-    },
-    {
-      "id": "FIN-080",
-      "statement": "The system shall provide customers with a right-to-be-forgotten mechanism that anonymizes their personal data while retaining legally required transaction records.",
-      "categories": [
-        "Privacy",
-        "Regulatory",
-        "Data-management"
-      ],
-      "domain": "cross_cutting_finance",
-      "source": "synthetic-finance",
       "verified": false
     }
   ]

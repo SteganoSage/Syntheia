@@ -1,0 +1,5 @@
+{
+  "threshold": 0.3,
+  "calibrated_on": "validation",
+  "val_f1_micro": 0.7374
+}

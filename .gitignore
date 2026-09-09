@@ -45,6 +45,9 @@ models/bert_classifier/*.bin
 models/llama_extractor/*.safetensors
 models/llama_extractor/*.bin
 models/experiments/wandb/
+# Trainer per-epoch checkpoints (notebooks/05_train_bert.py) -- pure scratch,
+# the promoted best model lands in models/bert_classifier/
+models/experiments/bert_run/
 *.pt
 *.pth
 

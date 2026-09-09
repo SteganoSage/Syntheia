@@ -1,11 +1,20 @@
 """Merge every classification training candidate into a single training_set.json.
 
-Sources combined (task.md Task 3):
-    day7_external_promise_sample.json     60  external PROMISE NFR, single-label
-    day7_regulation_grounded_sample.json  23  finance regulation-grounded, multi-label
-    synthetic_raw/*.json                  180 Claude-authored, 6 domains, multi-label
-    --------------------------------------------------------------------------------
-    total                                 263
+Sources combined:
+    day7_finance_specific.json             80  finance-specific, multi-label
+    day7_regulation_grounded_sample.json   23  finance regulation-grounded, multi-label
+    synthetic_raw/*.json                   277 Claude-authored, 6 domains + Day 11
+                                               finance augmentation, multi-label
+    ---------------------------------------------------------------------------------
+    total                                  380
+
+DROPPED (Day 11): day7_external_promise_sample.json -- 60 external PROMISE NFR
+rows. They were single-label (mean 1.00 categories/requirement) against a
+ground truth averaging 2.50, so they trained the model toward the wrong output
+shape, and the corpus is non-finance general software ("The website should use
+Flash to provide animation on the home page"). The file is left on disk; it is
+simply no longer merged. Removing it lifted the corpus mean to 2.44
+categories/requirement.
 
 ground_truth.json is deliberately NOT merged -- it is the held-out evaluation
 set. Folding it in would leak eval data into training and invalidate the
@@ -29,7 +38,7 @@ CATEGORIES = [
     "Audit/Reporting", "Operational",
 ]
 
-EXTERNAL = HERE / "day7_external_promise_sample.json"
+FINANCE_SPECIFIC = HERE / "day7_finance_specific.json"
 REGULATION = HERE / "day7_regulation_grounded_sample.json"
 SYNTHETIC_DIR = HERE / "synthetic_raw"
 GROUND_TRUTH = HERE / "ground_truth.json"
@@ -44,7 +53,7 @@ def load_reqs(path: Path) -> list[dict]:
 
 def main() -> None:
     sources: list[tuple[str, Path]] = [
-        ("external:PROMISE-NFR", EXTERNAL),
+        ("synthetic-finance", FINANCE_SPECIFIC),
         ("synthetic:regulation-grounded", REGULATION),
     ]
     sources += [
@@ -110,10 +119,11 @@ def main() -> None:
         "dataset": "day7_classification_training_set",
         "purpose": (
             "Merged multi-label training corpus for the Day 9-11 fine-tuned BERT "
-            "classifier. Combines external PROMISE-NFR examples, finance "
-            "regulation-grounded synthetic requirements, and Claude-authored "
-            "synthetic requirements across six domains. SEPARATE from "
-            "ground_truth.json, which stays held out for evaluation."
+            "classifier. Combines finance-specific requirements, regulation-grounded "
+            "synthetic requirements, and Claude-authored synthetic requirements "
+            "across six domains plus the Day 11 finance augmentation. The external "
+            "PROMISE-NFR rows were dropped on Day 11 as single-label and off-domain. "
+            "SEPARATE from ground_truth.json, which stays held out for evaluation."
         ),
         "status": "PARTIALLY_UNVERIFIED -- human label pass in progress",
         "categories_taxonomy": CATEGORIES,
