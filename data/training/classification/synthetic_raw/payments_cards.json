@@ -1,0 +1,391 @@
+{
+  "dataset": "day7_synthetic_payments_cards",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'payments_cards' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-176",
+      "statement": "The system shall allow a customer to link a debit or credit card to their wallet after a successful one-time-password verification.",
+      "categories": [
+        "Functional",
+        "Security"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-177",
+      "statement": "The system shall decline a card transaction when the merchant category code is blocked for the cardholder's card product.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-178",
+      "statement": "The system shall authorise or decline a card payment within two seconds of receiving the request from the merchant terminal.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-179",
+      "statement": "The system shall tokenise every stored card number so that the primary account number is never retained in application databases.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-180",
+      "statement": "The system shall comply with PCI-DSS requirements for the storage, processing, and transmission of cardholder data.",
+      "categories": [
+        "Regulatory",
+        "Security"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-181",
+      "statement": "The payment authorisation service shall maintain 99.99 percent availability measured on a rolling thirty-day basis.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-182",
+      "statement": "The system shall fail over to a secondary processing site within sixty seconds of a primary outage without dropping in-flight authorisations.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-183",
+      "statement": "The system shall settle merchant funds to the merchant's bank account within one business day of transaction capture, net of applicable fees.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-184",
+      "statement": "The system shall exchange authorisation, clearing, and settlement messages with the card networks in ISO 8583 format.",
+      "categories": [
+        "Integration"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-185",
+      "statement": "The system shall calculate and deduct the merchant discount rate and applicable taxes from each settlement batch.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-186",
+      "statement": "The system shall let a merchant issue a full or partial refund against an original transaction within one hundred eighty days of the sale.",
+      "categories": [
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-187",
+      "statement": "The system shall maintain an audit trail of every authorisation, capture, refund, and chargeback with immutable timestamps.",
+      "categories": [
+        "Audit/Reporting",
+        "Security"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-188",
+      "statement": "The system shall block a card after five consecutive declined authorisation attempts within ten minutes to stop card-testing attacks.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-189",
+      "statement": "The system shall support 3-D Secure authentication for online card transactions where the issuer requires it.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Integration"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-190",
+      "statement": "The system shall provide the merchant a self-service dashboard showing settled amounts, fees, refunds, and chargebacks by day.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Usability"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-191",
+      "statement": "The system shall notify the merchant within five minutes of a chargeback being raised against one of their transactions.",
+      "categories": [
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-192",
+      "statement": "The system shall process at least three thousand authorisation requests per second at peak with 99th-percentile latency under five hundred milliseconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-193",
+      "statement": "The system shall reconcile network settlement files against internal transaction records daily and escalate unmatched entries to operations.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Audit/Reporting"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-194",
+      "statement": "The system shall retain transaction records for a minimum of seven years to meet regulatory and dispute-resolution requirements.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-195",
+      "statement": "The system shall allow a customer to raise a dispute for an unrecognised transaction directly from the transaction history screen.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-196",
+      "statement": "The system shall obtain the customer's consent before enrolling their card for recurring merchant billing.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-197",
+      "statement": "The system shall restrict access to full card numbers to authorised fraud-investigation staff and log every such access.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Audit/Reporting"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-198",
+      "statement": "The system shall let the risk team configure velocity rules, such as a maximum amount per card per day, without a deployment.",
+      "categories": [
+        "Stakeholder",
+        "Business",
+        "Operational"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-199",
+      "statement": "The system shall display transaction amounts and fees in the customer's local currency and language.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-200",
+      "statement": "The system shall alert the on-call team when the authorisation approval rate drops more than ten percentage points below the trailing twenty-four-hour average.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-201",
+      "statement": "The system shall recover to an alternate region within a recovery time objective of thirty minutes and a recovery point objective of one minute for captured transactions.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-202",
+      "statement": "The system shall reject any settlement instruction that would move funds to an account not previously verified for the merchant.",
+      "categories": [
+        "Security",
+        "Business"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-203",
+      "statement": "The system shall generate a monthly interchange and scheme-fee report for the finance team to validate network invoices.",
+      "categories": [
+        "Audit/Reporting",
+        "Stakeholder",
+        "Business"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-204",
+      "statement": "The system shall apply software updates through rolling deployments so that authorisation processing is not interrupted during maintenance.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-205",
+      "statement": "The system shall notify a customer in real time by push notification and SMS whenever their card is charged.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Stakeholder"
+      ],
+      "domain": "payments_cards",
+      "source": "synthetic:claude-authored-payments_cards",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

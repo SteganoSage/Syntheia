@@ -1,0 +1,247 @@
+{
+  "dataset": "day7_regulation_grounded_sample",
+  "purpose": "Synthetic finance-domain requirements grounded in real, current Indian regulatory/technical provisions (RBI, NPCI, DPDP Act) rather than invented rules. Intended to strengthen the categories a generic public dataset can't help with: Regulatory, Privacy, Data-management, Audit/Reporting, Business, Stakeholder, plus finance-flavored Security/Integration/Performance/Operational.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "grounding_sources": [
+    {
+      "name": "RBI Guidelines on Digital Lending",
+      "date": "2022-09-02",
+      "covers": "Loan disbursal/repayment channels, LSP fee handling, penal charges, Key Facts Statement + APR disclosure, cooling-off period, grievance redressal"
+    },
+    {
+      "name": "RBI Master Direction - Know Your Customer (KYC) Direction, 2016, as amended (2021, 2023)",
+      "date": "amendments through 2023-10-17",
+      "covers": "Periodic KYC updation schedule by risk tier, V-CIP infrastructure/data-ownership rules, enhanced due diligence for PEPs/high-risk jurisdictions, CDD threshold for occasional transactions, Aadhaar OTP e-KYC controls"
+    },
+    {
+      "name": "NPCI Guidelines on usage of UPI and API",
+      "date": "notified 2025-05-21, enforced from 2025-08-01",
+      "covers": "Daily limits on balance checks/linked-account views/status checks, AutoPay non-peak windows, same-account transaction ban"
+    },
+    {
+      "name": "NPCI circulars on UPI API response times and transaction ID standardization",
+      "date": "2025 (response-time changes effective 2025-06-16)",
+      "covers": "Mandated API response times, 35-character alphanumeric transaction ID format"
+    },
+    {
+      "name": "Digital Personal Data Protection Act, 2023 (India)",
+      "date": "enacted 2023-08-11; phased implementation ongoing",
+      "covers": "Purpose-specific consent, consent withdrawal, data minimization, breach notification, data principal access/correction/erasure rights"
+    }
+  ],
+  "important_caveat": "These citations come from secondary explainer sources (law-firm blogs, financial news), not the primary RBI/NPCI circular text, and several of these thresholds have already changed more than once in the last few years (NPCI revised UPI response times multiple times in 2025 alone). Before locking any of these into permanent training data, cross-check the specific figure against the current circular on rbi.org.in or npci.org.in -- the OBLIGATION described is stable, but the exact number/timeline attached to it may have moved again since this search.",
+  "instructions_for_reviewers": [
+    "Verify the specific number/threshold/timeline in each statement against the live regulation before treating it as ground truth -- flag and correct any that have since changed.",
+    "Confirm the category labels fit your project's specific definitions.",
+    "Flip 'verified' to true only after both checks are done."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-093",
+      "statement": "The system shall route all loan disbursement and repayment amounts directly between the borrower's bank account and the lender's account, without passing through any third-party or Lending Service Provider account.",
+      "categories": ["Regulatory", "Business"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-094",
+      "statement": "The system shall ensure that any fees or charges payable to a Lending Service Provider are paid directly by the regulated lender and are never collected from the borrower.",
+      "categories": ["Regulatory", "Business"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-095",
+      "statement": "The system shall calculate any penal charges on a delayed loan repayment based only on the outstanding principal amount, not on the full originally sanctioned loan amount.",
+      "categories": ["Regulatory", "Business"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-096",
+      "statement": "The system shall generate and present a digitally signed Key Facts Statement, including the Annual Percentage Rate, to the borrower before loan disbursement.",
+      "categories": ["Regulatory", "Functional"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-097",
+      "statement": "The system shall offer the borrower a cooling-off period after loan sanction, during which they may exit the loan by repaying only the principal and a proportionate share of the APR, without additional penalty.",
+      "categories": ["Regulatory", "Business"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-098",
+      "statement": "The system shall route every borrower grievance related to the digital lending app to a dedicated grievance redressal officer designated by the regulated entity, and shall log the resolution timeline.",
+      "categories": ["Regulatory", "Stakeholder", "Audit/Reporting"],
+      "domain": "loan_origination",
+      "source": "synthetic:grounded-rbi-digital-lending-guidelines-2022",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-099",
+      "statement": "The system shall schedule periodic KYC updation for each customer according to their risk classification: at least once every 2 years for high-risk customers, every 8 years for medium-risk, and every 10 years for low-risk.",
+      "categories": ["Regulatory", "Data-management"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": "Risk-tiered periodic-updation intervals -- double check these exact intervals against the current Master Direction, as KYC rules have been amended repeatedly."
+    },
+    {
+      "id": "REQ-100",
+      "statement": "The system shall ensure that Video-based Customer Identification (V-CIP) recordings are stored exclusively on infrastructure owned or leased by the regulated entity, with no retention of customer data by any third-party cloud or technology vendor.",
+      "categories": ["Regulatory", "Security", "Data-management"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-101",
+      "statement": "The system shall maintain an audit trail of every V-CIP verification session, including the identity of the verifying official, the timestamp, and the outcome.",
+      "categories": ["Audit/Reporting", "Regulatory"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-102",
+      "statement": "The system shall automatically trigger an enhanced due diligence workflow when a customer is flagged as a Politically Exposed Person or a resident of a high-risk jurisdiction.",
+      "categories": ["Regulatory", "Functional"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-103",
+      "statement": "The system shall require completed Customer Due Diligence before permitting an occasional transaction of \u20b950,000 or more for a walk-in customer without an existing account relationship.",
+      "categories": ["Regulatory", "Business"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": "Verify the \u20b950,000 CDD threshold is still current."
+    },
+    {
+      "id": "REQ-104",
+      "statement": "The system shall verify that the mobile number used for Aadhaar OTP-based e-KYC matches the mobile number already on record in the customer's profile before allowing periodic KYC updation through that channel.",
+      "categories": ["Regulatory", "Security"],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-105",
+      "statement": "The system shall respond to a UPI payment request within 15 seconds and to a transaction-status check within 10 seconds, in line with NPCI's mandated API response times.",
+      "categories": ["Performance", "Integration", "Regulatory"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": "NPCI has revised these response-time figures more than once in 2025 -- confirm the current mandated value before use."
+    },
+    {
+      "id": "REQ-106",
+      "statement": "The system shall limit transaction-status check API calls to a maximum of 3 attempts per transaction, spaced at least 90 seconds apart.",
+      "categories": ["Operational", "Integration", "Regulatory"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-107",
+      "statement": "The system shall generate UPI transaction IDs as exactly 35 alphanumeric characters and shall reject any transaction ID containing special characters.",
+      "categories": ["Functional", "Regulatory", "Integration"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-transaction-id-standardization",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-108",
+      "statement": "The system shall block a UPI transfer where the payer and payee accounts are identical, to prevent reward-cashback abuse.",
+      "categories": ["Security", "Regulatory", "Business"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-109",
+      "statement": "The system shall enforce NPCI's daily limits of 50 balance-check calls and 25 linked-account-view calls per user per app.",
+      "categories": ["Operational", "Regulatory"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-110",
+      "statement": "The system shall reject any single UPI transaction exceeding \u20b91,00,000 or the 20-transactions-per-day-per-user limit set by NPCI.",
+      "categories": ["Business", "Regulatory", "Functional"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": "Verify the current per-transaction and per-day limits, as NPCI updates these periodically."
+    },
+    {
+      "id": "REQ-111",
+      "statement": "The system shall restrict AutoPay mandate execution to NPCI-designated non-peak windows: before 10:00 AM, between 1:00 PM and 5:00 PM, and after 9:30 PM.",
+      "categories": ["Operational", "Regulatory"],
+      "domain": "payments",
+      "source": "synthetic:grounded-npci-upi-guidelines-2025",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-112",
+      "statement": "The system shall record explicit, purpose-specific consent from the customer before processing any personal data, and shall allow the customer to withdraw that consent at any time through a self-service interface.",
+      "categories": ["Privacy", "Regulatory", "Functional"],
+      "domain": "cross_cutting",
+      "source": "synthetic:grounded-dpdp-act-2023",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-113",
+      "statement": "The system shall notify the Data Protection Board of India and all affected customers of any personal data breach within the timeline prescribed under the DPDP Act.",
+      "categories": ["Privacy", "Regulatory", "Audit/Reporting"],
+      "domain": "cross_cutting",
+      "source": "synthetic:grounded-dpdp-act-2023",
+      "verified": false,
+      "reviewer_notes": "DPDP Act rules/timelines are still being phased in -- confirm the applicable breach-notification window at time of use."
+    },
+    {
+      "id": "REQ-114",
+      "statement": "The system shall collect only the minimum personal data necessary for the specific loan, KYC, or payment purpose for which it was gathered, and shall not repurpose that data for another use without fresh consent.",
+      "categories": ["Privacy", "Data-management", "Regulatory"],
+      "domain": "cross_cutting",
+      "source": "synthetic:grounded-dpdp-act-2023",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-115",
+      "statement": "The system shall provide customers a self-service interface to access, correct, and request erasure of their personal data, consistent with data principal rights under the DPDP Act.",
+      "categories": ["Privacy", "Functional", "Stakeholder"],
+      "domain": "cross_cutting",
+      "source": "synthetic:grounded-dpdp-act-2023",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

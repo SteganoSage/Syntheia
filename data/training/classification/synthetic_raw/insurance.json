@@ -1,0 +1,396 @@
+{
+  "dataset": "day7_synthetic_insurance",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'insurance' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-116",
+      "statement": "The system shall allow a policyholder to submit a new motor insurance claim online by uploading photographs of the damage and a copy of the First Information Report.",
+      "categories": [
+        "Functional",
+        "Usability"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-117",
+      "statement": "The system shall calculate the annual premium for a term life policy based on the applicant's age, sum assured, smoking status, and selected policy term.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-118",
+      "statement": "The system shall route any claim with an estimated payout above the configured threshold to a senior claims adjuster for manual review before settlement.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-119",
+      "statement": "The system shall verify the applicant's identity against a government-issued photo ID and tax identification number before issuing a new policy.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-120",
+      "statement": "The system shall obtain explicit consent from the applicant before retrieving their medical history from an external health information exchange.",
+      "categories": [
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-121",
+      "statement": "The system shall flag potentially fraudulent claims where the same payout bank account appears across three or more unrelated policies within ninety days.",
+      "categories": [
+        "Security",
+        "Business"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-122",
+      "statement": "The system shall retain closed claim files and their supporting documents for a minimum of eight years to meet insurance record-retention rules.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-123",
+      "statement": "The system shall enable a claims adjuster to record inspection findings, attach photographs, and recommend an approval or rejection decision from a mobile device.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-124",
+      "statement": "The claims portal shall be available twenty-four hours a day, seven days a week, with unplanned downtime not exceeding thirty minutes per month.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-125",
+      "statement": "The system shall fail over to a secondary data centre within fifteen minutes of a primary-site outage without loss of committed claim data.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-126",
+      "statement": "The system shall integrate with the reinsurance partner's API to cede the agreed share of every policy that exceeds the company's retention limit.",
+      "categories": [
+        "Integration",
+        "Business"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-127",
+      "statement": "The system shall generate a monthly regulatory return summarising premiums collected, claims paid, and outstanding reserves for submission to the insurance regulator.",
+      "categories": [
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-128",
+      "statement": "The system shall process at least five thousand premium-payment transactions per hour during renewal peaks without response times exceeding four seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-129",
+      "statement": "The system shall send policy renewal reminders to the policyholder by email and SMS thirty, fifteen, and three days before the lapse date.",
+      "categories": [
+        "Functional",
+        "Stakeholder",
+        "Integration"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-130",
+      "statement": "The system shall allow an underwriter to override the automated risk score only with a documented justification that is retained for audit.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Functional"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-131",
+      "statement": "The system shall mask the policyholder's bank account number, showing only the last four digits, on every screen except the payout confirmation step.",
+      "categories": [
+        "Privacy",
+        "Security"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-132",
+      "statement": "The system shall support a free-look period during which a new policyholder may cancel the policy and receive a refund of premium less proportionate risk and stamp charges.",
+      "categories": [
+        "Regulatory",
+        "Business"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-133",
+      "statement": "The system shall maintain an immutable audit trail of every change to a claim's status, recording the user, timestamp, and previous and new values.",
+      "categories": [
+        "Audit/Reporting",
+        "Security"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-134",
+      "statement": "The system shall let a customer service agent view a consolidated timeline of a policyholder's policies, claims, and payments on a single screen.",
+      "categories": [
+        "Stakeholder",
+        "Usability",
+        "Functional"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-135",
+      "statement": "The system shall encrypt all policyholder health and financial data at rest using AES-256 and in transit using TLS 1.2 or higher.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-136",
+      "statement": "The system shall reconcile premium receipts from the payment gateway against policy records every night and raise exceptions for unmatched transactions.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Data-management"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-137",
+      "statement": "The system shall provide the actuarial team a self-service dashboard showing loss ratios by product, region, and distribution channel.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-138",
+      "statement": "The system shall prevent a policy from being issued if the proposer appears on the regulator's sanctions or fraud watchlist.",
+      "categories": [
+        "Regulatory",
+        "Security",
+        "Business"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-139",
+      "statement": "The system shall allow a policyholder to nominate or update beneficiaries at any time during the policy term through the self-service portal.",
+      "categories": [
+        "Functional",
+        "Usability"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-140",
+      "statement": "The system shall restore service within a recovery time objective of two hours and a recovery point objective of fifteen minutes following a declared disaster.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-141",
+      "statement": "The system shall apply the no-claim bonus discount automatically at renewal for policyholders who filed no claim in the preceding policy year.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-142",
+      "statement": "The system shall purge or anonymise the personal data of rejected proposals after one hundred eighty days unless a legal or regulatory hold applies.",
+      "categories": [
+        "Privacy",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-143",
+      "statement": "The system shall notify the operations on-call team within five minutes when the policy-issuance batch job fails or exceeds its expected run time.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-144",
+      "statement": "The system shall let a bancassurance partner submit proposals through a dedicated API secured with OAuth 2.0 client credentials.",
+      "categories": [
+        "Integration",
+        "Security",
+        "Stakeholder"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-145",
+      "statement": "The system shall record the date, time, and channel of every marketing-communication consent given or withdrawn by a policyholder.",
+      "categories": [
+        "Privacy",
+        "Audit/Reporting"
+      ],
+      "domain": "insurance",
+      "source": "synthetic:claude-authored-insurance",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

@@ -1,0 +1,751 @@
+{
+  "dataset": "day7_external_promise_sample",
+  "purpose": "Curated, deduplicated, quality-filtered sample from a published NFR classification dataset, remapped to this project's 13-category taxonomy. Covers the 4 categories with direct 1:1 analogs (Security, Usability, Performance, Operational). Intended to supplement -- not replace -- the finance-domain manual/synthetic training data, since these examples are NOT from BFSI scenarios.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "provenance": {
+    "original_dataset": "PROMISE NFR dataset (and its common derivatives)",
+    "citation": "Cleland-Huang, J., Settimi, R., Zou, X., & Solc, P. (2007). Automated classification of non-functional requirements. Requirements Engineering, 12(2), 103-120. https://doi.org/10.1007/s00766-007-0045-1",
+    "mirror_used": "https://github.com/cbgithub7/NFR-Classification-ULMFiT (data/NFR_Dataset.csv)",
+    "processing_applied": [
+      "Dropped the 'Maintainability' class -- no analog in this project's 13-category taxonomy",
+      "Removed exact-duplicate statements",
+      "Removed statements shorter than 6 or longer than 32 words",
+      "Removed statements lacking requirement modal language (shall/must/should/will/etc.) or containing technical-instruction noise (e.g. literal command syntax) -- several rows in the raw file were how-to snippets or fragments, not real requirement statements",
+      "Stratified random sample of 15 per category (seed=42) from the cleaned pool"
+    ],
+    "category_mapping": {
+      "Operability": "Operational",
+      "Security": "Security",
+      "Usability": "Usability",
+      "Performance": "Performance"
+    }
+  },
+  "instructions_for_reviewers": [
+    "These are lighter-review than the fully synthetic set: category label already comes from a peer-reviewed, expert-annotated source.",
+    "Still confirm each one reads naturally as a requirement and fits the category as YOUR project defines it -- some NFR taxonomies define 'Security' or 'Operational' slightly differently than PROMISE did.",
+    "These are NOT finance-domain (mixed real estate, healthcare, campus-system, retail SRS docs). Recommend capping this external set to well under half of the final per-category training count, so finance vocabulary still dominates what the classifier sees.",
+    "Cite the original PROMISE NFR paper in your Month 4 documentation, not just the GitHub mirror, since that's the actual source of the annotation."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-033",
+      "statement": "The website should use Flash to provide animation on the home page.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-034",
+      "statement": "The product shall be able to be installed in the specified environment within 1 working day.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-035",
+      "statement": "The system shall provide the ability to maintain multiple operating environments for development, test, training and production.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-036",
+      "statement": "The product must support Internet Explorer 5.5 and above.'",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-037",
+      "statement": "The Disputes applications shall interface with the Merchant Information Database.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-038",
+      "statement": "All adjustment requests must be sent to the Cardmember Posting and Billing System.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-039",
+      "statement": "The system shall be used within the specifications defined by the computers used by the Program Administrators/Nursing Staff Members.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-040",
+      "statement": "The product must support Internet Explorer 5.5 and above.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-041",
+      "statement": "The product shall interface with the ChoiceParts system once per day at approximately 1:00 AM.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-042",
+      "statement": "The product shall operate with every platform.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-043",
+      "statement": "The product shall display HTML properly in 80% of all HTML browsers tested (minimum is to test 8 browsers).",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-044",
+      "statement": "The product must support Mozilla Firefox 1.0 and above.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-045",
+      "statement": "Brio will provide buttons in the user interface that produce or export reports in xls or .123 file formats.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-046",
+      "statement": "If using CentOS or Redhat, then ensure when configuring MySQL for OpenEMR, STRICT_MODE must be disabled.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-047",
+      "statement": "The product shall communicate successfully with the database management system on 100% of all transactions.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Operability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-048",
+      "statement": "Data integrity scripts will be run on a weekly basis to verify the integrity of the database.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-049",
+      "statement": "One insurance company shall not be able to view another insurance companys claim data.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-050",
+      "statement": "The product shall have the ability to receive automatic software updates as new threats emerge. 100% of customers will be able to receive automatic software updates transmitted to the installed product.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-051",
+      "statement": "The product shall ensure that only company employees or external users with company-approved user IDs may have product access.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-052",
+      "statement": "All credit card information will be encrypted in the database.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-053",
+      "statement": "100% of all logons shall be by either company employees or external users with company-approved user IDs.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-054",
+      "statement": "The system shall have the ability to display the last date and time the user logged onto the system at the time of logon.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-055",
+      "statement": "No invalid data shall be entered into the system.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-056",
+      "statement": "Customer will no longer be able to access the website.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-057",
+      "statement": "The system shall reveal private information only in compliance with the organization's information policy.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-058",
+      "statement": "ONLY users that exist in the UAS system with the RFS system assigned to their role(s) shall access the RFS system and use it.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-059",
+      "statement": "The Web-enabled portions of the application shall meet state-of-the-art Internet standards for graphics and design and for speed, reliability, and security for dynamic content and user interaction.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-060",
+      "statement": "The WCS system shall not allow automatic logins by any user.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-061",
+      "statement": "For e-prescribing and for CCHIT certification, EHR systems shall have the ability to support two-factor authentication.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-062",
+      "statement": "The system shall enable multiple simultaneous users, each with his or her own exclusive authentication.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Security",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-063",
+      "statement": "The product shall allow for customization of start page and views preferences.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-064",
+      "statement": "The system shall be intuitive to the Program Administrators/ Nursing Staff Members.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-065",
+      "statement": "The product shall be learned with two days onsite training",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-066",
+      "statement": "80% of the Collision Estimators shall agree their productivity has increase within 1 month of using the product.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-067",
+      "statement": "90% of new users are able to log into the system within 10 minutes.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-068",
+      "statement": "The product shall make the users want to use it.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-069",
+      "statement": "The product shall be available to players who understand English Spanish and French. The product shall allow the user to select the language upon accessing the product.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-070",
+      "statement": "90% of new users shall be able to start the display of Events or Activities within 90 minutes of using the product.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-071",
+      "statement": "The WCS system shall use appropriate nomenclature and terminology as defined by the Corporate Community Grants organization.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-072",
+      "statement": "95% of Adjusters and Collision Estimators shall find the product easy to use.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-073",
+      "statement": "The system shall be easy to use by the Program Administrators or Nursing Staff Members.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-074",
+      "statement": "One training session will be held for 100% of CCR users before system deployment (based on a CCR user being available)",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-075",
+      "statement": "100% of all selection and navigation functionality must be able to be activated or selected by either a mouse or a keyboard",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-076",
+      "statement": "The product shall be easy to learn by Adjusters and Collision Estimators. The product shall be learned with two days onsite training",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-077",
+      "statement": "All of the users shall be able to use the system after one day of training.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Usability",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-078",
+      "statement": "Recreation of C360Inventory Quantity Adjustment for the period of previous 30 days shall take no more than 30min.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-079",
+      "statement": "The Disputes application shall support 350 concurrent users without any degradation of performance in the application.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-080",
+      "statement": "The product shall provide Multi-threading and Load Balancing.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-081",
+      "statement": "System shall let administrator de-activate a customer account in under 1 minute. Customer will no longer be able to access the website.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-082",
+      "statement": "The audit report shall be returned within 10 seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-083",
+      "statement": "The search results shall be returned no later 30 seconds after the user has entered the search criteria",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-084",
+      "statement": "System shall let administrator add/remove movies on the website in under 5 minutes. Entered movie information will be stored in the database and will now be available on the website.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-085",
+      "statement": "The product shall have a maximum message processing time of 2 seconds",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-086",
+      "statement": "The recycled parts audit report shall be returned to the user within 10 seconds. The audit report shall be returned within 10 seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-087",
+      "statement": "The system shall cater to 10 simultaneous users from 9am to 5pm.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-088",
+      "statement": "The system shall be scalable and adaptable to meet future growth and expansion needs.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-089",
+      "statement": "The search for recycled parts shall take no longer than 15 seconds. The search results shall be returned in under 15 seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-090",
+      "statement": "On a 112k connection or faster the system response time for all operations must be no more than 3 seconds 90% of the time.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-091",
+      "statement": "The response time of the product interface should not exceed 2 seconds 90% of the time.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    },
+    {
+      "id": "REQ-092",
+      "statement": "System shall be able to handle all of the user requests or usage during business hours.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "general_software_external",
+      "source": "external:PROMISE-NFR (Cleland-Huang et al. 2007), via github.com/cbgithub7/NFR-Classification-ULMFiT",
+      "original_label": "Performance",
+      "verified": false,
+      "reviewer_notes": "Category pre-assigned by original PROMISE NFR expert annotation (Cleland-Huang et al. 2007) -- lighter review than fully synthetic items: mainly confirm it still reads naturally and the single category is sufficient for your finer-grained taxonomy."
+    }
+  ]
+}

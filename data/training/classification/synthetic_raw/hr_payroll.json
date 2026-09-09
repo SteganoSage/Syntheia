@@ -1,0 +1,397 @@
+{
+  "dataset": "day7_synthetic_hr_payroll",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'hr_payroll' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-206",
+      "statement": "The system shall allow an employee to submit a leave request specifying leave type, dates, and reason for approval by their reporting manager.",
+      "categories": [
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-207",
+      "statement": "The system shall calculate each employee's monthly net pay from gross salary, statutory deductions, and voluntary deductions.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-208",
+      "statement": "The system shall deduct income tax at source according to the employee's declared investment proofs and the applicable tax slabs.",
+      "categories": [
+        "Regulatory",
+        "Business",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-209",
+      "statement": "The system shall disburse salaries to employee bank accounts on the last working day of each month through a bank payment file.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Business"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-210",
+      "statement": "The system shall restrict access to employee salary and bank details to the payroll team and the individual employee.",
+      "categories": [
+        "Security",
+        "Privacy"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-211",
+      "statement": "The system shall obtain employee consent before sharing personal data with third-party benefits providers.",
+      "categories": [
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-212",
+      "statement": "The system shall generate year-end tax certificates and statutory filings for each employee at the close of the financial year.",
+      "categories": [
+        "Regulatory",
+        "Audit/Reporting",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-213",
+      "statement": "The system shall maintain an audit trail of every change to an employee's compensation, including who made the change and when.",
+      "categories": [
+        "Audit/Reporting",
+        "Security"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-214",
+      "statement": "The payroll system shall be available at least 99.5 percent of the time and shall not be unavailable during the monthly pay-run window.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-215",
+      "statement": "The system shall complete the monthly payroll calculation for fifty thousand employees within two hours.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-216",
+      "statement": "The system shall let an HR administrator configure leave policies, pay components, and approval workflows without developer involvement.",
+      "categories": [
+        "Stakeholder",
+        "Operational",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-217",
+      "statement": "The system shall import daily clock-in and clock-out records from the biometric attendance system.",
+      "categories": [
+        "Integration",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-218",
+      "statement": "The system shall prevent a manager from approving their own leave, expense, or reimbursement requests.",
+      "categories": [
+        "Security",
+        "Business"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-219",
+      "statement": "The system shall provide employees a self-service portal to view payslips, tax statements, and leave balances.",
+      "categories": [
+        "Usability",
+        "Stakeholder",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-220",
+      "statement": "The system shall retain payroll records for a minimum of eight years in accordance with statutory requirements.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-221",
+      "statement": "The system shall notify an employee and their manager when a leave request is submitted, approved, or rejected.",
+      "categories": [
+        "Functional",
+        "Stakeholder",
+        "Integration"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-222",
+      "statement": "The system shall calculate gratuity, provident fund, and other statutory contributions using the current legally mandated rates.",
+      "categories": [
+        "Regulatory",
+        "Business",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-223",
+      "statement": "The system shall allow the finance team to generate a payroll cost report broken down by department, location, and cost centre.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Business"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-224",
+      "statement": "The system shall recover from a data-centre failure within a recovery time objective of four hours with no loss of approved payroll data.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-225",
+      "statement": "The system shall mask employee bank account and national identification numbers on all reports except those explicitly authorised for payroll processing.",
+      "categories": [
+        "Privacy",
+        "Security"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-226",
+      "statement": "The system shall run a nightly job to accrue leave balances and shall alert operations if the job does not finish by 6 AM.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-227",
+      "statement": "The system shall let an employee raise a payroll query and track its resolution through a ticketing workflow.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-228",
+      "statement": "The system shall onboard a new employee, including their profile, pay structure, and statutory registrations, within one working day.",
+      "categories": [
+        "Functional",
+        "Operational"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-229",
+      "statement": "The system shall validate that total deductions never exceed gross pay for any employee in any pay period.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-230",
+      "statement": "The system shall provide auditors read-only access to historical payroll runs and their supporting calculations.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Security"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-231",
+      "statement": "The system shall localise payslip layout, currency, and statutory fields for each country in which the company operates.",
+      "categories": [
+        "Usability",
+        "Regulatory"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-232",
+      "statement": "The system shall encrypt all employee personal and financial data at rest and in transit.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-233",
+      "statement": "The system shall reconcile the salary payment file against the bank's confirmation file and flag any failed credits for reprocessing.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Audit/Reporting"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-234",
+      "statement": "The system shall allow employees to update tax-saving investment declarations only within the declaration window defined by the finance team.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Stakeholder"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-235",
+      "statement": "The system shall archive payslips older than seven years to cold storage while keeping them retrievable within forty-eight hours on request.",
+      "categories": [
+        "Data-management"
+      ],
+      "domain": "hr_payroll",
+      "source": "synthetic:claude-authored-hr_payroll",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

@@ -50,6 +50,7 @@ models/experiments/wandb/
 
 # Vector Stores & Cache
 data/vector_store/chroma/
+data/training/classification/bert_dataset/
 *.sqlite3
 
 # OS Specific

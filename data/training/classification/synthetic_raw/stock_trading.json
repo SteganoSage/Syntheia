@@ -1,0 +1,392 @@
+{
+  "dataset": "day7_synthetic_stock_trading",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'stock_trading' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-146",
+      "statement": "The system shall allow a retail investor to place market, limit, and stop-loss orders for listed equities during market hours.",
+      "categories": [
+        "Functional"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-147",
+      "statement": "The system shall reject a buy order when the client's available funds cannot cover the order value plus applicable brokerage and taxes.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-148",
+      "statement": "The system shall route every client order to the exchange within fifty milliseconds of receipt under normal load.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-149",
+      "statement": "The system shall sustain at least twenty thousand order messages per second during market open without degrading matching latency.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-150",
+      "statement": "The system shall authenticate each trading session with two-factor authentication and terminate idle sessions after fifteen minutes.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-151",
+      "statement": "The system shall maintain a complete, time-sequenced audit trail of every order, modification, cancellation, and trade for a minimum of eight years.",
+      "categories": [
+        "Audit/Reporting",
+        "Regulatory",
+        "Data-management"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-152",
+      "statement": "The system shall enforce exchange-mandated price bands and reject orders priced outside the permitted daily range for a security.",
+      "categories": [
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-153",
+      "statement": "The system shall calculate and display the client's real-time margin requirement and available margin before an order is confirmed.",
+      "categories": [
+        "Functional",
+        "Business"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-154",
+      "statement": "The trading platform shall be available with 99.99 percent uptime during market hours, measured monthly.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-155",
+      "statement": "The system shall fail over to a hot standby matching engine within thirty seconds of a primary failure with no loss of accepted orders.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-156",
+      "statement": "The system shall verify with the depository that a client holds sufficient shares in their demat account before accepting a sell order.",
+      "categories": [
+        "Integration",
+        "Functional"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-157",
+      "statement": "The system shall block trading in a client account that the compliance team has flagged for suspected market manipulation.",
+      "categories": [
+        "Stakeholder",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-158",
+      "statement": "The system shall generate a daily contract note for each client summarising all trades executed, charges levied, and net obligations.",
+      "categories": [
+        "Audit/Reporting",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-159",
+      "statement": "The system shall let a dealer place orders on behalf of a client only after recording the client's telephonic or written authorisation.",
+      "categories": [
+        "Stakeholder",
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-160",
+      "statement": "The system shall stream live market data with an end-to-end latency of no more than one hundred milliseconds from exchange feed to client screen.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-161",
+      "statement": "The system shall obtain client consent before sharing portfolio holdings with a third-party research or advisory provider.",
+      "categories": [
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-162",
+      "statement": "The system shall provide a simplified one-tap order ticket for new investors, with plain-language explanations of each order type.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-163",
+      "statement": "The system shall halt all trading on the platform when the exchange declares a market-wide circuit-breaker halt.",
+      "categories": [
+        "Regulatory",
+        "Functional",
+        "Integration"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-164",
+      "statement": "The system shall reconcile executed trades against exchange trade files at end of day and report any breaks to the operations team.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Audit/Reporting"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-165",
+      "statement": "The system shall allow the risk team to set and adjust per-client and per-symbol exposure limits without a code release.",
+      "categories": [
+        "Stakeholder",
+        "Business",
+        "Operational"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-166",
+      "statement": "The system shall retain tick-level market data for three years for surveillance and back-testing purposes.",
+      "categories": [
+        "Data-management"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-167",
+      "statement": "The system shall notify the client within two seconds of an order being executed, rejected, or expired.",
+      "categories": [
+        "Functional",
+        "Performance"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-168",
+      "statement": "The system shall encrypt all client credentials, bank details, and holdings data at rest and in transit.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-169",
+      "statement": "The system shall detect and flag wash trades in which the same beneficial owner is on both sides of a transaction.",
+      "categories": [
+        "Security",
+        "Regulatory",
+        "Business"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-170",
+      "statement": "The system shall let a client download a capital-gains statement for any financial year in a format accepted for income-tax filing.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Regulatory"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-171",
+      "statement": "The system shall provide the surveillance team a dashboard of unusual trading patterns refreshed at least every five minutes.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Operational"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-172",
+      "statement": "The system shall complete disaster recovery to an alternate site within a recovery time objective of one hour and a recovery point objective of zero for confirmed trades.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-173",
+      "statement": "The system shall restrict client trading data so that a dealer can view only the accounts explicitly assigned to them.",
+      "categories": [
+        "Security",
+        "Privacy"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-174",
+      "statement": "The system shall schedule maintenance only outside market hours and publish the maintenance window to clients at least twenty-four hours in advance.",
+      "categories": [
+        "Availability",
+        "Operational",
+        "Stakeholder"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-175",
+      "statement": "The system shall charge brokerage according to the client's subscribed plan and show the exact charge breakup on every contract note.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "stock_trading",
+      "source": "synthetic:claude-authored-stock_trading",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

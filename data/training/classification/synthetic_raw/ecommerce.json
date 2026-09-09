@@ -1,0 +1,389 @@
+{
+  "dataset": "day7_synthetic_ecommerce",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'ecommerce' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-266",
+      "statement": "The system shall allow a shopper to search the product catalogue by keyword, category, brand, and price range.",
+      "categories": [
+        "Functional",
+        "Usability"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-267",
+      "statement": "The system shall display real-time stock availability for each product on its detail page.",
+      "categories": [
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-268",
+      "statement": "The system shall reserve inventory for items in a shopper's cart for fifteen minutes during checkout.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-269",
+      "statement": "The system shall process a completed checkout and confirm the order to the shopper within three seconds.",
+      "categories": [
+        "Performance",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-270",
+      "statement": "The system shall support at least ten thousand concurrent shoppers during flash sales without page response times exceeding two seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-271",
+      "statement": "The storefront shall maintain 99.95 percent availability, measured monthly, excluding pre-announced maintenance.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-272",
+      "statement": "The system shall degrade gracefully to a browse-and-cart-only mode when the payment service is unavailable, queuing orders for later processing.",
+      "categories": [
+        "Availability",
+        "Functional",
+        "Operational"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-273",
+      "statement": "The system shall integrate with multiple payment providers and route each transaction to the provider with the lowest cost for that payment method.",
+      "categories": [
+        "Integration",
+        "Business"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-274",
+      "statement": "The system shall calculate order totals including item price, applicable taxes, shipping charges, and discounts.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-275",
+      "statement": "The system shall let a merchandising manager schedule promotional pricing and banners to activate and expire at defined times.",
+      "categories": [
+        "Stakeholder",
+        "Business",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-276",
+      "statement": "The system shall store shopper passwords only as salted cryptographic hashes and never in a reversible form.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-277",
+      "statement": "The system shall obtain consent before placing non-essential cookies or using shopper behaviour for personalised advertising.",
+      "categories": [
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-278",
+      "statement": "The system shall let a shopper request export or deletion of their personal data and fulfil the request within the statutory period.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-279",
+      "statement": "The system shall maintain an audit trail of all price and inventory changes, recording the user and the timestamp.",
+      "categories": [
+        "Audit/Reporting"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-280",
+      "statement": "The system shall score each order on device, address, and velocity signals to detect fraudulent orders before fulfilment.",
+      "categories": [
+        "Security",
+        "Business"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-281",
+      "statement": "The system shall notify the shopper by email and push notification at order confirmation, dispatch, and delivery.",
+      "categories": [
+        "Functional",
+        "Integration",
+        "Stakeholder"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-282",
+      "statement": "The system shall integrate with courier partners' APIs to generate shipping labels and retrieve tracking updates.",
+      "categories": [
+        "Integration",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-283",
+      "statement": "The system shall allow a customer support agent to view a shopper's order history and issue refunds or replacements within policy limits.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Business"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-284",
+      "statement": "The system shall retain order and invoice records for the period required by tax law and make them available for audit.",
+      "categories": [
+        "Data-management",
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-285",
+      "statement": "The system shall provide the operations team a dashboard of order volume, fulfilment SLAs, and payment-failure rates updated every minute.",
+      "categories": [
+        "Operational",
+        "Audit/Reporting",
+        "Stakeholder"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-286",
+      "statement": "The system shall let a shopper check out as a guest without creating an account.",
+      "categories": [
+        "Usability",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-287",
+      "statement": "The system shall recover the storefront and order data to an alternate region within a recovery time objective of twenty minutes and a recovery point objective of one minute.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-288",
+      "statement": "The system shall apply a coupon only if the order meets the coupon's eligibility rules and shall prevent a single-use coupon from being redeemed twice.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-289",
+      "statement": "The system shall present the storefront in the shopper's preferred language and currency based on their profile or location.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-290",
+      "statement": "The system shall alert the on-call team within five minutes if the checkout success rate falls below ninety-five percent over a ten-minute window.",
+      "categories": [
+        "Operational"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-291",
+      "statement": "The system shall reconcile payment gateway settlements against recorded orders daily and flag mismatches to finance.",
+      "categories": [
+        "Operational",
+        "Integration",
+        "Audit/Reporting"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-292",
+      "statement": "The system shall rate-limit login attempts and require a CAPTCHA after five failed attempts from the same source.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-293",
+      "statement": "The system shall let a marketplace seller upload products, manage stock, and view payouts through a seller portal.",
+      "categories": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-294",
+      "statement": "The system shall encrypt shopper personal and payment data in transit and at rest.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-295",
+      "statement": "The system shall archive orders older than three years to lower-cost storage while keeping them retrievable within twenty-four hours.",
+      "categories": [
+        "Data-management"
+      ],
+      "domain": "ecommerce",
+      "source": "synthetic:claude-authored-ecommerce",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}

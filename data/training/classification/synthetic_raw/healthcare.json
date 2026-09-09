@@ -1,0 +1,400 @@
+{
+  "dataset": "day7_synthetic_healthcare",
+  "purpose": "Hand-authored (Claude, not Gemini) multi-label requirements for the 'healthcare' domain, to teach the BERT classifier category semantics outside BFSI vocabulary. Every item is UNVERIFIED and needs a human label pass before it enters permanent training data.",
+  "status": "UNVERIFIED_CANDIDATE_SET",
+  "categories_taxonomy": [
+    "Business",
+    "Stakeholder",
+    "Functional",
+    "Security",
+    "Privacy",
+    "Regulatory",
+    "Performance",
+    "Availability",
+    "Usability",
+    "Data-management",
+    "Integration",
+    "Audit/Reporting",
+    "Operational"
+  ],
+  "instructions_for_reviewers": [
+    "Confirm each 'categories' list against your project's 13-category definitions; add/remove labels.",
+    "Watch for over-labelling with 'Functional' -- keep it only where the system performs a concrete action.",
+    "'Regulatory' = a legal/standard mandate; 'Security' = protection mechanism. Don't conflate.",
+    "Single-label items are fine. Flip 'verified' to true only after a human check."
+  ],
+  "requirements": [
+    {
+      "id": "REQ-236",
+      "statement": "The system shall allow a patient to book, reschedule, or cancel an appointment with a physician through a web or mobile interface.",
+      "categories": [
+        "Functional",
+        "Usability"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-237",
+      "statement": "The system shall verify a patient's insurance eligibility with the payer before confirming a scheduled procedure.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Business"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-238",
+      "statement": "The system shall restrict access to a patient's medical record to clinicians involved in that patient's care.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-239",
+      "statement": "The system shall obtain and record the patient's informed consent before any procedure and before sharing records with another provider.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Audit/Reporting"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-240",
+      "statement": "The system shall keep an audit log of every access to a patient record, including the user, the time, and the records viewed.",
+      "categories": [
+        "Audit/Reporting",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-241",
+      "statement": "The system shall encrypt all protected health information at rest and in transit in line with applicable health-data regulations.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-242",
+      "statement": "The electronic health record system shall be available twenty-four hours a day, seven days a week, with unplanned downtime under fifteen minutes per month.",
+      "categories": [
+        "Availability"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-243",
+      "statement": "The system shall fail over to a standby site within ten minutes so that clinicians keep access to records during an outage.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-244",
+      "statement": "The system shall retrieve and display a patient's complete medication history within three seconds of the record being opened.",
+      "categories": [
+        "Performance",
+        "Functional"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-245",
+      "statement": "The system shall alert the prescribing clinician when a new prescription conflicts with the patient's recorded allergies or current medications.",
+      "categories": [
+        "Functional",
+        "Security"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-246",
+      "statement": "The system shall import laboratory test results from the laboratory information system and attach them to the correct patient record.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Data-management"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-247",
+      "statement": "The system shall let a patient view their lab results, visit summaries, and prescriptions through a patient portal.",
+      "categories": [
+        "Functional",
+        "Usability",
+        "Stakeholder"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-248",
+      "statement": "The system shall retain patient medical records for the minimum period required by law and prevent their deletion before that period expires.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-249",
+      "statement": "The system shall allow a hospital administrator to configure appointment types, durations, and clinician availability without IT support.",
+      "categories": [
+        "Stakeholder",
+        "Operational",
+        "Functional"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-250",
+      "statement": "The system shall generate the statutory disease-notification report and submit it to the public health authority within the mandated time.",
+      "categories": [
+        "Regulatory",
+        "Audit/Reporting",
+        "Integration"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-251",
+      "statement": "The system shall support at least two thousand concurrent clinical users during peak outpatient hours without response times exceeding two seconds.",
+      "categories": [
+        "Performance"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-252",
+      "statement": "The system shall let a patient request a correction to their demographic or clinical information and route it to the records team for review.",
+      "categories": [
+        "Privacy",
+        "Stakeholder",
+        "Functional"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-253",
+      "statement": "The system shall de-identify patient data before releasing it to the analytics environment for research and reporting.",
+      "categories": [
+        "Privacy",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-254",
+      "statement": "The system shall notify the on-call support team within five minutes if the interface engine stops processing inbound HL7 messages.",
+      "categories": [
+        "Operational",
+        "Integration"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-255",
+      "statement": "The system shall provide clinical staff a role-based dashboard summarising their patients' pending results, orders, and tasks.",
+      "categories": [
+        "Stakeholder",
+        "Usability",
+        "Functional"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-256",
+      "statement": "The system shall recover clinical systems within a recovery time objective of one hour and a recovery point objective of five minutes after a declared disaster.",
+      "categories": [
+        "Availability",
+        "Operational"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-257",
+      "statement": "The system shall require multi-factor authentication for any access to the electronic health record from outside the hospital network.",
+      "categories": [
+        "Security"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-258",
+      "statement": "The system shall bill the patient and the insurer for the correct co-payment and covered amount according to the plan's coverage rules.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-259",
+      "statement": "The system shall keep an immutable record of every amendment to a clinical note, retaining the original text and the change history.",
+      "categories": [
+        "Audit/Reporting",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-260",
+      "statement": "The system shall let authorised public health researchers query aggregate, non-identifiable statistics without access to individual records.",
+      "categories": [
+        "Privacy",
+        "Stakeholder",
+        "Security"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-261",
+      "statement": "The system shall take backups of the clinical database every hour and verify the integrity of each backup.",
+      "categories": [
+        "Data-management",
+        "Operational"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-262",
+      "statement": "The system shall present drug names, dosages, and instructions in language a patient can understand on the printed discharge summary.",
+      "categories": [
+        "Usability"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-263",
+      "statement": "The system shall reconcile admitted-patient counts between the registration and billing modules each night and report discrepancies.",
+      "categories": [
+        "Operational",
+        "Audit/Reporting"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-264",
+      "statement": "The system shall allow emergency break-glass access to a record by a treating clinician, with mandatory reason capture and immediate notification to the privacy officer.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Audit/Reporting"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    },
+    {
+      "id": "REQ-265",
+      "statement": "The system shall schedule downtime for upgrades only during a pre-announced low-activity window and provide clinical staff a documented downtime procedure.",
+      "categories": [
+        "Availability",
+        "Operational",
+        "Stakeholder"
+      ],
+      "domain": "healthcare",
+      "source": "synthetic:claude-authored-healthcare",
+      "verified": false,
+      "reviewer_notes": ""
+    }
+  ]
+}
