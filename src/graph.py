@@ -1,15 +1,26 @@
 """LangGraph pipeline wiring for Phase 1.
 
-Pipeline: Extraction → Classification → Quality → END
+Pipeline: Extraction (LLM) → Classification (fine-tuned) → Quality (LLM) → END
 
-Run `python -m src.graph` for a quick end-to-end demo.
+Classification is the one node not backed by the LLM API. It runs the
+fine-tuned RoBERTa/BERT multi-label classifier from models/, which scores 80.2%
+micro-F1 on the held-out ground truth against few-shot Gemini's 84.0%, at
+roughly 1,450x lower latency. That trade is what makes the node practical:
+classification runs per requirement, and 30 s each does not scale.
+
+If no trained model is present the node falls back to the few-shot LLM
+baseline, so the pipeline still runs on a fresh checkout.
+
+Run `python -m src.graph` for a quick end-to-end demo, or
+`python -m src.graph --classifier few_shot` to compare against the baseline.
 """
 
+import argparse
 from typing import TypedDict
 
 from langgraph.graph import END, StateGraph
 
-from src.agents.classification import classify_requirements
+from src.agents.classification import classify_requirements, resolve_model_dir
 from src.agents.extraction import extract_requirements
 from src.agents.quality import analyse_requirements
 from src.models.quality import QualityReport
@@ -20,6 +31,7 @@ class PipelineState(TypedDict):
     text: str
     requirements: list[Requirement]
     quality_report: QualityReport | None
+    classifier: str          # "auto" | "bert" | "few_shot" | "zero_shot"
 
 
 def extraction_node(state: PipelineState) -> dict:
@@ -28,7 +40,8 @@ def extraction_node(state: PipelineState) -> dict:
 
 
 def classification_node(state: PipelineState) -> dict:
-    return {"requirements": classify_requirements(state["requirements"])}
+    method = state.get("classifier") or "auto"
+    return {"requirements": classify_requirements(state["requirements"], method=method)}
 
 
 def quality_node(state: PipelineState) -> dict:
@@ -51,15 +64,34 @@ def build_pipeline():
 if __name__ == "__main__":
     from pathlib import Path
 
-    SAMPLE_SCENARIO = Path(
-        "data/test_cases/loan_processing/scenario_01.txt"
-    ).read_text().strip()
+    parser = argparse.ArgumentParser(description="Run the Phase 1 pipeline.")
+    parser.add_argument(
+        "--classifier", default="auto",
+        choices=["auto", "bert", "few_shot", "zero_shot"],
+        help="auto uses the fine-tuned model when one is trained, else few-shot",
+    )
+    parser.add_argument(
+        "--scenario", type=Path,
+        default=Path("data/test_cases/loan_processing/scenario_01.txt"),
+    )
+    args = parser.parse_args()
+
+    SAMPLE_SCENARIO = args.scenario.read_text().strip()
+
+    model_dir = resolve_model_dir()
+    if args.classifier in ("auto", "bert") and model_dir:
+        print(f"Classifier: fine-tuned ({model_dir.name})")
+    elif args.classifier in ("auto", "bert"):
+        print("Classifier: no trained model found, falling back to few-shot LLM")
+    else:
+        print(f"Classifier: {args.classifier} LLM baseline")
 
     pipeline = build_pipeline()
     final_state = pipeline.invoke({
         "text": SAMPLE_SCENARIO,
         "requirements": [],
         "quality_report": None,
+        "classifier": args.classifier,
     })
 
     # ── Print requirements ──
