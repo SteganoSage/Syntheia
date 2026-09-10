@@ -31,6 +31,14 @@ REPO = Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from dotenv import load_dotenv
+
+# Loads HF_TOKEN so model downloads are authenticated. Without it every pull
+# from the Hub is anonymous and subject to a much lower rate limit -- which is
+# how `--model roberta-base` failed with a network error while cached models
+# kept working.
+load_dotenv()
+
 import numpy as np
 import torch
 from datasets import load_from_disk
@@ -44,19 +52,38 @@ from transformers import (
     set_seed,
 )
 
-from src.models.bert_classifier import (
-    BertForMultiLabel,
+from src.models.multilabel import (
+    build_model,
     compute_pos_weight,
     logits_to_multihot,
     save_threshold,
 )
 
 DATASET_DIR = REPO / "data/training/classification/bert_dataset"
-DEFAULT_OUTPUT_DIR = REPO / "models/bert_classifier"
-CHECKPOINT_DIR = REPO / "models/experiments/bert_run"
-SUMMARY_PATH = REPO / "evaluation/results/day9_bert_training.json"
+
+# Every output path is keyed off the architecture (config.model_type), so a
+# roberta run cannot overwrite the bert model. It previously could, and did:
+# a broken roberta run clobbered a working 78.0% bert checkpoint.
+MODELS_DIR = REPO / "models"
+EXPERIMENTS_DIR = REPO / "models/experiments"
+RESULTS_DIR = REPO / "evaluation/results"
+
+
+def output_dir_for(model_type: str) -> Path:
+    """models/bert_classifier, models/roberta_classifier, ..."""
+    return MODELS_DIR / f"{model_type}_classifier"
+
+
+def checkpoint_dir_for(model_type: str) -> Path:
+    return EXPERIMENTS_DIR / f"{model_type}_run"
+
+
+def summary_path_for(model_type: str) -> Path:
+    return RESULTS_DIR / f"day9_{model_type}_training.json"
 
 FEW_SHOT_BASELINE_MICRO_F1 = 0.8402  # evaluation/results/day5_classification_baseline.json
+
+POS_WEIGHT_MAX_DEFAULT = 3.0
 
 # Thresholds swept after training to pick the decision cut-off. 0.50 is in the
 # grid, so calibration can never do worse than the default.
@@ -95,13 +122,15 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--pos-weight", action="store_true",
                    help="weight positive examples by category rarity (helps recall on rare labels)")
-    p.add_argument("--pos-weight-max", type=float, default=3.0,
+    p.add_argument("--pos-weight-max", type=float, default=POS_WEIGHT_MAX_DEFAULT,
                    help="clamp on the rarity weighting; higher favours recall, lower favours "
                         "precision. 10.0 reproduces the over-predicting Day 11 run, 1.0 is "
                         "equivalent to no weighting at all. Only used with --pos-weight")
     p.add_argument("--threshold", type=float, default=None,
                    help="fix the decision threshold instead of calibrating it on validation")
-    p.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
+    p.add_argument("--output-dir", type=Path, default=None,
+                   help="defaults to models/<model_type>_classifier, e.g. "
+                        "models/roberta_classifier for roberta-base")
     p.add_argument("--wandb", action="store_true", help="log the run to Weights & Biases")
     p.add_argument("--cpu", action="store_true", help="force CPU training")
     return p.parse_args()
@@ -234,6 +263,13 @@ def main() -> None:
     args = parse_args()
     set_seed(args.seed)
 
+    # --pos-weight-max on its own used to be a silent no-op: the clamp is only
+    # read when the weighting is switched on. Treat it as intent to enable.
+    if not args.pos_weight and args.pos_weight_max != POS_WEIGHT_MAX_DEFAULT:
+        print(f"--pos-weight-max {args.pos_weight_max:g} given without --pos-weight; "
+              f"enabling the weighting")
+        args.pos_weight = True
+
     use_gpu = torch.cuda.is_available() and not args.cpu
     print(f"Device: {'cuda — ' + torch.cuda.get_device_name(0) if use_gpu else 'cpu'}")
 
@@ -258,17 +294,25 @@ def main() -> None:
         classifier_dropout=args.dropout,
     )
 
+    model_type = config.model_type
+    out_dir = args.output_dir or output_dir_for(model_type)
+    checkpoint_dir = checkpoint_dir_for(model_type)
+    summary_path = summary_path_for(model_type)
+    print(f"Architecture: {model_type}  ->  {show(out_dir)}")
+
     pos_weight = None
     if args.pos_weight:
         pos_weight = compute_pos_weight(ds["train"]["labels"], max_weight=args.pos_weight_max)
         print(f"pos_weight (clamped at {args.pos_weight_max:g}x): "
               + ", ".join(f"{c}={w:.1f}" for c, w in zip(categories, pos_weight.tolist())))
 
-    model = BertForMultiLabel.from_pretrained(args.model, config=config)
-    model.set_pos_weight(pos_weight)  # after load -- see set_pos_weight() docstring
+    # build_model dispatches on config.model_type and refuses an architecture
+    # it has no class for, so --model roberta-base cannot silently train a
+    # randomly initialised encoder the way it did before the registry existed.
+    model = build_model(args.model, config, pos_weight=pos_weight)
 
     training_args = TrainingArguments(
-        output_dir=str(CHECKPOINT_DIR),
+        output_dir=str(checkpoint_dir),
         num_train_epochs=args.epochs,
         per_device_train_batch_size=args.batch_size,
         per_device_eval_batch_size=args.batch_size * 2,
@@ -347,7 +391,6 @@ def main() -> None:
               f"{row['precision']:>8.2f}{row['recall']:>8.2f}{row['f1']:>8.2f}")
 
     # ── Save ───────────────────────────────────────────────────────────
-    out_dir = args.output_dir
     out_dir.mkdir(parents=True, exist_ok=True)
     trainer.save_model(str(out_dir))
     tokenizer.save_pretrained(str(out_dir))
@@ -364,6 +407,7 @@ def main() -> None:
 
     summary = {
         "base_model": args.model,
+        "model_type": model_type,
         "dataset": show(DATASET_DIR),
         "train_examples": len(ds["train"]),
         "validation_examples": len(ds["validation"]),
@@ -388,9 +432,9 @@ def main() -> None:
         "per_category": categories_report,
         "log_history": trainer.state.log_history,
     }
-    SUMMARY_PATH.parent.mkdir(parents=True, exist_ok=True)
-    SUMMARY_PATH.write_text(json.dumps(summary, indent=2) + "\n")
-    print(f"  Run summary saved to {show(SUMMARY_PATH)}")
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    summary_path.write_text(json.dumps(summary, indent=2) + "\n")
+    print(f"  Run summary saved to {show(summary_path)}")
 
     # ── Verdict ────────────────────────────────────────────────────────
     delta = final_scores["f1_micro"] - FEW_SHOT_BASELINE_MICRO_F1
@@ -405,7 +449,7 @@ def main() -> None:
         print("    --pos-weight --pos-weight-max 3   lift recall on rare categories")
         print("    --dropout 0.3      if train loss << val loss (overfitting)")
         print("    --model roberta-base")
-    print("\n  Next: python -m notebooks.06_evaluate_bert  "
+    print(f"\n  Next: python -m notebooks.06_evaluate_bert --model-dir {show(out_dir)}  "
           "(scores the held-out ground_truth.json vs the Day 5 baselines)")
 
 

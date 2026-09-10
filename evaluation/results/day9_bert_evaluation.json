@@ -1,4 +1,5 @@
 {
+  "model_type": "bert",
   "model_dir": "models/bert_classifier",
   "ground_truth_file": "data/training/classification/ground_truth.json",
   "total_requirements": 32,
@@ -13,15 +14,15 @@
   },
   "latency": {
     "sequential": {
-      "mean_ms": 20.57,
-      "median_ms": 17.38,
-      "p95_ms": 34.91,
-      "max_ms": 36.45,
+      "mean_ms": 19.08,
+      "median_ms": 17.08,
+      "p95_ms": 29.22,
+      "max_ms": 35.74,
       "samples": 96
     },
     "batched": {
-      "total_ms": 108.69,
-      "per_requirement_ms": 3.4,
+      "total_ms": 110.02,
+      "per_requirement_ms": 3.44,
       "batch_size": 32
     }
   },

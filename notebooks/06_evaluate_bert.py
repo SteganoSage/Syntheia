@@ -31,17 +31,30 @@ REPO = Path(__file__).resolve().parents[1]
 if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
+from dotenv import load_dotenv
+
+# Loads HF_TOKEN so model downloads are authenticated. Without it every pull
+# from the Hub is anonymous and subject to a much lower rate limit -- which is
+# how `--model roberta-base` failed with a network error while cached models
+# kept working.
+load_dotenv()
+
 import numpy as np
 import torch
 from sklearn.metrics import f1_score, precision_score, recall_score
 from sklearn.preprocessing import MultiLabelBinarizer
 
-from src.models.bert_classifier import MultiLabelClassifier
+from src.models.multilabel import MultiLabelClassifier
 
-MODEL_DIR = REPO / "models/bert_classifier"
+DEFAULT_MODEL_DIR = REPO / "models/bert_classifier"
 GT_PATH = REPO / "data/training/classification/ground_truth.json"
 BASELINE_PATH = REPO / "evaluation/results/day5_classification_baseline.json"
-OUT_PATH = REPO / "evaluation/results/day9_bert_evaluation.json"
+RESULTS_DIR = REPO / "evaluation/results"
+
+
+def out_path_for(model_type: str) -> Path:
+    """One results file per architecture, so runs do not overwrite each other."""
+    return RESULTS_DIR / f"day9_{model_type}_evaluation.json"
 
 TARGET_MICRO_F1 = 0.8402   # Day 5 few-shot Gemini
 TARGET_LATENCY_MS = 100.0
@@ -49,7 +62,10 @@ TARGET_LATENCY_MS = 100.0
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("--model-dir", type=Path, default=MODEL_DIR)
+    p.add_argument("--model-dir", type=Path, default=DEFAULT_MODEL_DIR,
+                   help="a trained model directory, e.g. models/roberta_classifier")
+    p.add_argument("--compare", action="store_true",
+                   help="also table every other day9_*_evaluation.json on disk")
     p.add_argument("--threshold", type=float, default=None,
                    help="override the threshold saved by training")
     p.add_argument("--batch-size", type=int, default=32)
@@ -159,7 +175,10 @@ def main() -> None:
     )
     categories = clf.categories
 
-    print(f"Model      {args.model_dir.name}  ({clf.device})")
+    model_type = clf.model.config.model_type
+    out_path = out_path_for(model_type)
+
+    print(f"Model      {args.model_dir.name}  [{model_type}]  ({clf.device})")
     print(f"Threshold  {clf.threshold}"
           f"{' (overridden)' if args.threshold is not None else ' (from training)'}")
     print(f"Eval set   {len(gt)} held-out requirements from {GT_PATH.name}\n")
@@ -198,7 +217,7 @@ def main() -> None:
         print(f"  {name:<22}{b['micro_f1']:>9.1%}{b['macro_f1']:>10.1%}"
               f"{b['exact_match_rate']:>13.1%}{b['avg_latency_seconds']:>12.2f}s")
 
-    print(f"  {'BERT (fine-tuned)':<22}{scores['micro_f1']:>9.1%}{scores['macro_f1']:>10.1%}"
+    print(f"  {model_type.upper() + ' (fine-tuned)':<22}{scores['micro_f1']:>9.1%}{scores['macro_f1']:>10.1%}"
           f"{scores['exact_match_rate']:>13.1%}{seq['mean_ms']:>11.1f}ms")
 
     fs = baselines.get("few_shot")
@@ -260,6 +279,7 @@ def main() -> None:
 
     # ── Save ───────────────────────────────────────────────────────────
     payload = {
+        "model_type": model_type,
         "model_dir": str(args.model_dir.relative_to(REPO))
         if args.model_dir.is_relative_to(REPO) else str(args.model_dir),
         "ground_truth_file": str(GT_PATH.relative_to(REPO)),
@@ -282,9 +302,28 @@ def main() -> None:
             for i in range(len(gt))
         ],
     }
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUT_PATH.write_text(json.dumps(payload, indent=2) + "\n")
-    print(f"\n  Saved to {OUT_PATH.relative_to(REPO)}")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(payload, indent=2) + "\n")
+    print(f"\n  Saved to {out_path.relative_to(REPO)}")
+
+    # ── Cross-model comparison ─────────────────────────────────────────
+    if args.compare:
+        others = sorted(RESULTS_DIR.glob("day9_*_evaluation.json"))
+        if len(others) > 1:
+            print(f"\n{'=' * 74}")
+            print("  FINE-TUNED MODELS SIDE BY SIDE")
+            print(f"{'=' * 74}")
+            print(f"  {'model_type':<16}{'Micro F1':>10}{'Macro F1':>10}"
+                  f"{'Exact Match':>13}{'Latency/req':>14}")
+            print(f"  {'-' * 63}")
+            for path in others:
+                doc = json.loads(path.read_text())
+                b = doc.get("bert", {})
+                lat = doc.get("latency", {}).get("sequential", {}).get("mean_ms")
+                print(f"  {doc.get('model_type', path.stem):<16}"
+                      f"{b.get('micro_f1', 0):>9.1%}{b.get('macro_f1', 0):>10.1%}"
+                      f"{b.get('exact_match_rate', 0):>13.1%}"
+                      f"{(lat if lat else 0):>11.1f}ms")
 
     # ── Definition of Done ─────────────────────────────────────────────
     f1_ok = scores["micro_f1"] > TARGET_MICRO_F1
