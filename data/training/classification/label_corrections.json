@@ -1,0 +1,59 @@
+{
+  "purpose": "Explicit, reviewable label corrections applied by build_training_set.py after merging the source files. Source files stay as originally authored; every deviation from them is recorded here with a reason so it can be audited or reverted individually.",
+  "status": "UNVERIFIED -- needs a human pass. Each entry is a judgement call, not a fact.",
+  "regulatory_rule": {
+    "statement": "Apply Regulatory when an external legal or regulatory mandate is the reason the requirement exists -- not merely because the data or the domain is regulated.",
+    "derived_from": "The convention actually used in ground_truth.json, which is the held-out eval set and therefore defines the target. It was inferred, not documented, so it is an interpretation.",
+    "applies": [
+      "KYC / AML identity duties (eKYC, V-CIP, Aadhaar verification, PEP and sanctions screening)",
+      "statutory retention or purging periods",
+      "regulator-facing reporting (CTR, STR, compliance returns, ombudsman escalation)",
+      "a named external standard dictating the control (PCI-DSS TLS levels, RBI Key Fact Statement, SEBI circuit breakers, WCAG where legally mandated)",
+      "mandated disclosures to the customer (total cost of credit, fee and interest terms)"
+    ],
+    "does_not_apply": [
+      "integrating with regulated national payment infrastructure where the requirement is the plumbing itself -- ground_truth REQ-030 integrates with the NPCI UPI switch and is NOT Regulatory, while REQ-022 integrates with UIDAI Aadhaar for identity verification and IS",
+      "general security controls with no named mandate -- ground_truth REQ-008 encrypts PII at rest with AES-256 and is NOT Regulatory, while REQ-029 mandates TLS 1.2+ for payment data (a PCI-DSS level) and IS",
+      "internal access logging -- ground_truth REQ-020 logs KYC document access and is NOT Regulatory, while REQ-028 requires an immutable payment audit trail and IS",
+      "performance, availability, and operational limits, even on a regulated rail"
+    ],
+    "known_tension": "The REQ-008 / REQ-029 and REQ-020 / REQ-028 pairs in ground_truth.json are hard to separate on the text alone. The rule above is the best fit to that eval set, but the boundary is genuinely blurry and is a ceiling on how well any model can score this category."
+  },
+  "corrections": [
+    {
+      "id": "FIN-003",
+      "remove": ["Regulatory"],
+      "reason": "EPFO integration is fetching employment data for underwriting. The data source is government-run, but no mandate requires this check -- parallels ground_truth REQ-003 (fetch CIBIL scores), which is not Regulatory."
+    },
+    {
+      "id": "FIN-012",
+      "remove": ["Regulatory"],
+      "reason": "Supporting RTGS transfers is payment-rail plumbing with a settlement-time characteristic. RBI operates RTGS, but the requirement is functional/performance -- parallels ground_truth REQ-030 (NPCI UPI switch integration), which is not Regulatory."
+    },
+    {
+      "id": "FIN-018",
+      "remove": ["Regulatory"],
+      "reason": "Multi-currency accounts and live forex conversion. FEMA governs the domain, but the statement describes a product feature, not a compliance duty."
+    },
+    {
+      "id": "FIN-046",
+      "remove": ["Regulatory"],
+      "reason": "Routing mutual fund orders via BSE StAR MF / NSE NMF is exchange plumbing -- the same category as REQ-030's UPI switch integration."
+    },
+    {
+      "id": "FIN-056",
+      "remove": ["Regulatory"],
+      "reason": "Active-active geographic redundancy is a pure availability requirement. RBI does mandate DR posture for banks, but nothing in the statement ties it to that mandate."
+    },
+    {
+      "id": "REQ-105",
+      "remove": ["Regulatory"],
+      "reason": "A 15-second UPI response target is a performance SLA on a regulated rail, not a compliance duty."
+    },
+    {
+      "id": "REQ-106",
+      "remove": ["Regulatory"],
+      "reason": "Capping transaction-status checks at 3 attempts per 90 seconds is an operational rate limit."
+    }
+  ]
+}

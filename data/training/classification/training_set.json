@@ -21,14 +21,14 @@
     "total": 380,
     "verified": 0,
     "unverified": 380,
-    "avg_labels_per_requirement": 2.4,
+    "avg_labels_per_requirement": 2.38,
     "label_distribution": {
       "Business": 78,
       "Stakeholder": 68,
       "Functional": 153,
       "Security": 81,
       "Privacy": 49,
-      "Regulatory": 113,
+      "Regulatory": 106,
       "Performance": 37,
       "Availability": 44,
       "Usability": 48,
@@ -87,8 +87,7 @@
       "statement": "The system shall verify the borrower's employment status by integrating with the EPFO (Employees' Provident Fund Organisation) database.",
       "categories": [
         "Functional",
-        "Integration",
-        "Regulatory"
+        "Integration"
       ],
       "domain": "digital_lending",
       "source": "synthetic-finance",
@@ -295,8 +294,7 @@
       "statement": "The system shall support RTGS transfers of amounts greater than INR 2 lakhs with settlement within 30 minutes.",
       "categories": [
         "Functional",
-        "Performance",
-        "Regulatory"
+        "Performance"
       ],
       "domain": "core_banking",
       "source": "synthetic-finance",
@@ -430,8 +428,7 @@
       "statement": "The system shall support multi-currency accounts and real-time forex conversion using rates published by RBI.",
       "categories": [
         "Functional",
-        "Integration",
-        "Regulatory"
+        "Integration"
       ],
       "domain": "core_banking",
       "source": "synthetic-finance",
@@ -1076,8 +1073,7 @@
       "statement": "The system shall execute mutual fund purchase and redemption orders via BSE StAR MF or NSE MFSS platforms within the applicable cut-off times.",
       "categories": [
         "Functional",
-        "Integration",
-        "Regulatory"
+        "Integration"
       ],
       "domain": "wealth_management",
       "source": "synthetic-finance",
@@ -1313,8 +1309,7 @@
       "statement": "The system shall implement geographic redundancy with active-active data centres in two separate seismic zones within India.",
       "categories": [
         "Availability",
-        "Operational",
-        "Regulatory"
+        "Operational"
       ],
       "domain": "cross_cutting_finance",
       "source": "synthetic-finance",
@@ -2228,8 +2223,7 @@
       "statement": "The system shall respond to a UPI payment request within 15 seconds and to a transaction-status check within 10 seconds, in line with NPCI's mandated API response times.",
       "categories": [
         "Performance",
-        "Integration",
-        "Regulatory"
+        "Integration"
       ],
       "domain": "payments",
       "source": "synthetic:grounded-npci-upi-guidelines-2025",
@@ -2240,8 +2234,7 @@
       "statement": "The system shall limit transaction-status check API calls to a maximum of 3 attempts per transaction, spaced at least 90 seconds apart.",
       "categories": [
         "Operational",
-        "Integration",
-        "Regulatory"
+        "Integration"
       ],
       "domain": "payments",
       "source": "synthetic:grounded-npci-upi-guidelines-2025",

@@ -38,6 +38,7 @@ CATEGORIES = [
     "Audit/Reporting", "Operational",
 ]
 
+CORRECTIONS = HERE / "label_corrections.json"
 FINANCE_SPECIFIC = HERE / "day7_finance_specific.json"
 REGULATION = HERE / "day7_regulation_grounded_sample.json"
 SYNTHETIC_DIR = HERE / "synthetic_raw"
@@ -49,6 +50,51 @@ MIN_PER_CATEGORY = 10  # Definition of Done
 
 def load_reqs(path: Path) -> list[dict]:
     return json.loads(path.read_text())["requirements"]
+
+
+def apply_corrections(merged: list[dict]) -> list[dict]:
+    """Apply label_corrections.json on top of the merged corpus.
+
+    Source files stay as originally authored; every deviation lives in that one
+    reviewable file with a reason attached, so a correction can be audited or
+    reverted on its own. Mostly this enforces the Regulatory rule recorded
+    there -- see its `regulatory_rule` block.
+    """
+    if not CORRECTIONS.exists():
+        return merged
+
+    doc = json.loads(CORRECTIONS.read_text())
+    by_id = {r["id"]: r for r in merged}
+    applied = 0
+
+    for entry in doc.get("corrections", []):
+        rid = entry["id"]
+        req = by_id.get(rid)
+        if req is None:
+            raise SystemExit(f"label_corrections.json targets unknown id {rid}")
+
+        cats = list(req["categories"])
+        for c in entry.get("remove", []):
+            if c not in cats:
+                raise SystemExit(
+                    f"{rid}: correction removes {c!r} but it is not on the "
+                    f"requirement (currently {cats}) -- the source data changed "
+                    f"under the correction, re-check it"
+                )
+            cats.remove(c)
+        for c in entry.get("add", []):
+            if c not in CATEGORIES:
+                raise SystemExit(f"{rid}: correction adds unknown category {c!r}")
+            if c not in cats:
+                cats.append(c)
+
+        if not cats:
+            raise SystemExit(f"{rid}: correction would leave no categories")
+        req["categories"] = cats
+        applied += 1
+
+    print(f"\n  applied {applied} label correction(s) from {CORRECTIONS.name}")
+    return merged
 
 
 def main() -> None:
@@ -106,6 +152,8 @@ def main() -> None:
             })
             kept += 1
         print(f"  {label:38s}  +{kept:3d}  (from {path.name})")
+
+    merged = apply_corrections(merged)
 
     # keep the file human-scannable: order by numeric requirement id
     merged.sort(key=lambda r: int(r["id"].split("-")[1]))

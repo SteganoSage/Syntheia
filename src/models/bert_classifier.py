@@ -273,14 +273,27 @@ def save_threshold(model_dir: str | Path, threshold: float, **extra) -> None:
     (Path(model_dir) / THRESHOLD_FILE).write_text(json.dumps(payload, indent=2) + "\n")
 
 
-def compute_pos_weight(label_matrix: Iterable[Sequence[float]]) -> torch.Tensor:
-    """BCE `pos_weight` per category: (#negatives / #positives).
+def compute_pos_weight(
+    label_matrix: Iterable[Sequence[float]],
+    max_weight: float = 3.0,
+    min_weight: float = 0.5,
+) -> torch.Tensor:
+    """BCE `pos_weight` per category: (#negatives / #positives), clamped.
 
     Scales up the loss contribution of positive examples for rare categories so
-    the model is not rewarded for always predicting 0 on them. Clamped to avoid
-    a single-example category dominating the gradient.
+    the model is not rewarded for always predicting 0 on them.
+
+    `max_weight` is the knob that matters. The raw ratio reaches ~9x for the
+    rarest categories, and at that strength the model over-corrects: on the
+    Day 11 ground-truth run every weighted rare category hit recall 1.00 while
+    precision fell to 0.55-0.63, and predictions averaged 2.88 categories per
+    requirement against a true 2.50. Dropping the weighting entirely swung the
+    other way -- Privacy fell from F1 0.77 to 0.40 (recall 0.33). The default
+    of 3.0 is the middle ground; sweep it with --pos-weight-max.
     """
+    if max_weight < min_weight:
+        raise ValueError(f"max_weight {max_weight} below min_weight {min_weight}")
     y = torch.as_tensor(list(label_matrix), dtype=torch.float32)
     positives = y.sum(dim=0).clamp(min=1.0)
     negatives = y.shape[0] - positives
-    return (negatives / positives).clamp(min=0.5, max=10.0)
+    return (negatives / positives).clamp(min=min_weight, max=max_weight)

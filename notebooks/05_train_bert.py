@@ -94,7 +94,11 @@ def parse_args() -> argparse.Namespace:
                    help="early-stopping patience in evaluations; 0 disables")
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--pos-weight", action="store_true",
-                   help="weight positive examples by category rarity (helps macro-F1 on rare labels)")
+                   help="weight positive examples by category rarity (helps recall on rare labels)")
+    p.add_argument("--pos-weight-max", type=float, default=3.0,
+                   help="clamp on the rarity weighting; higher favours recall, lower favours "
+                        "precision. 10.0 reproduces the over-predicting Day 11 run, 1.0 is "
+                        "equivalent to no weighting at all. Only used with --pos-weight")
     p.add_argument("--threshold", type=float, default=None,
                    help="fix the decision threshold instead of calibrating it on validation")
     p.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -256,8 +260,8 @@ def main() -> None:
 
     pos_weight = None
     if args.pos_weight:
-        pos_weight = compute_pos_weight(ds["train"]["labels"])
-        print("pos_weight per category: "
+        pos_weight = compute_pos_weight(ds["train"]["labels"], max_weight=args.pos_weight_max)
+        print(f"pos_weight (clamped at {args.pos_weight_max:g}x): "
               + ", ".join(f"{c}={w:.1f}" for c, w in zip(categories, pos_weight.tolist())))
 
     model = BertForMultiLabel.from_pretrained(args.model, config=config)
@@ -373,6 +377,7 @@ def main() -> None:
             "max_length": args.max_length,
             "classifier_dropout": args.dropout,
             "pos_weight": args.pos_weight,
+            "pos_weight_max": args.pos_weight_max if args.pos_weight else None,
             "seed": args.seed,
         },
         "train_minutes": round(train_seconds / 60, 2),
@@ -397,7 +402,7 @@ def main() -> None:
     if delta <= 0:
         print("  Below the baseline on validation. Things to try:")
         print("    --epochs 20        more passes over a small dataset")
-        print("    --pos-weight       push up recall on the rare categories")
+        print("    --pos-weight --pos-weight-max 3   lift recall on rare categories")
         print("    --dropout 0.3      if train loss << val loss (overfitting)")
         print("    --model roberta-base")
     print("\n  Next: python -m notebooks.06_evaluate_bert  "
