@@ -18,24 +18,24 @@
     "Operational"
   ],
   "stats": {
-    "total": 413,
+    "total": 445,
     "verified": 0,
-    "unverified": 413,
-    "avg_labels_per_requirement": 2.43,
+    "unverified": 445,
+    "avg_labels_per_requirement": 2.49,
     "label_distribution": {
-      "Business": 93,
-      "Stakeholder": 73,
-      "Functional": 175,
-      "Security": 94,
-      "Privacy": 67,
-      "Regulatory": 113,
+      "Business": 101,
+      "Stakeholder": 77,
+      "Functional": 193,
+      "Security": 109,
+      "Privacy": 78,
+      "Regulatory": 145,
       "Performance": 37,
       "Availability": 45,
-      "Usability": 51,
-      "Data-management": 58,
-      "Integration": 63,
-      "Audit/Reporting": 60,
-      "Operational": 73
+      "Usability": 53,
+      "Data-management": 64,
+      "Integration": 66,
+      "Audit/Reporting": 64,
+      "Operational": 76
     }
   },
   "requirements": [
@@ -75,6 +75,19 @@
       "verified": false
     },
     {
+      "id": "RBI-001",
+      "statement": "The system shall perform face liveness and spoof detection during video-based customer identification before accepting the session as valid.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-002",
       "statement": "The system shall calculate EMI schedules based on principal, tenure, and interest rate, and display them to the applicant before loan confirmation.",
       "categories": [
@@ -105,6 +118,19 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-002",
+      "statement": "The system shall match the customer's face captured during the video identification session against the photograph on their identity document.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -139,6 +165,19 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-003",
+      "statement": "The system shall record the live GPS coordinates and a date-time stamp for every video-based customer identification session.",
+      "categories": [
+        "Privacy",
+        "Audit/Reporting",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -177,6 +216,18 @@
       "verified": false
     },
     {
+      "id": "RBI-004",
+      "statement": "The system shall capture video of sufficient quality to allow identification of the customer beyond doubt and shall reject sessions falling below that threshold.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Security"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-005",
       "statement": "The system shall disburse approved loan amounts directly to the borrower's bank account within 24 hours of final approval, as mandated by RBI digital lending norms.",
       "categories": [
@@ -208,6 +259,18 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-005",
+      "statement": "The system shall abort and require restart of a video identification session if the video is paused or the call is disconnected at any point.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -247,6 +310,19 @@
       "verified": false
     },
     {
+      "id": "RBI-006",
+      "statement": "The system shall restrict operation of the video identification workflow to officials specifically trained and authorised for that purpose.",
+      "categories": [
+        "Stakeholder",
+        "Security",
+        "Operational",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-007",
       "statement": "The system shall generate a Key Fact Statement (KFS) for every loan product and present it to the borrower before disbursement.",
       "categories": [
@@ -280,6 +356,18 @@
       ],
       "domain": "channels",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-007",
+      "statement": "The system shall provide an assisted video identification path so that the liveness check does not exclude persons with special needs.",
+      "categories": [
+        "Usability",
+        "Regulatory",
+        "Stakeholder"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -318,6 +406,18 @@
       "verified": false
     },
     {
+      "id": "RBI-008",
+      "statement": "The system shall redact the Aadhaar number from any submitted proof of possession of Aadhaar where Aadhaar authentication is not required.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-009",
       "statement": "The system shall send automated repayment reminders via SMS and email 3 days before each EMI due date.",
       "categories": [
@@ -350,6 +450,19 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-009",
+      "statement": "The system shall blackout the Aadhaar number in stored copies of officially valid documents, including those retrieved from DigiLocker.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -390,6 +503,19 @@
       "verified": false
     },
     {
+      "id": "RBI-010",
+      "statement": "The system shall accept offline Aadhaar verification through an XML file or a secure QR code without storing the full Aadhaar number.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-011",
       "statement": "The core banking system shall process NEFT transactions in batches every 30 minutes during operating hours.",
       "categories": [
@@ -422,6 +548,18 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-011",
+      "statement": "The system shall obtain and record the customer's explicit consent before collecting any personal information beyond that specified in the KYC policy.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -460,6 +598,18 @@
       "verified": false
     },
     {
+      "id": "RBI-012",
+      "statement": "The system shall not disclose customer information to third parties except under compulsion of law, a public duty to disclose, or the customer's express consent.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-013",
       "statement": "The system shall maintain separate general ledger accounts for each product type (savings, current, FD, RD, loan) with daily reconciliation.",
       "categories": [
@@ -491,6 +641,19 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-013",
+      "statement": "The system shall keep a customer's risk categorisation and the reasons for it confidential and shall not expose them on any customer-facing screen.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Business",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -529,6 +692,18 @@
       "verified": false
     },
     {
+      "id": "RBI-014",
+      "statement": "The system shall categorise every customer as low, medium, or high risk based on the institution's documented risk assessment parameters.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-015",
       "statement": "The system shall automatically calculate and deduct TDS on fixed deposit interest exceeding INR 40,000 per financial year.",
       "categories": [
@@ -559,6 +734,18 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-015",
+      "statement": "The system shall derive a customer's risk category from parameters including identity, social and financial status, and nature of business activity.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -596,6 +783,19 @@
       "verified": false
     },
     {
+      "id": "RBI-016",
+      "statement": "The system shall apply enhanced due diligence steps automatically when a customer is classified as high risk.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-017",
       "statement": "The system shall enforce dual-authorization for all inter-branch fund transfers exceeding INR 10 lakhs.",
       "categories": [
@@ -627,6 +827,18 @@
       ],
       "domain": "kyc",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-017",
+      "statement": "The system shall trigger periodic KYC updation for each customer according to the cadence defined for their risk category.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -664,6 +876,18 @@
       "verified": false
     },
     {
+      "id": "RBI-018",
+      "statement": "The system shall restrict an account opened through OTP-based electronic KYC to a maximum of one year unless full identification is completed.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-019",
       "statement": "The system shall automatically freeze accounts flagged by the Financial Intelligence Unit (FIU) for suspicious transaction reporting.",
       "categories": [
@@ -698,6 +922,18 @@
       "verified": false
     },
     {
+      "id": "RBI-019",
+      "statement": "The system shall cap the aggregate of term loans sanctioned through OTP-based electronic KYC at the prescribed annual limit per customer.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-020",
       "statement": "The system shall archive transaction records older than 10 years to cold storage while maintaining searchability for regulatory audits.",
       "categories": [
@@ -729,6 +965,19 @@
       ],
       "domain": "lending",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-020",
+      "statement": "The system shall require fresh Aadhaar OTP authentication when converting an account opened in non-face-to-face mode to full KYC status.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -768,6 +1017,18 @@
       "verified": false
     },
     {
+      "id": "RBI-021",
+      "statement": "The system shall require the reviewing officer to record a written reason before any onboarding or periodic updation request can be rejected.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-022",
       "statement": "The system shall validate PAN card details against the NSDL/UTIITSL database and flag mismatches for manual review.",
       "categories": [
@@ -802,6 +1063,18 @@
       "verified": false
     },
     {
+      "id": "RBI-022",
+      "statement": "The system shall not deny account opening on grounds that would disadvantage persons with disabilities or financially excluded applicants.",
+      "categories": [
+        "Usability",
+        "Business",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-023",
       "statement": "The system shall perform PEP (Politically Exposed Person) and sanctions screening against OFAC and UN consolidated lists during onboarding.",
       "categories": [
@@ -833,6 +1106,17 @@
       ],
       "domain": "lending",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-023",
+      "statement": "The system shall retain customer identification records and transaction history for five years from the end of the business relationship.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -872,6 +1156,18 @@
       "verified": false
     },
     {
+      "id": "RBI-024",
+      "statement": "The system shall preserve the results of any due diligence analysis alongside the related business correspondence for the statutory period.",
+      "categories": [
+        "Data-management",
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-025",
       "statement": "The system shall store all KYC documents in an encrypted document vault with role-based access control and access logging.",
       "categories": [
@@ -907,6 +1203,17 @@
       "verified": false
     },
     {
+      "id": "RBI-025",
+      "statement": "The system shall maintain records of transactions in third-party products separately and for the prescribed retention period.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-026",
       "statement": "The system shall generate a Suspicious Transaction Report (STR) and file it with FIU-IND within 7 days of detection.",
       "categories": [
@@ -938,6 +1245,19 @@
       ],
       "domain": "core_banking",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-026",
+      "statement": "The system shall generate an alert to the compliance team on any breach of the limits applicable to non-face-to-face onboarded accounts.",
+      "categories": [
+        "Operational",
+        "Security",
+        "Stakeholder",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -976,6 +1296,19 @@
       "verified": false
     },
     {
+      "id": "RBI-027",
+      "statement": "The system shall capture, generate, and analyse alerts for transactions that meet suspicious activity criteria.",
+      "categories": [
+        "Security",
+        "Audit/Reporting",
+        "Operational",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-028",
       "statement": "The system shall maintain a customer risk profile that is automatically updated based on transaction behavior and adverse media screening.",
       "categories": [
@@ -1006,6 +1339,19 @@
       ],
       "domain": "cards",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-028",
+      "statement": "The system shall verify the identity and address of a walk-in customer for any transaction above the prescribed cash threshold.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -1040,6 +1386,18 @@
       ],
       "domain": "lending",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-029",
+      "statement": "The system shall retrieve a customer's KYC records from the Central KYC Records Registry using the KYC identifier supplied by the customer.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {
@@ -1081,6 +1439,18 @@
       "verified": false
     },
     {
+      "id": "RBI-030",
+      "statement": "The system shall register non-profit organisation customers on the government's designated portal and retain the registration records.",
+      "categories": [
+        "Integration",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-031",
       "statement": "The UPI system shall process collect requests and pay requests within 3 seconds end-to-end.",
       "categories": [
@@ -1114,6 +1484,18 @@
       "verified": false
     },
     {
+      "id": "RBI-031",
+      "statement": "The system shall accept equivalent electronic documents bearing a valid digital signature as officially valid documents.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "verified": false
+    },
+    {
       "id": "FIN-032",
       "statement": "The system shall validate the beneficiary VPA (Virtual Payment Address) against the NPCI mapper before initiating a transaction.",
       "categories": [
@@ -1144,6 +1526,18 @@
       ],
       "domain": "lending",
       "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "RBI-032",
+      "statement": "The system shall apply customer due diligence at the unique customer identification code level rather than per account.",
+      "categories": [
+        "Data-management",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
       "verified": false
     },
     {

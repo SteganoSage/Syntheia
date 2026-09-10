@@ -1,0 +1,463 @@
+{
+  "purpose": "Requirements derived from actual obligations in the RBI KYC Master Direction (updated August 14, 2025). Each cites the paragraph it comes from so the mapping can be checked against the source. UNVERIFIED.",
+  "requirements": [
+    {
+      "id": "RBI-001",
+      "statement": "The system shall perform face liveness and spoof detection during video-based customer identification before accepting the session as valid.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(v)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-002",
+      "statement": "The system shall match the customer's face captured during the video identification session against the photograph on their identity document.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(v)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-003",
+      "statement": "The system shall record the live GPS coordinates and a date-time stamp for every video-based customer identification session.",
+      "categories": [
+        "Privacy",
+        "Audit/Reporting",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(iv)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-004",
+      "statement": "The system shall capture video of sufficient quality to allow identification of the customer beyond doubt and shall reject sessions falling below that threshold.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Security"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(iv)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-005",
+      "statement": "The system shall abort and require restart of a video identification session if the video is paused or the call is disconnected at any point.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(ii)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-006",
+      "statement": "The system shall restrict operation of the video identification workflow to officials specifically trained and authorised for that purpose.",
+      "categories": [
+        "Stakeholder",
+        "Security",
+        "Operational",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(i)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-007",
+      "statement": "The system shall provide an assisted video identification path so that the liveness check does not exclude persons with special needs.",
+      "categories": [
+        "Usability",
+        "Regulatory",
+        "Stakeholder"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 18(a)(i)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-008",
+      "statement": "The system shall redact the Aadhaar number from any submitted proof of possession of Aadhaar where Aadhaar authentication is not required.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 16, Explanation 1",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-009",
+      "statement": "The system shall blackout the Aadhaar number in stored copies of officially valid documents, including those retrieved from DigiLocker.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 16",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-010",
+      "statement": "The system shall accept offline Aadhaar verification through an XML file or a secure QR code without storing the full Aadhaar number.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 16",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-011",
+      "statement": "The system shall obtain and record the customer's explicit consent before collecting any personal information beyond that specified in the KYC policy.",
+      "categories": [
+        "Privacy",
+        "Regulatory",
+        "Functional"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 11(e)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-012",
+      "statement": "The system shall not disclose customer information to third parties except under compulsion of law, a public duty to disclose, or the customer's express consent.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 55",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-013",
+      "statement": "The system shall keep a customer's risk categorisation and the reasons for it confidential and shall not expose them on any customer-facing screen.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Business",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 12(d)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-014",
+      "statement": "The system shall categorise every customer as low, medium, or high risk based on the institution's documented risk assessment parameters.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 12(a)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-015",
+      "statement": "The system shall derive a customer's risk category from parameters including identity, social and financial status, and nature of business activity.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 12(c)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-016",
+      "statement": "The system shall apply enhanced due diligence steps automatically when a customer is classified as high risk.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 12",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-017",
+      "statement": "The system shall trigger periodic KYC updation for each customer according to the cadence defined for their risk category.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 38",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-018",
+      "statement": "The system shall restrict an account opened through OTP-based electronic KYC to a maximum of one year unless full identification is completed.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 17(vi)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-019",
+      "statement": "The system shall cap the aggregate of term loans sanctioned through OTP-based electronic KYC at the prescribed annual limit per customer.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 17(v)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-020",
+      "statement": "The system shall require fresh Aadhaar OTP authentication when converting an account opened in non-face-to-face mode to full KYC status.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 17(vi)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-021",
+      "statement": "The system shall require the reviewing officer to record a written reason before any onboarding or periodic updation request can be rejected.",
+      "categories": [
+        "Stakeholder",
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 11A",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-022",
+      "statement": "The system shall not deny account opening on grounds that would disadvantage persons with disabilities or financially excluded applicants.",
+      "categories": [
+        "Usability",
+        "Business",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 11A",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-023",
+      "statement": "The system shall retain customer identification records and transaction history for five years from the end of the business relationship.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 46",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-024",
+      "statement": "The system shall preserve the results of any due diligence analysis alongside the related business correspondence for the statutory period.",
+      "categories": [
+        "Data-management",
+        "Audit/Reporting",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 46",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-025",
+      "statement": "The system shall maintain records of transactions in third-party products separately and for the prescribed retention period.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 46",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-026",
+      "statement": "The system shall generate an alert to the compliance team on any breach of the limits applicable to non-face-to-face onboarded accounts.",
+      "categories": [
+        "Operational",
+        "Security",
+        "Stakeholder",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 17(ix)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-027",
+      "statement": "The system shall capture, generate, and analyse alerts for transactions that meet suspicious activity criteria.",
+      "categories": [
+        "Security",
+        "Audit/Reporting",
+        "Operational",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "Chapter IX",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-028",
+      "statement": "The system shall verify the identity and address of a walk-in customer for any transaction above the prescribed cash threshold.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 13(e)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-029",
+      "statement": "The system shall retrieve a customer's KYC records from the Central KYC Records Registry using the KYC identifier supplied by the customer.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 56",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-030",
+      "statement": "The system shall register non-profit organisation customers on the government's designated portal and retain the registration records.",
+      "categories": [
+        "Integration",
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 46A",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-031",
+      "statement": "The system shall accept equivalent electronic documents bearing a valid digital signature as officially valid documents.",
+      "categories": [
+        "Integration",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 3(x)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    },
+    {
+      "id": "RBI-032",
+      "statement": "The system shall apply customer due diligence at the unique customer identification code level rather than per account.",
+      "categories": [
+        "Data-management",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc_onboarding",
+      "source": "synthetic:grounded-rbi-kyc-master-direction-2016-aug2025",
+      "source_clause": "para 11(f)",
+      "source_document": "RBI/DBR/2015-16/18 Master Direction DBR.AML.BC.No.81/14.01.001/2015-16, Know Your Customer (KYC) Direction 2016, updated as on August 14, 2025",
+      "verified": false
+    }
+  ]
+}

@@ -3,26 +3,26 @@
   "model_dir": "models/roberta_classifier",
   "ground_truth_file": "data/training/classification/ground_truth.json",
   "total_requirements": 32,
-  "threshold": 0.3,
+  "threshold": 0.35,
   "device": "cuda",
   "bert": {
-    "micro_f1": 0.7848,
-    "macro_f1": 0.7948,
-    "precision_micro": 0.7949,
-    "recall_micro": 0.775,
-    "exact_match_rate": 0.375
+    "micro_f1": 0.8024,
+    "macro_f1": 0.7906,
+    "precision_micro": 0.7701,
+    "recall_micro": 0.8375,
+    "exact_match_rate": 0.3125
   },
   "latency": {
     "sequential": {
-      "mean_ms": 18.17,
-      "median_ms": 16.21,
-      "p95_ms": 28.06,
-      "max_ms": 35.07,
+      "mean_ms": 20.97,
+      "median_ms": 19.93,
+      "p95_ms": 32.25,
+      "max_ms": 35.8,
       "samples": 96
     },
     "batched": {
-      "total_ms": 93.71,
-      "per_requirement_ms": 2.93,
+      "total_ms": 116.83,
+      "per_requirement_ms": 3.65,
       "batch_size": 32
     }
   },
@@ -44,44 +44,44 @@
     {
       "category": "Business",
       "support": 6,
-      "precision": 1.0,
+      "precision": 0.75,
       "recall": 0.5,
-      "f1": 0.6667
+      "f1": 0.6
     },
     {
       "category": "Stakeholder",
       "support": 5,
-      "precision": 0.5,
-      "recall": 1.0,
-      "f1": 0.6667
+      "precision": 0.6667,
+      "recall": 0.8,
+      "f1": 0.7273
     },
     {
       "category": "Functional",
       "support": 14,
-      "precision": 0.8571,
-      "recall": 0.8571,
-      "f1": 0.8571
+      "precision": 0.8125,
+      "recall": 0.9286,
+      "f1": 0.8667
     },
     {
       "category": "Security",
       "support": 6,
-      "precision": 0.8333,
-      "recall": 0.8333,
-      "f1": 0.8333
+      "precision": 0.8571,
+      "recall": 1.0,
+      "f1": 0.9231
     },
     {
       "category": "Privacy",
       "support": 6,
-      "precision": 0.6,
-      "recall": 0.5,
-      "f1": 0.5455
+      "precision": 0.7143,
+      "recall": 0.8333,
+      "f1": 0.7692
     },
     {
       "category": "Regulatory",
       "support": 11,
-      "precision": 0.875,
-      "recall": 0.6364,
-      "f1": 0.7368
+      "precision": 0.8182,
+      "recall": 0.8182,
+      "f1": 0.8182
     },
     {
       "category": "Performance",
@@ -93,66 +93,47 @@
     {
       "category": "Availability",
       "support": 3,
-      "precision": 1.0,
+      "precision": 0.75,
       "recall": 1.0,
-      "f1": 1.0
+      "f1": 0.8571
     },
     {
       "category": "Usability",
       "support": 4,
-      "precision": 1.0,
+      "precision": 0.6,
       "recall": 0.75,
-      "f1": 0.8571
+      "f1": 0.6667
     },
     {
       "category": "Data-management",
       "support": 6,
-      "precision": 0.75,
-      "recall": 0.5,
-      "f1": 0.6
+      "precision": 0.6667,
+      "recall": 0.6667,
+      "f1": 0.6667
     },
     {
       "category": "Integration",
       "support": 5,
-      "precision": 0.625,
+      "precision": 0.7143,
       "recall": 1.0,
-      "f1": 0.7692
+      "f1": 0.8333
     },
     {
       "category": "Audit/Reporting",
       "support": 4,
-      "precision": 1.0,
+      "precision": 0.6667,
       "recall": 1.0,
-      "f1": 1.0
+      "f1": 0.8
     },
     {
       "category": "Operational",
       "support": 5,
-      "precision": 0.8,
-      "recall": 0.8,
-      "f1": 0.8
+      "precision": 1.0,
+      "recall": 0.6,
+      "f1": 0.75
     }
   ],
   "misclassified": [
-    {
-      "id": "REQ-002",
-      "statement": "The system shall verify applicant identity through Aadhaar-based eKYC before allowing submission of a loan application.",
-      "true": [
-        "Functional",
-        "Privacy",
-        "Regulatory",
-        "Security"
-      ],
-      "predicted": [
-        "Functional",
-        "Regulatory",
-        "Security"
-      ],
-      "missed": [
-        "Privacy"
-      ],
-      "spurious": []
-    },
     {
       "id": "REQ-005",
       "statement": "The system shall handle all applicant data in compliance with RBI's Digital Lending Guidelines, including data localization requirements.",
@@ -180,14 +161,30 @@
       ],
       "predicted": [
         "Functional",
-        "Stakeholder",
         "Usability"
       ],
       "missed": [
         "Data-management"
       ],
-      "spurious": [
+      "spurious": []
+    },
+    {
+      "id": "REQ-010",
+      "statement": "The system shall notify the applicant via SMS and email at each stage of the loan approval workflow: submitted, under review, approved, disbursed.",
+      "true": [
+        "Functional",
+        "Integration",
         "Stakeholder"
+      ],
+      "predicted": [
+        "Functional",
+        "Integration",
+        "Stakeholder",
+        "Usability"
+      ],
+      "missed": [],
+      "spurious": [
+        "Usability"
       ]
     },
     {
@@ -199,14 +196,44 @@
       ],
       "predicted": [
         "Audit/Reporting",
-        "Operational",
         "Regulatory",
         "Stakeholder"
       ],
       "missed": [],
       "spurious": [
-        "Operational",
         "Stakeholder"
+      ]
+    },
+    {
+      "id": "REQ-013",
+      "statement": "The system shall alert the operations on-call team if the CIBIL API integration fails for more than five consecutive requests.",
+      "true": [
+        "Integration",
+        "Operational"
+      ],
+      "predicted": [
+        "Availability",
+        "Integration",
+        "Operational"
+      ],
+      "missed": [],
+      "spurious": [
+        "Availability"
+      ]
+    },
+    {
+      "id": "REQ-014",
+      "statement": "The system shall support at least 500 concurrent loan application submissions without response times exceeding 5 seconds.",
+      "true": [
+        "Performance"
+      ],
+      "predicted": [
+        "Functional",
+        "Performance"
+      ],
+      "missed": [],
+      "spurious": [
+        "Functional"
       ]
     },
     {
@@ -220,35 +247,13 @@
       ],
       "predicted": [
         "Business",
-        "Operational",
+        "Functional",
         "Stakeholder"
       ],
       "missed": [
-        "Functional"
+        "Operational"
       ],
       "spurious": []
-    },
-    {
-      "id": "REQ-016",
-      "statement": "The system shall capture a live selfie and match it against the Aadhaar photograph using facial recognition during customer onboarding.",
-      "true": [
-        "Functional",
-        "Privacy",
-        "Regulatory",
-        "Security"
-      ],
-      "predicted": [
-        "Functional",
-        "Integration"
-      ],
-      "missed": [
-        "Privacy",
-        "Regulatory",
-        "Security"
-      ],
-      "spurious": [
-        "Integration"
-      ]
     },
     {
       "id": "REQ-017",
@@ -259,17 +264,14 @@
         "Security"
       ],
       "predicted": [
-        "Functional",
         "Privacy",
+        "Regulatory",
         "Security",
-        "Stakeholder"
+        "Usability"
       ],
-      "missed": [
-        "Regulatory"
-      ],
+      "missed": [],
       "spurious": [
-        "Functional",
-        "Stakeholder"
+        "Usability"
       ]
     },
     {
@@ -282,14 +284,32 @@
       ],
       "predicted": [
         "Functional",
-        "Performance",
-        "Stakeholder"
+        "Performance"
       ],
       "missed": [
         "Usability"
       ],
-      "spurious": [
+      "spurious": []
+    },
+    {
+      "id": "REQ-019",
+      "statement": "The system shall allow the compliance team to review and approve or reject customer onboarding cases flagged for manual KYC review.",
+      "true": [
+        "Functional",
+        "Regulatory",
         "Stakeholder"
+      ],
+      "predicted": [
+        "Audit/Reporting",
+        "Business",
+        "Functional",
+        "Regulatory",
+        "Stakeholder"
+      ],
+      "missed": [],
+      "spurious": [
+        "Audit/Reporting",
+        "Business"
       ]
     },
     {
@@ -302,11 +322,13 @@
       "predicted": [
         "Audit/Reporting",
         "Privacy",
+        "Regulatory",
         "Security"
       ],
       "missed": [],
       "spurious": [
-        "Privacy"
+        "Privacy",
+        "Regulatory"
       ]
     },
     {
@@ -333,11 +355,10 @@
       ],
       "predicted": [
         "Functional",
-        "Integration"
-      ],
-      "missed": [
+        "Integration",
         "Regulatory"
       ],
+      "missed": [],
       "spurious": [
         "Functional"
       ]
@@ -382,12 +403,15 @@
         "Performance"
       ],
       "predicted": [
+        "Functional",
         "Performance"
       ],
       "missed": [
         "Business"
       ],
-      "spurious": []
+      "spurious": [
+        "Functional"
+      ]
     },
     {
       "id": "REQ-026",
@@ -414,6 +438,7 @@
         "Operational"
       ],
       "predicted": [
+        "Audit/Reporting",
         "Integration",
         "Operational",
         "Stakeholder"
@@ -422,6 +447,7 @@
         "Functional"
       ],
       "spurious": [
+        "Audit/Reporting",
         "Integration",
         "Stakeholder"
       ]
@@ -436,10 +462,10 @@
       ],
       "predicted": [
         "Audit/Reporting",
+        "Data-management",
         "Security"
       ],
       "missed": [
-        "Data-management",
         "Regulatory"
       ],
       "spurious": [
@@ -456,10 +482,11 @@
       "predicted": [
         "Data-management",
         "Privacy",
-        "Regulatory",
         "Security"
       ],
-      "missed": [],
+      "missed": [
+        "Regulatory"
+      ],
       "spurious": [
         "Data-management",
         "Privacy"
@@ -475,12 +502,15 @@
       ],
       "predicted": [
         "Audit/Reporting",
-        "Stakeholder"
+        "Data-management"
       ],
       "missed": [
-        "Business"
+        "Business",
+        "Stakeholder"
       ],
-      "spurious": []
+      "spurious": [
+        "Data-management"
+      ]
     },
     {
       "id": "REQ-032",
@@ -524,9 +554,10 @@
       "predicted_categories": [
         "Functional",
         "Security",
+        "Privacy",
         "Regulatory"
       ],
-      "exact_match": false
+      "exact_match": true
     },
     {
       "id": "REQ-003",
@@ -581,7 +612,6 @@
         "Data-management"
       ],
       "predicted_categories": [
-        "Stakeholder",
         "Functional",
         "Usability"
       ],
@@ -639,9 +669,10 @@
       "predicted_categories": [
         "Stakeholder",
         "Functional",
+        "Usability",
         "Integration"
       ],
-      "exact_match": true
+      "exact_match": false
     },
     {
       "id": "REQ-011",
@@ -653,8 +684,7 @@
       "predicted_categories": [
         "Stakeholder",
         "Regulatory",
-        "Audit/Reporting",
-        "Operational"
+        "Audit/Reporting"
       ],
       "exact_match": false
     },
@@ -679,10 +709,11 @@
         "Integration"
       ],
       "predicted_categories": [
+        "Availability",
         "Integration",
         "Operational"
       ],
-      "exact_match": true
+      "exact_match": false
     },
     {
       "id": "REQ-014",
@@ -691,9 +722,10 @@
         "Performance"
       ],
       "predicted_categories": [
+        "Functional",
         "Performance"
       ],
-      "exact_match": true
+      "exact_match": false
     },
     {
       "id": "REQ-015",
@@ -707,7 +739,7 @@
       "predicted_categories": [
         "Business",
         "Stakeholder",
-        "Operational"
+        "Functional"
       ],
       "exact_match": false
     },
@@ -722,9 +754,11 @@
       ],
       "predicted_categories": [
         "Functional",
-        "Integration"
+        "Security",
+        "Privacy",
+        "Regulatory"
       ],
-      "exact_match": false
+      "exact_match": true
     },
     {
       "id": "REQ-017",
@@ -735,10 +769,10 @@
         "Regulatory"
       ],
       "predicted_categories": [
-        "Stakeholder",
-        "Functional",
         "Security",
-        "Privacy"
+        "Privacy",
+        "Regulatory",
+        "Usability"
       ],
       "exact_match": false
     },
@@ -751,7 +785,6 @@
         "Usability"
       ],
       "predicted_categories": [
-        "Stakeholder",
         "Functional",
         "Performance"
       ],
@@ -766,11 +799,13 @@
         "Regulatory"
       ],
       "predicted_categories": [
+        "Business",
         "Stakeholder",
         "Functional",
-        "Regulatory"
+        "Regulatory",
+        "Audit/Reporting"
       ],
-      "exact_match": true
+      "exact_match": false
     },
     {
       "id": "REQ-020",
@@ -782,6 +817,7 @@
       "predicted_categories": [
         "Security",
         "Privacy",
+        "Regulatory",
         "Audit/Reporting"
       ],
       "exact_match": false
@@ -807,6 +843,7 @@
       ],
       "predicted_categories": [
         "Functional",
+        "Regulatory",
         "Integration"
       ],
       "exact_match": false
@@ -845,6 +882,7 @@
         "Business"
       ],
       "predicted_categories": [
+        "Functional",
         "Performance"
       ],
       "exact_match": false
@@ -873,6 +911,7 @@
       "predicted_categories": [
         "Stakeholder",
         "Integration",
+        "Audit/Reporting",
         "Operational"
       ],
       "exact_match": false
@@ -887,6 +926,7 @@
       ],
       "predicted_categories": [
         "Security",
+        "Data-management",
         "Audit/Reporting"
       ],
       "exact_match": false
@@ -901,7 +941,6 @@
       "predicted_categories": [
         "Security",
         "Privacy",
-        "Regulatory",
         "Data-management"
       ],
       "exact_match": false
@@ -928,7 +967,7 @@
         "Business"
       ],
       "predicted_categories": [
-        "Stakeholder",
+        "Data-management",
         "Audit/Reporting"
       ],
       "exact_match": false
