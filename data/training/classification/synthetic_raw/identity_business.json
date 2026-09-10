@@ -1,0 +1,392 @@
+{
+  "purpose": "Day 11 second augmentation: identity/KYC requirements labelled to the ground-truth convention (Privacy + Security when personal identity data is acted upon), plus Business requirements where the business rule is the reason the requirement exists. All UNVERIFIED.",
+  "requirements": [
+    {
+      "id": "IDB-001",
+      "statement": "The system shall verify the applicant's identity by matching a live facial capture against the photograph on the submitted government identity document.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Security",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-002",
+      "statement": "The system shall perform liveness detection during video onboarding to confirm a real person is present rather than a photograph or recording.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Privacy"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-003",
+      "statement": "The system shall extract the name, date of birth, and identity number from an uploaded identity document using optical character recognition and present them to the applicant for confirmation.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Usability"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-004",
+      "statement": "The system shall mask the customer's date of birth and full address on every screen visible to first-line support staff.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Stakeholder"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-005",
+      "statement": "The system shall encrypt biometric templates using a hardware security module and shall never store the raw biometric image.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Data-management"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-006",
+      "statement": "The system shall verify the applicant's PAN against the income tax department database before opening an account.",
+      "categories": [
+        "Functional",
+        "Regulatory",
+        "Privacy",
+        "Integration"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-007",
+      "statement": "The system shall authenticate a returning customer using a fingerprint or face scan registered on their enrolled device.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Usability",
+        "Functional"
+      ],
+      "domain": "channels",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-008",
+      "statement": "The system shall re-verify the customer's identity with a fresh facial capture before processing a change to their registered mobile number.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Functional"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-009",
+      "statement": "The system shall redact identity document numbers from any file exported to an external analytics environment.",
+      "categories": [
+        "Privacy",
+        "Security",
+        "Data-management"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-010",
+      "statement": "The system shall verify the applicant's address by matching the uploaded utility bill against the address declared in the application.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-011",
+      "statement": "The system shall capture and store the customer's signature specimen for verification against future instruction forms.",
+      "categories": [
+        "Functional",
+        "Privacy",
+        "Security"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-012",
+      "statement": "The system shall require dual authorisation before any operator can view a customer's unmasked identity document.",
+      "categories": [
+        "Security",
+        "Privacy",
+        "Stakeholder",
+        "Audit/Reporting"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-013",
+      "statement": "The system shall detect and reject an identity document that has been digitally altered before accepting it for onboarding.",
+      "categories": [
+        "Security",
+        "Functional",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-014",
+      "statement": "The system shall verify that the name on the applicant's bank account matches the name on their identity document before enabling disbursement.",
+      "categories": [
+        "Functional",
+        "Security",
+        "Privacy",
+        "Business"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-015",
+      "statement": "The system shall retain video onboarding recordings for five years from the date of account opening.",
+      "categories": [
+        "Data-management",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-016",
+      "statement": "The system shall archive superseded identity documents while keeping the current version immediately retrievable.",
+      "categories": [
+        "Data-management",
+        "Operational"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-017",
+      "statement": "The system shall integrate with the national identity authority's verification service over a dedicated leased line.",
+      "categories": [
+        "Integration",
+        "Regulatory"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-018",
+      "statement": "The system shall queue identity verification requests when the upstream identity provider is unavailable and process them once service resumes.",
+      "categories": [
+        "Integration",
+        "Availability",
+        "Operational"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-019",
+      "statement": "The system shall record the outcome of every identity verification attempt, including the provider reference and response code.",
+      "categories": [
+        "Audit/Reporting",
+        "Data-management"
+      ],
+      "domain": "kyc",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-020",
+      "statement": "The system shall offer a reduced interest rate to applicants whose salary account is held with the bank.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-021",
+      "statement": "The system shall cap the total unsecured exposure to any single customer at five times their declared monthly income.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-022",
+      "statement": "The system shall decline applications from applicants below the minimum age or above the maximum age configured for the product.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-023",
+      "statement": "The system shall charge a foreclosure fee calculated as a configurable percentage of the outstanding principal.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-024",
+      "statement": "The system shall allow the product owner to define a promotional interest rate valid between a start and end date.",
+      "categories": [
+        "Business",
+        "Stakeholder",
+        "Operational"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-025",
+      "statement": "The system shall tier transaction charges by customer segment, with premium account holders exempt from domestic transfer fees.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "payments",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-026",
+      "statement": "The system shall require a minimum average quarterly balance and shall levy a shortfall charge when it is not maintained.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "core_banking",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-027",
+      "statement": "The system shall route an application to manual underwriting when the requested amount exceeds the automated approval limit for the applicant's risk grade.",
+      "categories": [
+        "Business",
+        "Stakeholder",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-028",
+      "statement": "The system shall apply a cashback of a configurable percentage on card spend above a monthly threshold, capped at a maximum amount.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-029",
+      "statement": "The system shall allow a customer to select a repayment tenure only from the options permitted for the chosen product and loan amount.",
+      "categories": [
+        "Business",
+        "Functional",
+        "Usability"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-030",
+      "statement": "The system shall reduce the credit limit automatically when a customer's internal risk score falls below the configured threshold.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-031",
+      "statement": "The system shall recognise revenue from processing fees at the point of disbursement rather than at application.",
+      "categories": [
+        "Business",
+        "Audit/Reporting"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-032",
+      "statement": "The system shall allow the pricing team to simulate the portfolio impact of a proposed rate change before publishing it.",
+      "categories": [
+        "Business",
+        "Stakeholder",
+        "Functional"
+      ],
+      "domain": "lending",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    },
+    {
+      "id": "IDB-033",
+      "statement": "The system shall waive the annual card fee for the first year and apply it from the second anniversary onward.",
+      "categories": [
+        "Business",
+        "Functional"
+      ],
+      "domain": "cards",
+      "source": "synthetic:claude-authored-identity-business",
+      "verified": false
+    }
+  ]
+}

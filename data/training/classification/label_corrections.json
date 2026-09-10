@@ -22,38 +22,101 @@
   "corrections": [
     {
       "id": "FIN-003",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "EPFO integration is fetching employment data for underwriting. The data source is government-run, but no mandate requires this check -- parallels ground_truth REQ-003 (fetch CIBIL scores), which is not Regulatory."
     },
     {
       "id": "FIN-012",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "Supporting RTGS transfers is payment-rail plumbing with a settlement-time characteristic. RBI operates RTGS, but the requirement is functional/performance -- parallels ground_truth REQ-030 (NPCI UPI switch integration), which is not Regulatory."
     },
     {
       "id": "FIN-018",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "Multi-currency accounts and live forex conversion. FEMA governs the domain, but the statement describes a product feature, not a compliance duty."
     },
     {
       "id": "FIN-046",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "Routing mutual fund orders via BSE StAR MF / NSE NMF is exchange plumbing -- the same category as REQ-030's UPI switch integration."
     },
     {
       "id": "FIN-056",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "Active-active geographic redundancy is a pure availability requirement. RBI does mandate DR posture for banks, but nothing in the statement ties it to that mandate."
     },
     {
       "id": "REQ-105",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "A 15-second UPI response target is a performance SLA on a regulated rail, not a compliance duty."
     },
     {
       "id": "REQ-106",
-      "remove": ["Regulatory"],
+      "remove": [
+        "Regulatory"
+      ],
       "reason": "Capping transaction-status checks at 3 attempts per 90 seconds is an operational rate limit."
+    },
+    {
+      "id": "FIN-021",
+      "add": [
+        "Privacy",
+        "Security"
+      ],
+      "reason": "V-CIP captures and matches a live video of the customer's face -- identity data acted upon, the REQ-016 pattern."
+    },
+    {
+      "id": "AUG-030",
+      "add": [
+        "Privacy",
+        "Security"
+      ],
+      "reason": "Video KYC captures the customer's face for identity verification -- the REQ-002 / REQ-016 pattern."
+    },
+    {
+      "id": "FIN-052",
+      "add": [
+        "Privacy"
+      ],
+      "reason": "Fingerprint and face recognition process biometric personal data. Security was already present; Privacy was missing."
+    },
+    {
+      "id": "REQ-104",
+      "add": [
+        "Privacy"
+      ],
+      "reason": "Aadhaar OTP e-KYC against the registered mobile number is identity verification on personal data -- REQ-002 carries Privacy for the same thing."
+    },
+    {
+      "id": "REQ-217",
+      "add": [
+        "Privacy"
+      ],
+      "reason": "Importing biometric clock-in records is processing biometric personal data, even in an HR context."
+    },
+    {
+      "id": "FIN-030",
+      "add": [
+        "Regulatory"
+      ],
+      "reason": "A compliance dashboard of STR filings and overdue KYC renewals is regulator-facing oversight -- ground_truth REQ-019 (compliance team review of flagged onboarding) carries Regulatory."
     }
-  ]
+  ],
+  "identity_data_rule": {
+    "statement": "Apply Privacy when the requirement acts on personal identity data as its subject, and Security when it involves authentication, encryption, masking, or access control. Retention and integration plumbing get neither.",
+    "derived_from": "ground_truth.json: REQ-002 (eKYC identity verification), REQ-008 (encrypt PII), REQ-016 (selfie matched against Aadhaar photo) and REQ-017 (mask Aadhaar number) all carry Privacy AND Security. By contrast REQ-009 (retain KYC documents 8 years) is Data-management + Regulatory with neither, and REQ-022 (integrate the UIDAI API) is Integration + Regulatory with neither.",
+    "why_it_matters": "The training corpus taught the opposite. Across the 13 identity/KYC/Aadhaar/biometric rows, only 15% carried Privacy and 23% carried Security, against 50% and 62% in ground truth. Both fine-tuned models learned that convention faithfully and then failed on exactly those requirements -- REQ-016 missed Privacy, Regulatory and Security together, REQ-002 missed Privacy. It is a systematically mislearned rule, not scattered noise."
+  }
 }
