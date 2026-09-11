@@ -46,6 +46,24 @@ DEFAULT_MODEL = "llama3.2:3b"   # pinned Day 12 by benchmark; see evaluation/res
 MAX_RETRIES = 3
 TIMEOUT = 300          # generous: a cold model load off NTFS can take minutes
 
+# Context length trades directly against speed on a 4GB GPU, because the KV
+# cache scales with it and this card has no room to spare. Measured on
+# llama3.2:3b:
+#
+#   num_ctx 4096   model occupies ~2.3 GB, fully GPU-resident, fast
+#   num_ctx 8192   model occupies ~3.08 GB, 0.78 GB spills to system RAM,
+#                  and the KYC scenario did not finish extraction in 6.5 min
+#                  (it completed comfortably at 4096)
+#
+# So 4096 stays. The way to buy room is to send less, not to raise this:
+# dropping the duplicated schema from the system prompt (see call_structured)
+# freed ~605 tokens per call for nothing, and batching the quality agent
+# per-requirement would free far more.
+#
+# Raise it only when serving from the cloud tier, where VRAM is not the
+# constraint -- set OLLAMA_NUM_CTX in that environment.
+DEFAULT_NUM_CTX = 4096
+
 T = TypeVar("T", bound=BaseModel)
 
 
@@ -56,6 +74,10 @@ def get_host() -> str:
 
 def get_model() -> str:
     return os.getenv("OLLAMA_MODEL", DEFAULT_MODEL)
+
+
+def get_num_ctx() -> int:
+    return int(os.getenv("OLLAMA_NUM_CTX", DEFAULT_NUM_CTX))
 
 
 def is_cloud() -> bool:
@@ -104,7 +126,7 @@ def generate(
         "system": system_prompt,
         "prompt": user_prompt,
         "stream": False,
-        "options": {"temperature": temperature},
+        "options": {"temperature": temperature, "num_ctx": get_num_ctx()},
     }
     if json_mode:
         # A dict here constrains decoding to that schema; "json" only forces
@@ -176,11 +198,16 @@ def call_structured(
     so the model gets told what it got wrong rather than just being asked again.
     """
     schema = response_model.model_json_schema()
+
+    # The schema is passed to Ollama's `format` field below, which constrains
+    # decoding to it. Repeating it as prose in the system prompt costs ~595
+    # tokens per call of a 4096-token budget (measured on QualityReport) and
+    # buys nothing, so it is deliberately NOT included here. Keep it that way:
+    # the instruction is what the model needs, the grammar does the enforcing.
     schema_hint = (
         f"{system_prompt}\n\n"
-        "Respond with a single JSON object and nothing else. No prose, no "
-        "explanation, no markdown fences. It must validate against this schema:\n"
-        f"{json.dumps(schema, indent=2)}"
+        "Respond with a single JSON object and nothing else. "
+        "No prose, no explanation, no markdown fences."
     )
 
     prompt = user_prompt
