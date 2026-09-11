@@ -12,15 +12,23 @@ The project follows a day-by-day 4-month implementation roadmap at `implementati
 
 The plan's Day 12 section carries an **ARCHITECTURE CHANGE** that supersedes the earlier design:
 
-> The core pipeline must use a **local lightweight LLM** (Phi-3.5 3.8B via Ollama), **NOT** the Gemini API. Gemini is kept only as a baseline for comparison. QLoRA fine-tuning is pulled into Month 1.
+> The core pipeline must use a **local lightweight LLM via Ollama**, **NOT** the Gemini API. Gemini is kept only as a baseline for comparison. QLoRA fine-tuning is pulled into Month 1.
 
 Three consequences:
 
-1. **Gemini is demoted to a baseline.** The shipping pipeline must run offline with no API calls. `src/utils/llm_gemini.py` stays, but only for comparison runs.
-2. **Phi-3.5 3.8B replaces Llama-3.1-8B** as the fine-tuning target — it fits the 4GB RTX 3050 in this environment, where an 8B model does not.
+1. **Gemini is demoted to a baseline.** The shipping pipeline must run offline with no API calls. `src/utils/llm_gemini.py` stays, but only for comparison runs and as a data-generation tool (output manually verified).
+2. **A 3–4B local model replaces Llama-3.1-8B** as the fine-tuning target. Not chosen yet — Day 12 picks it by benchmark.
 3. **QLoRA moves from Month 2 into Month 1** (Days 13–16), as does the whole SDLC engine.
 
-**The plan is internally inconsistent about this.** Only Days 12–20 were revised; the rest of the document still names Llama-3.1-8B (11 mentions) and GPT-4o (25 mentions). When those conflict with the Day 12 note, **the Day 12 note wins** — it is dated later and explicitly labelled an architecture change.
+### Why not Llama-3.1-8B
+
+Training it with QLoRA on Colab's free T4 is feasible. **Serving it is not.** This machine has a 4GB RTX 3050 and 7GB system RAM (~5GB free). An 8B model at 4-bit is ~4.7–4.9GB, so it cannot sit in VRAM and would spill into RAM that Python, RoBERTa and the OS already share — a few tokens/second with heavy swapping, against long JSON extraction outputs.
+
+Since "runs offline on this laptop" is the hard Day 17–18 Definition of Done, **inference capacity is the binding constraint, not training capacity.** Train wherever is convenient; the adapter has to come home to a ~3GB budget.
+
+A Llama-3.1-8B QLoRA run on Colab stays worthwhile as an **optional E7 row** in the Week 11 comparison matrix — it demonstrates 8B fine-tuning without the pipeline depending on it. Only if Week 11 has slack.
+
+The plan has been reconciled with this change (banner at the top, §2/§3 tables, §8 structure, Week 5, and the E1–E7 matrix). Older prose elsewhere in it may still read as pre-revision; **the banner wins.**
 
 ### Current status
 
@@ -28,7 +36,7 @@ Three consequences:
 
 One Definition-of-Done item was **not** met: Day 11 required the fine-tuned model to beat the LLM baselines. It does not — 80.2% against few-shot Gemini's 84.0%. It wins on latency by ~1,450x. See the baseline table below.
 
-**Day 12 is next:** install Ollama on WSL2, pull `phi3.5`, and write `src/utils/llm_ollama.py` with the same interface as `llm_gemini.py`.
+**Day 12 is next:** install Ollama on WSL2, benchmark the candidate models that fit VRAM, write `src/utils/llm_ollama.py` with the same interface as `llm_gemini.py`, and pin the winner here and in the plan.
 
 ## Progress Summary (Days 1–11)
 
@@ -46,11 +54,11 @@ One Definition-of-Done item was **not** met: Day 11 required the fine-tuned mode
 
 | Day | What to build | Key files |
 |-----|--------------|-----------|
-| **12** | Ollama on WSL2, pull `phi3.5` (~2.5 GB), local LLM wrapper matching the `llm_gemini.py` interface. Prompted extraction + SDLC baselines. | `src/utils/llm_ollama.py` |
-| **13–14** | Extraction dataset (~100–150 instruction/output pairs, Gemini as a *data-generation tool* then manually verified). QLoRA fine-tune Phi-3.5. Colab free T4 if 4GB VRAM is too tight — deploy the adapter locally. | `notebooks/07_finetune_phi_extraction.py`, `data/training/extraction/` |
-| **15–16** | SDLC recommendation engine + QLoRA fine-tune on the SDLC task (multi-task or a separate adapter). ~100–150 examples covering all 7 models. | `src/models/sdlc.py`, `src/agents/sdlc.py`, `data/training/sdlc/` |
-| **17–18** | End-to-end pipeline with **no API calls**: Phi-3.5 extraction → RoBERTa classification → Phi-3.5 SDLC. CLI entry point. | `main.py`, `src/graph.py` |
-| **19–20** | Comparison: Gemini (prompted) vs Phi-3.5 (prompted) vs Phi-3.5 (fine-tuned), on 3+ scenarios, with latency. | comparison notebook |
+| **12** | Ollama on WSL2. **Benchmark** candidates that fit VRAM (`phi3.5` ~2.2 GB, `qwen2.5:3b` ~1.9 GB, `llama3.2:3b` ~2.0 GB) on tokens/sec, peak VRAM, valid-JSON rate and extraction quality; record the oversized rejects too. Wrapper matching the `llm_gemini.py` interface. Pin the winner. | `src/utils/llm_ollama.py`, `evaluation/results/day12_local_llm_benchmark.json` |
+| **13–14** | Extraction dataset (~100–150 instruction/output pairs, Gemini as a *data-generation tool* then manually verified). QLoRA fine-tune the chosen model. Colab free T4 if 4GB is too tight — deploy the adapter locally. | `notebooks/07_finetune_extraction.py`, `data/training/extraction/`, `models/local_extractor/` |
+| **15–16** | SDLC recommendation engine + QLoRA on the SDLC task. Separate adapters are easier to evaluate and swap than multi-task. ~100–150 examples covering all 7 models. | `src/models/sdlc.py`, `src/agents/sdlc.py`, `data/training/sdlc/`, `models/local_sdlc/` |
+| **17–18** | End-to-end pipeline with **no API calls**: local extraction → RoBERTa classification → local SDLC. CLI entry point. **Verify by disabling networking and re-running.** | `main.py`, `src/graph.py` |
+| **19–20** | Comparison: Gemini (prompted) vs local (prompted) vs local (fine-tuned), on 3+ scenarios, with latency. | comparison notebook |
 | **21** | Metrics, Week 3 review. | |
 | **22–30** | Weakest-link improvement, edge cases, cleanup, demo notebook, docs, Month 1 checkpoint. | |
 
@@ -71,9 +79,9 @@ The system is a **three-layer ML architecture** orchestrated as a LangGraph mult
 
 - **Layer 1 — Fine-tuned specialist models (this team trains these):**
   - `bert-base-uncased` and `roberta-base` fine-tuned as **multi-label classifiers** over 13 requirement categories (Month 1). Multi-label via `BCEWithLogitsLoss` — each category is an independent binary decision — decoded with sigmoid plus a threshold calibrated on validation (not a fixed 0.5). One class per architecture, dispatched by `config.model_type` through `src/models/multilabel.py`.
-  - `Phi-3.5-mini` (3.8B) fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). Replaces the originally planned Llama-3.1-8B: 8B does not fit the 4GB RTX 3050 here, Phi-3.5 does. Train on Colab's free T4 if 4GB is too tight for training, then deploy the adapter locally.
+  - A **3–4B local model** fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). The specific model is chosen on Day 12 by benchmark, not assumed — candidates must fit ~3GB of real headroom. Train on Colab's free T4 if 4GB is too tight, then deploy the adapter locally.
 - **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial regulation documents (Month 2).
-- **Layer 3 — Local LLM (Phi-3.5 via Ollama):** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Must run **offline, with no API calls**.
+- **Layer 3 — Local LLM (via Ollama):** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Must run **offline, with no API calls**. Model TBD on Day 12.
 - **Baseline only — Gemini API:** the yardstick every local/fine-tuned model is measured against. Kept and maintained, never in the shipping path. Also legitimate as a *data-generation tool* for building training sets, provided the output is manually verified before use.
 
 ### Pipeline (LangGraph `StateGraph`, one node per agent)
@@ -167,14 +175,15 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
   - `HF_TOKEN` — **currently a placeholder**. Less urgent since the revision: Phi-3.5 is not gated, and Ollama pulls its own weights independently of the Hub. Still worth setting — anonymous Hub downloads are rate-limited, which is how `roberta-base` first failed. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
 - **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
-- **Local LLM:** Phi-3.5-mini 3.8B via Ollama on WSL2 (~2.5 GB pull). The core pipeline's reasoner from Day 12.
+- **Local LLM:** chosen on Day 12 by benchmark, served by Ollama on WSL2. The core pipeline's reasoner from Day 12 onward. Must fit ~3GB of real headroom.
 - **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. `llm_ollama.py` joins it at Day 12 and should become the default, with Gemini reachable explicitly for comparison runs.
-- **GPU:** RTX 3050 4GB (WSL2). Drives the model choices — BERT/RoBERTa fine-tune comfortably; Phi-3.5 QLoRA may need Colab's free T4 for training, with the adapter deployed locally afterwards. Writes to `/mnt/f` are slow (NTFS through WSL), so a 440 MB checkpoint save costs ~6 s.
+- **Hardware:** RTX 3050 **4GB VRAM**, **7GB system RAM** (~5GB free), WSL2. This is the binding constraint on every model choice — BERT/RoBERTa fine-tune comfortably, but anything above ~3GB at 4-bit cannot be served. QLoRA may need Colab's free T4 for training, with the adapter deployed locally. Writes to `/mnt/f` are slow (NTFS through WSL): a 440 MB checkpoint save costs ~6 s.
 
 ## Working Conventions
 
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
-- **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local Phi-3.5 (prompted) vs Phi-3.5 (fine-tuned).
+- **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local (prompted) vs local (fine-tuned).
+- **Model choices are made by benchmark, not assumption.** Day 12 measures candidates on this hardware before pinning one. Record the rejected oversized candidates and why — that reasoning is the Week 11 E1–E7 ablation story.
 - **The shipping pipeline runs offline.** No API calls in the core path. Gemini is a baseline and a data-generation tool, never a dependency.
 - **Ground truth is sacred** — `ground_truth.json` (32 verified requirements) is the held-out eval set. NEVER included in training data.
 - **Training data quality** — synthetic examples are manually reviewed before use. Don't treat LLM-generated labels as ground truth. **The Day 9–11 additions are not yet reviewed**: 65 rows and 13 label corrections are all `verified: false`.
