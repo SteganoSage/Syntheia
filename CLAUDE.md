@@ -8,9 +8,29 @@ Syntheia is an agentic AI system for **automated requirement gathering, analysis
 
 The project follows a day-by-day 4-month implementation roadmap at `implementation-plans/implementation_plan3.md` (the current/superseding plan). **This directory is gitignored** — it's a local planning reference only.
 
-The project is currently at the end of **Month 1, Day 9–11** — the 3-node LangGraph pipeline is operational and the classification node now runs a fine-tuned RoBERTa classifier (80.2% micro-F1 on held-out ground truth, 21 ms/requirement) instead of the Gemini few-shot baseline. RAG and the QLoRA Llama extractor are next (Month 2).
+### ⚠️ Architecture change — plan revised 11 Sep 2026
 
-## Progress Summary (Day 1–8)
+The plan's Day 12 section carries an **ARCHITECTURE CHANGE** that supersedes the earlier design:
+
+> The core pipeline must use a **local lightweight LLM** (Phi-3.5 3.8B via Ollama), **NOT** the Gemini API. Gemini is kept only as a baseline for comparison. QLoRA fine-tuning is pulled into Month 1.
+
+Three consequences:
+
+1. **Gemini is demoted to a baseline.** The shipping pipeline must run offline with no API calls. `src/utils/llm_gemini.py` stays, but only for comparison runs.
+2. **Phi-3.5 3.8B replaces Llama-3.1-8B** as the fine-tuning target — it fits the 4GB RTX 3050 in this environment, where an 8B model does not.
+3. **QLoRA moves from Month 2 into Month 1** (Days 13–16), as does the whole SDLC engine.
+
+**The plan is internally inconsistent about this.** Only Days 12–20 were revised; the rest of the document still names Llama-3.1-8B (11 mentions) and GPT-4o (25 mentions). When those conflict with the Day 12 note, **the Day 12 note wins** — it is dated later and explicitly labelled an architecture change.
+
+### Current status
+
+**Days 9–11 are complete.** The 3-node LangGraph pipeline is operational and the classification node runs a fine-tuned RoBERTa classifier (80.2% micro-F1 on held-out ground truth, 21 ms/requirement) instead of the Gemini few-shot baseline.
+
+One Definition-of-Done item was **not** met: Day 11 required the fine-tuned model to beat the LLM baselines. It does not — 80.2% against few-shot Gemini's 84.0%. It wins on latency by ~1,450x. See the baseline table below.
+
+**Day 12 is next:** install Ollama on WSL2, pull `phi3.5`, and write `src/utils/llm_ollama.py` with the same interface as `llm_gemini.py`.
+
+## Progress Summary (Days 1–11)
 
 | Day | What Was Built | Key Files |
 |-----|---------------|-----------|
@@ -22,7 +42,19 @@ The project is currently at the end of **Month 1, Day 9–11** — the 3-node La
 | **7–8** | 343 labelled training requirements (56% finance), HF Dataset conversion | `data/training/classification/training_set.json`, `notebooks/04_prepare_bert_dataset.py` |
 | **9–11** | Fine-tuned BERT + RoBERTa multi-label classifiers, per-architecture registry, corpus grown to 445 with RBI-grounded requirements, classifier wired into the pipeline | `src/models/multilabel.py`, `src/models/{bert,roberta}_classifier.py`, `notebooks/05_train_bert.py`, `notebooks/06_evaluate_bert.py` |
 
-### Baseline Numbers (to beat with fine-tuned BERT)
+### Month 1 remaining (revised plan)
+
+| Day | What to build | Key files |
+|-----|--------------|-----------|
+| **12** | Ollama on WSL2, pull `phi3.5` (~2.5 GB), local LLM wrapper matching the `llm_gemini.py` interface. Prompted extraction + SDLC baselines. | `src/utils/llm_ollama.py` |
+| **13–14** | Extraction dataset (~100–150 instruction/output pairs, Gemini as a *data-generation tool* then manually verified). QLoRA fine-tune Phi-3.5. Colab free T4 if 4GB VRAM is too tight — deploy the adapter locally. | `notebooks/07_finetune_phi_extraction.py`, `data/training/extraction/` |
+| **15–16** | SDLC recommendation engine + QLoRA fine-tune on the SDLC task (multi-task or a separate adapter). ~100–150 examples covering all 7 models. | `src/models/sdlc.py`, `src/agents/sdlc.py`, `data/training/sdlc/` |
+| **17–18** | End-to-end pipeline with **no API calls**: Phi-3.5 extraction → RoBERTa classification → Phi-3.5 SDLC. CLI entry point. | `main.py`, `src/graph.py` |
+| **19–20** | Comparison: Gemini (prompted) vs Phi-3.5 (prompted) vs Phi-3.5 (fine-tuned), on 3+ scenarios, with latency. | comparison notebook |
+| **21** | Metrics, Week 3 review. | |
+| **22–30** | Weakest-link improvement, edge cases, cleanup, demo notebook, docs, Month 1 checkpoint. | |
+
+### Classification results (Days 9–11)
 
 | Classifier | Micro F1 | Macro F1 | Exact Match | Latency |
 |-----------|----------|----------|-------------|---------|
@@ -39,19 +71,29 @@ The system is a **three-layer ML architecture** orchestrated as a LangGraph mult
 
 - **Layer 1 — Fine-tuned specialist models (this team trains these):**
   - `bert-base-uncased` and `roberta-base` fine-tuned as **multi-label classifiers** over 13 requirement categories (Month 1). Multi-label via `BCEWithLogitsLoss` — each category is an independent binary decision — decoded with sigmoid plus a threshold calibrated on validation (not a fixed 0.5). One class per architecture, dispatched by `config.model_type` through `src/models/multilabel.py`.
-  - `Llama-3.1-8B-Instruct` fine-tuned via **QLoRA** as a requirement **extractor** (Month 2).
+  - `Phi-3.5-mini` (3.8B) fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). Replaces the originally planned Llama-3.1-8B: 8B does not fit the 4GB RTX 3050 here, Phi-3.5 does. Train on Colab's free T4 if 4GB is too tight for training, then deploy the adapter locally.
 - **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial regulation documents (Month 2).
-- **Layer 3 — General LLM API (Gemini):** used for extraction, quality checking, SDLC justification. Also serves as the **zero-shot/few-shot baseline** that fine-tuned models are benchmarked against.
+- **Layer 3 — Local LLM (Phi-3.5 via Ollama):** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Must run **offline, with no API calls**.
+- **Baseline only — Gemini API:** the yardstick every local/fine-tuned model is measured against. Kept and maintained, never in the shipping path. Also legitimate as a *data-generation tool* for building training sets, provided the output is manually verified before use.
 
 ### Pipeline (LangGraph `StateGraph`, one node per agent)
 
-**Phase 1 — Problem Scenario → Requirements (OPERATIONAL):**
-`Extraction Agent (Gemini) → Classification Agent (fine-tuned RoBERTa) → Quality Agent (Gemini) → Structured Requirements`
+**Phase 1 — Problem Scenario → Requirements**
+
+Currently (extraction and quality still on the API — to be replaced Days 12–18):
+`Extraction (Gemini) → Classification (fine-tuned RoBERTa) → Quality (Gemini) → Structured Requirements`
+
+Target after Day 18 — no API calls anywhere in this path:
+`Extraction (fine-tuned Phi-3.5) → Classification (fine-tuned RoBERTa) → Quality (Phi-3.5) → SDLC (fine-tuned Phi-3.5)`
 
 The classification agent resolves its model from `models/roberta_classifier` then `models/bert_classifier`, overridable with `SYNTHEIA_CLASSIFIER_DIR`, and falls back to the few-shot LLM when nothing is trained. Retraining changes what the pipeline uses with no code edit. Compare against the baselines with `python -m src.graph --classifier few_shot`.
 
-**Phase 2 — Requirements → SDLC Recommendation (Day 15-20):**
-`Feature Extractor → Scoring Matrix → LLM Justification → Ranked SDLC`
+**Phase 2 — Requirements → SDLC Recommendation (Days 15–16):**
+`Requirements → SDLC Agent (fine-tuned Phi-3.5) → Ranked SDLC + justification`
+
+Grounded in the supervisor's selection framework: **4 tables × 19 questions** (Requirements, Project Team, Project Type & Risk, User Community) over **7 SDLC models** — Waterfall, V-Shape, Prototyping, RAD, Incremental & Iterative, Spiral, Agile.
+
+Definition of Done worth noting: a loan scenario should recommend Agile or Spiral (**not** Waterfall), a payment system should differ, and the justification must reference actual requirements and selection criteria.
 
 ### Requirement Model (13 fields)
 
@@ -70,15 +112,20 @@ src/models/       # Pydantic schemas (requirement.py, quality.py) plus the class
                   #                    decode helpers, MultiLabelClassifier wrapper
                   #   bert_classifier.py / roberta_classifier.py -- one per architecture
 src/utils/        # LLM gateway (llm.py → llm_gemini.py/llm_openai.py) with round-robin key rotation
+                  #   llm_ollama.py -- local Phi-3.5, Day 12, same interface as llm_gemini
 src/rag/          # Document loader, chunker, embedder, ChromaDB — Month 2
-src/training/     # Fine-tuning scripts/configs — Month 2
+src/training/     # QLoRA fine-tuning scripts/configs — Days 13-16
 src/generators/   # Document generation (SRS) — Month 3
 app/              # Web application layer — Month 3
-data/training/    # Hand-labelled training datasets (343 requirements, 13 categories)
+data/training/    # classification/ 445 requirements, 13 categories (done)
+                  # extraction/     instruction-tuning pairs for QLoRA (Day 13-14)
+                  # sdlc/           requirements -> SDLC + justification (Day 15-16)
 models/           # Trained models. Everything here is gitignored except MODEL_CARD.md
                   # in each directory -- weights, config.json, tokenizer.json and
                   # threshold.json are all regenerated by training
-notebooks/        # Sequential scripts (01_hf_basics → 04_prepare_bert_dataset)
+notebooks/        # Sequential scripts (01_hf_basics → 06_evaluate_bert;
+                  #   07_finetune_phi_extraction next)
+main.py           # CLI entry point -- `python main.py --scenario x.txt`, Day 17-18
 evaluation/       # Baseline results (day4_extraction, day5_classification)
 tests/
 ```
@@ -100,6 +147,10 @@ python -m notebooks.06_evaluate_bert --model-dir models/roberta_classifier --com
 # run the pipeline
 python -m src.graph                          # fine-tuned classifier
 python -m src.graph --classifier few_shot    # LLM baseline, for comparison
+
+# local LLM (Day 12 onward)
+ollama serve                                 # daemon
+ollama run phi3.5                            # smoke-test the model
 ```
 
 Never run two trainings at once — they share `models/experiments/<model_type>_run/`
@@ -114,14 +165,17 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 - Secrets in `.env` (gitignored); `.env.example` is the template.
   - `GEMINI_API_KEY` — supports **comma-separated multiple keys** for round-robin rotation (bypasses free-tier rate limits). Keys from different GCP projects.
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
-  - `HF_TOKEN` — **currently a placeholder**. Public models download anonymously (rate-limited), but Month 2's gated Llama-3.1-8B will need a real token. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
-- **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`).
-- **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. Currently only Gemini is active.
+  - `HF_TOKEN` — **currently a placeholder**. Less urgent since the revision: Phi-3.5 is not gated, and Ollama pulls its own weights independently of the Hub. Still worth setting — anonymous Hub downloads are rate-limited, which is how `roberta-base` first failed. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
+- **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
+- **Local LLM:** Phi-3.5-mini 3.8B via Ollama on WSL2 (~2.5 GB pull). The core pipeline's reasoner from Day 12.
+- **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. `llm_ollama.py` joins it at Day 12 and should become the default, with Gemini reachable explicitly for comparison runs.
+- **GPU:** RTX 3050 4GB (WSL2). Drives the model choices — BERT/RoBERTa fine-tune comfortably; Phi-3.5 QLoRA may need Colab's free T4 for training, with the adapter deployed locally afterwards. Writes to `/mnt/f` are slow (NTFS through WSL), so a 440 MB checkpoint save costs ~6 s.
 
 ## Working Conventions
 
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
-- **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`.
+- **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local Phi-3.5 (prompted) vs Phi-3.5 (fine-tuned).
+- **The shipping pipeline runs offline.** No API calls in the core path. Gemini is a baseline and a data-generation tool, never a dependency.
 - **Ground truth is sacred** — `ground_truth.json` (32 verified requirements) is the held-out eval set. NEVER included in training data.
 - **Training data quality** — synthetic examples are manually reviewed before use. Don't treat LLM-generated labels as ground truth. **The Day 9–11 additions are not yet reviewed**: 65 rows and 13 label corrections are all `verified: false`.
 - **Label conventions are inferred, not documented.** The Regulatory and identity-data rules in `data/training/classification/label_corrections.json` were derived by reading what `ground_truth.json` actually does, because nothing states them. They carry the evidence (which ground-truth requirements support each rule) and the known tensions — REQ-008 vs REQ-029 on encryption, REQ-020 vs REQ-028 on audit logging. Read that file before labelling anything new.
