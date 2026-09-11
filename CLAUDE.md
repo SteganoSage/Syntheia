@@ -27,7 +27,7 @@ The supervisor confirmed a cloud-hosted LLM reached by API is **permitted**. So 
 | Tier | Model | Where | Role |
 |------|-------|-------|------|
 | **Cloud (primary)** | Llama-3.1-8B, QLoRA fine-tuned | Colab/Kaggle T4 + Ollama + tunnel | Demo day, best quality |
-| **Local (fallback)** | 3–4B, QLoRA fine-tuned — chosen Day 12 by benchmark | This laptop, Ollama | Dev loop, offline capability, demo insurance |
+| **Local (fallback)** | **`llama3.2:3b`** — pinned Day 12 by benchmark | This laptop, Ollama | Dev loop, offline capability, demo insurance |
 
 **One wrapper serves both.** Ollama's API is OpenAI-compatible and behaves identically on localhost and behind an ngrok/Cloudflare tunnel, so `src/utils/llm_ollama.py` takes a configurable base URL (`OLLAMA_HOST`). Switching tiers is an environment variable, never a second implementation. Write it that way from the start.
 
@@ -210,7 +210,9 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
   - `HF_TOKEN` — **currently a placeholder**. Less urgent since the revision: Phi-3.5 is not gated, and Ollama pulls its own weights independently of the Hub. Still worth setting — anonymous Hub downloads are rate-limited, which is how `roberta-base` first failed. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
 - **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
-- **Local LLM:** chosen on Day 12 by benchmark, served by Ollama on WSL2. Must fit ~3GB of real headroom.
+- **Local LLM: `llama3.2:3b`**, pinned Day 12 by benchmark (`evaluation/results/day12_local_llm_benchmark.json`). 36 tok/s, 2.3GB VRAM, 100% valid JSON, 1.8 categories/requirement.
+  - **`qwen2.5:3b` was faster (47 tok/s) and rejected anyway.** It scored 100% on every automated metric while assigning 5.5 of the 13 categories to every requirement — every label legal, the output useless. `phi3.5` was slowest at 14 tok/s and the only one to invent an out-of-taxonomy label. The speed ranking was the inverse of the quality ranking.
+  - Set `OLLAMA_MODEL` to override.
 - **Ollama is installed** (11 Sep) as a systemd service, `active` and `enabled`, with models on **`/mnt/f/ollama-models`** via a drop-in (`sudo systemctl edit ollama` → `Environment="OLLAMA_MODELS=/mnt/f/ollama-models"`). Not the default `~/.ollama`: that lives on WSL's ext4 vhdx whose `df` "937G free" is the virtual disk's *maximum*, not real space — the vhdx sits on Windows `C:` which has only **45GB free**, while `F:` has 72GB. NTFS slowness does not bite here, since weights are read once at load and then cached.
 - **Cloud LLM:** Llama-3.1-8B via Ollama on a Colab/Kaggle T4 behind an ngrok/Cloudflare tunnel. Reached through the same wrapper by setting `OLLAMA_HOST`.
 - **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. `llm_ollama.py` joins it at Day 12 and should become the default, with Gemini reachable explicitly for comparison runs.
@@ -220,7 +222,8 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
 - **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local (prompted) vs local (fine-tuned).
-- **Model choices are made by benchmark, not assumption.** Day 12 measures candidates on this hardware before pinning one. Record the rejected oversized candidates and why — that reasoning is the Week 11 E1–E7 ablation story.
+- **Model choices are made by benchmark, not assumption.** Day 12 measured candidates on this hardware before pinning one, and the result inverted the expected ranking. Record the rejects and why — that reasoning is the Week 11 E1–E7 ablation story.
+- **A metric that cannot fail is not a metric.** `in_taxonomy_rate` read 100% for a model spraying 5.5 of 13 categories at every requirement: it validated label *names* and never label *counts*. Both the classifier work (Days 9–11) and the extractor work hit this — automated checks confirm format, not sense. **Print the actual output and read it before pinning anything.**
 - **No third-party LLM API in the core path.** Gemini is a baseline and a data-generation tool, never a dependency. Our own fine-tuned model on either tier is fine — cloud-hosted was confirmed permitted on 11 Sep.
 - **Write for both tiers from the start.** Anything touching the LLM goes through the base-URL-configurable wrapper, so local and cloud never diverge into two code paths.
 - **Ground truth is sacred** — `ground_truth.json` (32 verified requirements) is the held-out eval set. NEVER included in training data.
