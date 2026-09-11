@@ -40,6 +40,19 @@ Why keep the local tier at all, now that cloud is allowed:
 
 This is why the local tier stays at 3–4B. A 4GB RTX 3050 with 7GB system RAM (~5GB free) cannot hold an 8B model at 4-bit (~4.7–4.9GB) — it spills into RAM already shared by Python, RoBERTa and the OS, giving a few tokens/second against long JSON extraction outputs.
 
+### "Local tier" means served locally, not trained locally
+
+| | Local 3–4B | Cloud 8B |
+|---|---|---|
+| Trained | Colab T4 (probably) | Colab T4 |
+| Served | this laptop | Colab/Kaggle + tunnel |
+
+QLoRA *training* needs optimiser states, gradients and activations on top of the weights — several times the inference footprint — so even a 3B may exceed 4GB VRAM to train. Both fine-tunes likely run on Colab; **only serving differs.** Write `notebooks/07_finetune_extraction.py` to run on Colab and be parameterised by base model, so one script produces both adapters.
+
+### The dataset is the gate
+
+Neither fine-tune can start until ~100–150 verified instruction/output pairs exist, and hand-verification is the slow part. Days 9–11 proved the point: model and hyperparameter work moved micro-F1 2.9 points across three experiments; one targeted data fix moved it 2.2. Budget Day 13 for the dataset and expect it to be the bottleneck.
+
 ### Free-tier realities (verified 11 Sep)
 
 Colab free: T4 16GB, **~12h max session, ~90min idle timeout** (unpublished, varies), 12–13GB RAM, 2 concurrent notebooks. Kaggle free: ~30h/week GPU.
@@ -197,7 +210,8 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
   - `HF_TOKEN` — **currently a placeholder**. Less urgent since the revision: Phi-3.5 is not gated, and Ollama pulls its own weights independently of the Hub. Still worth setting — anonymous Hub downloads are rate-limited, which is how `roberta-base` first failed. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
 - **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
-- **Local LLM:** chosen on Day 12 by benchmark, served by Ollama on WSL2, models under `/mnt/f/ollama-models` (72GB free; C: has only 45GB). Must fit ~3GB of real headroom.
+- **Local LLM:** chosen on Day 12 by benchmark, served by Ollama on WSL2. Must fit ~3GB of real headroom.
+- **Ollama is installed** (11 Sep) as a systemd service, `active` and `enabled`, with models on **`/mnt/f/ollama-models`** via a drop-in (`sudo systemctl edit ollama` → `Environment="OLLAMA_MODELS=/mnt/f/ollama-models"`). Not the default `~/.ollama`: that lives on WSL's ext4 vhdx whose `df` "937G free" is the virtual disk's *maximum*, not real space — the vhdx sits on Windows `C:` which has only **45GB free**, while `F:` has 72GB. NTFS slowness does not bite here, since weights are read once at load and then cached.
 - **Cloud LLM:** Llama-3.1-8B via Ollama on a Colab/Kaggle T4 behind an ngrok/Cloudflare tunnel. Reached through the same wrapper by setting `OLLAMA_HOST`.
 - **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. `llm_ollama.py` joins it at Day 12 and should become the default, with Gemini reachable explicitly for comparison runs.
 - **Hardware:** RTX 3050 **4GB VRAM**, **7GB system RAM** (~5GB free), WSL2. This is the binding constraint on every model choice — BERT/RoBERTa fine-tune comfortably, but anything above ~3GB at 4-bit cannot be served. QLoRA may need Colab's free T4 for training, with the adapter deployed locally. Writes to `/mnt/f` are slow (NTFS through WSL): a 440 MB checkpoint save costs ~6 s.
