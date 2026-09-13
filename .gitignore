@@ -24,6 +24,7 @@ wheels/
 # Virtual Environments
 venv/
 .venv/
+venv.v9fs-slow/
 ENV/
 
 # Environment Variables

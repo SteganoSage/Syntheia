@@ -199,12 +199,30 @@ ollama run phi3.5                            # smoke-test the model
 Never run two trainings at once — they share `models/experiments/<model_type>_run/`
 and will corrupt each other's checkpoints.
 
+Training writes the model **twice**: to `models/<type>_classifier` in the repo
+(canonical, survives a WSL reset) and to `~/.local/share/syntheia/models/` (what
+the pipeline actually loads, via `SYNTHEIA_CLASSIFIER_DIR`). Both every run, so
+the fast copy cannot go stale and silently serve old weights. `SYNTHEIA_MODEL_HOME=off`
+disables the mirror.
+
 `--pos-weight` is off by default and should stay off: micro-F1 is monotonic in
 the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 
 ## Environment & Configuration
 
-- **Python 3.12**, dependencies in `requirements.txt`. Virtualenv lives in `venv/` (gitignored).
+- **Python 3.12**. The virtualenv lives at **`~/venvs/syntheia`**, NOT in the repo.
+  Activate it (`source ~/venvs/syntheia/bin/activate`) or call
+  `~/venvs/syntheia/bin/python` directly.
+  - **Do not symlink `venv` in the repo to it.** Python derives `sys.prefix`
+    from the path you invoke, so `sys.path` keeps the `/mnt/f` spelling and
+    every import stats through v9fs anyway: measured 2.4 s direct vs 54 s
+    through the symlink, a 22x penalty for the convenience.
+  - `venv.v9fs-slow/` is the old in-repo venv, kept until the new one has
+    proved itself. Delete it to reclaim 6.6 GB.
+  - `requirements.txt` is unpinned (`>=` throughout); `requirements.lock.txt`
+    pins the 219 packages actually installed. Install from the lock file —
+    a fresh resolve can move off `transformers` 5.15.1, whose v5 API the
+    code depends on.
 - Secrets in `.env` (gitignored); `.env.example` is the template.
   - `GEMINI_API_KEY` — supports **comma-separated multiple keys** for round-robin rotation (bypasses free-tier rate limits). Keys from different GCP projects.
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
