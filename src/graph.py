@@ -16,6 +16,7 @@ Run `python -m src.graph` for a quick end-to-end demo, or
 """
 
 import argparse
+import time
 from typing import TypedDict
 
 from langgraph.graph import END, StateGraph
@@ -86,6 +87,14 @@ if __name__ == "__main__":
     else:
         print(f"Classifier: {args.classifier} LLM baseline")
 
+    # Load the classifier and pin the LLM before the clock starts. On a cold
+    # process this is ~96% of a run's wall-clock (Day 13 measurement), and it
+    # is one-off cost, not per-request -- so charging it to startup is the
+    # difference between a 10-minute demo and a 1-minute one.
+    from src.utils.warmup import warm
+    warm()
+
+    t_start = time.perf_counter()
     pipeline = build_pipeline()
     final_state = pipeline.invoke({
         "text": SAMPLE_SCENARIO,
@@ -94,8 +103,11 @@ if __name__ == "__main__":
         "classifier": args.classifier,
     })
 
+    elapsed = time.perf_counter() - t_start
+
     # ── Print requirements ──
-    print(f"Extracted {len(final_state['requirements'])} requirements:\n")
+    print(f"Extracted {len(final_state['requirements'])} requirements "
+          f"in {elapsed:.1f}s (warm):\n")
     for req in final_state["requirements"]:
         print(f"[{req.id}] ({req.priority}) {req.statement}")
         print(f"    Categories:       {req.category}")

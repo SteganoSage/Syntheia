@@ -33,6 +33,7 @@ import json
 import os
 import re
 import time
+from collections.abc import Callable
 from typing import Any, TypeVar
 
 import requests
@@ -63,6 +64,7 @@ TIMEOUT = 300          # generous: a cold model load off NTFS can take minutes
 # Raise it only when serving from the cloud tier, where VRAM is not the
 # constraint -- set OLLAMA_NUM_CTX in that environment.
 DEFAULT_NUM_CTX = 4096
+DEFAULT_KEEP_ALIVE = "-1"   # keep the model resident; see get_keep_alive()
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -78,6 +80,29 @@ def get_model() -> str:
 
 def get_num_ctx() -> int:
     return int(os.getenv("OLLAMA_NUM_CTX", DEFAULT_NUM_CTX))
+
+
+def get_keep_alive() -> int | str:
+    """How long Ollama holds the model in VRAM after a call.
+
+    Ollama's default is 5 minutes, which is shorter than a pipeline run: on the
+    KYC scenario the classification node took 406 s, so the LLM was evicted
+    *during* classification and paid a second 71.5 s reload for the quality
+    stage. Weights live on /mnt/f -- v9fs, WSL's plan9 bridge -- where that
+    reload is expensive.
+
+    "-1" pins the model until something else needs the VRAM. Sent per request
+    rather than set in the systemd unit so the setting travels with the code
+    and applies to the cloud tier too.
+    """
+    raw = os.getenv("OLLAMA_KEEP_ALIVE", DEFAULT_KEEP_ALIVE)
+    # Ollama accepts an integer number of seconds (-1 meaning "never unload")
+    # or a duration string such as "30m". It rejects the *string* "-1" with a
+    # 400, so a numeric setting has to be sent as a JSON number.
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return raw
 
 
 def is_cloud() -> bool:
@@ -98,6 +123,28 @@ def is_available(timeout: float = 3.0) -> bool:
         return False
 
 
+def load_model(model: str | None = None, timeout: float = 600.0) -> bool:
+    """Pull the model into VRAM without generating anything.
+
+    Ollama treats a request with no `prompt` as a load instruction, so this
+    pays the load cost at a moment of our choosing rather than inside the
+    user's first request. On this laptop that is ~78 s off /mnt/f; on the
+    cloud tier it is the ~70 s of silence that most likely caused the
+    Cloudflare 524 on the KYC scenario, which is why the demo runbook warms
+    the endpoint before the audience arrives.
+    """
+    try:
+        r = requests.post(
+            f"{get_host()}/api/generate",
+            json={"model": model or get_model(), "keep_alive": get_keep_alive()},
+            timeout=timeout,
+        )
+        r.raise_for_status()
+        return True
+    except requests.RequestException:
+        return False
+
+
 def list_models() -> list[str]:
     r = requests.get(f"{get_host()}/api/tags", timeout=10)
     r.raise_for_status()
@@ -113,6 +160,7 @@ def generate(
     temperature: float = 0.2,
     json_mode: bool = False,
     schema: dict | None = None,
+    on_token: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
     """One /api/generate call. Returns the full response dict.
 
@@ -120,12 +168,31 @@ def generate(
     `eval_duration`, `load_duration`), which is why the benchmark calls this
     rather than measuring wall-clock: wall-clock on a first call is dominated
     by loading gigabytes off disk, not by generation speed.
+
+    **Streams by default**, reassembling the pieces so the returned dict is
+    shaped exactly like a non-streamed reply -- callers see no difference.
+    Streaming is not faster; it changes two things that matter anyway:
+
+      - A blocking request sends nothing for minutes and then everything at
+        once. Cloudflare's quick tunnel reads that as a dead origin and
+        returns 524: the cloud tier failed the KYC scenario on both runs for
+        exactly this reason, while the two shorter scenarios squeaked under
+        the limit. A streamed reply keeps bytes moving, so the timeout never
+        arms.
+      - `timeout` stops meaning "total wall-clock" and starts meaning "gap
+        between chunks", which is the thing actually worth giving up on.
+
+    `on_token` receives each piece as it arrives -- the hook a progress
+    display or a UI would use. Set OLLAMA_STREAM=0 to force the old blocking
+    behaviour for an A/B.
     """
+    stream = os.getenv("OLLAMA_STREAM", "1") != "0"
     payload: dict[str, Any] = {
         "model": model or get_model(),
         "system": system_prompt,
         "prompt": user_prompt,
-        "stream": False,
+        "stream": stream,
+        "keep_alive": get_keep_alive(),
         "options": {"temperature": temperature, "num_ctx": get_num_ctx()},
     }
     if json_mode:
@@ -133,9 +200,36 @@ def generate(
         # syntactically valid JSON of any shape.
         payload["format"] = schema if schema else "json"
 
-    r = requests.post(f"{get_host()}/api/generate", json=payload, timeout=TIMEOUT)
-    r.raise_for_status()
-    return r.json()
+    url = f"{get_host()}/api/generate"
+
+    if not stream:
+        r = requests.post(url, json=payload, timeout=TIMEOUT)
+        r.raise_for_status()
+        return r.json()
+
+    pieces: list[str] = []
+    final: dict[str, Any] = {}
+    with requests.post(url, json=payload, timeout=TIMEOUT, stream=True) as r:
+        r.raise_for_status()
+        for line in r.iter_lines(decode_unicode=True):
+            if not line:
+                continue
+            try:
+                chunk = json.loads(line)
+            except json.JSONDecodeError:
+                continue          # keep-alive or partial frame; not fatal
+            piece = chunk.get("response", "")
+            if piece:
+                pieces.append(piece)
+                if on_token is not None:
+                    on_token(piece)
+            if chunk.get("done"):
+                final = chunk     # the last frame carries every counter
+
+    # Rebuild the non-streamed shape. The final frame's own "response" is the
+    # empty tail, so it must be overwritten rather than trusted.
+    final["response"] = "".join(pieces)
+    return final
 
 
 def call_text(
