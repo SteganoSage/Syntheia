@@ -134,6 +134,27 @@ The classification agent resolves its model from `models/roberta_classifier` the
 
 Grounded in the supervisor's selection framework: **4 tables × 19 questions** (Requirements, Project Team, Project Type & Risk, User Community) over **7 SDLC models** — Waterfall, V-Shape, Prototyping, RAD, Incremental & Iterative, Spiral, Agile.
 
+**Phase 1 scope (decided 13 Sep): only the Requirements and Project Type & Risk
+tables, and their answers are *inferred* from the extracted requirements — not
+supplied by the user, not asked interactively.**
+
+Those two tables are the ones that can be inferred: requirement clarity,
+stability and complexity are properties of the requirements themselves, and
+criticality, regulatory exposure and technology novelty are already carried in
+the `risk_level` and `applicable_regulations` fields. Project Team (size,
+experience) and User Community (availability, involvement) are *not* derivable
+from a problem scenario — a 118-word KYC brief says nothing about team size —
+so inventing answers for them would be fabrication dressed as inference. They
+move to a later phase, where a supplied or interactive input makes sense.
+
+Consequence for the training pairs: the agent emits the inferred criteria
+*alongside* the recommendation in one structured output —
+`{inferred_criteria: [{question, answer, evidence: REQ-id}], ranked_models,
+recommendation, justification}`. One call, one pair per scenario. Going straight
+from requirements to a bare SDLC name would make the justification unfalsifiable
+and fail the Definition of Done, which requires it to reference actual
+requirements *and* selection criteria.
+
 Definition of Done worth noting: a loan scenario should recommend Agile or Spiral (**not** Waterfall), a payment system should differ, and the justification must reference actual requirements and selection criteria.
 
 ### Requirement Model (13 fields)

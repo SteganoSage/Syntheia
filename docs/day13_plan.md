@@ -116,10 +116,13 @@ Two things to settle before authoring at volume:
   dataset materially smaller and removes the awkward problem of inventing team-size
   answers from a 52-word scenario.
 
-  Still undecided, and it shapes the Day 15 dataset: are the framework
-  questions **inferred** from the requirements, **supplied** by the user, or
-  **asked** interactively? Decide before authoring SDLC training pairs, or they
-  get authored twice.
+  **Decided 13 Sep: inferred.** Not supplied, not asked -- those belong to a
+  later phase. The two retained tables are precisely the evidence-bearing ones;
+  Project Team and User Community cannot be inferred from a scenario and so are
+  deferred rather than fabricated. The agent emits inferred criteria alongside
+  the recommendation in one structured output, so the justification can cite
+  both requirements and criteria as the Definition of Done requires. See
+  CLAUDE.md, Phase 2.
 
 - **65 rows + 13 label corrections are `verified: false`** and still need a
   human label pass.
