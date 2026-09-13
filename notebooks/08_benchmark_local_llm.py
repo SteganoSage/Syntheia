@@ -67,7 +67,7 @@ if str(REPO) not in sys.path:
     sys.path.insert(0, str(REPO))
 
 from src.agents.classification import ALL_CATEGORIES
-from src.models.requirement import ExtractionResult
+from src.models.requirement import ExtractionDraft
 from src.utils import llm_ollama as O
 
 SCENARIOS = sorted((REPO / "data/test_cases").glob("*/scenario_01.txt"))
@@ -155,7 +155,7 @@ class VramSampler:
 # ── One run ────────────────────────────────────────────────────────────
 
 def run_once(model: str, scenario: str, temperature: float) -> dict:
-    schema = ExtractionResult.model_json_schema()
+    schema = ExtractionDraft.model_json_schema()
     started = time.perf_counter()
 
     with VramSampler() as vram:
@@ -188,23 +188,45 @@ def run_once(model: str, scenario: str, temperature: float) -> dict:
         except json.JSONDecodeError:
             needed_salvage = True
 
-    n_requirements, cats, parse_error = 0, [], None
+    # The extractor is no longer asked for categories -- the classification node
+    # overwrites them -- so the Day 12 `in_taxonomy_rate` and
+    # `labels_per_requirement` metrics have been removed rather than left to
+    # report 0.0 forever against an always-empty field.
+    #
+    # They are replaced, not simply dropped. Category spraying was never
+    # interesting in itself; it was a cheap proxy for whether a model follows
+    # the prompt at all, and that is what rejected qwen2.5:3b. The two measures
+    # below are proxies for the same thing against fields the pipeline keeps:
+    # whether statements come back in the mandated "The system shall ..." form,
+    # and whether the model actually fills the fields it was asked for instead
+    # of emitting schema-valid blanks.
+    n_requirements, parse_error = 0, None
     extracted: list[dict] = []
+    shall_hits = filled = slots = 0
     if valid_json:
         try:
-            result = ExtractionResult.model_validate_json(payload)
+            result = ExtractionDraft.model_validate_json(payload)
             n_requirements = len(result.requirements)
-            cats = [c for r in result.requirements for c in r.category]
+            for r in result.requirements:
+                if r.statement.strip().lower().startswith("the system shall"):
+                    shall_hits += 1
+                for field in ("source_stakeholder", "business_justification",
+                              "assumptions", "acceptance_criteria"):
+                    slots += 1
+                    if str(getattr(r, field, "")).strip():
+                        filled += 1
             # Keep the actual output, not just counts: the metrics say whether a
             # model is fast and well-formed, never whether the requirements are
             # any good. Judging that needs the text.
-            extracted = [{"statement": r.statement, "category": r.category}
+            extracted = [{"statement": r.statement,
+                          "stakeholder": r.source_stakeholder,
+                          "acceptance_criteria": r.acceptance_criteria}
                          for r in result.requirements]
         except Exception as e:
             parse_error = f"{type(e).__name__}: {e}"
 
-    unknown = sorted({c for c in cats if c not in ALL_CATEGORIES})
-    labels_per_req = (len(cats) / n_requirements) if n_requirements else None
+    shall_rate = (shall_hits / n_requirements) if n_requirements else None
+    field_completeness = (filled / slots) if slots else None
 
     return {
         "ok": True,
@@ -219,10 +241,8 @@ def run_once(model: str, scenario: str, temperature: float) -> dict:
         "schema_valid": valid_json and parse_error is None,
         "schema_error": parse_error,
         "n_requirements": n_requirements,
-        "n_category_labels": len(cats),
-        "unknown_categories": unknown,
-        "in_taxonomy_rate": round(1 - len(unknown) / len(set(cats)), 3) if cats else None,
-        "labels_per_requirement": round(labels_per_req, 2) if labels_per_req else None,
+        "shall_rate": round(shall_rate, 3) if shall_rate is not None else None,
+        "field_completeness": round(field_completeness, 3) if field_completeness is not None else None,
         "extracted": extracted,
     }
 
@@ -239,7 +259,6 @@ def summarise(runs: list[dict]) -> dict:
 
     reqs = [r["n_requirements"] for r in ok]
     peaks = [r["peak_vram_mb"] for r in ok if r.get("peak_vram_mb")]
-    unknown = sorted({c for r in ok for c in r["unknown_categories"]})
 
     return {
         "runs": len(runs),
@@ -252,11 +271,10 @@ def summarise(runs: list[dict]) -> dict:
         "valid_json_rate": round(sum(r["valid_json"] for r in ok) / len(ok), 3),
         "salvage_rate": round(sum(r["needed_salvage"] for r in ok) / len(ok), 3),
         "schema_valid_rate": round(sum(r["schema_valid"] for r in ok) / len(ok), 3),
-        "in_taxonomy_rate": avg("in_taxonomy_rate"),
-        "labels_per_requirement": avg("labels_per_requirement"),
+        "shall_rate": avg("shall_rate"),
+        "field_completeness": avg("field_completeness"),
         "requirements_mean": round(statistics.mean(reqs), 1),
         "requirements_range": [min(reqs), max(reqs)],
-        "unknown_categories": unknown,
     }
 
 
@@ -306,8 +324,8 @@ def main() -> None:
                           f"{r['tokens_per_sec'] or 0:>6.1f} tok/s  "
                           f"{r['n_requirements']:>2} reqs  "
                           f"json={'Y' if r['valid_json'] else 'N'}  "
-                          f"vram={r['peak_vram_mb'] or '-'}MB"
-                          + (f"  unknown={r['unknown_categories']}" if r["unknown_categories"] else ""))
+                          f"vram={r['peak_vram_mb'] or '-'}MB  "
+                          f"shall={(r.get('shall_rate') or 0):.0%}")
                 else:
                     print(f"   {name:<18} run {i+1}  FAILED: {r['error'][:60]}")
         results[model] = {"meta": CANDIDATES.get(model, {}), "summary": summarise(runs), "runs": runs}
@@ -318,24 +336,20 @@ def main() -> None:
     print(f"  BENCHMARK — {tier} tier")
     print("=" * 88)
     print(f"  {'model':<14}{'tok/s':>8}{'VRAM MB':>9}{'JSON':>7}"
-          f"{'taxon':>7}{'lbl/req':>9}{'reqs':>7}")
+          f"{'shall':>7}{'fields':>8}{'reqs':>7}")
     print(f"  {'-' * 82}")
     for model, r in results.items():
         s = r["summary"]
         if s.get("all_failed"):
             print(f"  {model:<14}{'ALL RUNS FAILED':>40}")
             continue
-        lpr = s.get('labels_per_requirement') or 0
-        flag = "  <-- spraying" if lpr > 4 else ""
+        shall = s.get("shall_rate") or 0
+        fields = s.get("field_completeness") or 0
+        flag = "  <-- ignores the format" if shall < 0.8 else ""
         print(f"  {model:<14}{s['tokens_per_sec'] or 0:>8.1f}"
               f"{s['peak_vram_mb'] or 0:>9}{s['valid_json_rate']:>7.0%}"
-              f"{(s['in_taxonomy_rate'] or 0):>7.0%}{lpr:>9.1f}"
+              f"{shall:>7.0%}{fields:>8.0%}"
               f"{s['requirements_mean']:>7.1f}{flag}")
-
-    for model, r in results.items():
-        unk = r["summary"].get("unknown_categories")
-        if unk:
-            print(f"\n  {model} invented categories outside the taxonomy: {unk}")
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     payload = {

@@ -159,6 +159,19 @@ Definition of Done worth noting: a loan scenario should recommend Agile or Spira
 
 ### Requirement Model (13 fields)
 
+**The extractor produces 12 of them.** `category` is deliberately absent from
+`ExtractedRequirement` / `ExtractionDraft`, the schema sent to the LLM: the
+classification node overwrites it with the fine-tuned RoBERTa output, so
+generating it spent tokens on an answer discarded one node later, and would
+have meant hand-verifying categories across every extraction training pair to
+teach a field nothing reads. `Requirement` adds it back, so the rest of the
+system is unchanged — it simply arrives empty and the classifier fills it.
+
+Note also that Pydantic turns a class docstring into the JSON-schema
+`description`, which is sent to the model on every call. Keep rationale in
+comments on these classes, not docstrings, or it is billed as prompt tokens and
+read as instruction.
+
 Each extracted requirement has: `id`, `statement`, `category` (list), `source_stakeholder`, `business_justification`, `priority`, `dependencies`, `assumptions`, `acceptance_criteria`, `applicable_regulations`, `risk_level`, `confidence_score`, `approval_status`.
 
 ### The 13 requirement categories
@@ -251,6 +264,7 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 - **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
 - **Local LLM: `llama3.2:3b`**, pinned Day 12 by benchmark (`evaluation/results/day12_local_llm_benchmark.json`). 36 tok/s, 2.3GB VRAM, 100% valid JSON, 1.8 categories/requirement.
   - **`qwen2.5:3b` was faster (47 tok/s) and rejected anyway.** It scored 100% on every automated metric while assigning 5.5 of the 13 categories to every requirement — every label legal, the output useless. `phi3.5` was slowest at 14 tok/s and the only one to invent an out-of-taxonomy label. The speed ranking was the inverse of the quality ranking.
+  - **Correction (13 Sep):** that category evidence was measuring a field the pipeline *discards* — the classification node overwrites `category`, so the extractor's labels never survive. The rejection still stands, but the reasoning is indirect rather than direct: a model that assigns 8–10 of 13 categories while the prompt says *"only assign a category if the requirement clearly relates to it"* is demonstrating poor instruction-following, and that bears on the fields we do keep. The statement-quality margin was thinner than first recorded — qwen missed the portal requirement, llama missed the RBI compliance one. `category` has since been removed from the extraction schema, and the benchmark now measures `shall_rate` and `field_completeness` instead: same instruction-following signal, against fields that survive.
   - Set `OLLAMA_MODEL` to override.
 - **Ollama is installed** (11 Sep) as a systemd service, `active` and `enabled`, with models on **`/mnt/f/ollama-models`** via a drop-in (`sudo systemctl edit ollama` → `Environment="OLLAMA_MODELS=/mnt/f/ollama-models"`). Not the default `~/.ollama`: that lives on WSL's ext4 vhdx whose `df` "937G free" is the virtual disk's *maximum*, not real space — the vhdx sits on Windows `C:` which has only **45GB free**, while `F:` has 72GB. NTFS slowness does not bite here, since weights are read once at load and then cached.
 - **Cloud LLM:** Llama-3.1-8B via Ollama on a Colab/Kaggle T4 behind an ngrok/Cloudflare tunnel. Reached through the same wrapper by setting `OLLAMA_HOST`.
@@ -262,7 +276,7 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
 - **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local (prompted) vs local (fine-tuned).
 - **Model choices are made by benchmark, not assumption.** Day 12 measured candidates on this hardware before pinning one, and the result inverted the expected ranking. Record the rejects and why — that reasoning is the Week 11 E1–E7 ablation story.
-- **A metric that cannot fail is not a metric.** `in_taxonomy_rate` read 100% for a model spraying 5.5 of 13 categories at every requirement: it validated label *names* and never label *counts*. Both the classifier work (Days 9–11) and the extractor work hit this — automated checks confirm format, not sense. **Print the actual output and read it before pinning anything.**
+- **A metric that cannot fail is not a metric.** `in_taxonomy_rate` read 100% for a model spraying 5.5 of 13 categories at every requirement: it validated label *names* and never label *counts*. It later turned out to be worse than that — it was scoring a field the pipeline throws away. Ask what reads a number before trusting it. Both the classifier work (Days 9–11) and the extractor work hit this — automated checks confirm format, not sense. **Print the actual output and read it before pinning anything.**
 - **No third-party LLM API in the core path.** Gemini is a baseline and a data-generation tool, never a dependency. Our own fine-tuned model on either tier is fine — cloud-hosted was confirmed permitted on 11 Sep.
 - **Write for both tiers from the start.** Anything touching the LLM goes through the base-URL-configurable wrapper, so local and cloud never diverge into two code paths.
 - **Ground truth is sacred** — `ground_truth.json` (32 verified requirements) is the held-out eval set. NEVER included in training data.

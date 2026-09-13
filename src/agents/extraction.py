@@ -11,7 +11,7 @@ import json
 import time
 from pathlib import Path
 
-from src.models.requirement import ExtractionResult
+from src.models.requirement import ExtractionDraft, ExtractionResult
 from src.utils.llm import call_structured
 
 SYSTEM_PROMPT = """\
@@ -22,9 +22,6 @@ every distinct software requirement as an atomic "The system shall ..." statemen
 For EACH requirement you must provide ALL of the following fields:
 - id: Sequential identifier like REQ-001, REQ-002, ...
 - statement: Atomic "The system shall ..." requirement
-- category: List of applicable categories from: Business, Stakeholder, \
-Functional, Security, Privacy, Regulatory, Performance, Availability, \
-Usability, Data-management, Integration, Audit/Reporting, Operational
 - source_stakeholder: Who would need this (e.g. "Business Analyst", \
 "Compliance Officer", "End User", "Security Team")
 - business_justification: WHY this requirement matters — the reasoning
@@ -49,7 +46,6 @@ Output (showing one requirement):
   {
     "id": "REQ-001",
     "statement": "The system shall provide a mobile-responsive online loan application portal",
-    "category": ["Functional", "Usability"],
     "source_stakeholder": "End User",
     "business_justification": "Customers expect to apply from mobile devices; mobile-first design increases application completion rates",
     "priority": "High",
@@ -67,11 +63,17 @@ Output (showing one requirement):
 
 
 def extract_requirements(scenario_text: str) -> ExtractionResult:
-    return call_structured(
+    # The LLM is asked for ExtractionDraft, which has no `category` field: the
+    # classification node overwrites categories anyway, so generating them here
+    # spends tokens on an answer that is thrown away one node later.
+    draft = call_structured(
         system_prompt=SYSTEM_PROMPT,
         user_prompt=f"Problem scenario:\n\n{scenario_text}",
-        response_model=ExtractionResult,
+        response_model=ExtractionDraft,
     )
+    # Promote to full Requirements with `category` empty; the classification
+    # node fills it.
+    return ExtractionResult.from_draft(draft)
 
 
 if __name__ == "__main__":
@@ -102,7 +104,7 @@ if __name__ == "__main__":
         print(f"Extracted {len(result.requirements)} requirements in {elapsed:.2f}s:\n")
         for req in result.requirements:
             print(f"  [{req.id}] ({req.priority}) {req.statement}")
-            print(f"      category_hint: {req.category_hint}")
+            print(f"      {req.risk_level} risk | {req.source_stakeholder}")
         print()
 
         all_results.append({
