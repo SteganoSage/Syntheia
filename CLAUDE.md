@@ -20,6 +20,57 @@ Three consequences:
 2. **Two fine-tuning targets:** a 3–4B local model (chosen Day 12 by benchmark) and Llama-3.1-8B on cloud. Same script, same dataset, two adapters.
 3. **QLoRA moves from Month 2 into Month 1** (Days 13–16), as does the whole SDLC engine.
 
+### ⚠️ SCOPE CORRECTION — 14 Sep 2026: RAG is deliverable 1; fine-tuning is not required
+
+The supervisor stated the individual SE project in writing. Both parts are marked
+after midsems:
+
+> 1) Feed a lightweight LLM **existing requirement documents** from a specific domain — here, finance. Then prompt it to generate the specific requirements for a particular functionality, **along with its reasoning**.
+> 2) Then feed those generated requirements back into an LLM and ask it to identify the **most appropriate SDLC**, along with a proper software engineering **justification**.
+
+Checked against `Problem Statement.docx`:
+
+| Term | Occurrences |
+|---|---|
+| `fine-tun` / `finetun` / `fine tun` | **0** |
+| `BERT`, `embedding`, `vector` | **0** |
+| `train` | 3 — all inside "cons**train**ts" |
+| Retrieval-Augmented Generation | **its own section (§6)** |
+
+**"Feed a lightweight LLM existing requirement documents" IS retrieval-grounded
+generation** — it is part 1's input mechanism, not a preamble to it. §6 gives the
+workflow: retrieve → provide evidence to the LLM → generate → attach citations and
+confidence → escalate low-confidence output. §5 requires the knowledge base behind
+it, versioned, with source, jurisdiction, effective date and applicability per item.
+
+The extraction agent currently receives a bare scenario string and generates from
+parametric memory. **No documents are fed in, so by the supervisor's framing part 1
+is not started** — even though extraction works.
+
+**QLoRA is self-imposed scope.** It appears nowhere in the problem statement or the
+brief. Worth doing — it is the strongest ML content for the report and the Week 11
+ablation needs it — but it is optional, expensive (hand-verifying ~150 pairs is the
+bottleneck), and was scheduled *ahead of* the thing being marked.
+
+**Multi-label classification stays justified** — §9: *"Multi-label classification
+should be allowed because one requirement may belong to several categories."* The
+statement mandates the capability, not the technique, so fine-tuned RoBERTa is a
+legitimate way to deliver it.
+
+**Revised Days 13–30** (plan updated):
+
+| Days | Was | Now |
+|---|---|---|
+| 13–15 | Extraction QLoRA | **Knowledge base + retrieval-grounded extraction** — deliverable 1 |
+| 16–17 | SDLC + QLoRA | **SDLC engine, prompted** — deliverable 2 |
+| 18–19 | End-to-end | End-to-end + CLI, both parts |
+| 20–21 | Comparison | **Grounded vs ungrounded** + Week 3 review |
+| 22–24 | Weakest link | **QLoRA — optional, time-boxed, gated on 13–21 being done** |
+| 25–30 | Hardening → checkpoint | Day 30 gates on *both* deliverables |
+
+The Month 1 headline result is no longer "fine-tuned beats prompted" but
+**"grounded beats ungrounded"** — which is what §6 exists to establish.
+
 ### Two-tier architecture (cloud API permitted — confirmed 11 Sep)
 
 The supervisor confirmed a cloud-hosted LLM reached by API is **permitted**. So the system has two tiers, not one:
@@ -69,7 +120,9 @@ The plan has been reconciled with this change (banner at the top, §2/§3 tables
 
 One Definition-of-Done item was **not** met: Day 11 required the fine-tuned model to beat the LLM baselines. It does not — 80.2% against few-shot Gemini's 84.0%. It wins on latency by ~1,450x. See the baseline table below.
 
-**Day 12 is next:** install Ollama on WSL2, benchmark the candidate models that fit VRAM, write `src/utils/llm_ollama.py` with the same interface as `llm_gemini.py`, and pin the winner here and in the plan.
+**Days 12–13 are complete.** Both LLM tiers work (`llama3.2:3b` local, `llama3.1:8b` on Colab behind a tunnel), and the cold start is down from 611 s to 89 s.
+
+**Day 14 is next:** the financial knowledge base and retrieval-grounded extraction — deliverable 1. See the scope correction above; `src/rag/` is still empty and `data/knowledge_base/` has no documents in it.
 
 ## Progress Summary (Days 1–11)
 
@@ -113,7 +166,7 @@ The system is a **three-layer ML architecture** orchestrated as a LangGraph mult
 - **Layer 1 — Fine-tuned specialist models (this team trains these):**
   - `bert-base-uncased` and `roberta-base` fine-tuned as **multi-label classifiers** over 13 requirement categories (Month 1). Multi-label via `BCEWithLogitsLoss` — each category is an independent binary decision — decoded with sigmoid plus a threshold calibrated on validation (not a fixed 0.5). One class per architecture, dispatched by `config.model_type` through `src/models/multilabel.py`.
   - A **3–4B local model** fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). The specific model is chosen on Day 12 by benchmark, not assumed — candidates must fit ~3GB of real headroom. Train on Colab's free T4 if 4GB is too tight, then deploy the adapter locally.
-- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial regulation documents (Month 2).
+- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial **requirement documents and regulations**. **Month 1, Days 13–15** — this is deliverable 1, not a Month 2 enhancement (see the scope correction above). Note the supervisor said *requirement documents*, not only regulations: a corpus of pure regulation answers half the brief. Libraries are already installed (`chromadb==1.5.9`, `sentence-transformers==6.0.0`); `src/rag/` holds only `__init__.py`.
 - **Layer 3 — LLM via Ollama, two tiers:** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Cloud Llama-3.1-8B for the demo, local 3–4B for offline/fallback, both behind one base-URL-configurable wrapper. Local model TBD on Day 12.
 - **Baseline only — Gemini API:** the yardstick every local/fine-tuned model is measured against. Kept and maintained, never in the shipping path. Also legitimate as a *data-generation tool* for building training sets, provided the output is manually verified before use.
 
