@@ -1,0 +1,195 @@
+# Knowledge-base registry. `python -m notebooks.09a_fetch_sources` reads this,
+# downloads each document and writes its sidecar manifest.
+#
+# Tracked in git; the downloaded documents are not (they are large, and public
+# at these URLs). This file plus the fetch script is what makes the corpus
+# reproducible -- which §5 effectively requires, since a knowledge base nobody
+# can rebuild cannot be version-controlled.
+#
+# Every URL here returned content when checked with curl on 14 Sep 2026. Entries
+# that did not are in `unavailable:` at the bottom, with the reason, because a
+# source that failed verification is itself worth recording.
+
+documents:
+
+  # ── Category A — regulatory ──────────────────────────────────────────
+  - file: regulations/rbi_kyc_master_direction_2016.pdf
+    url: https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf
+    title: "Master Direction — Know Your Customer (KYC) Direction, 2016"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/DBR/2015-16/18"
+    jurisdiction: IN
+    effective_date: 2016-02-25
+    version: "updated 14 Aug 2025"
+    applicability: [kyc_onboarding, lending, payments, fraud_detection, regulatory_reporting]
+    doc_type: regulation
+
+  - file: regulations/rbi_it_governance_2023.html
+    url: https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562
+    title: "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/2023-24/107"
+    jurisdiction: IN
+    effective_date: 2024-04-01
+    version: "issued 07 Nov 2023"
+    applicability: [fraud_detection, payments, lending, regulatory_reporting]
+    doc_type: regulation
+
+  # URL corrected 14 Sep: the sourced link (systemhealth.rbi.org.in/...aspx_id%3D12486.html)
+  # does not resolve; this canonical form returns 229 KB.
+  - file: regulations/rbi_outsourcing_it_services_2023.html
+    url: https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12486
+    title: "Master Direction on Outsourcing of Information Technology Services"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/2023-24/102"
+    jurisdiction: IN
+    effective_date: 2023-10-01
+    version: "issued 10 Apr 2023"
+    applicability: [payments, lending, regulatory_reporting, fraud_detection]
+    doc_type: regulation
+
+  - file: regulations/rbi_cyber_security_framework_2016.pdf
+    url: https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf
+    title: "Cyber Security Framework in Banks"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/2015-16/418"
+    jurisdiction: IN
+    effective_date: 2016-06-02
+    version: "2016 framework (partly superseded by the 2023 IT directions)"
+    applicability: [fraud_detection, payments, lending, regulatory_reporting]
+    doc_type: regulation
+
+  - file: regulations/rbi_fraud_risk_management_2024.html
+    url: https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702
+    title: "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/2024-25 Fraud Risk Management"
+    jurisdiction: IN
+    effective_date: 2024-07-15
+    version: "revised 2024"
+    applicability: [fraud_detection, lending, regulatory_reporting]
+    doc_type: regulation
+
+  - file: regulations/rbi_card_issuance_2025.html
+    url: https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=13155
+    title: "Master Direction — Credit Card and Debit Card — Issuance and Conduct Directions, 2025"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI/DOR/2025-26/155"
+    jurisdiction: IN
+    effective_date: 2025-11-28
+    version: "2025 (supersedes the 2022 card directions)"
+    applicability: [payments, fraud_detection, regulatory_reporting]
+    doc_type: regulation
+
+  - file: regulations/rbi_prepaid_payment_instruments.html
+    url: https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12156
+    title: "Master Directions on Prepaid Payment Instruments (PPIs)"
+    issuer: "Reserve Bank of India"
+    doc_id: "RBI PPI Master Directions"
+    jurisdiction: IN
+    effective_date: 2021-08-27
+    version: "as amended"
+    applicability: [payments, kyc_onboarding, fraud_detection]
+    doc_type: regulation
+
+  - file: regulations/dpdp_act_2023.pdf
+    url: https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf
+    title: "Digital Personal Data Protection Act, 2023"
+    issuer: "Government of India"
+    doc_id: "Act No. 22 of 2023"
+    jurisdiction: IN
+    effective_date: 2023-08-11
+    version: "as enacted"
+    applicability: [kyc_onboarding, lending, payments, digital_banking, general]
+    doc_type: regulation
+
+  # ── Category B — requirement / specification documents ───────────────
+  - file: requirement_docs/sbi_uk_loan_origination_rfp_v3.pdf
+    url: https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845
+    title: "Request for Proposal — Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)"
+    issuer: "State Bank of India (UK) Ltd"
+    doc_id: "Final RFP for LOS_03092021_V3.0"
+    jurisdiction: UK
+    effective_date: 2021-09-03
+    version: "V3.0"
+    applicability: [lending, kyc_onboarding, fraud_detection, regulatory_reporting]
+    doc_type: tender
+
+  - file: requirement_docs/uco_bank_official_language_cbs_tender.pdf
+    url: https://uco.bank.in/documents/20120/286545/Tender_rfpforimplementationofcentralizedsoftwareforofficial_efe3f35367/b4ff6da1-2956-988d-154b-992b0e8bf0ba
+    title: "RFP for Implementation of Centralized Software for Official Language in Core Banking Solution"
+    issuer: "UCO Bank"
+    doc_id: "UCO Bank tender — Annexure-VI technical and functional specification"
+    jurisdiction: IN
+    effective_date: 2020-01-01
+    version: "tender version retrieved 14 Sep 2026"
+    applicability: [regulatory_reporting, kyc_onboarding, payments]
+    doc_type: tender
+
+  - file: requirement_docs/gic_housing_fraud_detection_rfp.pdf
+    url: https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf
+    title: "Request for Proposal — Procurement, Implementation and Maintenance of Fraud Detection and Prevention System"
+    issuer: "GIC Housing Finance Ltd"
+    doc_id: "RFP — Fraud Detection and Prevention System"
+    jurisdiction: IN
+    effective_date: 2026-01-01
+    version: "current procurement"
+    applicability: [fraud_detection, lending, kyc_onboarding]
+    doc_type: tender
+
+  - file: regulations/uidai_aadhaar_auth_offline_verification_2021.pdf
+    url: https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf
+    title: "The Aadhaar (Authentication and Offline Verification) Regulations, 2021"
+    issuer: "Unique Identification Authority of India"
+    doc_id: "No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)"
+    jurisdiction: IN
+    effective_date: 2021-11-09
+    version: "updated 15 Dec 2025"
+    applicability: [kyc_onboarding, lending, payments, digital_banking]
+    doc_type: regulation
+
+  # The sourced URL 404'd; the working path has a literal space (%20) before
+  # ".pdf". Found 14 Sep after the first verification pass failed.
+  - file: requirement_docs/central_bank_digital_banking_rfp_375.pdf
+    url: "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf"
+    title: "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution"
+    issuer: "Central Bank of India"
+    doc_id: "RFP No. 375"
+    jurisdiction: IN
+    effective_date: 2023-02-21
+    version: "RFP 375"
+    applicability: [payments, kyc_onboarding, fraud_detection, regulatory_reporting, digital_banking]
+    doc_type: tender
+
+# Checked 14 Sep 2026 and NOT ingestable. Recorded rather than deleted: a
+# source that failed verification is evidence about the corpus, and someone
+# will otherwise re-find and re-try these.
+unavailable:
+  - title: "IRDAI Information and Cyber Security Guidelines, 2023"
+    url: https://irdai.gov.in/document-detail?documentId=3314780
+    reason: >-
+      Fetched and ingested, then removed. The page is a document-detail wrapper:
+      240 KB of HTML yielding 18 K of pure site navigation and zero clause ids.
+      The guidelines themselves are a linked PDF attachment, so the attachment
+      URL is what is needed.
+  - title: "Berlin Group — NextGenPSD2 XS2A Framework"
+    url: https://www.berlin-group.org/nextgenpsd2-downloads
+    reason: >-
+      Fetched and ingested, then removed. 1.47 MB of HTML yielding 3.7 K of text
+      because it is a downloads *listing*, not the specification. The actual
+      OpenAPI files are at gitlab.com/the-berlin-group/nextgenpsd2.
+  - title: "NPCI — UPI Product Booklet"
+    url: https://www.npci.org.in/PDF/npci/upi/Product-Booklet.pdf
+    reason: "403 — bot-blocked even with browser headers."
+  - title: "SEBI — Cybersecurity and Cyber Resilience Framework (CSCRF)"
+    url: https://www.sebi.gov.in/legal/circulars/aug-2024/cybersecurity-and-cyber-resilience-framework-cscrf-for-sebi-regulated-entities-res-_85964.html
+    reason: "200 but only 8 KB — a landing page, not the framework. The actual document is a linked attachment."
+  - title: "EU 2018/389 — SCA and Common and Secure Open Standards of Communication"
+    url: https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX%3A02018R0389-20230912
+    reason: "202 with an empty body — EUR-Lex defers rendering. A direct .pdf/.html CELEX export would work."
+  - title: "UK Payment Services Regulations 2017"
+    url: https://www.legislation.gov.uk/uksi/2017/752/pdfs/uksi_20170752_en.pdf
+    reason: "202 with an empty body."
+  - title: "Open Banking UK — Read/Write Data API Specification"
+    url: https://github.com/OpenBankingUK/read-write-api-specs
+    reason: "Repository page only. Needs file-level fetch of the spec documents themselves, not the landing page."

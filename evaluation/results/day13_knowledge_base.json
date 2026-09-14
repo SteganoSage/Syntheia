@@ -1,0 +1,12 @@
+{
+  "documents": 13,
+  "ingested": 13,
+  "failures": [],
+  "chunks": 3027,
+  "by_doc_type": {
+    "regulation": 1181,
+    "tender": 1846
+  },
+  "clause_coverage": 0.97,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+}

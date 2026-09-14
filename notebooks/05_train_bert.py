@@ -23,6 +23,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -80,6 +82,47 @@ def checkpoint_dir_for(model_type: str) -> Path:
 
 def summary_path_for(model_type: str) -> Path:
     return RESULTS_DIR / f"day9_{model_type}_training.json"
+
+
+# The repo lives on /mnt/f, which is v9fs -- WSL's plan9 bridge. safetensors
+# mmaps its weights, so random page faults cross the protocol one at a time and
+# loading RoBERTa from there costs 128s against 14s from ext4 (Day 13, measured
+# A/B). The pipeline therefore reads from a copy on the Linux filesystem.
+#
+# Two homes means they can disagree, and a stale copy loads silently and predicts
+# with the wrong weights -- the same failure that made models/ gitignored in the
+# first place. So training writes BOTH, every run, rather than leaving a manual
+# copy step that will eventually be forgotten.
+#
+# The repo copy stays canonical: it survives a WSL reset, which ~/.local does not.
+FAST_MODEL_HOME = Path(
+    os.environ.get("SYNTHEIA_MODEL_HOME", Path.home() / ".local/share/syntheia/models")
+)
+
+
+def mirror_to_fast_disk(out_dir: Path, model_type: str) -> Path | None:
+    """Copy a freshly-trained model to the fast filesystem. Never fatal.
+
+    Set SYNTHEIA_MODEL_HOME=off to skip. A failure here costs speed, not
+    correctness -- the repo copy is already written and the pipeline falls back
+    to it -- so it warns rather than raising and losing a completed training run.
+    """
+    if os.environ.get("SYNTHEIA_MODEL_HOME", "").lower() == "off":
+        return None
+
+    target = FAST_MODEL_HOME / f"{model_type}_classifier"
+    try:
+        if target.resolve() == out_dir.resolve():
+            return None                      # already training onto fast disk
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(target, ignore_errors=True)
+        shutil.copytree(out_dir, target)
+        return target
+    except OSError as e:
+        print(f"  WARNING: could not mirror to {target}: {e}")
+        print("           the pipeline may load stale weights from there --")
+        print(f"           either re-copy by hand or point SYNTHEIA_CLASSIFIER_DIR at {out_dir}")
+        return None
 
 FEW_SHOT_BASELINE_MICRO_F1 = 0.8402  # evaluation/results/day5_classification_baseline.json
 
@@ -404,6 +447,10 @@ def main() -> None:
         val_f1_micro=round(final_scores["f1_micro"], 4),
     )
     print(f"\n  Model + tokenizer + threshold saved to {show(out_dir)}")
+
+    mirrored = mirror_to_fast_disk(out_dir, model_type)
+    if mirrored:
+        print(f"  Mirrored to {mirrored} (fast filesystem; what the pipeline loads)")
 
     summary = {
         "base_model": args.model,

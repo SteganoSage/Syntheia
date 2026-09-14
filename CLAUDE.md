@@ -20,6 +20,57 @@ Three consequences:
 2. **Two fine-tuning targets:** a 3–4B local model (chosen Day 12 by benchmark) and Llama-3.1-8B on cloud. Same script, same dataset, two adapters.
 3. **QLoRA moves from Month 2 into Month 1** (Days 13–16), as does the whole SDLC engine.
 
+### ⚠️ SCOPE CORRECTION — 14 Sep 2026: RAG is deliverable 1; fine-tuning is not required
+
+The supervisor stated the individual SE project in writing. Both parts are marked
+after midsems:
+
+> 1) Feed a lightweight LLM **existing requirement documents** from a specific domain — here, finance. Then prompt it to generate the specific requirements for a particular functionality, **along with its reasoning**.
+> 2) Then feed those generated requirements back into an LLM and ask it to identify the **most appropriate SDLC**, along with a proper software engineering **justification**.
+
+Checked against `Problem Statement.docx`:
+
+| Term | Occurrences |
+|---|---|
+| `fine-tun` / `finetun` / `fine tun` | **0** |
+| `BERT`, `embedding`, `vector` | **0** |
+| `train` | 3 — all inside "cons**train**ts" |
+| Retrieval-Augmented Generation | **its own section (§6)** |
+
+**"Feed a lightweight LLM existing requirement documents" IS retrieval-grounded
+generation** — it is part 1's input mechanism, not a preamble to it. §6 gives the
+workflow: retrieve → provide evidence to the LLM → generate → attach citations and
+confidence → escalate low-confidence output. §5 requires the knowledge base behind
+it, versioned, with source, jurisdiction, effective date and applicability per item.
+
+The extraction agent currently receives a bare scenario string and generates from
+parametric memory. **No documents are fed in, so by the supervisor's framing part 1
+is not started** — even though extraction works.
+
+**QLoRA is self-imposed scope.** It appears nowhere in the problem statement or the
+brief. Worth doing — it is the strongest ML content for the report and the Week 11
+ablation needs it — but it is optional, expensive (hand-verifying ~150 pairs is the
+bottleneck), and was scheduled *ahead of* the thing being marked.
+
+**Multi-label classification stays justified** — §9: *"Multi-label classification
+should be allowed because one requirement may belong to several categories."* The
+statement mandates the capability, not the technique, so fine-tuned RoBERTa is a
+legitimate way to deliver it.
+
+**Revised Days 13–30** (plan updated):
+
+| Days | Was | Now |
+|---|---|---|
+| 13–15 | Extraction QLoRA | **Knowledge base + retrieval-grounded extraction** — deliverable 1 |
+| 16–17 | SDLC + QLoRA | **SDLC engine, prompted** — deliverable 2 |
+| 18–19 | End-to-end | End-to-end + CLI, both parts |
+| 20–21 | Comparison | **Grounded vs ungrounded** + Week 3 review |
+| 22–24 | Weakest link | **QLoRA — optional, time-boxed, gated on 13–21 being done** |
+| 25–30 | Hardening → checkpoint | Day 30 gates on *both* deliverables |
+
+The Month 1 headline result is no longer "fine-tuned beats prompted" but
+**"grounded beats ungrounded"** — which is what §6 exists to establish.
+
 ### Two-tier architecture (cloud API permitted — confirmed 11 Sep)
 
 The supervisor confirmed a cloud-hosted LLM reached by API is **permitted**. So the system has two tiers, not one:
@@ -27,7 +78,7 @@ The supervisor confirmed a cloud-hosted LLM reached by API is **permitted**. So 
 | Tier | Model | Where | Role |
 |------|-------|-------|------|
 | **Cloud (primary)** | Llama-3.1-8B, QLoRA fine-tuned | Colab/Kaggle T4 + Ollama + tunnel | Demo day, best quality |
-| **Local (fallback)** | 3–4B, QLoRA fine-tuned — chosen Day 12 by benchmark | This laptop, Ollama | Dev loop, offline capability, demo insurance |
+| **Local (fallback)** | **`llama3.2:3b`** — pinned Day 12 by benchmark | This laptop, Ollama | Dev loop, offline capability, demo insurance |
 
 **One wrapper serves both.** Ollama's API is OpenAI-compatible and behaves identically on localhost and behind an ngrok/Cloudflare tunnel, so `src/utils/llm_ollama.py` takes a configurable base URL (`OLLAMA_HOST`). Switching tiers is an environment variable, never a second implementation. Write it that way from the start.
 
@@ -69,7 +120,9 @@ The plan has been reconciled with this change (banner at the top, §2/§3 tables
 
 One Definition-of-Done item was **not** met: Day 11 required the fine-tuned model to beat the LLM baselines. It does not — 80.2% against few-shot Gemini's 84.0%. It wins on latency by ~1,450x. See the baseline table below.
 
-**Day 12 is next:** install Ollama on WSL2, benchmark the candidate models that fit VRAM, write `src/utils/llm_ollama.py` with the same interface as `llm_gemini.py`, and pin the winner here and in the plan.
+**Days 12–13 are complete.** Both LLM tiers work (`llama3.2:3b` local, `llama3.1:8b` on Colab behind a tunnel), and the cold start is down from 611 s to 89 s.
+
+**Day 14 is next:** the financial knowledge base and retrieval-grounded extraction — deliverable 1. See the scope correction above; `src/rag/` is still empty and `data/knowledge_base/` has no documents in it.
 
 ## Progress Summary (Days 1–11)
 
@@ -113,7 +166,7 @@ The system is a **three-layer ML architecture** orchestrated as a LangGraph mult
 - **Layer 1 — Fine-tuned specialist models (this team trains these):**
   - `bert-base-uncased` and `roberta-base` fine-tuned as **multi-label classifiers** over 13 requirement categories (Month 1). Multi-label via `BCEWithLogitsLoss` — each category is an independent binary decision — decoded with sigmoid plus a threshold calibrated on validation (not a fixed 0.5). One class per architecture, dispatched by `config.model_type` through `src/models/multilabel.py`.
   - A **3–4B local model** fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). The specific model is chosen on Day 12 by benchmark, not assumed — candidates must fit ~3GB of real headroom. Train on Colab's free T4 if 4GB is too tight, then deploy the adapter locally.
-- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial regulation documents (Month 2).
+- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial **requirement documents and regulations**. **Month 1, Days 13–15** — this is deliverable 1, not a Month 2 enhancement (see the scope correction above). Note the supervisor said *requirement documents*, not only regulations: a corpus of pure regulation answers half the brief. Libraries are already installed (`chromadb==1.5.9`, `sentence-transformers==6.0.0`); `src/rag/` holds only `__init__.py`.
 - **Layer 3 — LLM via Ollama, two tiers:** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Cloud Llama-3.1-8B for the demo, local 3–4B for offline/fallback, both behind one base-URL-configurable wrapper. Local model TBD on Day 12.
 - **Baseline only — Gemini API:** the yardstick every local/fine-tuned model is measured against. Kept and maintained, never in the shipping path. Also legitimate as a *data-generation tool* for building training sets, provided the output is manually verified before use.
 
@@ -134,9 +187,43 @@ The classification agent resolves its model from `models/roberta_classifier` the
 
 Grounded in the supervisor's selection framework: **4 tables × 19 questions** (Requirements, Project Team, Project Type & Risk, User Community) over **7 SDLC models** — Waterfall, V-Shape, Prototyping, RAD, Incremental & Iterative, Spiral, Agile.
 
+**Phase 1 scope (decided 13 Sep): only the Requirements and Project Type & Risk
+tables, and their answers are *inferred* from the extracted requirements — not
+supplied by the user, not asked interactively.**
+
+Those two tables are the ones that can be inferred: requirement clarity,
+stability and complexity are properties of the requirements themselves, and
+criticality, regulatory exposure and technology novelty are already carried in
+the `risk_level` and `applicable_regulations` fields. Project Team (size,
+experience) and User Community (availability, involvement) are *not* derivable
+from a problem scenario — a 118-word KYC brief says nothing about team size —
+so inventing answers for them would be fabrication dressed as inference. They
+move to a later phase, where a supplied or interactive input makes sense.
+
+Consequence for the training pairs: the agent emits the inferred criteria
+*alongside* the recommendation in one structured output —
+`{inferred_criteria: [{question, answer, evidence: REQ-id}], ranked_models,
+recommendation, justification}`. One call, one pair per scenario. Going straight
+from requirements to a bare SDLC name would make the justification unfalsifiable
+and fail the Definition of Done, which requires it to reference actual
+requirements *and* selection criteria.
+
 Definition of Done worth noting: a loan scenario should recommend Agile or Spiral (**not** Waterfall), a payment system should differ, and the justification must reference actual requirements and selection criteria.
 
 ### Requirement Model (13 fields)
+
+**The extractor produces 12 of them.** `category` is deliberately absent from
+`ExtractedRequirement` / `ExtractionDraft`, the schema sent to the LLM: the
+classification node overwrites it with the fine-tuned RoBERTa output, so
+generating it spent tokens on an answer discarded one node later, and would
+have meant hand-verifying categories across every extraction training pair to
+teach a field nothing reads. `Requirement` adds it back, so the rest of the
+system is unchanged — it simply arrives empty and the classifier fills it.
+
+Note also that Pydantic turns a class docstring into the JSON-schema
+`description`, which is sent to the model on every call. Keep rationale in
+comments on these classes, not docstrings, or it is billed as prompt tokens and
+read as instruction.
 
 Each extracted requirement has: `id`, `statement`, `category` (list), `source_stakeholder`, `business_justification`, `priority`, `dependencies`, `assumptions`, `acceptance_criteria`, `applicable_regulations`, `risk_level`, `confidence_score`, `approval_status`.
 
@@ -199,18 +286,39 @@ ollama run phi3.5                            # smoke-test the model
 Never run two trainings at once — they share `models/experiments/<model_type>_run/`
 and will corrupt each other's checkpoints.
 
+Training writes the model **twice**: to `models/<type>_classifier` in the repo
+(canonical, survives a WSL reset) and to `~/.local/share/syntheia/models/` (what
+the pipeline actually loads, via `SYNTHEIA_CLASSIFIER_DIR`). Both every run, so
+the fast copy cannot go stale and silently serve old weights. `SYNTHEIA_MODEL_HOME=off`
+disables the mirror.
+
 `--pos-weight` is off by default and should stay off: micro-F1 is monotonic in
 the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 
 ## Environment & Configuration
 
-- **Python 3.12**, dependencies in `requirements.txt`. Virtualenv lives in `venv/` (gitignored).
+- **Python 3.12**. The virtualenv lives at **`~/venvs/syntheia`**, NOT in the repo.
+  Activate it (`source ~/venvs/syntheia/bin/activate`) or call
+  `~/venvs/syntheia/bin/python` directly.
+  - **Do not symlink `venv` in the repo to it.** Python derives `sys.prefix`
+    from the path you invoke, so `sys.path` keeps the `/mnt/f` spelling and
+    every import stats through v9fs anyway: measured 2.4 s direct vs 54 s
+    through the symlink, a 22x penalty for the convenience.
+  - `venv.v9fs-slow/` is the old in-repo venv, kept until the new one has
+    proved itself. Delete it to reclaim 6.6 GB.
+  - `requirements.txt` is unpinned (`>=` throughout); `requirements.lock.txt`
+    pins the 219 packages actually installed. Install from the lock file —
+    a fresh resolve can move off `transformers` 5.15.1, whose v5 API the
+    code depends on.
 - Secrets in `.env` (gitignored); `.env.example` is the template.
   - `GEMINI_API_KEY` — supports **comma-separated multiple keys** for round-robin rotation (bypasses free-tier rate limits). Keys from different GCP projects.
   - `OPENAI_API_KEY`, `WANDB_API_KEY` — not yet active.
   - `HF_TOKEN` — **currently a placeholder**. Less urgent since the revision: Phi-3.5 is not gated, and Ollama pulls its own weights independently of the Hub. Still worth setting — anonymous Hub downloads are rate-limited, which is how `roberta-base` first failed. `notebooks/05_train_bert.py` and `06_evaluate_bert.py` call `load_dotenv()` so it is picked up once set.
 - **Gemini model:** `gemini-3.6-flash` via `google-genai` SDK (structured output with `response_schema`). **Baseline only** after the Sep 11 revision — not part of the shipping pipeline.
-- **Local LLM:** chosen on Day 12 by benchmark, served by Ollama on WSL2. Must fit ~3GB of real headroom.
+- **Local LLM: `llama3.2:3b`**, pinned Day 12 by benchmark (`evaluation/results/day12_local_llm_benchmark.json`). 36 tok/s, 2.3GB VRAM, 100% valid JSON, 1.8 categories/requirement.
+  - **`qwen2.5:3b` was faster (47 tok/s) and rejected anyway.** It scored 100% on every automated metric while assigning 5.5 of the 13 categories to every requirement — every label legal, the output useless. `phi3.5` was slowest at 14 tok/s and the only one to invent an out-of-taxonomy label. The speed ranking was the inverse of the quality ranking.
+  - **Correction (13 Sep):** that category evidence was measuring a field the pipeline *discards* — the classification node overwrites `category`, so the extractor's labels never survive. The rejection still stands, but the reasoning is indirect rather than direct: a model that assigns 8–10 of 13 categories while the prompt says *"only assign a category if the requirement clearly relates to it"* is demonstrating poor instruction-following, and that bears on the fields we do keep. The statement-quality margin was thinner than first recorded — qwen missed the portal requirement, llama missed the RBI compliance one. `category` has since been removed from the extraction schema, and the benchmark now measures `shall_rate` and `field_completeness` instead: same instruction-following signal, against fields that survive.
+  - Set `OLLAMA_MODEL` to override.
 - **Ollama is installed** (11 Sep) as a systemd service, `active` and `enabled`, with models on **`/mnt/f/ollama-models`** via a drop-in (`sudo systemctl edit ollama` → `Environment="OLLAMA_MODELS=/mnt/f/ollama-models"`). Not the default `~/.ollama`: that lives on WSL's ext4 vhdx whose `df` "937G free" is the virtual disk's *maximum*, not real space — the vhdx sits on Windows `C:` which has only **45GB free**, while `F:` has 72GB. NTFS slowness does not bite here, since weights are read once at load and then cached.
 - **Cloud LLM:** Llama-3.1-8B via Ollama on a Colab/Kaggle T4 behind an ngrok/Cloudflare tunnel. Reached through the same wrapper by setting `OLLAMA_HOST`.
 - **LLM gateway** (`src/utils/llm.py`): Auto-selects provider based on available `.env` keys. `llm_ollama.py` joins it at Day 12 and should become the default, with Gemini reachable explicitly for comparison runs.
@@ -220,7 +328,8 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
 - **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local (prompted) vs local (fine-tuned).
-- **Model choices are made by benchmark, not assumption.** Day 12 measures candidates on this hardware before pinning one. Record the rejected oversized candidates and why — that reasoning is the Week 11 E1–E7 ablation story.
+- **Model choices are made by benchmark, not assumption.** Day 12 measured candidates on this hardware before pinning one, and the result inverted the expected ranking. Record the rejects and why — that reasoning is the Week 11 E1–E7 ablation story.
+- **A metric that cannot fail is not a metric.** `in_taxonomy_rate` read 100% for a model spraying 5.5 of 13 categories at every requirement: it validated label *names* and never label *counts*. It later turned out to be worse than that — it was scoring a field the pipeline throws away. Ask what reads a number before trusting it. Both the classifier work (Days 9–11) and the extractor work hit this — automated checks confirm format, not sense. **Print the actual output and read it before pinning anything.**
 - **No third-party LLM API in the core path.** Gemini is a baseline and a data-generation tool, never a dependency. Our own fine-tuned model on either tier is fine — cloud-hosted was confirmed permitted on 11 Sep.
 - **Write for both tiers from the start.** Anything touching the LLM goes through the base-URL-configurable wrapper, so local and cloud never diverge into two code paths.
 - **Ground truth is sacred** — `ground_truth.json` (32 verified requirements) is the held-out eval set. NEVER included in training data.

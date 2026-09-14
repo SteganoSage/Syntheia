@@ -1,0 +1,855 @@
+{
+  "tiers": {
+    "local": {
+      "tier": "local",
+      "endpoint": "http://localhost:11434",
+      "temperature": 0.2,
+      "repeats_per_scenario": 1,
+      "scenarios": [
+        "kyc_onboarding",
+        "loan_processing",
+        "payment_system"
+      ],
+      "taxonomy": [
+        "Business",
+        "Stakeholder",
+        "Functional",
+        "Security",
+        "Privacy",
+        "Regulatory",
+        "Performance",
+        "Availability",
+        "Usability",
+        "Data-management",
+        "Integration",
+        "Audit/Reporting",
+        "Operational"
+      ],
+      "results": {
+        "qwen2.5:3b": {
+          "meta": {
+            "params": "3B",
+            "expected_gb": 1.9,
+            "expected_fit": true
+          },
+          "summary": {
+            "runs": 3,
+            "failed": 0,
+            "tokens_per_sec": 46.88,
+            "eval_seconds": 9.13,
+            "load_seconds_first": 47.32,
+            "wall_seconds": 25.27,
+            "peak_vram_mb": 2337,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "in_taxonomy_rate": 1.0,
+            "labels_per_requirement": 5.47,
+            "requirements_mean": 6.3,
+            "requirements_range": [
+              4,
+              9
+            ],
+            "unknown_categories": []
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 46.91,
+              "eval_tokens": 459,
+              "eval_seconds": 9.78,
+              "load_seconds": 47.32,
+              "wall_seconds": 57.43,
+              "peak_vram_mb": 2337,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "n_category_labels": 36,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 6.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support both video KYC and document-based KYC flows for customer onboarding.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Integration",
+                    "Audit/Reporting",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The system shall validate PAN card details against the NSDL database in real-time.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Data-management",
+                    "Integration",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "The system shall store video KYC sessions for a minimum of 8 years as per RBI's KYC master direction.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Data-management",
+                    "Audit/Reporting",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Data-management",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence before account activation.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Data-management",
+                    "Audit/Reporting",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The system shall ensure the entire onboarding process takes no longer than 15 minutes for low-risk customers on a stable internet connection.",
+                  "category": [
+                    "Functional",
+                    "Performance",
+                    "Availability",
+                    "Usability",
+                    "Operational"
+                  ]
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 46.68,
+              "eval_tokens": 287,
+              "eval_seconds": 6.15,
+              "load_seconds": 0.18,
+              "wall_seconds": 6.51,
+              "peak_vram_mb": 2165,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 4,
+              "n_category_labels": 27,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 6.75,
+              "extracted": [
+                {
+                  "statement": "The system shall verify identity through Aadhaar-based eKYC.",
+                  "category": [
+                    "Stakeholder",
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Integration"
+                  ]
+                },
+                {
+                  "statement": "The system shall fetch credit scores from CIBIL in real-time.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management"
+                  ]
+                },
+                {
+                  "statement": "Applications above 50 lakhs shall require manual approval from a senior officer.",
+                  "category": [
+                    "Stakeholder",
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Integration",
+                    "Audit/Reporting",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "All data shall comply with RBI's digital lending guidelines.",
+                  "category": [
+                    "Stakeholder",
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management"
+                  ]
+                }
+              ],
+              "scenario": "loan_processing"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 47.06,
+              "eval_tokens": 540,
+              "eval_seconds": 11.47,
+              "load_seconds": 0.22,
+              "wall_seconds": 11.86,
+              "peak_vram_mb": 2165,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 9,
+              "n_category_labels": 33,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 3.67,
+              "extracted": [
+                {
+                  "statement": "The system shall support UPI-based payments via QR code scanning and payment links.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Integration",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "The system shall handle at least 10,000 payments per minute during peak hours.",
+                  "category": [
+                    "Performance",
+                    "Availability"
+                  ]
+                },
+                {
+                  "statement": "Failed transactions must be auto-refunded to the customer's bank account within 30 minutes.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "Merchant settlements shall happen on a T+1 basis.",
+                  "category": [
+                    "Functional",
+                    "Data-management",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "Detailed transaction reports should be accessible via a merchant dashboard.",
+                  "category": [
+                    "Functional",
+                    "Data-management",
+                    "Audit/Reporting"
+                  ]
+                },
+                {
+                  "statement": "All payment data must be encrypted end-to-end.",
+                  "category": [
+                    "Security",
+                    "Privacy",
+                    "Data-management"
+                  ]
+                },
+                {
+                  "statement": "The system must comply with NPCI's UPI technical specifications.",
+                  "category": [
+                    "Regulatory"
+                  ]
+                },
+                {
+                  "statement": "The system must comply with PCI-DSS Level 1 standards.",
+                  "category": [
+                    "Regulatory",
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "Suspicious transactions exceeding Rs 1 lakh must be flagged for manual review by the fraud team.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Privacy",
+                    "Regulatory",
+                    "Data-management",
+                    "Audit/Reporting"
+                  ]
+                }
+              ],
+              "scenario": "payment_system"
+            }
+          ]
+        },
+        "llama3.2:3b": {
+          "meta": {
+            "params": "3B",
+            "expected_gb": 2.0,
+            "expected_fit": true
+          },
+          "summary": {
+            "runs": 3,
+            "failed": 0,
+            "tokens_per_sec": 35.97,
+            "eval_seconds": 9.37,
+            "load_seconds_first": 77.67,
+            "wall_seconds": 35.67,
+            "peak_vram_mb": 2329,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "in_taxonomy_rate": 1.0,
+            "labels_per_requirement": 1.83,
+            "requirements_mean": 6.3,
+            "requirements_range": [
+              5,
+              8
+            ],
+            "unknown_categories": []
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 35.5,
+              "eval_tokens": 408,
+              "eval_seconds": 11.49,
+              "load_seconds": 77.67,
+              "wall_seconds": 89.55,
+              "peak_vram_mb": 2329,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "n_category_labels": 17,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 2.83,
+              "extracted": [
+                {
+                  "statement": "The system shall validate PAN details against the NSDL database in real-time.",
+                  "category": [
+                    "Functional",
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall record and store video KYC sessions for a minimum of 8 years as per RBI's KYC master direction.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Data-management"
+                  ]
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Data-management"
+                  ]
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence before account activation.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The entire onboarding process shall take no longer than 15 minutes for low-risk customers on a stable internet connection.",
+                  "category": [
+                    "Functional",
+                    "Performance",
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "Customers shall upload PAN card and Aadhaar for identity verification.",
+                  "category": [
+                    "Functional",
+                    "Security",
+                    "Data-management"
+                  ]
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 36.33,
+              "eval_tokens": 244,
+              "eval_seconds": 6.72,
+              "load_seconds": 0.17,
+              "wall_seconds": 7.17,
+              "peak_vram_mb": 2329,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "n_category_labels": 7,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 1.4,
+              "extracted": [
+                {
+                  "statement": "The system shall allow customers to apply for loans online from their mobile phones.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall verify the identity of customers through Aadhaar-based eKYC.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall fetch credit scores from CIBIL in real-time.",
+                  "category": [
+                    "Functional",
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall require manual approval from a senior officer for loan applications above \u20b950 lakhs.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall ensure that all data complies with RBI's digital lending guidelines.",
+                  "category": [
+                    "Security",
+                    "Regulatory"
+                  ]
+                }
+              ],
+              "scenario": "loan_processing"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 36.07,
+              "eval_tokens": 357,
+              "eval_seconds": 9.9,
+              "load_seconds": 0.17,
+              "wall_seconds": 10.29,
+              "peak_vram_mb": 2329,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 8,
+              "n_category_labels": 10,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 1.25,
+              "extracted": [
+                {
+                  "statement": "The system shall support transaction volumes of at least 10,000 payments per minute during peak hours.",
+                  "category": [
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall auto-refund failed transactions to the customer's bank account within 30 minutes.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall settle merchant payments on a T+1 basis.",
+                  "category": [
+                    "Business",
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall provide detailed transaction reports accessible via a dashboard.",
+                  "category": [
+                    "Business",
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "The system shall encrypt all payment data end-to-end.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with NPCI's UPI technical specifications.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with PCI-DSS Level 1 standards.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall flag suspicious transactions exceeding Rs 1 lakh for manual review by the fraud team before settlement.",
+                  "category": [
+                    "Security"
+                  ]
+                }
+              ],
+              "scenario": "payment_system"
+            }
+          ]
+        }
+      }
+    },
+    "cloud": {
+      "tier": "cloud",
+      "endpoint": "https://motorcycle-camps-promoting-witness.trycloudflare.com",
+      "temperature": 0.2,
+      "repeats_per_scenario": 2,
+      "scenarios": [
+        "kyc_onboarding",
+        "loan_processing",
+        "payment_system"
+      ],
+      "taxonomy": [
+        "Business",
+        "Stakeholder",
+        "Functional",
+        "Security",
+        "Privacy",
+        "Regulatory",
+        "Performance",
+        "Availability",
+        "Usability",
+        "Data-management",
+        "Integration",
+        "Audit/Reporting",
+        "Operational"
+      ],
+      "results": {
+        "llama3.1:8b": {
+          "meta": {
+            "params": "8B",
+            "expected_gb": 4.9,
+            "expected_fit": false
+          },
+          "summary": {
+            "runs": 6,
+            "failed": 2,
+            "tokens_per_sec": 31.59,
+            "eval_seconds": 7.97,
+            "load_seconds_first": 0.0,
+            "wall_seconds": 8.11,
+            "peak_vram_mb": null,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "in_taxonomy_rate": 1.0,
+            "labels_per_requirement": 1.5,
+            "requirements_mean": 6.5,
+            "requirements_range": [
+              5,
+              8
+            ],
+            "unknown_categories": []
+          },
+          "runs": [
+            {
+              "ok": false,
+              "error": "HTTPError: 524 Server Error: <none> for url: https://motorcycle-camps-promoting-witness.trycloudflare.com/api/generate",
+              "wall_seconds": 113.38,
+              "scenario": "kyc_onboarding"
+            },
+            {
+              "ok": false,
+              "error": "HTTPError: 524 Server Error: <none> for url: https://motorcycle-camps-promoting-witness.trycloudflare.com/api/generate",
+              "wall_seconds": 113.28,
+              "scenario": "kyc_onboarding"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 31.92,
+              "eval_tokens": 199,
+              "eval_seconds": 6.24,
+              "load_seconds": 0.0,
+              "wall_seconds": 6.81,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "n_category_labels": 10,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 2.0,
+              "extracted": [
+                {
+                  "statement": "The system shall allow customers to apply for loans online from their mobile phones.",
+                  "category": [
+                    "Functional",
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "The system shall verify customer identity through Aadhaar-based eKYC.",
+                  "category": [
+                    "Functional",
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall fetch credit scores from CIBIL in real-time.",
+                  "category": [
+                    "Functional",
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall require manual approval from a senior officer for applications above 50 lakhs.",
+                  "category": [
+                    "Functional",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with RBI's digital lending guidelines.",
+                  "category": [
+                    "Regulatory",
+                    "Data-management"
+                  ]
+                }
+              ],
+              "scenario": "loan_processing"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 31.51,
+              "eval_tokens": 202,
+              "eval_seconds": 6.41,
+              "load_seconds": 0.0,
+              "wall_seconds": 6.7,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "n_category_labels": 10,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 2.0,
+              "extracted": [
+                {
+                  "statement": "The system shall allow customers to apply for loans online from their mobile phones.",
+                  "category": [
+                    "Functional",
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "The system shall verify customer identity through Aadhaar-based eKYC.",
+                  "category": [
+                    "Functional",
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall fetch credit scores from CIBIL in real-time.",
+                  "category": [
+                    "Functional",
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall require manual approval from a senior officer for applications above 50 lakhs.",
+                  "category": [
+                    "Functional",
+                    "Operational"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with RBI's digital lending guidelines for all data.",
+                  "category": [
+                    "Regulatory",
+                    "Data-management"
+                  ]
+                }
+              ],
+              "scenario": "loan_processing"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 31.55,
+              "eval_tokens": 291,
+              "eval_seconds": 9.22,
+              "load_seconds": 0.0,
+              "wall_seconds": 8.9,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 8,
+              "n_category_labels": 8,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 1.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support transaction volumes of at least 10,000 payments per minute during peak hours.",
+                  "category": [
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall auto-refund failed transactions to the customer's bank account within 30 minutes.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall settle merchant transactions on a T+1 basis.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall provide detailed transaction reports accessible via a dashboard.",
+                  "category": [
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "All payment data shall be encrypted end-to-end.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with NPCI's UPI technical specifications.",
+                  "category": [
+                    "Regulatory"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with PCI-DSS Level 1 standards.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "Suspicious transactions exceeding Rs 1 lakh shall be flagged for manual review by the fraud team before settlement.",
+                  "category": [
+                    "Security"
+                  ]
+                }
+              ],
+              "scenario": "payment_system"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 31.4,
+              "eval_tokens": 315,
+              "eval_seconds": 10.03,
+              "load_seconds": 0.0,
+              "wall_seconds": 10.01,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 8,
+              "n_category_labels": 8,
+              "unknown_categories": [],
+              "in_taxonomy_rate": 1.0,
+              "labels_per_requirement": 1.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support transaction volumes of at least 10,000 payments per minute during peak hours.",
+                  "category": [
+                    "Performance"
+                  ]
+                },
+                {
+                  "statement": "The system shall auto-refund failed transactions to the customer's bank account within 30 minutes.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall settle merchant transactions on a T+1 basis.",
+                  "category": [
+                    "Functional"
+                  ]
+                },
+                {
+                  "statement": "The system shall provide detailed transaction reports accessible via a dashboard.",
+                  "category": [
+                    "Usability"
+                  ]
+                },
+                {
+                  "statement": "All payment data shall be encrypted end-to-end.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with NPCI's UPI technical specifications.",
+                  "category": [
+                    "Regulatory"
+                  ]
+                },
+                {
+                  "statement": "The system shall comply with PCI-DSS Level 1 standards.",
+                  "category": [
+                    "Security"
+                  ]
+                },
+                {
+                  "statement": "Suspicious transactions exceeding Rs 1 lakh shall be flagged for manual review by the fraud team before settlement.",
+                  "category": [
+                    "Security"
+                  ]
+                }
+              ],
+              "scenario": "payment_system"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

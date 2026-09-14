@@ -24,6 +24,7 @@ wheels/
 # Virtual Environments
 venv/
 .venv/
+venv.v9fs-slow/
 ENV/
 
 # Environment Variables
@@ -71,3 +72,12 @@ Thumbs.db
 /implementation-plans
 
 /learning-pytorch
+
+# Knowledge-base documents: large, and public at the URLs in
+# data/knowledge_base/sources.yaml. The registry, the manifests and the fetch
+# script are tracked instead, so the corpus is reproducible without the bulk.
+data/knowledge_base/**/*.pdf
+data/knowledge_base/**/*.html
+data/knowledge_base/**/*.htm
+data/knowledge_base/**/*.docx
+data/vector_store/
