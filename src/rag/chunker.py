@@ -69,7 +69,13 @@ def _split_oversized(text: str) -> list[str]:
             out.append(buf)
             buf = para
         while len(buf) > MAX_CHARS:                   # single enormous paragraph
+            # Prefer a sentence end; fall back to a word boundary; only cut
+            # mid-word if a single "word" somehow exceeds the limit. Cutting on
+            # the raw character index split "essential" into "esse" + "ntial"
+            # on a real RBI direction, which makes both halves unretrievable.
             cut = buf.rfind(". ", 0, MAX_CHARS)
+            if cut <= MIN_CHARS:
+                cut = buf.rfind(" ", MIN_CHARS, MAX_CHARS)
             cut = cut + 1 if cut > MIN_CHARS else MAX_CHARS
             out.append(buf[:cut].strip())
             buf = buf[cut:].strip()
@@ -109,6 +115,29 @@ def _clause_id(stack: list[tuple[int, str, str]]) -> str:
         elif kind == "alpha":
             letters.append(label)
     return numeric + "".join(f"({l})" for l in letters)
+
+
+def looks_like_toc(text: str) -> bool:
+    """Is this block a table of contents rather than substance?
+
+    Published regulations open with a contents list, and every line of it looks
+    exactly like a heading -- so the chunker treats it as one section full of
+    numbered stubs. Indexed, it matches almost any query about section titles
+    while containing no actual rule, which is the worst kind of retrieval hit:
+    plausible and useless.
+
+    The signature is many short lines, most of which are headings and few of
+    which end in a full stop.
+    """
+    lines = [l.strip() for l in text.splitlines() if l.strip()]
+    if len(lines) < 5:
+        return False
+    heading_like = sum(1 for l in lines if detect_heading(l))
+    sentence_like = sum(1 for l in lines if l.endswith((".", ";", ":")))
+    avg_len = sum(len(l) for l in lines) / len(lines)
+    return (heading_like / len(lines) > 0.6
+            and avg_len < 70
+            and sentence_like / len(lines) < 0.35)
 
 
 def chunk_document(text: str, doc: SourceDoc) -> list[Chunk]:
@@ -161,6 +190,8 @@ def chunk_document(text: str, doc: SourceDoc) -> list[Chunk]:
     chunks: list[Chunk] = []
     for clause_id, heading_path, body in sections:
         for piece in _split_oversized(body):
+            if looks_like_toc(piece):
+                continue
             chunks.extend(_as_chunks([piece], doc, clause_id, heading_path, text))
     return _renumber(chunks, doc)
 
