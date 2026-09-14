@@ -1,0 +1,13 @@
+{
+  "summary": {
+    "queries": 24,
+    "k": 5,
+    "recall_at_1": 0.917,
+    "recall_at_5": 1.0,
+    "mrr": 0.958,
+    "mean_top_score": 0.655,
+    "chunks": 1983,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+  },
+  "misses": []
+}
