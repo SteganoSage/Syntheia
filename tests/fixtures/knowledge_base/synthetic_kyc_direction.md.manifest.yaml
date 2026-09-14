@@ -1,0 +1,9 @@
+title: "SYNTHETIC Master Direction — Customer Due Diligence (test fixture)"
+issuer: "SYNTHETIC — not a real issuer"
+doc_id: "FIXTURE/001"
+jurisdiction: IN
+effective_date: 2025-08-14
+version: "fixture v1"
+applicability: [kyc_onboarding]
+doc_type: regulation
+url: ""
