@@ -74,7 +74,12 @@ _NAMED_REG = re.compile(
     # cited as "Aadhaar (Authentication and Offline Verification) Regulations",
     # and without them only the bare noun matches, which carries no signal.
     r"((?:[\w'’()-]+\s+){0,5}"
-    r"(?:guidelines?|regulations?|directions?|direction|act|framework|standards?|rules?|norms?))",
+    r"(?:guidelines?|regulations?|directions?|direction|act|framework|standards?|rules?|norms?)\b)",
+    # The trailing \b is load-bearing. Without it "act" matched inside "account
+    # activation", so a requirement to escalate high-risk customers for enhanced
+    # due diligence was read as naming an instrument, found no title overlap,
+    # and had a correct KYC Master Direction citation at 0.57 demoted to
+    # precedent. A missing word boundary turned the safety check into the bug.
     re.I,
 )
 
