@@ -33,11 +33,72 @@ class PipelineState(TypedDict):
     requirements: list[Requirement]
     quality_report: QualityReport | None
     classifier: str          # "auto" | "bert" | "few_shot" | "zero_shot"
+    use_rag: bool
+    context: list[dict]      # passages retrieved for the scenario
+    grounding: dict          # requirement id -> citations, confidence, needs_review
+
+
+def retrieval_node(state: PipelineState) -> dict:
+    """Fetch source material for the scenario before anything is generated.
+
+    §6's first step. Degrades rather than fails: with no index, or with
+    --no-rag, the pipeline runs ungrounded exactly as it did before, which is
+    also how the Day 20 comparison gets its control arm.
+    """
+    if not state.get("use_rag", True):
+        return {"context": []}
+
+    from src.rag.retriever import is_available, retrieve_context
+
+    if not is_available():
+        print("  (no knowledge base indexed -- running ungrounded; "
+              "build one with notebooks/09_build_knowledge_base.py)")
+        return {"context": []}
+
+    hits = retrieve_context(state["text"])
+    if hits:
+        print(f"Retrieved {len(hits)} passages "
+              f"(top score {hits[0]['score']:.3f}):")
+        for h in hits:
+            m = h["metadata"]
+            print(f"    {h['score']:.3f}  {m.get('citation', m.get('title',''))[:88]}")
+    return {"context": hits}
 
 
 def extraction_node(state: PipelineState) -> dict:
-    result = extract_requirements(state["text"])
+    result = extract_requirements(state["text"], context=state.get("context"))
     return {"requirements": result.requirements}
+
+
+def grounding_node(state: PipelineState) -> dict:
+    """Attach a citation and a confidence to each requirement.
+
+    No LLM call: each statement is embedded and matched against the knowledge
+    base, which costs milliseconds rather than the seconds a second generation
+    pass would. §6 asks for citations *and* confidence *and* escalation of what
+    is unsupported, and a similarity score gives all three honestly -- including
+    admitting when nothing in the corpus backs a requirement.
+
+    The limit is real and worth stating: similarity is not applicability. A high
+    score means the passage is about the same subject, not that the rule governs
+    this requirement. That is why nothing here overwrites a citation silently --
+    low-confidence requirements are flagged for a human instead.
+    """
+    if not state.get("use_rag", True) or not state.get("context"):
+        return {"grounding": {}}
+
+    from src.rag.retriever import ground_requirement
+
+    grounding: dict[str, dict] = {}
+    for req in state["requirements"]:
+        g = ground_requirement(req.statement)
+        grounding[req.id] = g
+        # Only overwrite what the model guessed when the corpus actually
+        # supports something; an unsupported requirement keeps the model's own
+        # answer and is flagged, rather than being silently emptied.
+        if g["applicable_regulations"]:
+            req.applicable_regulations = g["applicable_regulations"]
+    return {"grounding": grounding}
 
 
 def classification_node(state: PipelineState) -> dict:
@@ -52,11 +113,15 @@ def quality_node(state: PipelineState) -> dict:
 
 def build_pipeline():
     graph = StateGraph(PipelineState)
+    graph.add_node("retrieval", retrieval_node)
     graph.add_node("extraction", extraction_node)
+    graph.add_node("grounding", grounding_node)
     graph.add_node("classification", classification_node)
     graph.add_node("quality", quality_node)
-    graph.set_entry_point("extraction")
-    graph.add_edge("extraction", "classification")
+    graph.set_entry_point("retrieval")
+    graph.add_edge("retrieval", "extraction")
+    graph.add_edge("extraction", "grounding")
+    graph.add_edge("grounding", "classification")
     graph.add_edge("classification", "quality")
     graph.add_edge("quality", END)
     return graph.compile()
@@ -74,6 +139,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--scenario", type=Path,
         default=Path("data/test_cases/loan_processing/scenario_01.txt"),
+    )
+    parser.add_argument(
+        "--no-rag", action="store_true",
+        help="skip retrieval and generate from the model's own knowledge -- "
+             "the control arm for the grounded-vs-ungrounded comparison",
     )
     args = parser.parse_args()
 
@@ -96,11 +166,15 @@ if __name__ == "__main__":
 
     t_start = time.perf_counter()
     pipeline = build_pipeline()
+    print(f"Grounding:  {'OFF (--no-rag)' if args.no_rag else 'retrieval-augmented'}")
     final_state = pipeline.invoke({
         "text": SAMPLE_SCENARIO,
         "requirements": [],
         "quality_report": None,
         "classifier": args.classifier,
+        "use_rag": not args.no_rag,
+        "context": [],
+        "grounding": {},
     })
 
     elapsed = time.perf_counter() - t_start
@@ -114,7 +188,22 @@ if __name__ == "__main__":
         print(f"    Stakeholder:      {req.source_stakeholder}")
         print(f"    Justification:    {req.business_justification}")
         print(f"    Acceptance:       {req.acceptance_criteria}")
-        print(f"    Regulations:      {req.applicable_regulations}")
+        g = final_state.get("grounding", {}).get(req.id)
+        if g and g["citations"]:
+            print(f"    Regulations:      (grounded)")
+            for c in g["citations"]:
+                print(f"        [{c['confidence']:.2f}] {c['citation']}")
+        elif g and g["needs_review"]:
+            print(f"    Regulations:      {req.applicable_regulations}")
+            print(f"        !! no regulation in the knowledge base supports this "
+                  f"(best match {g['confidence']:.2f}) -- needs human review")
+        else:
+            print(f"    Regulations:      {req.applicable_regulations}")
+        if g and g.get("precedents"):
+            # Not regulations -- how comparable systems specified the same thing.
+            print(f"    Precedent:        (how other institutions specified this)")
+            for c in g["precedents"][:2]:
+                print(f"        [{c['confidence']:.2f}] {c['citation'][:96]}")
         print(f"    Risk:             {req.risk_level}")
         print(f"    Confidence:       {req.confidence_score}")
         print()

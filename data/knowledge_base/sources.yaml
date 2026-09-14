@@ -137,6 +137,30 @@ documents:
     applicability: [fraud_detection, lending, kyc_onboarding]
     doc_type: tender
 
+  - file: regulations/uidai_aadhaar_auth_offline_verification_2021.pdf
+    url: https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf
+    title: "The Aadhaar (Authentication and Offline Verification) Regulations, 2021"
+    issuer: "Unique Identification Authority of India"
+    doc_id: "No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)"
+    jurisdiction: IN
+    effective_date: 2021-11-09
+    version: "updated 15 Dec 2025"
+    applicability: [kyc_onboarding, lending, payments, digital_banking]
+    doc_type: regulation
+
+  # The sourced URL 404'd; the working path has a literal space (%20) before
+  # ".pdf". Found 14 Sep after the first verification pass failed.
+  - file: requirement_docs/central_bank_digital_banking_rfp_375.pdf
+    url: "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf"
+    title: "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution"
+    issuer: "Central Bank of India"
+    doc_id: "RFP No. 375"
+    jurisdiction: IN
+    effective_date: 2023-02-21
+    version: "RFP 375"
+    applicability: [payments, kyc_onboarding, fraud_detection, regulatory_reporting, digital_banking]
+    doc_type: tender
+
 # Checked 14 Sep 2026 and NOT ingestable. Recorded rather than deleted: a
 # source that failed verification is evidence about the corpus, and someone
 # will otherwise re-find and re-try these.
@@ -154,12 +178,6 @@ unavailable:
       Fetched and ingested, then removed. 1.47 MB of HTML yielding 3.7 K of text
       because it is a downloads *listing*, not the specification. The actual
       OpenAPI files are at gitlab.com/the-berlin-group/nextgenpsd2.
-  - title: "Central Bank of India — Digital Banking Platform RFP (205 pp)"
-    url: https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution.pdf
-    reason: "404 — host responds, path is stale. Was ingestion priority 2 and the broadest Category B document. Worth re-finding."
-  - title: "UIDAI — Aadhaar (Authentication and Offline Verification) Regulations, 2021"
-    url: https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021.pdf
-    reason: "404 on both the sourced path and the obvious alternative."
   - title: "NPCI — UPI Product Booklet"
     url: https://www.npci.org.in/PDF/npci/upi/Product-Booklet.pdf
     reason: "403 — bot-blocked even with browser headers."

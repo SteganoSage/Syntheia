@@ -62,13 +62,37 @@ Output (showing one requirement):
 
 
 
-def extract_requirements(scenario_text: str) -> ExtractionResult:
+def extract_requirements(
+    scenario_text: str,
+    context: list[dict] | None = None,
+) -> ExtractionResult:
+    """Extract requirements, optionally grounded in retrieved source material.
+
+    `context` is the output of `src.rag.retriever.retrieve_context` -- passages
+    from the finance knowledge base. This is the supervisor's part 1: "feed a
+    lightweight LLM existing requirement documents... then prompt it to generate
+    the specific requirements for a particular functionality, along with its
+    reasoning." Without it the model generates from parametric memory, which is
+    what §6 of the problem statement exists to stop.
+
+    Passing None runs the ungrounded path, which stays available deliberately --
+    Day 20's headline result is grounded versus ungrounded, and that needs both.
+    """
     # The LLM is asked for ExtractionDraft, which has no `category` field: the
     # classification node overwrites categories anyway, so generating them here
     # spends tokens on an answer that is thrown away one node later.
+    user_prompt = f"Problem scenario:\n\n{scenario_text}"
+    if context:
+        from src.rag.retriever import format_context
+
+        # Evidence first, then the scenario. A small model attends better to the
+        # instruction nearest the end of the prompt, and the scenario is the
+        # instruction -- the passages are reference material for it.
+        user_prompt = f"{format_context(context)}\n\n{user_prompt}"
+
     draft = call_structured(
         system_prompt=SYSTEM_PROMPT,
-        user_prompt=f"Problem scenario:\n\n{scenario_text}",
+        user_prompt=user_prompt,
         response_model=ExtractionDraft,
     )
     # Promote to full Requirements with `category` empty; the classification
