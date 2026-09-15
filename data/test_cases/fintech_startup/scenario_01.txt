@@ -1,0 +1,1 @@
+A fintech startup wants to launch a personal loan app for young professionals. They want quick disbursal, maybe under 10 minutes. The product team is small — 3 people — and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback. Requirements will definitely change as they learn what users want.

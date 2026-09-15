@@ -88,7 +88,12 @@ def extract_requirements(
         # Evidence first, then the scenario. A small model attends better to the
         # instruction nearest the end of the prompt, and the scenario is the
         # instruction -- the passages are reference material for it.
-        user_prompt = f"{format_context(context)}\n\n{user_prompt}"
+        user_prompt = (
+            f"{format_context(context)}\n\n"
+            f"{user_prompt}\n\n"
+            "Extract requirements from the problem scenario above. The reference "
+            "material is not a source of requirements."
+        )
 
     draft = call_structured(
         system_prompt=SYSTEM_PROMPT,

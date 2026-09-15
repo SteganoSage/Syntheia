@@ -40,6 +40,14 @@ from src.rag import store
 MIN_CONFIDENCE = float(os.getenv("SYNTHEIA_MIN_CONFIDENCE", "0.55"))
 
 CONTEXT_K = int(os.getenv("SYNTHEIA_CONTEXT_K", "4"))
+
+# Below this, the corpus has nothing on the subject and its "best" passages are
+# noise. A COBOL-to-Java migration scored 0.555 and drew four loan-origination
+# and digital-banking RFP passages -- the extractor then mined them and produced
+# "the system shall provide a mobile-responsive online loan application portal"
+# for a migration project. Scenarios the corpus does cover score 0.63-0.67.
+# Ungrounded beats grounded in the wrong domain.
+MIN_CONTEXT_RELEVANCE = float(os.getenv("SYNTHEIA_MIN_CONTEXT_RELEVANCE", "0.60"))
 GROUND_K = int(os.getenv("SYNTHEIA_GROUND_K", "3"))
 
 # Retrieval over-fetches by this factor, then deduplicates and caps per
@@ -173,7 +181,10 @@ def retrieve_context(scenario: str, k: int | None = None,
         # Metadata filtering support varies by Chroma version; an unfiltered
         # result is far better than no grounding at all.
         hits = store.query(scenario, k=want * OVERFETCH, persist_dir=persist_dir)
-    return _dedupe(hits, max_per_doc=MAX_PER_DOC)[:want]
+    hits = _dedupe(hits, max_per_doc=MAX_PER_DOC)[:want]
+    if hits and hits[0]["score"] < MIN_CONTEXT_RELEVANCE:
+        return []
+    return hits
 
 
 def ground_requirement(statement: str, k: int | None = None,
@@ -253,10 +264,13 @@ def format_context(hits: list[dict]) -> str:
         label = m.get("citation") or m.get("title", "unknown source")
         blocks.append(f"[E{i}] {label}\n{h['text'].strip()}")
     return (
-        "### Retrieved source material\n\n"
-        "The passages below are from approved finance documents. Ground the "
-        "requirements you produce in them, and cite the [E#] label of any "
-        "passage you rely on. If none of them supports a point, say so rather "
-        "than naming a regulation they do not contain.\n\n"
+        "### Reference material\n\n"
+        "The passages below are extracts from finance regulations and from other "
+        "institutions' requirement documents. They are REFERENCE ONLY.\n\n"
+        "Every requirement you produce must come from the problem scenario. "
+        "Do NOT take requirements from these passages: if a passage describes a "
+        "feature the scenario does not ask for, it is not a requirement of this "
+        "project. Use them only to phrase requirements the way this domain "
+        "phrases them, and to identify which regulations apply.\n\n"
         + "\n\n".join(blocks)
     )

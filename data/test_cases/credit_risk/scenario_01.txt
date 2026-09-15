@@ -1,0 +1,1 @@
+An NBFC wants to build an AI-based credit risk scoring engine but they're not sure exactly what data sources to use or what the model architecture should look like. There's significant technical risk — they've never built ML systems before. Budget is uncertain and depends on initial results. They want to build a proof of concept first before committing to full development.

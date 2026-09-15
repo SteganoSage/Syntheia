@@ -66,6 +66,17 @@ TIMEOUT = 300          # generous: a cold model load off NTFS can take minutes
 DEFAULT_NUM_CTX = 4096
 DEFAULT_KEEP_ALIVE = "-1"   # keep the model resident; see get_keep_alive()
 
+# Hard ceiling on generated tokens. Ollama's default is unbounded, and when the
+# context fills it SHIFTS the window and keeps going -- so a model that falls
+# into a repetition loop generates forever rather than hitting a wall. Two runs
+# were lost to this: a single extraction call ran 11 minutes with the socket
+# open and the GPU busy, which from outside is indistinguishable from a hang.
+#
+# The largest legitimate output measured here is ~1150 tokens (extraction, 7
+# requirements), so 2048 leaves generous headroom while turning an infinite loop
+# into a truncated reply that fails validation and retries visibly.
+DEFAULT_NUM_PREDICT = 2048
+
 T = TypeVar("T", bound=BaseModel)
 
 
@@ -80,6 +91,10 @@ def get_model() -> str:
 
 def get_num_ctx() -> int:
     return int(os.getenv("OLLAMA_NUM_CTX", DEFAULT_NUM_CTX))
+
+
+def get_num_predict() -> int:
+    return int(os.getenv("OLLAMA_NUM_PREDICT", DEFAULT_NUM_PREDICT))
 
 
 def get_keep_alive() -> int | str:
@@ -193,7 +208,11 @@ def generate(
         "prompt": user_prompt,
         "stream": stream,
         "keep_alive": get_keep_alive(),
-        "options": {"temperature": temperature, "num_ctx": get_num_ctx()},
+        "options": {
+            "temperature": temperature,
+            "num_ctx": get_num_ctx(),
+            "num_predict": get_num_predict(),
+        },
     }
     if json_mode:
         # A dict here constrains decoding to that schema; "json" only forces

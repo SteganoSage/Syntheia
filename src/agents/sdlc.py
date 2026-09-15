@@ -40,6 +40,22 @@ from src.utils.llm import call_structured
 TOP_N = 3
 
 
+def _format_statements(requirements: list[Requirement]) -> str:
+    """Statements only -- no priority, risk or category.
+
+    The Requirements table asks how well understood and how stable the
+    requirements are. Priority and risk say nothing about either, but the model
+    argues from them anyway: "high risk level implies frequent changes", "high
+    priority implies a proof of concept is required". Three separate
+    instructions not to do this were ignored, which is the same negative-
+    constraint failure the quality agent showed.
+
+    So the metadata is withheld for this table rather than forbidden. A rule you
+    can enforce should not be delegated to a 3B model's compliance.
+    """
+    return "\n".join(f"[{r.id}] {r.statement}" for r in requirements)
+
+
 def _format_requirements(requirements: list[Requirement]) -> str:
     """Every field the framework questions could need.
 
@@ -78,71 +94,91 @@ def _format_questions(questions: list[Question]) -> str:
 # ── 1. Infer the framework answers ─────────────────────────────────────
 
 INFER_PROMPT = """\
-You are a software engineering analyst. Given a set of software requirements for \
-a financial system, answer questions about the PROJECT those requirements imply.
+You are a software engineering analyst. Given software requirements for a \
+financial system, answer questions about the PROJECT those requirements imply.
 
 Each question is answered true (yes) or false (no), about the project as a whole \
 — not about any single requirement.
 
 Rules:
-- Answer from evidence in the requirements. Cite the requirement ids that led \
-you to each answer.
-- Lines marked (metadata) describe a requirement; they are not its wording. \
-Never quote a metadata label as though it were a term the requirements use.
-- Cite the one or two requirements that actually decided the answer. Citing \
-every requirement is not evidence.
-- `reasoning` is one sentence naming what in the requirements decided it.
-- If the requirements genuinely do not indicate either way, answer with the more \
-cautious option for a regulated financial system and say so in the reasoning.
-- Answer EVERY question given. Use the exact question ids.
+- Reason from what the requirements IMPLY about the project, not only from what \
+they literally state. A project that replicates an existing system has \
+well-known requirements even though no requirement says "the requirements are \
+well known".
+- **Silence is not uncertainty.** If the requirements do not mention how often \
+they will change, work it out from the project: a migration that adds no new \
+functionality has stable requirements; a startup MVP does not. Do not answer \
+"unknown, therefore unstable".
+- Use what you know about financial systems. Core banking platforms, payment \
+rails and KYC systems are long-lived infrastructure. A fixed delivery window \
+with approved scope implies stable funding.
+- **The original problem statement is given below the requirements. It is the \
+best evidence for how the project will run** — it says things the requirements \
+cannot, such as whether new functionality is being added or whether scope is \
+expected to change. Read it first.
+- Priority and risk level describe a requirement's importance, NOT how stable, \
+clear or complete it is. A high-risk requirement can be perfectly well defined. \
+Never argue from priority or risk to requirement stability.
+- Cite the ONE or TWO requirements that actually decided the answer in \
+`evidence`. Citing every requirement is not evidence and will be rejected.
+- `reasoning` is one sentence naming the specific thing that decided it.
+- Answer EVERY question given, using the exact question ids.
 """
 
 
 def infer_criteria(requirements: list[Requirement],
-                   questions: list[Question]) -> list[CriterionAnswer]:
-    result = call_structured(
-        system_prompt=INFER_PROMPT,
-        user_prompt=(
-            f"Requirements:\n\n{_format_requirements(requirements)}\n\n"
-            f"Answer these questions about the project:\n\n{_format_questions(questions)}"
-        ),
-        response_model=CriterionAnswerSet,
-        temperature=0.0,
-    )
-    valid = {q.id for q in questions}
-    # Drop anything invented: a question id outside the framework cannot be
-    # scored, and silently keeping it would inflate the apparent coverage.
-    answers = [a for a in result.answers if a.question_id in valid]
+                   questions: list[Question],
+                   scenario: str = "") -> list[CriterionAnswer]:
+    """Answer the framework questions, one table at a time.
 
-    # The Definition of Done requires the justification to reference actual
-    # requirements, so an answer citing none cannot support one. The first run
-    # cited nothing at all across ten questions, so ask again -- once, naming
-    # the offenders -- rather than accepting an unsupported chain.
+    Batched per table rather than all ten at once. Asking for ten answers in a
+    single output produced the same reasoning recycled across unrelated
+    questions and evidence lists naming every requirement -- the model spreading
+    itself thin across one long generation. A table is five related questions
+    about one aspect of the project, which is a question a 3B can hold in mind.
+    """
+    by_table: dict[str, list[Question]] = {}
+    for q in questions:
+        by_table.setdefault(q.table_name, []).append(q)
+
     req_ids = {r.id for r in requirements}
-    uncited = [a.question_id for a in answers
-               if not [e for e in a.evidence if e in req_ids]]
-    if uncited and len(uncited) < len(answers) * 2:
-        retry = call_structured(
+    formatted = _format_requirements(requirements)
+    # The scenario is where the answers to the Requirements table actually live.
+    # Extraction turns prose into "The system shall ..." statements and discards
+    # the project framing: bank_migration says "No new functionality is to be
+    # added" and "must replicate the existing features exactly", which answer
+    # REQ-1 and REQ-3 outright, and neither survives into any requirement.
+
+    out: list[CriterionAnswer] = []
+
+    for table_name, table_qs in by_table.items():
+        valid = {q.id for q in table_qs}
+        # Project Type & Risk genuinely needs the metadata -- regulatory
+        # exposure and integration live there, and it scores 4/5 with it.
+        # Requirements does not, and scores worse with it.
+        body = (_format_statements(requirements)
+                if table_qs[0].table == "requirements" else formatted)
+        if scenario:
+            body += f"\n\nOriginal problem statement:\n{scenario}"
+        result = call_structured(
             system_prompt=INFER_PROMPT,
             user_prompt=(
-                f"Requirements:\n\n{_format_requirements(requirements)}\n\n"
-                f"Answer these questions about the project:\n\n"
-                f"{_format_questions([q for q in questions if q.id in set(uncited)])}\n\n"
-                "Your previous answers to these questions cited no requirement ids. "
-                "Every answer must list at least one id from the requirements above "
-                "in `evidence`, and the reasoning must say what in that requirement "
-                "decided the answer. Do not repeat the same reasoning for different "
-                "questions -- each question asks about something different."
+                f"Requirements:\n\n{body}\n\n"
+                f"Answer these questions about the project's "
+                f"{table_name.lower()}:\n\n{_format_questions(table_qs)}"
             ),
             response_model=CriterionAnswerSet,
             temperature=0.0,
         )
-        improved = {a.question_id: a for a in retry.answers
-                    if a.question_id in valid
-                    and [e for e in a.evidence if e in req_ids]}
-        answers = [improved.get(a.question_id, a) for a in answers]
-
-    return answers
+        for a in result.answers:
+            if a.question_id not in valid:
+                continue                      # invented id: cannot be scored
+            # Keep only real requirement ids, and cap at two. Left uncapped the
+            # model cites all of them, which satisfies the schema while carrying
+            # no information about what actually decided the answer.
+            a.evidence = [e for e in a.evidence if e in req_ids][:2]
+            out.append(a)
+    return out
 
 
 # ── 2. Cross-check: the model's own ranking, ungrounded in the scores ──
@@ -240,7 +276,8 @@ def justify(requirements: list[Requirement], framework: Framework,
 def recommend_sdlc(requirements: list[Requirement],
                    framework: Framework | None = None,
                    supplied_answers: dict[str, bool] | None = None,
-                   run_cross_check: bool = True) -> SDLCRecommendation:
+                   run_cross_check: bool = True,
+                   scenario: str = "") -> SDLCRecommendation:
     """Requirements in, ranked SDLC recommendation with justification out.
 
     `supplied_answers` covers the Project Team and User Community tables, which
@@ -251,7 +288,7 @@ def recommend_sdlc(requirements: list[Requirement],
     """
     fw = framework or Framework.load()
 
-    inferred = infer_criteria(requirements, fw.questions_for("inferred"))
+    inferred = infer_criteria(requirements, fw.questions_for("inferred"), scenario)
     answer_map: dict[str, bool] = {a.question_id: a.answer for a in inferred}
     if supplied_answers:
         answer_map.update({k: bool(v) for k, v in supplied_answers.items()
