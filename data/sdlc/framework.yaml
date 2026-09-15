@@ -1,0 +1,152 @@
+# SDLC selection framework.
+#
+# The four tables below are transcribed verbatim from the supervisor's slides
+# ("Selecting an SDLC Based on Characteristics of ..."). Each cell is the answer
+# that model EXPECTS: if the project's answer matches, that model scores a point.
+# No weights are invented anywhere -- the table is the scoring function.
+#
+# Adding a model is a change to this file and nothing else: append to `models`
+# and add one key to every question's `expects`. The loader refuses to start if
+# any model is missing an answer, so a partially-specified model cannot quietly
+# win on a smaller denominator.
+
+version: "1.0"
+transcribed: 2026-09-15
+source: "Supervisor's SDLC selection slides — four tables, 19 questions"
+
+models:
+  - id: waterfall
+    name: Waterfall
+    source: supervisor_framework
+  - id: v_shaped
+    name: V-Shaped
+    source: supervisor_framework
+  - id: prototype
+    name: Prototype
+    source: supervisor_framework
+  - id: spiral
+    name: Spiral
+    source: supervisor_framework
+  - id: rad
+    name: RAD
+    source: supervisor_framework
+  - id: incremental
+    name: Incremental
+    source: supervisor_framework
+
+  # NOT in the supervisor's tables, which carry six columns and no Agile.
+  # Added because both the problem statement ("such as Agile, DevSecOps,
+  # Spiral, V-Model, Waterfall, or a hybrid") and the Definition of Done name
+  # it. Every answer below is derived, and the recommendation says so whenever
+  # Agile places -- so a reader can accept or correct the column rather than
+  # mistake it for the supervisor's own.
+  - id: agile
+    name: Agile
+    source: derived
+    basis: >-
+      Agile Manifesto principles and standard SDLC selection criteria.
+      Derived 15 Sep 2026; needs the supervisor's sign-off before the
+      recommendation can claim to be scored entirely against his framework.
+
+tables:
+  # ── Inferred from the extracted requirements ────────────────────────
+  - id: requirements
+    name: Requirements
+    source: inferred
+    questions:
+      - id: REQ-1
+        text: "Are the requirements easily defined and/or well known?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: false, agile: false}
+        agile_rationale: "Agile exists for requirements that are not well known up front."
+      - id: REQ-2
+        text: "Can the requirements be defined early in the cycle?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: false}
+        agile_rationale: "Requirements emerge across iterations rather than being fixed at the outset."
+      - id: REQ-3
+        text: "Will the requirements change often in the cycle?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: true}
+        agile_rationale: "Responding to change over following a plan is the central premise."
+      - id: REQ-4
+        text: "Is there a need to demonstrate the requirements to achieve definition?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
+        agile_rationale: "Working software each iteration is how requirements get settled."
+      - id: REQ-5
+        text: "Is a proof of concept required to demonstrate capability?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
+        agile_rationale: "Spikes are a standard Agile device for exactly this."
+
+  - id: project_type_risk
+    name: Project Type & Risk
+    source: inferred
+    questions:
+      - id: PTR-1
+        text: "Does the project identify a new product direction for the organization?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: true}
+        agile_rationale: "Incremental delivery suits an unproven direction; course correction is cheap."
+      - id: PTR-2
+        text: "Is the project a system integration project?"
+        expects: {waterfall: false, v_shaped: true, prototype: true, spiral: true, rad: true, incremental: true, agile: true}
+        agile_rationale: "Continuous integration makes integration risk visible early and often."
+      - id: PTR-3
+        text: "Is the project an enhancement to an existing system?"
+        expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
+        agile_rationale: "Enhancement work decomposes naturally into independently shippable increments."
+      - id: PTR-4
+        text: "Is the funding for the project expected to be stable throughout the life cycle?"
+        expects: {waterfall: true, v_shaped: true, prototype: true, spiral: false, rad: true, incremental: false, agile: false}
+        agile_rationale: "Iteration boundaries are natural stopping points when funding is uncertain -- matching Spiral and Incremental."
+      - id: PTR-5
+        text: "Is the product expected to have a long life in the organization?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: true}
+        agile_rationale: "Continuous evolution and refactoring are how Agile sustains a long-lived product."
+
+  # ── Require supplied project context. Not answerable from a scenario ──
+  # A 52-word problem statement says nothing about team size or user
+  # availability; inferring these would be fabrication dressed as inference.
+  # Scored only when a project context file is provided, and reported as
+  # `not assessed` otherwise.
+  - id: project_team
+    name: Project Team
+    source: supplied
+    questions:
+      - id: TEAM-1
+        text: "Are the majority of team members new to the problem domain for the project?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: false}
+        agile_rationale: "Agile relies on a self-organising team with enough domain judgement to make decisions each iteration."
+      - id: TEAM-2
+        text: "Are the majority of team members new to the technology domain for the project?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
+        agile_rationale: "Short iterations leave little slack for learning an unfamiliar stack."
+      - id: TEAM-3
+        text: "Are the majority of team members new to the tools to be used on the project?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: false, agile: false}
+        agile_rationale: "As TEAM-2: tooling fluency is assumed by the iteration cadence."
+      - id: TEAM-4
+        text: "Are the team members subject to reassignment during the life cycle?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
+        agile_rationale: "Velocity and shared context depend on a stable team."
+      - id: TEAM-5
+        text: "Is there training available for the project team if required?"
+        expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
+        agile_rationale: "Agile expects continuous skill development within the team."
+
+  - id: user_community
+    name: User Community
+    source: supplied
+    questions:
+      - id: USER-1
+        text: "Will the availability of the user representatives be restricted, or limited during the life cycle?"
+        expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
+        agile_rationale: "An available customer representative is a defining Agile practice."
+      - id: USER-2
+        text: "Are the user representatives new to system definition?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
+        agile_rationale: "Agile asks users to prioritise a backlog, which assumes some fluency."
+      - id: USER-3
+        text: "Are the user representatives experts in the problem domain?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: true, agile: true}
+        agile_rationale: "Domain-expert users are what make short feedback loops worth having."
+      - id: USER-4
+        text: "Do the users want to be involved in all phases of the life cycle?"
+        expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: false, agile: true}
+        agile_rationale: "Continuous involvement is the premise, not an option."
