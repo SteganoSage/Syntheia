@@ -278,8 +278,9 @@ if __name__ == "__main__":
 
         print("\n  Inferred from the requirements:")
         for a in rec.criteria:
-            ev = ", ".join(a.evidence) if a.evidence else "no requirement cited"
-            print(f"    {a.question_id:<7} {'YES' if a.answer else 'NO ':<4} [{ev}]")
+            ev = ", ".join(e[:44] for e in a.evidence) if a.evidence else "nothing cited"
+            label = {"yes": "YES", "no": "NO", "not_stated": "--"}[a.answer]
+            print(f"    {a.question_id:<7} {label:<4} [{ev}]")
 
         print("\n  Framework coverage:")
         for c in rec.coverage.values():

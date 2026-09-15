@@ -176,8 +176,83 @@ def infer_criteria(requirements: list[Requirement],
             # Keep only real requirement ids, and cap at two. Left uncapped the
             # model cites all of them, which satisfies the schema while carrying
             # no information about what actually decided the answer.
-            a.evidence = [e for e in a.evidence if e in req_ids][:2]
+            # Keep requirement ids where cited; otherwise keep the model's own
+            # quote. Filtering everything to req_ids discarded scenario
+            # evidence, which is where the Requirements-table answers come from.
+            ids = [e for e in a.evidence if e in req_ids]
+            a.evidence = (ids or a.evidence)[:2]
             out.append(a)
+    return out
+
+
+CONTEXT_PROMPT = """\
+You are a software engineering analyst. Given a project's problem statement, \
+answer questions about how the PROJECT will be run — its team and its users.
+
+Rules:
+- Answer ONLY from the problem statement. These questions are about people and \
+circumstances, not about the software.
+- **Answer not_stated whenever the statement does not say.** Most statements are \
+silent on several of these, and that is the correct answer — do not infer a team's \
+experience from the kind of system being built, or users' availability from the \
+fact that they are users. A wrong answer here scores against every model exactly \
+as a right one would.
+- When you do answer yes or no, quote the words from the statement that say so \
+in `evidence`. If you cannot quote them, the answer is not_stated.
+- `reasoning` is one sentence naming what decided it.
+- Answer EVERY question, using the exact question ids.
+
+Both outcomes are common. Two worked examples:
+
+  Statement: "...they have never built ML systems before."
+  Question:  "Are the majority of team members new to the technology domain?"
+  Answer:    yes — evidence "never built ML systems before". The statement says
+             it, so answer it.
+
+  Statement: "The team has 15 developers, funding is approved for 18 months."
+  Question:  "Is there training available for the project team if required?"
+  Answer:    not_stated — team SIZE is given, but nothing about training.
+
+Answering a question the statement addresses is as important as declining one it
+does not. Do not default to not_stated.
+"""
+
+
+def infer_project_context(scenario: str,
+                          questions: list[Question]) -> list[CriterionAnswer]:
+    """Answer the Project Team and User Community tables from the scenario.
+
+    These were previously unassessed on the grounds that a problem statement
+    says nothing about team size. That was true of the original scenarios and is
+    not true of the current ones -- "the project team consists of 2 developers",
+    "the team has 15 developers, funding is approved for 18 months", "the product
+    team is small, 3 people". The facts are there; nothing was reading them.
+
+    Answering them roughly doubles the number of scored questions, which matters
+    beyond coverage: on ten binary questions two models tied at 70% twice across
+    five scenarios, and an alphabetical tie-break picked the winner.
+    """
+    if not scenario.strip():
+        return []
+
+    by_table: dict[str, list[Question]] = {}
+    for q in questions:
+        by_table.setdefault(q.table_name, []).append(q)
+
+    out: list[CriterionAnswer] = []
+    for table_name, table_qs in by_table.items():
+        valid = {q.id for q in table_qs}
+        result = call_structured(
+            system_prompt=CONTEXT_PROMPT,
+            user_prompt=(
+                f"Problem statement:\n\n{scenario}\n\n"
+                f"Answer these questions about the project's "
+                f"{table_name.lower()}:\n\n{_format_questions(table_qs)}"
+            ),
+            response_model=CriterionAnswerSet,
+            temperature=0.0,
+        )
+        out.extend(a for a in result.answers if a.question_id in valid)
     return out
 
 
@@ -241,7 +316,7 @@ def justify(requirements: list[Requirement], framework: Framework,
         # REQ-1 was answered NO and Incremental matched *because* it expects no.
         q = framework.question(qid)
         a = by_id.get(qid)
-        given = "yes" if (a and a.answer) else "no"
+        given = a.answer if a else "no"
         return f'{qid} "{q.text}" -> project answered {given.upper()}'
 
     blocks = []
@@ -289,7 +364,14 @@ def recommend_sdlc(requirements: list[Requirement],
     fw = framework or Framework.load()
 
     inferred = infer_criteria(requirements, fw.questions_for("inferred"), scenario)
-    answer_map: dict[str, bool] = {a.question_id: a.answer for a in inferred}
+    # The supplied tables are read from the scenario rather than asked for. A
+    # question the scenario does not address comes back not_stated and is left
+    # unscored, so coverage reports what was actually assessed.
+    inferred += infer_project_context(scenario, fw.questions_for("supplied"))
+
+    answer_map: dict[str, bool] = {
+        a.question_id: a.as_bool for a in inferred if a.as_bool is not None
+    }
     if supplied_answers:
         answer_map.update({k: bool(v) for k, v in supplied_answers.items()
                            if fw.question(k)})

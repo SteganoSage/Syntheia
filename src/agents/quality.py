@@ -136,15 +136,43 @@ def _keep(issue) -> bool:
     return True
 
 
-def filter_issues(report: QualityReport) -> QualityReport:
+def _quotes_a_citation(issue, requirement) -> bool:
+    """Is the flagged term part of a citation rather than the requirement's own wording?
+
+    The grounding node writes real citations into applicable_regulations --
+    "Master Direction on Outsourcing of Information Technology Services",
+    "Digital Personal Data Protection Act, 2023 (Act No. 22 of 2023)". The
+    reviewer reads them as undefined jargon and asks for "Master Direction" and
+    "Act No." to be defined. They are document titles, correctly attached.
+
+    The pattern check above catches the machine-readable part (§, RBI/2023-24),
+    but a complaint quoting only the prose slips through, so compare against the
+    citations actually on this requirement.
+    """
+    if not requirement or not requirement.applicable_regulations:
+        return False
+    haystack = " ".join(requirement.applicable_regulations).lower()
+    for quoted in re.findall(r"['\"]([^'\"]{4,60})['\"]", issue.description):
+        if quoted.lower() in haystack:
+            return True
+    return False
+
+
+def filter_issues(report: QualityReport,
+                  requirements: list[Requirement] | None = None) -> QualityReport:
     """Drop categorically invalid issues, and re-derive `passed` from what is left.
 
     `passed` has to be recomputed: a requirement whose only complaints were
     filtered out is a requirement that passed, and leaving passed=False would
     report a defect the report no longer contains.
     """
+    by_id = {r.id: r for r in (requirements or [])}
     for result in report.result_list:
-        result.issues = [_relabel(i) for i in result.issues if _keep(i)]
+        req = by_id.get(result.requirement_id)
+        result.issues = [
+            _relabel(i) for i in result.issues
+            if _keep(i) and not _quotes_a_citation(i, req)
+        ]
         result.passed = not result.issues
     return report
 
@@ -205,4 +233,4 @@ def analyse_requirements(requirements: list[Requirement]) -> QualityReport:
         # a reviewer is indistinguishable from the reviewer being wrong.
         temperature=0.0,
     )
-    return filter_issues(report)
+    return filter_issues(report, requirements)

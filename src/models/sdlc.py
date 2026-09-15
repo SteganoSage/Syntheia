@@ -14,6 +14,8 @@
 
 from __future__ import annotations
 
+from typing import Literal
+
 from pydantic import BaseModel, Field
 
 
@@ -23,18 +25,34 @@ from pydantic import BaseModel, Field
 # makes the answer checkable: the Definition of Done requires the justification
 # to reference actual requirements, and an answer with no REQ id behind it
 # cannot support that.
+# Three states, not two. A framework question the source genuinely does not
+# address must be declinable: forced to yes/no the model invents one, and an
+# invented answer scores against every model in the table exactly as a real one
+# would. Unanswered questions are simply not scored -- `coverage` then reports
+# the partial assessment honestly instead of a confident half-measure.
+Answer = Literal["yes", "no", "not_stated"]
+
+
 class CriterionAnswer(BaseModel):
     question_id: str = Field(description="Framework question id, e.g. REQ-1 or PTR-3")
-    answer: bool = Field(description="true for yes, false for no")
+    answer: Answer = Field(
+        description="yes, no, or not_stated when the source does not say"
+    )
     # No default: a field with one is optional in the JSON schema, and Ollama's
     # grammar only requires what the schema marks required. Asking twice for
     # citations produced none; making the field required produces them, because
     # decoding cannot finish the object without it.
     evidence: list[str] = Field(
-        description="Requirement ids supporting this answer, e.g. ['REQ-002']. "
-                    "At least one, taken from the requirements shown.",
+        description="What supports this answer: requirement ids like ['REQ-002'], "
+                    "or a short quote from the scenario. Empty only when the "
+                    "answer is not_stated.",
     )
-    reasoning: str = Field(description="One sentence: why the requirements imply this answer")
+    reasoning: str = Field(description="One sentence: what decided this answer")
+
+    @property
+    def as_bool(self) -> bool | None:
+        """True/False for a real answer, None for an abstention."""
+        return {"yes": True, "no": False}.get(self.answer)
 
 
 class CriterionAnswerSet(BaseModel):
