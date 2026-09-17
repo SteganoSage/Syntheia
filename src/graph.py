@@ -11,17 +11,17 @@ classification runs per requirement, and 30 s each does not scale.
 If no trained model is present the node falls back to the few-shot LLM
 baseline, so the pipeline still runs on a fresh checkout.
 
-Run `python -m src.graph` for a quick end-to-end demo, or
-`python -m src.graph --classifier few_shot` to compare against the baseline.
+The CLI lives in `main.py`; `python -m src.graph` is an alias for it and
+delegates there, so there is one argument parser and one renderer rather
+than two that drift.
 """
 
-import argparse
-import time
+from pathlib import Path
 from typing import TypedDict
 
 from langgraph.graph import END, StateGraph
 
-from src.agents.classification import classify_requirements, resolve_model_dir
+from src.agents.classification import classify_requirements
 from src.agents.extraction import extract_requirements
 from src.agents.quality import analyse_requirements
 from src.models.quality import QualityReport
@@ -58,14 +58,12 @@ def retrieval_node(state: PipelineState) -> dict:
               "build one with notebooks/09_build_knowledge_base.py)")
         return {"context": []}
 
-    hits = retrieve_context(state["text"])
-    if hits:
-        print(f"Retrieved {len(hits)} passages "
-              f"(top score {hits[0]['score']:.3f}):")
-        for h in hits:
-            m = h["metadata"]
-            print(f"    {h['score']:.3f}  {m.get('citation', m.get('title',''))[:88]}")
-    return {"context": hits}
+    # Nodes do not print. This one used to dump the retrieved passages, which
+    # landed between the submit marker and the results in the interactive app
+    # and could not be suppressed without an argument threaded through the
+    # state. The passages are in `context` -- whoever is rendering decides
+    # whether to show them, which is the renderer's job and not the node's.
+    return {"context": retrieve_context(state["text"])}
 
 
 def extraction_node(state: PipelineState) -> dict:
@@ -159,170 +157,12 @@ def build_pipeline():
 
 
 if __name__ == "__main__":
-    from pathlib import Path
+    # Delegates to main.py rather than carrying a second copy of the CLI and
+    # the renderer. `python -m src.graph` predates main.py, and the runbook,
+    # CLAUDE.md and the eval loop all still use it -- so it stays, as an alias.
+    import sys
 
-    parser = argparse.ArgumentParser(description="Run the Phase 1 pipeline.")
-    parser.add_argument(
-        "--classifier", default="auto",
-        choices=["auto", "bert", "few_shot", "zero_shot"],
-        help="auto uses the fine-tuned model when one is trained, else few-shot",
-    )
-    parser.add_argument(
-        "--scenario", type=Path,
-        default=Path("data/test_cases/loan_processing/scenario_01.txt"),
-    )
-    parser.add_argument(
-        "--no-sdlc", action="store_true",
-        help="skip the SDLC recommendation (Phase 2) -- faster when iterating on Phase 1",
-    )
-    parser.add_argument(
-        "--json", type=Path, default=None, metavar="PATH",
-        help="also write the run to PATH as JSON -- what notebooks/11_eval_sdlc.py "
-             "reads, so a change can be measured instead of eyeballed in scrollback",
-    )
-    parser.add_argument(
-        "--no-rag", action="store_true",
-        help="skip retrieval and generate from the model's own knowledge -- "
-             "the control arm for the grounded-vs-ungrounded comparison",
-    )
-    args = parser.parse_args()
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+    from main import main
 
-    SAMPLE_SCENARIO = args.scenario.read_text().strip()
-
-    model_dir = resolve_model_dir()
-    if args.classifier in ("auto", "bert") and model_dir:
-        print(f"Classifier: fine-tuned ({model_dir.name})")
-    elif args.classifier in ("auto", "bert"):
-        print("Classifier: no trained model found, falling back to few-shot LLM")
-    else:
-        print(f"Classifier: {args.classifier} LLM baseline")
-
-    # Load the classifier and pin the LLM before the clock starts. On a cold
-    # process this is ~96% of a run's wall-clock (Day 13 measurement), and it
-    # is one-off cost, not per-request -- so charging it to startup is the
-    # difference between a 10-minute demo and a 1-minute one.
-    from src.utils.warmup import warm
-    warm()
-
-    t_start = time.perf_counter()
-    pipeline = build_pipeline()
-    print(f"Grounding:  {'OFF (--no-rag)' if args.no_rag else 'retrieval-augmented'}")
-    final_state = pipeline.invoke({
-        "text": SAMPLE_SCENARIO,
-        "requirements": [],
-        "quality_report": None,
-        "classifier": args.classifier,
-        "use_rag": not args.no_rag,
-        "context": [],
-        "grounding": {},
-        "sdlc": None,
-        "run_sdlc": not args.no_sdlc,
-    })
-
-    elapsed = time.perf_counter() - t_start
-
-    # ── Print requirements ──
-    print(f"Extracted {len(final_state['requirements'])} requirements "
-          f"in {elapsed:.1f}s (warm):\n")
-    for req in final_state["requirements"]:
-        print(f"[{req.id}] ({req.priority}) {req.statement}")
-        print(f"    Categories:       {req.category}")
-        print(f"    Stakeholder:      {req.source_stakeholder}")
-        print(f"    Justification:    {req.business_justification}")
-        print(f"    Acceptance:       {req.acceptance_criteria}")
-        g = final_state.get("grounding", {}).get(req.id)
-        if g and g["citations"]:
-            print(f"    Regulations:      (grounded)")
-            for c in g["citations"]:
-                print(f"        [{c['confidence']:.2f}] {c['citation']}")
-        elif g and g["needs_review"]:
-            print(f"    Regulations:      {req.applicable_regulations}")
-            print(f"        !! no regulation in the knowledge base supports this "
-                  f"(best match {g['confidence']:.2f}) -- needs human review")
-        else:
-            print(f"    Regulations:      {req.applicable_regulations}")
-        if g and g.get("precedents"):
-            # Not regulations -- how comparable systems specified the same thing.
-            print(f"    Precedent:        (how other institutions specified this)")
-            for c in g["precedents"][:2]:
-                print(f"        [{c['confidence']:.2f}] {c['citation'][:96]}")
-        print(f"    Risk:             {req.risk_level}")
-        print(f"    Confidence:       {req.confidence_score}")
-        print()
-
-    # ── Print quality report ──
-    report = final_state["quality_report"]
-    if report:
-        passed = sum(1 for r in report.result_list if r.passed)
-        failed = len(report.result_list) - passed
-        print(f"{'=' * 60}")
-        print(f"QUALITY REPORT: {passed} passed, {failed} flagged\n")
-        for qr in report.result_list:
-            status = "✅" if qr.passed else "❌"
-            print(f"  {status} [{qr.requirement_id}]")
-            for issue in qr.issues:
-                print(f"      ⚠️ {issue.issue_type} ({issue.severity}): {issue.description}")
-                print(f"         → {issue.suggestion}")
-        print()
-
-    # ── Phase 2: SDLC recommendation ──
-    rec = final_state.get("sdlc")
-    if rec:
-        print(f"{'=' * 60}")
-        derived = "  [derived column -- not in the supplied framework]" if any(
-            m.is_derived and m.name == rec.recommendation for m in rec.ranking) else ""
-        print(f"SDLC RECOMMENDATION: {rec.recommendation}{derived}")
-        if rec.tied_with:
-            print(f"  ** TIED: {' = '.join(rec.tied_with)} -- the framework does "
-                  f"not separate them.")
-            print(f"     Listed first by name, which is not a preference. Answer "
-                  f"an unassessed question to break it.")
-        print(f"{'=' * 60}\n")
-
-        print("  Framework scoring:")
-        for s in rec.ranking:
-            mark = " *" if s.name == rec.recommendation else "  "
-            d = "  (derived)" if s.is_derived else ""
-            print(f"   {mark} {s.name:<14}{s.score:>6.0%}  "
-                  f"{len(s.matched)}/{len(s.matched) + len(s.missed)}{d}")
-
-        print("\n  Inferred from the requirements:")
-        for a in rec.criteria:
-            ev = ", ".join(e[:44] for e in a.evidence) if a.evidence else "nothing cited"
-            label = {"yes": "YES", "no": "NO", "not_stated": "--"}[a.answer]
-            # An answer the evidence gate rejected reads as an abstention in the
-            # score, but it is not one -- the model did commit, and a reader
-            # checking the framework should see that it was overruled.
-            if a.reasoning.startswith("UNSUPPORTED"):
-                ev = a.reasoning.split("):")[0] + ")"
-            print(f"    {a.question_id:<7} {label:<4} [{ev}]")
-
-        print("\n  Framework coverage:")
-        for c in rec.coverage.values():
-            state_ = "assessed" if c.assessed else "NOT ASSESSED"
-            print(f"    {c.name:<22} {c.answered}/{c.total:<3} {state_} ({c.source})")
-
-        if rec.cross_check_ranking:
-            agree = "AGREES" if rec.cross_check_agrees else "DISAGREES"
-            print(f"\n  Cross-check ({agree}): the model ranked, without seeing scores,")
-            print(f"    {' > '.join(rec.cross_check_ranking[:4])}")
-
-        for j in rec.justifications:
-            print(f"\n  --- {j.model} ---")
-            print(f"    {j.justification}")
-        if rec.summary:
-            print(f"\n  {rec.summary}")
-        print()
-
-    # ── Machine-readable run, for the eval harness ──
-    if args.json:
-        import json
-
-        args.json.parent.mkdir(parents=True, exist_ok=True)
-        args.json.write_text(json.dumps({
-            "scenario": str(args.scenario),
-            "scenario_name": args.scenario.parent.name,
-            "requirements": [r.model_dump() for r in final_state["requirements"]],
-            "sdlc": rec.model_dump() if rec else None,
-        }, indent=2, default=str), encoding="utf-8")
-        print(f"Wrote {args.json}")
+    raise SystemExit(main())
