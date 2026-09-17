@@ -1,0 +1,33 @@
+# See bank_migration/expected.yaml for what the two claims mean.
+scenario: credit_risk
+expected_models: [Spiral, Prototype]
+verified: false
+
+answers:
+  # "not sure exactly what data sources to use or what the model architecture
+  # should look like", "build a proof of concept first"
+  REQ-1: no
+  REQ-2: no
+  REQ-3: yes
+  REQ-4: yes
+  REQ-5: yes
+  PTR-1: yes          # "they've never built ML systems before"
+  PTR-2: no
+  PTR-3: no
+  PTR-4: no           # "budget is uncertain and depends on initial results"
+  PTR-5: not_stated   # a PoC that may not proceed; longevity is the open question
+  PTR-6: not_stated
+  TEAM-1: not_stated  # an NBFC knows credit risk, but the scenario does not say so
+  TEAM-2: yes         # "they've never built ML systems before"
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: not_stated
+
+notes: >-
+  Two expected models because the framework genuinely does not separate them
+  here -- Spiral and Prototype differ mainly on risk management, and "significant
+  technical risk" plus "proof of concept first" is the argument for Spiral.

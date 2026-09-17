@@ -26,6 +26,7 @@ from src.agents.extraction import extract_requirements
 from src.agents.quality import analyse_requirements
 from src.models.quality import QualityReport
 from src.models.requirement import Requirement
+from src.models.sdlc import SDLCRecommendation
 
 
 class PipelineState(TypedDict):
@@ -36,6 +37,8 @@ class PipelineState(TypedDict):
     use_rag: bool
     context: list[dict]      # passages retrieved for the scenario
     grounding: dict          # requirement id -> citations, confidence, needs_review
+    sdlc: SDLCRecommendation | None
+    run_sdlc: bool
 
 
 def retrieval_node(state: PipelineState) -> dict:
@@ -84,10 +87,20 @@ def grounding_node(state: PipelineState) -> dict:
     this requirement. That is why nothing here overwrites a citation silently --
     low-confidence requirements are flagged for a human instead.
     """
-    if not state.get("use_rag", True) or not state.get("context"):
+    # Deliberately NOT gated on state["context"]. Scenario-level retrieval and
+    # per-requirement grounding are different queries: the first asks which
+    # documents cover this project, the second asks which regulation governs
+    # this statement. A COBOL migration matches no document as a whole (0.555,
+    # below the context floor) while its testing and integration requirements
+    # still match real clauses. Gating citations on the scenario score threw
+    # those away.
+    if not state.get("use_rag", True):
         return {"grounding": {}}
 
-    from src.rag.retriever import ground_requirement
+    from src.rag.retriever import ground_requirement, is_available
+
+    if not is_available():
+        return {"grounding": {}}
 
     grounding: dict[str, dict] = {}
     for req in state["requirements"]:
@@ -111,6 +124,22 @@ def quality_node(state: PipelineState) -> dict:
     return {"quality_report": report}
 
 
+def sdlc_node(state: PipelineState) -> dict:
+    """Phase 2: the requirements go back in, an SDLC recommendation comes out.
+
+    The supervisor's part 2. Deliberately last, so it sees requirements that
+    have already been classified and grounded -- the framework asks about
+    regulatory exposure and integration, which live in `applicable_regulations`
+    and `category`, not in the statement text.
+    """
+    if not state.get("run_sdlc", True) or not state["requirements"]:
+        return {"sdlc": None}
+
+    from src.agents.sdlc import recommend_sdlc
+
+    return {"sdlc": recommend_sdlc(state["requirements"], scenario=state["text"])}
+
+
 def build_pipeline():
     graph = StateGraph(PipelineState)
     graph.add_node("retrieval", retrieval_node)
@@ -118,12 +147,14 @@ def build_pipeline():
     graph.add_node("grounding", grounding_node)
     graph.add_node("classification", classification_node)
     graph.add_node("quality", quality_node)
+    graph.add_node("sdlc", sdlc_node)
     graph.set_entry_point("retrieval")
     graph.add_edge("retrieval", "extraction")
     graph.add_edge("extraction", "grounding")
     graph.add_edge("grounding", "classification")
     graph.add_edge("classification", "quality")
-    graph.add_edge("quality", END)
+    graph.add_edge("quality", "sdlc")
+    graph.add_edge("sdlc", END)
     return graph.compile()
 
 
@@ -139,6 +170,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--scenario", type=Path,
         default=Path("data/test_cases/loan_processing/scenario_01.txt"),
+    )
+    parser.add_argument(
+        "--no-sdlc", action="store_true",
+        help="skip the SDLC recommendation (Phase 2) -- faster when iterating on Phase 1",
+    )
+    parser.add_argument(
+        "--json", type=Path, default=None, metavar="PATH",
+        help="also write the run to PATH as JSON -- what notebooks/11_eval_sdlc.py "
+             "reads, so a change can be measured instead of eyeballed in scrollback",
     )
     parser.add_argument(
         "--no-rag", action="store_true",
@@ -175,6 +215,8 @@ if __name__ == "__main__":
         "use_rag": not args.no_rag,
         "context": [],
         "grounding": {},
+        "sdlc": None,
+        "run_sdlc": not args.no_sdlc,
     })
 
     elapsed = time.perf_counter() - t_start
@@ -222,3 +264,65 @@ if __name__ == "__main__":
                 print(f"      ⚠️ {issue.issue_type} ({issue.severity}): {issue.description}")
                 print(f"         → {issue.suggestion}")
         print()
+
+    # ── Phase 2: SDLC recommendation ──
+    rec = final_state.get("sdlc")
+    if rec:
+        print(f"{'=' * 60}")
+        derived = "  [derived column -- not in the supplied framework]" if any(
+            m.is_derived and m.name == rec.recommendation for m in rec.ranking) else ""
+        print(f"SDLC RECOMMENDATION: {rec.recommendation}{derived}")
+        if rec.tied_with:
+            print(f"  ** TIED: {' = '.join(rec.tied_with)} -- the framework does "
+                  f"not separate them.")
+            print(f"     Listed first by name, which is not a preference. Answer "
+                  f"an unassessed question to break it.")
+        print(f"{'=' * 60}\n")
+
+        print("  Framework scoring:")
+        for s in rec.ranking:
+            mark = " *" if s.name == rec.recommendation else "  "
+            d = "  (derived)" if s.is_derived else ""
+            print(f"   {mark} {s.name:<14}{s.score:>6.0%}  "
+                  f"{len(s.matched)}/{len(s.matched) + len(s.missed)}{d}")
+
+        print("\n  Inferred from the requirements:")
+        for a in rec.criteria:
+            ev = ", ".join(e[:44] for e in a.evidence) if a.evidence else "nothing cited"
+            label = {"yes": "YES", "no": "NO", "not_stated": "--"}[a.answer]
+            # An answer the evidence gate rejected reads as an abstention in the
+            # score, but it is not one -- the model did commit, and a reader
+            # checking the framework should see that it was overruled.
+            if a.reasoning.startswith("UNSUPPORTED"):
+                ev = a.reasoning.split("):")[0] + ")"
+            print(f"    {a.question_id:<7} {label:<4} [{ev}]")
+
+        print("\n  Framework coverage:")
+        for c in rec.coverage.values():
+            state_ = "assessed" if c.assessed else "NOT ASSESSED"
+            print(f"    {c.name:<22} {c.answered}/{c.total:<3} {state_} ({c.source})")
+
+        if rec.cross_check_ranking:
+            agree = "AGREES" if rec.cross_check_agrees else "DISAGREES"
+            print(f"\n  Cross-check ({agree}): the model ranked, without seeing scores,")
+            print(f"    {' > '.join(rec.cross_check_ranking[:4])}")
+
+        for j in rec.justifications:
+            print(f"\n  --- {j.model} ---")
+            print(f"    {j.justification}")
+        if rec.summary:
+            print(f"\n  {rec.summary}")
+        print()
+
+    # ── Machine-readable run, for the eval harness ──
+    if args.json:
+        import json
+
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(json.dumps({
+            "scenario": str(args.scenario),
+            "scenario_name": args.scenario.parent.name,
+            "requirements": [r.model_dump() for r in final_state["requirements"]],
+            "sdlc": rec.model_dump() if rec else None,
+        }, indent=2, default=str), encoding="utf-8")
+        print(f"Wrote {args.json}")

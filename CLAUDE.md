@@ -122,7 +122,71 @@ One Definition-of-Done item was **not** met: Day 11 required the fine-tuned mode
 
 **Days 12–13 are complete.** Both LLM tiers work (`llama3.2:3b` local, `llama3.1:8b` on Colab behind a tunnel), and the cold start is down from 611 s to 89 s.
 
-**Day 14 is next:** the financial knowledge base and retrieval-grounded extraction — deliverable 1. See the scope correction above; `src/rag/` is still empty and `data/knowledge_base/` has no documents in it.
+**Days 14–15 are complete — deliverable 1 ships.** `src/rag/` holds loader, structural
+chunker, embedder, ChromaDB store and retriever; `data/knowledge_base/` has 13
+documents (9 regulations, 4 tender/RFP) registered in a tracked `sources.yaml`
+with 7 explicit `unavailable:` entries. Retrieval measured at recall@1 92%,
+recall@5 100% before being wired in. The pipeline is six nodes:
+`retrieval → extraction → grounding → classification → quality → sdlc`.
+
+**Days 16–17 are complete — deliverable 2 ships.** The SDLC engine infers the
+framework answers, scores them deterministically against the supervisor's
+tables, and has an LLM justify the result it did not choose. Five scenarios
+produce five different recommendations, so it discriminates.
+
+**Current accuracy: 3 of 5 scenarios correct (8B, 15 Sep).** Do not read that
+as the state of the engine — every fix from 17 Sep postdates it and the set has
+not been re-run. See `docs/problem_log.md` §6.
+
+**Day 18 is next:** settle the two open disagreements (below), re-run the five
+scenarios, then decide on weights.
+
+### The four layers, and which one is failing
+
+Diagnosing an SDLC failure means naming the layer first. They are separable and
+`notebooks/11_eval_sdlc.py` separates them:
+
+| layer | what it does | state |
+|---|---|---|
+| 1. Extraction | scenario → requirements | 3B invents on thin scenarios (2 of 4 on `fintech_startup` are not in the text); 8B does not |
+| 2. Inference | requirements + scenario → 20 answers | **38/40 on the decision-carrying questions**, measured on the 8B pre-fix. Not the weak part. |
+| 3. Scoring | answers → ranking | deterministic, correct, ~8 lines |
+| 4. Framework | the tables themselves | **3 of 5 expected answers unreachable with perfect inference** |
+
+Layer 4 is the binding constraint, and no amount of prompt work or fine-tuning
+reaches it — fine-tuning targets layer 2, which is already at ~95%.
+
+**Two of those three layer-4 failures are disagreements, not defects**, and both
+need a human decision rather than a commit:
+
+- **`bank_migration`** — expected V-Shaped, framework gives Waterfall 10/11.
+  V-Shaped and Waterfall agree on 8 of 11 questions here; the rubric picks
+  Waterfall on four signals against V-Shaped's one. **The framework may be right
+  and the expectation wrong.** Settle before weighting anything to force it.
+- **`kyc_onboarding`** — expected Agile/Spiral. Its requirements come from an
+  RBI master direction, which makes "well known and stable" defensible, and that
+  points plan-driven. Marked `DISPUTED` in the expected-answers file.
+- **`fintech_startup`** — this one *is* a framework defect, and it is ours: the
+  derived Agile column claims Agile expects "enhancement to an existing
+  system = yes". Agile is not an enhancement methodology. One cell decides the
+  scenario. Left untouched pending the supervisor's view of the column.
+
+### Ground truth for the SDLC engine
+
+`data/test_cases/<scenario>/expected.yaml` holds the expected SDLC **and** all 20
+framework answers. Two independent claims, and the file says which is which:
+
+- `expected_models` — the user's, trustworthy
+- `answers` — Claude's draft, `verified: false`
+
+Until the answers are verified, answer-level accuracy measures agreement with an
+opinion. **This is `ground_truth.json`'s problem (B1) repeating**, so it is
+labelled rather than assumed. Verifying them is also the seed of the
+fine-tuning set: 5 scenarios × 20 questions = 100 labelled inference pairs.
+
+`not_stated` is used wherever a scenario is silent — the same standard the
+evidence gate holds the pipeline to. Ground truth that answers from thin air
+would reward the pipeline for the thing the gate just stopped.
 
 ## Progress Summary (Days 1–11)
 
@@ -136,17 +200,44 @@ One Definition-of-Done item was **not** met: Day 11 required the fine-tuned mode
 | **7–8** | 343 labelled training requirements (56% finance), HF Dataset conversion | `data/training/classification/training_set.json`, `notebooks/04_prepare_bert_dataset.py` |
 | **9–11** | Fine-tuned BERT + RoBERTa multi-label classifiers, per-architecture registry, corpus grown to 445 with RBI-grounded requirements, classifier wired into the pipeline | `src/models/multilabel.py`, `src/models/{bert,roberta}_classifier.py`, `notebooks/05_train_bert.py`, `notebooks/06_evaluate_bert.py` |
 
-### Month 1 remaining (revised plan)
+### Month 1 remaining
 
-| Day | What to build | Key files |
-|-----|--------------|-----------|
-| **12** | **Local tier:** Ollama on WSL2 (models on `/mnt/f/ollama-models`). Benchmark candidates that fit VRAM (`phi3.5` ~2.2 GB, `qwen2.5:3b` ~1.9 GB, `llama3.2:3b` ~2.0 GB) on tokens/sec, peak VRAM, valid-JSON rate, extraction quality; record oversized rejects too. Wrapper with configurable `OLLAMA_HOST`. **Cloud tier:** Colab/Kaggle notebook running Ollama + `llama3.1:8b` behind a tunnel; same wrapper, same benchmark. Demo-day runbook, rehearsed. | `src/utils/llm_ollama.py`, `notebooks/cloud_llm_server.ipynb`, `evaluation/results/day12_local_llm_benchmark.json` |
-| **13–14** | Extraction dataset (~100–150 instruction/output pairs, Gemini as a *data-generation tool* then manually verified). QLoRA fine-tune **both** the local 3–4B and Llama-3.1-8B — same script parameterised by base model, same dataset, two adapters. Report the 8B-vs-local gap either way. | `notebooks/07_finetune_extraction.py`, `data/training/extraction/`, `models/local_extractor/`, `models/cloud_extractor/` |
-| **15–16** | SDLC recommendation engine + QLoRA on the SDLC task. Separate adapters are easier to evaluate and swap than multi-task. ~100–150 examples covering all 7 models. | `src/models/sdlc.py`, `src/agents/sdlc.py`, `data/training/sdlc/`, `models/local_sdlc/` |
-| **17–18** | End-to-end pipeline with **no API calls**: local extraction → RoBERTa classification → local SDLC. CLI entry point. **Verify by disabling networking and re-running.** | `main.py`, `src/graph.py` |
-| **19–20** | Comparison: Gemini (prompted) vs local (prompted) vs local (fine-tuned), on 3+ scenarios, with latency. | comparison notebook |
-| **21** | Metrics, Week 3 review. | |
-| **22–30** | Weakest-link improvement, edge cases, cleanup, demo notebook, docs, Month 1 checkpoint. | |
+Superseded by the 14 Sep scope correction — the pre-correction table (QLoRA on
+Days 13–16) is gone because it contradicted the plan that replaced it.
+
+| Day | What to build | State |
+|-----|--------------|-------|
+| **12** | Local tier benchmarked and pinned; cloud tier behind a tunnel; one `OLLAMA_HOST`-configurable wrapper for both | done |
+| **13–15** | Knowledge base + retrieval-grounded extraction — **deliverable 1** | done |
+| **16–17** | SDLC engine, prompted — **deliverable 2** | done |
+| **18** | Settle `bank_migration` and `kyc_onboarding` (expectation vs framework), re-run the five scenarios post-fix, then decide weights | **next** |
+| **18–19** | End-to-end + CLI (`main.py`). Verify by disabling networking and re-running | |
+| **20–21** | **Grounded vs ungrounded** (`--no-rag` is the control arm) + Week 3 review | |
+| **22–24** | QLoRA — optional, time-boxed, gated on 13–21 being done | |
+| **25–30** | Hardening; Day 30 gates on *both* deliverables | |
+
+**On weights and fine-tuning — the current open question.** Equal weighting is
+not the absence of a modelling choice; `framework.yaml`'s own comment ("no
+weights are invented anywhere") presents it as neutrality, but it asserts that
+all 20 questions are equally diagnostic, and nobody has defended that. Two
+things to keep straight before acting on it:
+
+1. **Fine-tuning targets layer 2, which is already at ~95%.** It cannot reach
+   the layer-4 failures. Learning the weights is not an LLM fine-tune either —
+   it is a 20-parameter linear model, blocked on data, not compute.
+2. **5 scenarios cannot fit 20 free parameters.** Use a small number of discrete
+   tiers, assign questions to them *by argument* with a written rationale (the
+   treatment PTR-6 and the Agile column already get), and use the scenarios to
+   falsify the assignment. `--framework` mode runs in a second with no LLM, so
+   this is cheap to iterate.
+
+Sourcing more scenarios: the 4 RFPs already in the knowledge base state most of
+the 20 answers outright (timeline, funding, integration, greenfield vs
+enhancement) and several state their own delivery model. But RFPs are
+procurement documents — fixed scope, milestone payments — so they skew almost
+entirely to Waterfall/V-Shaped/Incremental. A dataset built only from tenders
+teaches "say Waterfall" and scores ~70% doing it. The iterative end has to come
+from case studies or be hand-authored.
 
 ### Classification results (Days 9–11)
 
@@ -166,7 +257,7 @@ The system is a **three-layer ML architecture** orchestrated as a LangGraph mult
 - **Layer 1 — Fine-tuned specialist models (this team trains these):**
   - `bert-base-uncased` and `roberta-base` fine-tuned as **multi-label classifiers** over 13 requirement categories (Month 1). Multi-label via `BCEWithLogitsLoss` — each category is an independent binary decision — decoded with sigmoid plus a threshold calibrated on validation (not a fixed 0.5). One class per architecture, dispatched by `config.model_type` through `src/models/multilabel.py`.
   - A **3–4B local model** fine-tuned via **QLoRA** as a requirement **extractor** and **SDLC recommender** (Month 1, Days 13–16). The specific model is chosen on Day 12 by benchmark, not assumed — candidates must fit ~3GB of real headroom. Train on Colab's free T4 if 4GB is too tight, then deploy the adapter locally.
-- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial **requirement documents and regulations**. **Month 1, Days 13–15** — this is deliverable 1, not a Month 2 enhancement (see the scope correction above). Note the supervisor said *requirement documents*, not only regulations: a corpus of pure regulation answers half the brief. Libraries are already installed (`chromadb==1.5.9`, `sentence-transformers==6.0.0`); `src/rag/` holds only `__init__.py`.
+- **Layer 2 — RAG:** ChromaDB + `sentence-transformers` grounding agents in financial **requirement documents and regulations**. **Built Days 13–15 — this is deliverable 1**, not a Month 2 enhancement (see the scope correction above). The supervisor said *requirement documents*, not only regulations, so the corpus carries both: 9 regulations and 4 tender/RFP documents. Chunking is **structural (clause-level), not fixed-size** — that is what makes a citation auditable down to `§147(d)`. Two floors that matter: `MIN_CONFIDENCE = 0.55` for a citation and `MIN_CONTEXT_RELEVANCE = 0.60` for scenario-level passages, the second added because a COBOL migration was extracting "a mobile-responsive online loan application portal" out of retrieved loan RFPs. Retrieved tender text is **precedent, not material to extract from** — the prompt frames it as "reference only".
 - **Layer 3 — LLM via Ollama, two tiers:** the core pipeline's general-purpose reasoner — extraction, quality checking, SDLC justification. Cloud Llama-3.1-8B for the demo, local 3–4B for offline/fallback, both behind one base-URL-configurable wrapper. Local model TBD on Day 12.
 - **Baseline only — Gemini API:** the yardstick every local/fine-tuned model is measured against. Kept and maintained, never in the shipping path. Also legitimate as a *data-generation tool* for building training sets, provided the output is manually verified before use.
 
@@ -185,11 +276,56 @@ The classification agent resolves its model from `models/roberta_classifier` the
 **Phase 2 — Requirements → SDLC Recommendation (Days 15–16):**
 `Requirements → SDLC Agent (fine-tuned local/cloud) → Ranked SDLC + justification`
 
-Grounded in the supervisor's selection framework: **4 tables × 19 questions** (Requirements, Project Team, Project Type & Risk, User Community) over **7 SDLC models** — Waterfall, V-Shape, Prototyping, RAD, Incremental & Iterative, Spiral, Agile.
+Grounded in the supervisor's selection framework: **4 tables** — Requirements,
+Project Type & Risk, Project Team, User Community — over **7 SDLC models**:
+Waterfall, V-Shaped, Prototype, RAD, Incremental, Spiral, Agile.
 
-**Phase 1 scope (decided 13 Sep): only the Requirements and Project Type & Risk
-tables, and their answers are *inferred* from the extracted requirements — not
-supplied by the user, not asked interactively.**
+His tables are **19 questions × 6 models**. What the engine scores is **20 × 7**
+(v1.1): the Agile column and PTR-6 are ours, both marked in `framework.yaml`.
+Stripping the two additions gives his framework exactly — which is the point of
+marking them, since a recommendation claiming to be scored against his rubric
+has to be able to show which parts are.
+
+**Superseded 15 Sep: all four tables are now inferred.** The original decision
+(13 Sep) scored only Requirements and Project Type & Risk, on the grounds that a
+problem scenario says nothing about team size. That was true of the original
+scenarios and false of the current ones — *"the project team consists of 2
+developers"*, *"the team has 15 developers, funding is approved for 18 months"*,
+*"the product team is small, 3 people"*. The facts were there; nothing was
+reading them. `infer_project_context()` now answers Project Team and User
+Community from the scenario, and anything it cannot support comes back
+`not_stated` and is left unscored.
+
+The framework is **v1.1: 20 questions × 7 models**, not the transcribed 19 × 6.
+Three additions, each marked in `framework.yaml` so a reader can strip them back
+to the supervisor's original:
+
+| addition | marker | why |
+|---|---|---|
+| `agile` column | `source: derived` | his tables have six columns and no Agile; the problem statement and the DoD both name it |
+| **PTR-6** *"Does the project require formal verification and testing at multiple stages?"* | `origin: derived` | his tables ask nothing about verification rigour, which leaves V-Shaped indistinguishable from Waterfall on a testing-heavy project |
+| `gloss` on all 20 | — | **not** a change to the framework: his wording is untouched, the gloss only says how to read it |
+
+The glosses exist because terse phrasing was being answered as a different
+question. `PTR-2 "Is the project a system integration project?"` came back **NO**
+for a platform doing real-time NSDL lookups, Aadhaar verification and video KYC —
+read as *"is a systems-integrator vendor doing the work"*. Adding the gloss
+flipped it to YES citing NSDL, and moved `kyc_onboarding` from
+`Incremental = Waterfall` to `Agile = Prototype = Spiral`.
+
+**Ties are reported as ties.** `score()` breaks them by name so a rerun cannot
+reorder equal results, but a reproducible tie-break is not a finding: two of five
+recommendations were decided alphabetically and presented as conclusions, and one
+of those coin-flips happened to be right. `tied_with` now surfaces it.
+
+**The evidence gate.** A yes/no whose evidence is not traceable to the problem
+statement is demoted to `not_stated`. Needed because across five scenarios
+*every* supplied-table answer that got through was **yes** and five of six cited
+nothing — `USER-2` came back yes in four of five runs, a constant rather than an
+inference, and `USER-2 = yes` scores for Prototype, Spiral and Incremental and
+for nobody else. Questions marked `evidence_from: scenario` (PTR-4 funding, PTR-5
+lifespan) additionally reject requirement ids: **requirements do not testify
+about budgets**, however real the cited id is.
 
 Those two tables are the ones that can be inferred: requirement clarity,
 stability and complexity are properties of the requirements themselves, and
@@ -243,18 +379,30 @@ src/utils/        # LLM gateway (llm.py → llm_gemini.py/llm_openai.py) with ro
                   #   llm_ollama.py -- Day 12. Same interface as llm_gemini, with a
                   #                    configurable base URL so ONE wrapper drives both
                   #                    the local model and the cloud endpoint
-src/rag/          # Document loader, chunker, embedder, ChromaDB — Month 2
-src/training/     # QLoRA fine-tuning scripts/configs — Days 13-16
+src/rag/          # Deliverable 1 -- BUILT. loader.py (PDF/DOCX/HTML/MD, mandatory
+                  #   sidecar manifest -- MissingManifest is fatal), chunker.py
+                  #   (clause-level, TOC detection, word-boundary splits),
+                  #   embedder.py, store.py (ChromaDB), retriever.py
+src/sdlc/         # framework.py -- loads data/sdlc/framework.yaml and scores.
+                  #   NO LLM here: the tables ARE the scoring function, so
+                  #   scoring is counting matches. Strict loader -- a model
+                  #   missing an answer would win on a smaller denominator.
+src/training/     # QLoRA fine-tuning scripts/configs -- Days 22-24, optional
 src/generators/   # Document generation (SRS) — Month 3
 app/              # Web application layer — Month 3
+data/sdlc/        # framework.yaml -- v1.1, 20 questions x 7 models
+data/test_cases/  # <scenario>/scenario_01.txt plus expected.yaml (ground truth:
+                  #   expected_models is the user's, `answers` is a draft with
+                  #   verified: false -- the file says which is which)
 data/training/    # classification/ 445 requirements, 13 categories (done)
                   # extraction/     instruction-tuning pairs for QLoRA (Day 13-14)
                   # sdlc/           requirements -> SDLC + justification (Day 15-16)
 models/           # Trained models. Everything here is gitignored except MODEL_CARD.md
                   # in each directory -- weights, config.json, tokenizer.json and
                   # threshold.json are all regenerated by training
-notebooks/        # Sequential scripts (01_hf_basics → 06_evaluate_bert;
-                  #   07_finetune_phi_extraction next)
+notebooks/        # Sequential scripts. 01_hf_basics .. 06_evaluate_bert (classifier),
+                  #   08_benchmark_local_llm, 09_build_knowledge_base + 09a_fetch_sources,
+                  #   10_eval_retrieval, 11_eval_sdlc, 12_calibrate_evidence_relevance
 main.py           # CLI entry point -- `python main.py --scenario x.txt`, Day 17-18
 evaluation/       # Baseline results (day4_extraction, day5_classification)
 tests/
@@ -280,8 +428,43 @@ python -m src.graph --classifier few_shot    # LLM baseline, for comparison
 
 # local LLM (Day 12 onward)
 ollama serve                                 # daemon
-ollama run phi3.5                            # smoke-test the model
+ollama run llama3.2:3b                       # smoke-test the model
+
+# cloud tier -- one env var, same wrapper, no second code path
+export OLLAMA_HOST=https://<tunnel>.trycloudflare.com
+export OLLAMA_MODEL=llama3.1:8b
+export OLLAMA_NUM_CTX=8192
+# ... and `unset OLLAMA_HOST OLLAMA_MODEL OLLAMA_NUM_CTX` afterwards, or the
+# next local run silently goes to a dead tunnel
+
+# ── SDLC evaluation ──
+# Mode 1 first, ALWAYS. Scores the EXPECTED answers through the tables with no
+# LLM: "if inference were perfect, would the framework pick the right SDLC?"
+# If it cannot, prompt work and fine-tuning are both wasted -- the problem is
+# the tables or the expectations.
+python -m notebooks.11_eval_sdlc --framework
+
+# Mode 2. Compare saved runs against the expected answers, per question.
+for s in bank_migration insurance_claims credit_risk fintech_startup kyc_onboarding; do
+  python -u -m src.graph --scenario data/test_cases/$s/scenario_01.txt \
+    --json evaluation/results/sdlc_runs/$s.json
+done
+python -m notebooks.11_eval_sdlc --runs evaluation/results/sdlc_runs
+
+# Why the split matters: errors come back as wrong / missed / unsupported, and
+# the three want different fixes -- inference quality, an over-strict abstention
+# prompt, and the evidence gate respectively. Before this they all looked
+# identical ("the recommendation changed").
 ```
+
+## Documentation
+
+| file | what it is |
+|---|---|
+| `docs/problem_log.md` | **Every defect and wrong turn from the first commit, with what it cost.** Read §8 (the recurring patterns) before debugging anything. Also records what we chose *not* to fix, and why. |
+| `docs/bottlenecks.md` | Problems still **open**, ordered by damage if ignored. B1 (unverified ground truth) qualifies every classification number reported. |
+| `docs/knowledge_base.md` | Corpus provenance, per §5 of the problem statement |
+| `docs/demo_runbook.md` | Rehearsed demo-day sequence, including the fallback |
 
 Never run two trainings at once — they share `models/experiments/<model_type>_run/`
 and will corrupt each other's checkpoints.
@@ -329,6 +512,38 @@ the weighting (10x -> 75.6%, 3x -> 76.2%, off -> 77.3%).
 - **Day-wise git commits** — each day's work is committed with `"Day N: description"` message.
 - **Baseline-first approach** — every fine-tuned model must be benchmarked against zero-shot and few-shot LLM baselines, with results saved to `evaluation/results/`. After the Sep 11 revision the comparison ladder is: Gemini (prompted) vs local (prompted) vs local (fine-tuned).
 - **Model choices are made by benchmark, not assumption.** Day 12 measured candidates on this hardware before pinning one, and the result inverted the expected ranking. Record the rejects and why — that reasoning is the Week 11 E1–E7 ablation story.
+- **Enforce in code what is enforceable; the prompt only asks.** A 3B does not
+  follow negative constraints, and neither does the 8B reliably. Three separate
+  instructions failed to stop the model arguing from priority to requirement
+  stability — withholding the field (`_format_statements`) worked immediately.
+  Two instructions failed to produce citations — removing the schema default,
+  which made the field *required* in the generated grammar, worked immediately.
+  Same pattern in the evidence gate and in `filter_issues`. When a rule can be
+  checked in Python, check it in Python.
+- **When a model reports something absurd, check what it was sent before
+  blaming its reasoning.** The quality agent reported requirements as missing
+  acceptance criteria because it was sent a truncated requirement that excluded
+  them. The justifier stated the opposite of the data because it was shown which
+  questions matched but not *what the project answered*. Neither was a reasoning
+  failure; both were answering the question actually asked.
+- **A fix that silently changes a second behaviour is a new bug.** The
+  scenario-relevance floor also disabled per-requirement citations. The
+  abstention change broke the justifier's yes/no rendering (all three `Literal`
+  values are truthy strings, so everything read as "yes"). The question glosses
+  made the model answer where it used to abstain — sometimes from noise. Each
+  was a good fix with an unexamined blast radius.
+- **Write down what you expect before changing anything.** Everything found on
+  17 Sep was found in one day, after the expected answers went into files. The
+  same defects had been in the terminal output for a week and were invisible in
+  scrollback. A recommendation that merely *differs* tells you nothing about
+  whether it improved.
+- **Do not weight a question you have not exercised.** PTR-6 would need a weight
+  of ≥2.5 ordinary questions to flip `bank_migration` to V-Shaped — and PTR-6 is
+  answered by exactly **one** of the five scenarios. Weighting it would build the
+  result on a single data point. Rule: nothing goes in a high-importance tier
+  until more than one scenario tests it. (And fitting 20 free weights to 5
+  scenarios is memorisation, not learning — argue the weights and use the
+  scenarios to *falsify* them.)
 - **A metric that cannot fail is not a metric.** `in_taxonomy_rate` read 100% for a model spraying 5.5 of 13 categories at every requirement: it validated label *names* and never label *counts*. It later turned out to be worse than that — it was scoring a field the pipeline throws away. Ask what reads a number before trusting it. Both the classifier work (Days 9–11) and the extractor work hit this — automated checks confirm format, not sense. **Print the actual output and read it before pinning anything.**
 - **No third-party LLM API in the core path.** Gemini is a baseline and a data-generation tool, never a dependency. Our own fine-tuned model on either tier is fine — cloud-hosted was confirmed permitted on 11 Sep.
 - **Write for both tiers from the start.** Anything touching the LLM goes through the base-URL-configurable wrapper, so local and cloud never diverge into two code paths.

@@ -1,0 +1,34 @@
+# See bank_migration/expected.yaml for what the two claims mean.
+scenario: insurance_claims
+expected_models: [Waterfall]
+verified: false
+
+answers:
+  # "All requirements have already been documented in a 200-page RFP",
+  # "the requirements will not change once signed off"
+  REQ-1: yes
+  REQ-2: yes
+  REQ-3: no
+  REQ-4: no
+  REQ-5: no
+  PTR-1: no
+  PTR-2: no
+  PTR-3: no
+  PTR-4: yes          # "funding is approved for 18 months"
+  PTR-5: yes          # government insurer, claims processing
+  PTR-6: not_stated   # an RFP implies acceptance testing, but the text does not say
+  # "the team has 15 developers" -- a headcount, which answers none of these
+  TEAM-1: not_stated
+  TEAM-2: not_stated
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: not_stated
+
+notes: >-
+  The cleanest case in the set: an RFP-driven government build with frozen scope
+  and approved funding is the textbook Waterfall fit, and it is the one scenario
+  where the plan-driven answer is the right one.

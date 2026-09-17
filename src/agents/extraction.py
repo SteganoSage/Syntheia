@@ -35,6 +35,12 @@ For EACH requirement you must provide ALL of the following fields:
 - approval_status: Always set to "Pending"
 
 Rules:
+- Extract only what the SYSTEM must do, be, or enforce. Facts about how the \
+PROJECT will be run are NOT system requirements: team size, staffing, delivery \
+timeline, budget, funding, and development methodology all describe the project, \
+not the software. A scenario saying "the team has 15 developers and 18 months" \
+yields no requirement at all — do not write "the system shall be completed \
+within 18 months" or "the system shall be developed using agile methodologies".
 - Split compound requirements into separate atomic requirements.
 - Make implicit requirements explicit — do not skip implied requirements.
 - If the scenario contains no extractable requirements, return an empty list.
@@ -88,7 +94,12 @@ def extract_requirements(
         # Evidence first, then the scenario. A small model attends better to the
         # instruction nearest the end of the prompt, and the scenario is the
         # instruction -- the passages are reference material for it.
-        user_prompt = f"{format_context(context)}\n\n{user_prompt}"
+        user_prompt = (
+            f"{format_context(context)}\n\n"
+            f"{user_prompt}\n\n"
+            "Extract requirements from the problem scenario above. The reference "
+            "material is not a source of requirements."
+        )
 
     draft = call_structured(
         system_prompt=SYSTEM_PROMPT,

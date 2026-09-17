@@ -1,0 +1,1 @@
+A government-owned insurance company needs a claims processing portal for rural customers. All requirements have already been documented in a 200-page RFP. The portal must comply with IRDAI regulations. The team has 15 developers, funding is approved for 18 months, and the requirements will not change once signed off.
