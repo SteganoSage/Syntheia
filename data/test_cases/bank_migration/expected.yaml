@@ -1,0 +1,47 @@
+# Ground truth for the SDLC engine. Two independent claims:
+#
+#   expected_models   which SDLC the project should get. STATED BY THE USER.
+#   answers           the 19 framework questions. DRAFTED BY CLAUDE, unverified.
+#
+# `verified: false` means nobody has checked `answers` yet. Until someone does,
+# the answer-level accuracy the eval prints is a comparison against an opinion,
+# not a measurement. The recommendation-level accuracy is real either way.
+#
+# not_stated is used wherever the scenario is silent -- the same standard the
+# evidence gate holds the pipeline to. Ground truth that answers from thin air
+# would reward the pipeline for doing the thing we just stopped it doing.
+
+scenario: bank_migration
+expected_models: [V-Shaped]
+verified: false
+
+answers:
+  # Requirements -- "replicate the existing features exactly", "no new functionality"
+  REQ-1: yes          # the existing system IS the specification
+  REQ-2: yes
+  REQ-3: no           # scope is fixed by what the COBOL system already does
+  REQ-4: no
+  REQ-5: no
+  # Project Type & Risk
+  PTR-1: no           # same product, new platform
+  PTR-2: no
+  PTR-3: no           # a re-platforming, not an enhancement
+  PTR-4: yes          # "management has decided", fixed 3-4 month window
+  PTR-5: yes          # core banking
+  PTR-6: yes          # "testing and validation is required at every stage"
+  # Project Team -- "2 developers" is a size, and size answers none of these
+  TEAM-1: not_stated
+  TEAM-2: not_stated
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  # User Community -- the scenario says nothing about users at all
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: not_stated
+
+notes: >-
+  PTR-3 is the arguable one: a migration that reproduces an existing system
+  could be read as an enhancement to it. Read as "no" here because nothing is
+  being added.

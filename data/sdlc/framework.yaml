@@ -1,18 +1,40 @@
 # SDLC selection framework.
 #
-# The four tables below are transcribed verbatim from the supervisor's slides
+# The four tables below are transcribed from the supervisor's slides
 # ("Selecting an SDLC Based on Characteristics of ..."). Each cell is the answer
 # that model EXPECTS: if the project's answer matches, that model scores a point.
 # No weights are invented anywhere -- the table is the scoring function.
+#
+# THREE ADDITIONS, all marked in place so a reader can strip them back to the
+# supervisor's 19 x 6 and get his framework exactly:
+#
+#   models       `agile`, source: derived -- his tables have six columns, no Agile
+#   questions    PTR-6, origin: derived   -- his tables ask nothing about
+#                                           verification rigour, which leaves
+#                                           V-Shaped indistinguishable from
+#                                           Waterfall on a testing-heavy project
+#   gloss        on every question        -- NOT a change to the framework. The
+#                                           wording is his, untouched; the gloss
+#                                           only says how to read it, because the
+#                                           terse phrasing was being read as
+#                                           something else (PTR-2 taken as "is a
+#                                           systems-integrator doing the work",
+#                                           USER-2 answered from a fact about the
+#                                           development team).
+#
+# `evidence_from: scenario` marks a question no requirement statement can
+# support. Requirements do not discuss budgets, so a funding answer citing a
+# requirement id is fabricated however real the id is.
 #
 # Adding a model is a change to this file and nothing else: append to `models`
 # and add one key to every question's `expects`. The loader refuses to start if
 # any model is missing an answer, so a partially-specified model cannot quietly
 # win on a smaller denominator.
 
-version: "1.0"
+version: "1.1"
 transcribed: 2026-09-15
 source: "Supervisor's SDLC selection slides — four tables, 19 questions"
+extended: 2026-09-17
 
 models:
   - id: waterfall
@@ -56,22 +78,32 @@ tables:
     questions:
       - id: REQ-1
         text: "Are the requirements easily defined and/or well known?"
+        gloss: >-
+          Yes when the requirements already exist somewhere authoritative and only need transcribing -- an RFP, a regulation, or an existing system being reproduced. No when the organisation is still working out what it wants.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: false, agile: false}
         agile_rationale: "Agile exists for requirements that are not well known up front."
       - id: REQ-2
         text: "Can the requirements be defined early in the cycle?"
+        gloss: >-
+          Can the full set be pinned down BEFORE build starts? This is about timing, not difficulty.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: false}
         agile_rationale: "Requirements emerge across iterations rather than being fixed at the outset."
       - id: REQ-3
         text: "Will the requirements change often in the cycle?"
+        gloss: >-
+          About scope churn after work begins -- new or changed requirements. Not about whether the software itself is configurable.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: true}
         agile_rationale: "Responding to change over following a plan is the central premise."
       - id: REQ-4
         text: "Is there a need to demonstrate the requirements to achieve definition?"
+        gloss: >-
+          Do stakeholders need to see something working before they can say what they want? Yes for 'we'll know it when we see it'.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
         agile_rationale: "Working software each iteration is how requirements get settled."
       - id: REQ-5
         text: "Is a proof of concept required to demonstrate capability?"
+        gloss: >-
+          Is technical FEASIBILITY itself in doubt -- can this even be built? Not the same as wanting an early release.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
         agile_rationale: "Spikes are a standard Agile device for exactly this."
 
@@ -81,24 +113,61 @@ tables:
     questions:
       - id: PTR-1
         text: "Does the project identify a new product direction for the organization?"
+        gloss: >-
+          Yes when this takes the organisation into a product, market or capability it has not had before. A new channel or interface for an existing business line is not a new direction.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: true}
         agile_rationale: "Incremental delivery suits an unproven direction; course correction is cheap."
       - id: PTR-2
         text: "Is the project a system integration project?"
+        gloss: >-
+          Yes when the system must interoperate with systems outside itself -- external databases, third-party APIs, regulator or bureau services, existing internal platforms. This is NOT asking whether a systems-integrator vendor is doing the work.
         expects: {waterfall: false, v_shaped: true, prototype: true, spiral: true, rad: true, incremental: true, agile: true}
         agile_rationale: "Continuous integration makes integration risk visible early and often."
       - id: PTR-3
         text: "Is the project an enhancement to an existing system?"
+        gloss: >-
+          Yes when an existing system is being extended or modified. A replacement or re-platforming that reproduces existing behaviour is NOT an enhancement -- nothing is being added.
         expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
         agile_rationale: "Enhancement work decomposes naturally into independently shippable increments."
       - id: PTR-4
         text: "Is the funding for the project expected to be stable throughout the life cycle?"
+        gloss: >-
+          Yes only when the problem statement says funding or budget is approved, committed or fixed. Requirements never testify about funding.
+        evidence_from: scenario
         expects: {waterfall: true, v_shaped: true, prototype: true, spiral: false, rad: true, incremental: false, agile: false}
         agile_rationale: "Iteration boundaries are natural stopping points when funding is uncertain -- matching Spiral and Incremental."
       - id: PTR-5
         text: "Is the product expected to have a long life in the organization?"
+        gloss: >-
+          Yes for infrastructure the organisation will run for years. A proof of concept that may not proceed is not.
+        evidence_from: scenario
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: true}
         agile_rationale: "Continuous evolution and refactoring are how Agile sustains a long-lived product."
+
+      # NOT in the supervisor's tables. Added because the tables have no
+      # question about verification rigour at all, which is V-Shaped's entire
+      # reason to exist: with the original 19, V-Shaped and Waterfall differ on
+      # exactly two questions (PTR-2 integration, PTR-3 enhancement) and neither
+      # is about testing. bank_migration -- "testing and validation is required
+      # at every stage of the migration" -- therefore could not reach V-Shaped
+      # from any set of answers, because nothing in the framework could hear the
+      # sentence that makes it a V-Shaped project.
+      #
+      # Marked origin: derived, so the recommendation can say which parts rest
+      # on our reading. Needs the supervisor's sign-off, as the Agile column does.
+      - id: PTR-6
+        origin: derived
+        text: "Does the project require formal verification and testing at multiple stages?"
+        gloss: >-
+          Yes when the project calls for verification at each stage of development, rather than one test phase at the end.
+        expects: {waterfall: false, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: true}
+        rationale: >-
+          V-Shaped pairs every development stage with a test stage -- this is the
+          question that distinguishes it from Waterfall, which verifies once at
+          the end. Spiral verifies per cycle and Incremental per increment, so
+          both expect yes. Prototype and RAD trade formal verification for speed
+          of feedback, so both expect no.
+        agile_rationale: "Test-driven development and continuous integration verify at every commit, not at a phase gate."
 
   # ── Require supplied project context. Not answerable from a scenario ──
   # A 52-word problem statement says nothing about team size or user
@@ -111,22 +180,32 @@ tables:
     questions:
       - id: TEAM-1
         text: "Are the majority of team members new to the problem domain for the project?"
+        gloss: >-
+          The PROBLEM domain -- the business area. Not the technology.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: false}
         agile_rationale: "Agile relies on a self-organising team with enough domain judgement to make decisions each iteration."
       - id: TEAM-2
         text: "Are the majority of team members new to the technology domain for the project?"
+        gloss: >-
+          The TECHNOLOGY domain -- the languages, platforms and techniques. Not the business area.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Short iterations leave little slack for learning an unfamiliar stack."
       - id: TEAM-3
         text: "Are the majority of team members new to the tools to be used on the project?"
+        gloss: >-
+          The specific tooling: IDEs, build systems, frameworks, infrastructure.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: false, agile: false}
         agile_rationale: "As TEAM-2: tooling fluency is assumed by the iteration cadence."
       - id: TEAM-4
         text: "Are the team members subject to reassignment during the life cycle?"
+        gloss: >-
+          Yes when the statement says people will be pulled onto other work. Team SIZE says nothing about this.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Velocity and shared context depend on a stable team."
       - id: TEAM-5
         text: "Is there training available for the project team if required?"
+        gloss: >-
+          Yes when the statement mentions training, upskilling or onboarding being available.
         expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
         agile_rationale: "Agile expects continuous skill development within the team."
 
@@ -136,17 +215,25 @@ tables:
     questions:
       - id: USER-1
         text: "Will the availability of the user representatives be restricted, or limited during the life cycle?"
+        gloss: >-
+          About the user representatives' AVAILABILITY to the project -- how much of their time it gets.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "An available customer representative is a defining Agile practice."
       - id: USER-2
         text: "Are the user representatives new to system definition?"
+        gloss: >-
+          About the USER representatives' experience with specifying software -- not the development team's. A fact about the team does not answer this.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Agile asks users to prioritise a backlog, which assumes some fluency."
       - id: USER-3
         text: "Are the user representatives experts in the problem domain?"
+        gloss: >-
+          Are the user representatives experts in the BUSINESS area? Usually yes for internal stakeholders, unknown for end customers.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: true, agile: true}
         agile_rationale: "Domain-expert users are what make short feedback loops worth having."
       - id: USER-4
         text: "Do the users want to be involved in all phases of the life cycle?"
+        gloss: >-
+          Yes when the statement says users will be engaged throughout -- feedback loops, reviews, iteration with users.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: false, agile: true}
         agile_rationale: "Continuous involvement is the premise, not an option."

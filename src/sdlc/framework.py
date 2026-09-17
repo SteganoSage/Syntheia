@@ -38,6 +38,24 @@ class Question:
     source: str                      # "inferred" | "supplied"
     expects: dict[str, bool]
     agile_rationale: str = ""
+    # How to read the question. Shipped to the model with the question text --
+    # the supervisor's wording is terse, and several questions were being
+    # answered as though they asked something else.
+    gloss: str = ""
+    # "either" | "scenario". Which source can legitimately support an answer.
+    # Requirements cannot testify about budgets or product lifespan; both models
+    # cited requirement ids for exactly those, and the citations passed every
+    # structural check because the ids existed.
+    evidence_from: str = "either"
+    # "supervisor_framework" | "derived" -- same distinction the model columns
+    # carry. A question we added is a change to the rubric being scored against,
+    # so the output has to be able to say which questions were his and which
+    # were ours rather than presenting all of them as transcription.
+    origin: str = "supervisor_framework"
+
+    @property
+    def is_derived(self) -> bool:
+        return self.origin != "supervisor_framework"
 
 
 @dataclass(frozen=True)
@@ -114,6 +132,9 @@ class Framework:
                     id=q["id"], text=q["text"], table=table["id"],
                     table_name=table["name"], source=table["source"],
                     expects=expects, agile_rationale=q.get("agile_rationale", ""),
+                    origin=q.get("origin", "supervisor_framework"),
+                    gloss=q.get("gloss", "").strip(),
+                    evidence_from=q.get("evidence_from", "either"),
                 ))
 
         if not questions:

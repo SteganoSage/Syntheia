@@ -1,0 +1,37 @@
+# See bank_migration/expected.yaml for what the two claims mean.
+scenario: kyc_onboarding
+expected_models: [Agile, Spiral]
+verified: false
+
+answers:
+  # This scenario is a functional specification and nothing else -- no team, no
+  # budget, no timeline, no mention of how the project will run.
+  REQ-1: yes          # RBI's KYC master direction specifies most of this
+  REQ-2: yes
+  REQ-3: no
+  REQ-4: no
+  REQ-5: no
+  PTR-1: yes          # onboarding is the neo-bank's front door
+  PTR-2: yes          # NSDL real-time PAN validation, video KYC, Aadhaar
+  PTR-3: no
+  PTR-4: not_stated
+  PTR-5: yes          # onboarding infrastructure
+  PTR-6: not_stated   # regulatory, but nothing about staged verification
+  TEAM-1: not_stated
+  TEAM-2: not_stated
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: not_stated
+
+notes: >-
+  DISPUTED. expected_models says Agile/Spiral, but these answers -- requirements
+  well known because a regulator wrote them, stable, no proof of concept needed
+  -- are what the scenario says, and they point plan-driven. Either the answers
+  are wrong or the expectation is. Worth settling before the weights work, since
+  a weighting tuned to force Agile here would be tuned against the framework.
+  PTR-2 is the one answer the engine definitely gets wrong: it says "not a
+  system integration project" about a platform doing real-time NSDL lookups.

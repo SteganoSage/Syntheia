@@ -24,6 +24,8 @@ already showed what sampling does to an analysis task.
 
 from __future__ import annotations
 
+import re
+
 from src.models.requirement import Requirement
 from src.models.sdlc import (
     CriterionAnswer,
@@ -88,7 +90,24 @@ def _format_requirements(requirements: list[Requirement]) -> str:
 
 
 def _format_questions(questions: list[Question]) -> str:
-    return "\n".join(f"{q.id}: {q.text}" for q in questions)
+    """Question text plus its gloss.
+
+    The supervisor's wording is compressed to fit a slide, and the compression
+    is where the inference errors came from. "Is the project a system
+    integration project?" was answered NO for a platform doing real-time NSDL
+    lookups, Aadhaar verification and video KYC -- read, plausibly, as "is a
+    systems integrator doing the work". "Are the user representatives new to
+    system definition?" was answered from a sentence about the development team.
+
+    The wording is not changed -- it is the supervisor's rubric and the scoring
+    depends on it. The gloss is an annotation beside it.
+    """
+    out = []
+    for q in questions:
+        out.append(f"{q.id}: {q.text}")
+        if q.gloss:
+            out.append(f"      ({q.gloss})")
+    return "\n".join(out)
 
 
 # ── 1. Infer the framework answers ─────────────────────────────────────
@@ -170,9 +189,22 @@ def infer_criteria(requirements: list[Requirement],
             response_model=CriterionAnswerSet,
             temperature=0.0,
         )
+        scenario_only = {q.id for q in table_qs if q.evidence_from == "scenario"}
         for a in result.answers:
             if a.question_id not in valid:
                 continue                      # invented id: cannot be scored
+            # A question marked evidence_from: scenario cannot be answered from
+            # a requirement, so it goes through the same gate the supplied
+            # tables do. PTR-4 (funding) and PTR-5 (product lifespan) were
+            # answered by both the 3B and the 8B citing REQ-001 and REQ-002 --
+            # real ids, and no more capable of testifying about a budget for
+            # being real. Without the scenario there is nothing to check
+            # against, so the answer cannot stand either way.
+            if a.question_id in scenario_only:
+                a.evidence = [e for e in a.evidence if e not in req_ids]
+                a = _gate_on_evidence([a], scenario)[0]
+                out.append(a)
+                continue
             # Keep only real requirement ids, and cap at two. Left uncapped the
             # model cites all of them, which satisfies the schema while carrying
             # no information about what actually decided the answer.
@@ -182,6 +214,77 @@ def infer_criteria(requirements: list[Requirement],
             ids = [e for e in a.evidence if e in req_ids]
             a.evidence = (ids or a.evidence)[:2]
             out.append(a)
+    return out
+
+
+# ── The evidence gate ──────────────────────────────────────────────────
+
+_WORD = re.compile(r"[a-z0-9']+")
+
+
+def _normalise(text: str) -> str:
+    """Lowercase, straighten quotes, collapse whitespace."""
+    text = text.lower().replace("\u2019", "'").replace("\u2018", "'")
+    text = text.replace("\u201c", '"').replace("\u201d", '"').replace("\u2014", " ")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _quotes_the_source(quote: str, source: str) -> bool:
+    """Is this quote actually traceable to the problem statement?
+
+    Substring after normalisation, else a word-overlap fallback -- the model
+    paraphrases as often as it quotes ("the original problem statement says the
+    product team is small"), and rejecting a faithful paraphrase would push a
+    correct answer to not_stated for a formatting reason.
+
+    This catches invented quotes. It cannot catch a real quote attached to the
+    wrong question -- credit_risk answered USER-2 ("are the user representatives
+    new to system definition?") YES and cited "they've never built ML systems
+    before", which is a true sentence about the TEAM. That needs a reader.
+    """
+    q, src = _normalise(quote), _normalise(source)
+    if not q:
+        return False
+    if q in src:
+        return True
+    words = [w for w in _WORD.findall(q) if len(w) > 3]
+    if not words:
+        return False
+    hits = sum(1 for w in words if w in src)
+    return hits / len(words) >= 0.6
+
+
+def _gate_on_evidence(answers: list[CriterionAnswer],
+                      source: str) -> list[CriterionAnswer]:
+    """Demote to not_stated any yes/no the model could not point at.
+
+    The prompt already says "if you cannot quote them, the answer is
+    not_stated". Across five scenarios it was ignored in one direction only:
+    every supplied-table answer that got through was YES, and five of the six
+    cited nothing at all. USER-2 came back YES in four of five runs -- a
+    constant, not an inference -- and USER-2=YES scores for Prototype, Spiral
+    and Incremental and for nobody else, so the fabrication was not even
+    neutral in its effect on the ranking.
+
+    Enforcing it here rather than asking again is the same trade the extraction
+    scope fix and `_format_statements` already make: a rule that can be checked
+    in code should not be delegated to the model's compliance with a negative
+    instruction.
+    """
+    out = []
+    for a in answers:
+        if a.as_bool is not None:
+            kept = [e for e in a.evidence if _quotes_the_source(e, source)]
+            if not kept:
+                claimed = a.answer
+                a.answer = "not_stated"
+                a.evidence = []
+                a.reasoning = (f"UNSUPPORTED (claimed {claimed}, nothing "
+                               f"traceable to the problem statement): "
+                               f"{a.reasoning}")
+            else:
+                a.evidence = kept[:2]
+        out.append(a)
     return out
 
 
@@ -252,7 +355,8 @@ def infer_project_context(scenario: str,
             response_model=CriterionAnswerSet,
             temperature=0.0,
         )
-        out.extend(a for a in result.answers if a.question_id in valid)
+        out.extend(_gate_on_evidence(
+            [a for a in result.answers if a.question_id in valid], scenario))
     return out
 
 
@@ -306,7 +410,8 @@ any financial system is not useful.
 
 
 def justify(requirements: list[Requirement], framework: Framework,
-            top, answers: list[CriterionAnswer]) -> JustificationSet:
+            top, answers: list[CriterionAnswer],
+            tied_with: list[str] | None = None) -> JustificationSet:
     by_id = {a.question_id: a for a in answers}
 
     def render(qid: str) -> str:
@@ -330,16 +435,28 @@ def justify(requirements: list[Requirement], framework: Framework,
         )
 
     evidence = "\n".join(
-        f"{a.question_id} = {'yes' if a.answer else 'no'} "
+        f"{a.question_id} = {a.answer} "
         f"[{', '.join(a.evidence) or 'no requirement cited'}] {a.reasoning}"
         for a in answers
     )
+    tie_note = ""
+    if tied_with and len(tied_with) > 1:
+        # Without this the summary invents a margin: asked to name "the
+        # runner-up and what would have to change for it to win", a model shown
+        # two identical scores writes a reason the first one is better anyway.
+        tie_note = (
+            f"\n\nIMPORTANT: {' and '.join(tied_with)} are TIED on the "
+            f"framework -- identical scores, no separation. Say so plainly, and "
+            f"say which framework question would break the tie if it were "
+            f"answered. Do not claim one is the better fit.\n"
+        )
+
     return call_structured(
         system_prompt=JUSTIFY_PROMPT,
         user_prompt=(
             f"Requirements:\n\n{_format_requirements(requirements)}\n\n"
             f"How the project answered the framework:\n{evidence}\n\n"
-            f"Scoring outcome:\n\n" + "\n\n".join(blocks)
+            f"Scoring outcome:\n\n" + "\n\n".join(blocks) + tie_note
         ),
         response_model=JustificationSet,
         temperature=0.0,
@@ -378,9 +495,11 @@ def recommend_sdlc(requirements: list[Requirement],
 
     scores = fw.score(answer_map)
     top = scores[:TOP_N]
+    tied = [s.model.name for s in scores if abs(s.score - scores[0].score) < 1e-9]
+    tied_with = tied if len(tied) > 1 else []
 
     xc = cross_check(requirements, fw) if run_cross_check else None
-    just = justify(requirements, fw, top, inferred)
+    just = justify(requirements, fw, top, inferred, tied_with)
 
     agrees = None
     if xc and xc.ranked_models:
@@ -388,6 +507,7 @@ def recommend_sdlc(requirements: list[Requirement],
 
     return SDLCRecommendation(
         recommendation=top[0].model.name,
+        tied_with=tied_with,
         ranking=[ScoredModel(model_id=s.model.id, name=s.model.name,
                              score=round(s.score, 4), matched=s.matched,
                              missed=s.missed, is_derived=s.model.is_derived)

@@ -1,0 +1,33 @@
+# See bank_migration/expected.yaml for what the two claims mean.
+scenario: fintech_startup
+expected_models: [Agile, RAD]
+verified: false
+
+answers:
+  # "requirements will definitely change as they learn what users want"
+  REQ-1: no
+  REQ-2: no
+  REQ-3: yes
+  REQ-4: yes
+  REQ-5: yes          # "launch an MVP"
+  PTR-1: yes          # a startup's first product
+  PTR-2: no
+  PTR-3: no
+  PTR-4: not_stated   # a 2-month MVP deadline says nothing about funding
+  PTR-5: not_stated
+  PTR-6: not_stated
+  TEAM-1: not_stated
+  TEAM-2: not_stated
+  TEAM-3: not_stated
+  TEAM-4: not_stated  # "the product team is small -- 3 people" is a size
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: yes         # "then iterate based on user feedback"
+
+notes: >-
+  The scenario the engine currently gets wrong. Note that the 8B answered PTR-4
+  no, PTR-5 no, TEAM-4 yes and USER-2 yes here -- four answers the text does not
+  support, and all four score for Prototype. Three of them cited nothing and are
+  now dropped by the evidence gate.

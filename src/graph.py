@@ -176,6 +176,11 @@ if __name__ == "__main__":
         help="skip the SDLC recommendation (Phase 2) -- faster when iterating on Phase 1",
     )
     parser.add_argument(
+        "--json", type=Path, default=None, metavar="PATH",
+        help="also write the run to PATH as JSON -- what notebooks/11_eval_sdlc.py "
+             "reads, so a change can be measured instead of eyeballed in scrollback",
+    )
+    parser.add_argument(
         "--no-rag", action="store_true",
         help="skip retrieval and generate from the model's own knowledge -- "
              "the control arm for the grounded-vs-ungrounded comparison",
@@ -267,6 +272,11 @@ if __name__ == "__main__":
         derived = "  [derived column -- not in the supplied framework]" if any(
             m.is_derived and m.name == rec.recommendation for m in rec.ranking) else ""
         print(f"SDLC RECOMMENDATION: {rec.recommendation}{derived}")
+        if rec.tied_with:
+            print(f"  ** TIED: {' = '.join(rec.tied_with)} -- the framework does "
+                  f"not separate them.")
+            print(f"     Listed first by name, which is not a preference. Answer "
+                  f"an unassessed question to break it.")
         print(f"{'=' * 60}\n")
 
         print("  Framework scoring:")
@@ -280,6 +290,11 @@ if __name__ == "__main__":
         for a in rec.criteria:
             ev = ", ".join(e[:44] for e in a.evidence) if a.evidence else "nothing cited"
             label = {"yes": "YES", "no": "NO", "not_stated": "--"}[a.answer]
+            # An answer the evidence gate rejected reads as an abstention in the
+            # score, but it is not one -- the model did commit, and a reader
+            # checking the framework should see that it was overruled.
+            if a.reasoning.startswith("UNSUPPORTED"):
+                ev = a.reasoning.split("):")[0] + ")"
             print(f"    {a.question_id:<7} {label:<4} [{ev}]")
 
         print("\n  Framework coverage:")
@@ -298,3 +313,16 @@ if __name__ == "__main__":
         if rec.summary:
             print(f"\n  {rec.summary}")
         print()
+
+    # ── Machine-readable run, for the eval harness ──
+    if args.json:
+        import json
+
+        args.json.parent.mkdir(parents=True, exist_ok=True)
+        args.json.write_text(json.dumps({
+            "scenario": str(args.scenario),
+            "scenario_name": args.scenario.parent.name,
+            "requirements": [r.model_dump() for r in final_state["requirements"]],
+            "sdlc": rec.model_dump() if rec else None,
+        }, indent=2, default=str), encoding="utf-8")
+        print(f"Wrote {args.json}")

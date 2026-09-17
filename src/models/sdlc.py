@@ -108,6 +108,15 @@ class TableCoverage(BaseModel):
 class SDLCRecommendation(BaseModel):
     recommendation: str
     ranking: list[ScoredModel]
+
+    # Every model sharing the top score, when more than one does. `score()`
+    # breaks ties by name so a rerun cannot reorder equal results, but a
+    # reproducible tie-break is not a finding: across five scenarios two of the
+    # recommendations were decided alphabetically (V-Shaped over Waterfall at
+    # 10/11, Incremental over Waterfall at 8/11), and one of those happened to
+    # be the right answer. Reporting the tie is the difference between a
+    # framework that discriminated and a framework that did not.
+    tied_with: list[str] = Field(default_factory=list)
     criteria: list[CriterionAnswer]
     justifications: list[ModelJustification] = Field(default_factory=list)
     summary: str = ""
