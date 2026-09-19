@@ -6,6 +6,10 @@ cross-requirement issues (duplication, inconsistency) can be detected.
 """
 
 import re
+from functools import lru_cache
+from pathlib import Path
+
+import yaml
 
 from src.models.quality import QualityReport
 from src.models.requirement import Requirement
@@ -35,9 +39,13 @@ case. Requirements like "shall be intuitive" fail this check unless they \
 reference a measurable standard (e.g. WCAG 2.1 AA).
 7. **Missing Source** — No stakeholder or source identified for the \
 requirement (check the source_stakeholder field).
-8. **Undefined Terminology** — Uses domain jargon, acronyms, or technical \
-terms without defining them (e.g. "eKYC", "T+1", "PEP" should be defined \
-or referenced).
+8. **Undefined Terminology** — Uses a term **this system coins for itself** \
+without saying what it means: "senior officer", "high-risk customer", \
+"the standard fee", "tier-2 merchant". Ask whether a reader could look the term \
+up in a published source. If they could — UPI, eKYC, PCI-DSS, PEP, Aadhaar, \
+ISO 20022 are all defined by a regulator or a standards body — it is NOT \
+undefined, and demanding a definition is asking the requirement to restate a \
+regulation. Named regulations and document titles are references, not jargon.
 9. **Conflicting Expectations** — Two different stakeholders want opposite \
 behaviours or contradictory priorities.
 10. **Missing security/compliance** — The requirement handles sensitive data \
@@ -97,6 +105,8 @@ something another field of that requirement already states.
 # Kept narrow on purpose. This drops issues that are *categorically* invalid
 # under the rubric, never issues that are merely weak -- judging weak ones is
 # the model's job, and a filter that second-guesses it would hide real findings.
+REPO = Path(__file__).resolve().parents[2]
+
 _FAILURE_HANDLING = re.compile(
     r"what happens if|if .{0,40}\b(fails?|failed|is not|are not|does not|cannot)\b"
     r"|failure (case|mode|scenario|handling)|error (case|handling)",
@@ -136,6 +146,94 @@ def _keep(issue) -> bool:
     return True
 
 
+@lru_cache(maxsize=1)
+def _established_terms() -> tuple[str, ...]:
+    """Terms with a published, authoritative definition. See the YAML for why.
+
+    Loaded from data rather than hard-coded so each entry carries its
+    justification and a reader can audit the list. Missing file is not fatal --
+    the check simply stops firing, which degrades to the old behaviour rather
+    than crashing a run.
+    """
+    path = REPO / "data/quality/established_terms.yaml"
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        return tuple(t["term"].lower() for t in data.get("terms", []))
+    except Exception:
+        return ()
+
+
+_NAMED_DOCUMENT = re.compile(
+    r"\b(guidelines?|regulations?|directions?|act|framework|standards?|"
+    r"master\s+direction|circular|notification)\b", re.I)
+
+
+def _is_established_term(issue) -> bool:
+    """Is the flagged term something a reader can simply look up?
+
+    Two ways to qualify. Either the quoted term contains a glossary entry
+    ("Aadhaar-based eKYC" contains "eKYC", "PCI-DSS standards" contains
+    "PCI-DSS"), or it names a document rather than a concept ("RBI's digital
+    lending guidelines" is a reference, not undefined jargon).
+    """
+    if issue.issue_type != "Undefined Terminology":
+        return False
+    quoted = re.findall(r"['\"]([^'\"]{2,70})['\"]", issue.description)
+    if not quoted:
+        return False
+    terms = _established_terms()
+    for q in quoted:
+        low = q.lower()
+        if any(re.search(rf"\b{re.escape(t)}\b", low) for t in terms):
+            return True
+        if _NAMED_DOCUMENT.search(q):
+            return True
+    return False
+
+
+_NUMERIC = re.compile(r"\d")
+
+# Vague words a NUMBER could actually pin down. The distinction matters: "the
+# system shall respond in real-time" is answered by "within 2 seconds", but
+# "approval from a senior officer" is not answered by any number -- and its
+# acceptance criteria happen to say "above 50 lakhs", which quantifies the
+# threshold, not the role. Without this list that unrelated number silenced a
+# correct finding.
+_MEASURABLE_VAGUENESS = re.compile(
+    r"\b(real[\s-]?time|responsive|fast|quick|rapid|timely|immediate|prompt|"
+    r"instant|low[\s-]?latency|high[\s-]?performance|scalable|concurrent|"
+    r"frequent|minimal|large|small|accessible|available)\b", re.I)
+
+
+def _quantified_in_acceptance(issue, requirement) -> bool:
+    """Already measurable, so the complaint is answered by the requirement itself.
+
+    The prompt says "if the acceptance criteria already give a measurable
+    condition, the requirement is testable" -- and the model ignores it. REQ-003
+    was flagged for "real-time" while its own acceptance criteria said "within 2
+    seconds"; REQ-001 for "mobile-responsive" while its acceptance said "screen
+    widths from 320px to 1920px".
+
+    Three conditions, all required, because the first draft of this was too
+    loose and silenced a correct complaint about "senior officer":
+
+      1. the issue is about wording, not about a missing control
+      2. the flagged term is one a NUMBER could pin down -- a dimension, not a
+         role or an entity
+      3. the acceptance criteria contain a number
+
+    "Real-time" with no latency target anywhere still fails, and stays.
+    """
+    if issue.issue_type not in ("Ambiguity", "Lack of Testability",
+                                "Undefined Terminology"):
+        return False
+    criteria = (requirement.acceptance_criteria or "") if requirement else ""
+    if not criteria or not _NUMERIC.search(criteria):
+        return False
+    quoted = re.findall(r"['\"]([^'\"]{2,70})['\"]", issue.description)
+    return any(_MEASURABLE_VAGUENESS.search(q) for q in quoted)
+
+
 def _quotes_a_citation(issue, requirement) -> bool:
     """Is the flagged term part of a citation rather than the requirement's own wording?
 
@@ -171,7 +269,10 @@ def filter_issues(report: QualityReport,
         req = by_id.get(result.requirement_id)
         result.issues = [
             _relabel(i) for i in result.issues
-            if _keep(i) and not _quotes_a_citation(i, req)
+            if _keep(i)
+            and not _quotes_a_citation(i, req)
+            and not _is_established_term(i)
+            and not _quantified_in_acceptance(i, req)
         ]
         result.passed = not result.issues
     return report

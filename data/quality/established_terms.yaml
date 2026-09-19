@@ -1,0 +1,109 @@
+# Terms a financial-services requirement does not have to define.
+#
+# The quality agent was flagging "Aadhaar-based eKYC", "UPI IDs", "PCI-DSS
+# standards" and "PEP screening" as undefined terminology -- 0 of 5 and 0 of 4
+# requirements passed across two runs. A check that fails everything carries the
+# same information as one that passes everything.
+#
+# It was not the model's fault: the prompt named "eKYC" and "PEP" as examples of
+# what to flag, so it complied. The prompt is fixed, and this file enforces the
+# rule in code, because the prompt only asks.
+#
+# The test for inclusion is NOT "is this familiar" -- it is **can a reader look
+# this up in a published, authoritative source?** UPI is defined by NPCI,
+# PCI-DSS by the PCI Security Standards Council, eKYC by RBI's KYC Master
+# Direction. A requirement that says "verify identity through Aadhaar-based
+# eKYC" is precise; asking it to define eKYC is asking it to restate a
+# regulation.
+#
+# What is NOT here, deliberately: terms a system coins for itself. "senior
+# officer", "high-risk customer", "the standard fee", "tier-2 merchant" have no
+# external definition, so a requirement using one MUST say what it means. Those
+# complaints are correct and are kept.
+#
+# `why` is required on every entry. An unjustified entry is a way to silence a
+# real finding, which is the failure mode this file could easily become.
+
+version: "1.0"
+added: 2026-09-19
+
+terms:
+  # ── Indian payments and identity: defined by NPCI, UIDAI or RBI ──
+  - term: UPI
+    why: "Unified Payments Interface — specified by NPCI, with published API docs"
+  - term: NPCI
+    why: "National Payments Corporation of India — a named statutory body"
+  - term: Aadhaar
+    why: "defined by the Aadhaar Act, 2016 and UIDAI regulations"
+  - term: eKYC
+    why: "defined in RBI's KYC Master Direction; a regulated process, not jargon"
+  - term: KYC
+    why: "RBI Master Direction — Know Your Customer, 2016"
+  - term: CKYC
+    why: "Central KYC Registry, operated by CERSAI under PMLA rules"
+  - term: PAN
+    why: "Permanent Account Number — Income Tax Act"
+  - term: NSDL
+    why: "National Securities Depository Limited — a named entity with a public API"
+  - term: CIBIL
+    why: "TransUnion CIBIL — an RBI-licensed credit information company"
+  - term: PEP
+    why: "Politically Exposed Person — defined in RBI's KYC Master Direction and FATF guidance"
+  - term: AML
+    why: "Anti-Money Laundering — PMLA, 2002"
+  - term: NEFT
+    why: "RBI-operated settlement system with published rules"
+  - term: RTGS
+    why: "RBI-operated settlement system with published rules"
+  - term: IMPS
+    why: "NPCI-operated immediate payment service"
+  - term: PPI
+    why: "Prepaid Payment Instrument — RBI Master Direction on PPIs"
+  - term: IRDAI
+    why: "Insurance Regulatory and Development Authority of India — a named regulator"
+  - term: RBI
+    why: "Reserve Bank of India — a named regulator"
+  - term: SEBI
+    why: "Securities and Exchange Board of India — a named regulator"
+  - term: UIDAI
+    why: "Unique Identification Authority of India — a named statutory body"
+
+  # ── Published standards ──
+  - term: PCI-DSS
+    why: "Payment Card Industry Data Security Standard — a published standard"
+  - term: PCI DSS
+    why: "spelling variant of PCI-DSS"
+  - term: ISO 20022
+    why: "published ISO financial messaging standard"
+  - term: WCAG
+    why: "W3C Web Content Accessibility Guidelines — versioned and published"
+  - term: GDPR
+    why: "EU General Data Protection Regulation"
+  - term: DPDP
+    why: "Digital Personal Data Protection Act, 2023"
+  - term: TLS
+    why: "IETF transport security standard"
+  - term: AES
+    why: "NIST FIPS 197 encryption standard"
+  - term: OAuth
+    why: "IETF authorisation framework"
+  - term: SAML
+    why: "OASIS authentication standard"
+
+  # ── Ubiquitous technical vocabulary ──
+  - term: API
+    why: "universal software vocabulary; defining it in a requirement adds nothing"
+  - term: REST
+    why: "universal software vocabulary"
+  - term: JSON
+    why: "published data interchange format"
+  - term: SLA
+    why: "standard commercial vocabulary — though the SLA's VALUES must still be stated"
+  - term: OTP
+    why: "One-Time Password — ubiquitous in Indian banking UX"
+  - term: MFA
+    why: "Multi-Factor Authentication — standard security vocabulary"
+  - term: SMS
+    why: "universal"
+  - term: PII
+    why: "Personally Identifiable Information — standard privacy vocabulary"
