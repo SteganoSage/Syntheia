@@ -85,7 +85,21 @@ class Requirement(ExtractedRequirement):
 
 # The extractor's own output type -- this exact schema is sent to the LLM.
 class ExtractionDraft(BaseModel):
-    requirements: list[ExtractedRequirement]
+    # min_length=1 is load-bearing, not decoration. Without it `{"requirements":
+    # []}` satisfies the schema, so Ollama's grammar-constrained decoding is
+    # free to close the array immediately -- and qwen2.5:14b did exactly that,
+    # returning 0 requirements for credit_risk and 1-2 elsewhere where
+    # llama3.1:8b returned 5-7 from the identical prompt.
+    #
+    # It works even where Ollama's GBNF conversion ignores `minItems`, because
+    # Pydantic rejects the empty list and `call_structured` retries with the
+    # validation error appended to the prompt -- the model gets told what was
+    # wrong instead of being asked again. Same trick as making `evidence`
+    # required: the prompt asks, the schema enforces.
+    requirements: list[ExtractedRequirement] = Field(
+        min_length=1,
+        description="Every distinct requirement found. Never empty.",
+    )
 
 
 # Extraction output promoted to full Requirements; categories still empty.

@@ -397,10 +397,15 @@ profile matched and which it did not. Explain the outcome — do not re-decide i
 Rules:
 - Cite framework question ids (REQ-3, PTR-2, ...) and requirement ids (REQ-002) \
 in every justification.
-- Each question shows the answer the PROJECT gave. A model "agrees" when its \
-expected answer equals the project's — which often means agreeing on a NO. \
-Never describe a matched question as though the project answered yes; read the \
-stated answer.
+- Each question shows BOTH answers: what the project answered and what this \
+SDLC model expects, then a MATCH or MISMATCH verdict. **Read the verdict; do \
+not infer it.** A model "agrees" when the two answers are equal — which often \
+means agreeing on a NO.
+- **A MISMATCH means this model assumes the opposite of what the project needs. \
+Never credit a model with a property it mismatches on.** If the project needs \
+staged verification (PTR-6 = YES) and Waterfall expects NO, then Waterfall does \
+NOT provide staged verification — say that it gives this up, never that it \
+suits it. Getting this backwards inverts the entire justification.
 - Say what each model gives up, not only what it offers.
 - In the summary, name the runner-up and state what would have to be different \
 about the project for it to win instead.
@@ -414,24 +419,49 @@ def justify(requirements: list[Requirement], framework: Framework,
             tied_with: list[str] | None = None) -> JustificationSet:
     by_id = {a.question_id: a for a in answers}
 
-    def render(qid: str) -> str:
-        # The project's answer has to appear beside the question. Without it the
-        # model reads a matched question as a "yes": the first run justified
-        # Incremental with "the requirements are well-defined (REQ-1)" when
-        # REQ-1 was answered NO and Incremental matched *because* it expects no.
+    def render(qid: str, model_id: str, model_name: str) -> str:
+        """One question, with BOTH answers and the direction spelled out.
+
+        Two bugs have come from under-specifying this line, and they are the
+        same bug twice.
+
+        First the project's answer was missing, so a matched question read as a
+        "yes": one run justified Incremental with "the requirements are
+        well-defined (REQ-1)" when REQ-1 was answered NO and Incremental matched
+        *because* it expects no.
+
+        Then the MODEL's expected answer was still missing, so the direction of
+        a mismatch had to be inferred -- and it was inferred backwards. Shown
+        only "Waterfall disagrees on PTR-6, project answered YES", the model
+        concluded Waterfall "is suitable for ... a need for thorough testing at
+        every stage", and in the same run said V-Shaped "does not fully account
+        for the project's need for formal verification and testing" -- the exact
+        inverse, on the one question that exists to separate them.
+
+        So nothing is left to inference: both answers appear, and the verdict is
+        stated in words rather than implied by which list the line is in.
+        """
         q = framework.question(qid)
         a = by_id.get(qid)
-        given = a.answer if a else "no"
-        return f'{qid} "{q.text}" -> project answered {given.upper()}'
+        given = (a.answer if a else "no").upper()
+        expects = "YES" if q.expects[model_id] else "NO"
+        agrees = given == expects
+        verdict = (f"MATCH — {model_name} expects this"
+                   if agrees else
+                   f"MISMATCH — {model_name} assumes the OPPOSITE")
+        return (f'{qid} "{q.text}"\n'
+                f'        project: {given}   |   {model_name} expects: {expects}'
+                f'   ->  {verdict}')
 
     blocks = []
     for s in top:
-        matched = "\n    ".join(render(q) for q in s.matched[:6]) or "none"
-        missed = "\n    ".join(render(q) for q in s.missed[:4]) or "none"
+        mid, mname = s.model.id, s.model.name
+        matched = "\n    ".join(render(q, mid, mname) for q in s.matched[:6]) or "none"
+        missed = "\n    ".join(render(q, mid, mname) for q in s.missed[:4]) or "none"
         blocks.append(
-            f"{s.model.name} — scored {s.score:.0%} ({len(s.matched)}/{s.answered})\n"
-            f"  AGREES with this model on:\n    {matched}\n"
-            f"  DISAGREES on:\n    {missed}"
+            f"{mname} — scored {s.score:.0%} ({len(s.matched)}/{s.answered})\n"
+            f"  WHERE {mname.upper()} FITS:\n    {matched}\n"
+            f"  WHERE {mname.upper()} DOES NOT FIT:\n    {missed}"
         )
 
     evidence = "\n".join(

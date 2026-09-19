@@ -129,8 +129,17 @@ def is_cloud() -> bool:
 
 # ── Health ─────────────────────────────────────────────────────────────
 
-def is_available(timeout: float = 3.0) -> bool:
-    """Is the endpoint reachable? Cheap enough to gate a fallback on."""
+def is_available(timeout: float | None = None) -> bool:
+    """Is the endpoint reachable? Cheap enough to gate a fallback on.
+
+    The timeout scales with distance. 3 s is generous for localhost and too
+    tight for a Cloudflare tunnel, which has to complete a TLS handshake and
+    route through an edge PoP before Ollama sees the request at all -- a cold
+    tunnel answering /api/tags in 4 s would be judged dead, and the gateway
+    would silently pick a different provider.
+    """
+    if timeout is None:
+        timeout = 15.0 if is_cloud() else 3.0
     try:
         r = requests.get(f"{get_host()}/api/tags", timeout=timeout)
         return r.status_code == 200

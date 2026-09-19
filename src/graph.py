@@ -68,6 +68,13 @@ def retrieval_node(state: PipelineState) -> dict:
 
 def extraction_node(state: PipelineState) -> dict:
     result = extract_requirements(state["text"], context=state.get("context"))
+    if not result.requirements:
+        # Reached only if every retry failed; the schema's min_length normally
+        # forces a retry first. Loud, because everything downstream degrades
+        # quietly from here -- grounding has nothing to ground, the SDLC engine
+        # infers from an empty list, and the run still prints a recommendation.
+        print("  !! extraction produced NO requirements -- the rest of this run "
+              "is not meaningful. Check the model and the scenario.")
     return {"requirements": result.requirements}
 
 
@@ -118,8 +125,17 @@ def classification_node(state: PipelineState) -> dict:
 
 
 def quality_node(state: PipelineState) -> dict:
-    report = analyse_requirements(state["requirements"])
-    return {"quality_report": report}
+    # Never call the reviewer with nothing to review. Asked to analyse an empty
+    # list, qwen2.5:14b invented fifteen requirements and critiqued them --
+    # REQ-001 through REQ-015, none of which existed, one flagged Critical
+    # Infeasibility. That propagated into `needs_review` and would have reached
+    # a reader as a finding about their system.
+    #
+    # An empty list is not a degenerate case to paper over: it means extraction
+    # failed, and the report should say so rather than fill the gap.
+    if not state["requirements"]:
+        return {"quality_report": None}
+    return {"quality_report": analyse_requirements(state["requirements"])}
 
 
 def sdlc_node(state: PipelineState) -> dict:
