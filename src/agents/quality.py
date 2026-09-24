@@ -116,7 +116,12 @@ _FAILURE_HANDLING = re.compile(
 # A citation is not undefined jargon. The agent flagged "RBI/DBR/2015-16/18" as
 # an undefined term; it is a document reference, and one the grounding node put
 # there on purpose.
-_LOOKS_LIKE_CITATION = re.compile(r"[A-Z]{2,}[/\-]\d|§|\bNo\.\s*\d|\b\d{4}-\d{2}\b")
+_LOOKS_LIKE_CITATION = re.compile(
+    r"[A-Z]{2,}[/\-]\d|§|\bNo\.\s*\d|\b\d{4}-\d{2}\b"
+    # Supplied documents cite as "[supplied] filename.pdf §4.2 [12 KB, supplied
+    # 2026-09-24]" -- a filename and a size, neither of which the original
+    # pattern knew about.
+    r"|\[supplied\]|\.(?:pdf|docx?|md|html?)\b|\bKB, supplied\b")
 
 
 # Inconsistency, Duplication and Conflicting Expectations are by definition
@@ -138,10 +143,25 @@ def _relabel(issue):
     return issue
 
 
+# Field labels from the requirement record, echoed back as if they were the
+# requirement's own words. The same failure as bare labels in
+# `_format_requirements`: the reviewer reads the scaffolding as content.
+_ECHOES_THE_RECORD = re.compile(
+    r"\b(assumptions?|applicable regulations?|acceptance criteria|"
+    r"business justification|source stakeholder|risk level|confidence score)\s*:",
+    re.I)
+
+
 def _keep(issue) -> bool:
     if issue.issue_type == "Incompleteness" and _FAILURE_HANDLING.search(issue.description):
         return False
-    if issue.issue_type == "Undefined Terminology" and _LOOKS_LIKE_CITATION.search(issue.description):
+    # Any issue type, not just Undefined Terminology. A complaint about a
+    # citation came back labelled Ambiguity and sailed past a check that only
+    # looked at one label -- and which label the model picks is exactly the
+    # thing `_relabel` exists because it gets wrong.
+    if _LOOKS_LIKE_CITATION.search(issue.description):
+        return False
+    if _ECHOES_THE_RECORD.search(issue.description):
         return False
     return True
 
@@ -234,6 +254,12 @@ def _quantified_in_acceptance(issue, requirement) -> bool:
     return any(_MEASURABLE_VAGUENESS.search(q) for q in quoted)
 
 
+# Words too ordinary to count as evidence that a complaint is about a citation.
+_COMMON = {"the", "term", "this", "that", "with", "from", "which", "these",
+           "requirement", "system", "shall", "defined", "define", "clear",
+           "clearly", "provide", "reference", "please", "standard", "should"}
+
+
 def _quotes_a_citation(issue, requirement) -> bool:
     """Is the flagged term part of a citation rather than the requirement's own wording?
 
@@ -252,6 +278,16 @@ def _quotes_a_citation(issue, requirement) -> bool:
     haystack = " ".join(requirement.applicable_regulations).lower()
     for quoted in re.findall(r"['\"]([^'\"]{4,60})['\"]", issue.description):
         if quoted.lower() in haystack:
+            return True
+
+    # Unquoted too. The complaint that prompted this pasted the citation in
+    # without quote marks at all, so a check that only looked inside quotes
+    # found nothing to compare.
+    words = [w for w in re.findall(r"[\w§.-]{4,}", issue.description.lower())
+             if w not in _COMMON]
+    if len(words) >= 4:
+        hits = sum(1 for w in words if w in haystack)
+        if hits / len(words) >= 0.5:
             return True
     return False
 

@@ -42,6 +42,9 @@ class PipelineState(TypedDict):
     # True only when a person is at a terminal. Gates the follow-up questions:
     # a piped run or a --json eval loop must never block on input.
     interactive: bool
+    # Temporary ChromaDB directories holding documents supplied for THIS run,
+    # searched alongside the curated corpus. Empty for a normal run.
+    extra_dirs: list
 
 
 def retrieval_node(state: PipelineState) -> dict:
@@ -56,7 +59,8 @@ def retrieval_node(state: PipelineState) -> dict:
 
     from src.rag.retriever import is_available, retrieve_context
 
-    if not is_available():
+    extra = state.get("extra_dirs") or []
+    if not is_available() and not extra:
         print("  (no knowledge base indexed -- running ungrounded; "
               "build one with notebooks/09_build_knowledge_base.py)")
         return {"context": []}
@@ -66,11 +70,22 @@ def retrieval_node(state: PipelineState) -> dict:
     # and could not be suppressed without an argument threaded through the
     # state. The passages are in `context` -- whoever is rendering decides
     # whether to show them, which is the renderer's job and not the node's.
-    return {"context": retrieve_context(state["text"])}
+    return {"context": retrieve_context(state["text"], extra_dirs=extra)}
 
 
 def extraction_node(state: PipelineState) -> dict:
-    result = extract_requirements(state["text"], context=state.get("context"))
+    # Attached documents are fetched on their own terms: a lower relevance floor
+    # and more passages than the corpus gets, because they are source material
+    # for this project rather than phrasing reference.
+    supplied = []
+    extra = state.get("extra_dirs") or []
+    if extra and state.get("use_rag", True):
+        from src.rag.retriever import retrieve_supplied
+
+        supplied = retrieve_supplied(state["text"], extra)
+
+    result = extract_requirements(state["text"], context=state.get("context"),
+                                  supplied=supplied)
     if not result.requirements:
         # Reached only if every retry failed; the schema's min_length normally
         # forces a retry first. Loud, because everything downstream degrades
@@ -107,12 +122,16 @@ def grounding_node(state: PipelineState) -> dict:
 
     from src.rag.retriever import ground_requirement, is_available
 
-    if not is_available():
+    extra = state.get("extra_dirs") or []
+    # Supplied documents alone are enough to ground against: the curated corpus
+    # may be empty or may simply not cover this domain -- IRDAI is in the
+    # `unavailable:` list, so an insurance run has nothing to cite without them.
+    if not is_available() and not extra:
         return {"grounding": {}}
 
     grounding: dict[str, dict] = {}
     for req in state["requirements"]:
-        g = ground_requirement(req.statement)
+        g = ground_requirement(req.statement, extra_dirs=extra)
         grounding[req.id] = g
         # Only overwrite what the model guessed when the corpus actually
         # supports something; an unsupported requirement keeps the model's own

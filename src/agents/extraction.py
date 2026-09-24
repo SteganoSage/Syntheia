@@ -71,6 +71,7 @@ Output (showing one requirement):
 def extract_requirements(
     scenario_text: str,
     context: list[dict] | None = None,
+    supplied: list[dict] | None = None,
 ) -> ExtractionResult:
     """Extract requirements, optionally grounded in retrieved source material.
 
@@ -88,18 +89,44 @@ def extract_requirements(
     # classification node overwrites categories anyway, so generating them here
     # spends tokens on an answer that is thrown away one node later.
     user_prompt = f"Problem scenario:\n\n{scenario_text}"
+
+    # Two kinds of evidence, treated differently on purpose.
+    #
+    #   context   passages similarity search found in the curated corpus.
+    #             REFERENCE ONLY -- nobody asserted they apply to this project,
+    #             and when they were treated as source a COBOL migration
+    #             acquired "a mobile-responsive online loan application portal"
+    #             from retrieved loan RFPs.
+    #
+    #   supplied  documents attached to this run by the person running it. That
+    #             attachment IS the assertion of relevance, so requirements may
+    #             be derived from them -- which is the supervisor's part 1 in
+    #             its most literal reading.
+    #
+    # Ordering: evidence first, scenario last. A small model attends best to
+    # whatever sits nearest the end, and the scenario is the instruction.
+    blocks = []
+    if supplied:
+        from src.rag.retriever import format_supplied
+
+        blocks.append(format_supplied(supplied))
     if context:
         from src.rag.retriever import format_context
 
-        # Evidence first, then the scenario. A small model attends better to the
-        # instruction nearest the end of the prompt, and the scenario is the
-        # instruction -- the passages are reference material for it.
-        user_prompt = (
-            f"{format_context(context)}\n\n"
-            f"{user_prompt}\n\n"
+        blocks.append(format_context(context))
+
+    if blocks:
+        closing = (
+            "Extract the requirements of this project. They come from the "
+            "problem scenario AND from the documents provided for it — a "
+            "document's obligations are this project's requirements where they "
+            "bear on the system described. The reference material is not a "
+            "source of requirements."
+            if supplied else
             "Extract requirements from the problem scenario above. The reference "
             "material is not a source of requirements."
         )
+        user_prompt = "\n\n".join(blocks) + f"\n\n{user_prompt}\n\n{closing}"
 
     draft = call_structured(
         system_prompt=SYSTEM_PROMPT,

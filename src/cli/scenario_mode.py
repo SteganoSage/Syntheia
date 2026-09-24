@@ -313,6 +313,9 @@ class ScenarioSession:
         # must never stop for input it will never get.
         self.interactive = interactive
         self.detail = False
+        # Temporary stores holding documents attached with /docs. Searched
+        # alongside the curated corpus; empty for a normal session.
+        self.extra_dirs: list = []
         self.last_state: dict | None = None
 
     def handle(self, text: str) -> dict:
@@ -336,6 +339,7 @@ class ScenarioSession:
             # and it asks them BEFORE scoring, so one recommendation is printed
             # rather than one that is immediately superseded.
             "interactive": self.interactive,
+            "extra_dirs": self.extra_dirs,
         }
 
         live = Live(prog, console=console, refresh_per_second=8, transient=True)

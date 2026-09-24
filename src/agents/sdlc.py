@@ -558,9 +558,10 @@ pointing at something concrete from the scenario or the requirements. Quote the 
 requirement rather than citing "REQ-002" alone. A `relevance` line that would \
 read the same for any financial system is not an answer, and the three \
 candidates must not share one.
-- `shortcut` — one line for the whole decision, traits joined by "+", ending in \
-the chosen model. Example: "stable requirements + as-is conversion + critical \
-payroll system + strong testing requirement + fixed schedule -> V-Model".
+- `shortcut` — one line for the whole decision: three to five traits **of this \
+project**, joined by "+", then "->" and the chosen model. Take every trait from \
+the FITS list you were given. Do not reuse wording from any example; a shortcut \
+naming a system this project is not is worse than no shortcut.
 
 Rules:
 - The FINAL STANDING is given and is already decided. Do not re-rank, and name \

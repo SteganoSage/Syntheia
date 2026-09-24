@@ -42,6 +42,7 @@ COMMANDS = {
     "/help":      "show this",
     "/mode":      "switch mode: /mode scenario | interview | chat",
     "/modes":     "list modes and what they do",
+    "/docs":      "attach documents to cite from: /docs file.pdf | /docs | /docs clear",
     "/load":      "run a scenario from a file: /load path/to/scenario.txt",
     "/rag":       "grounding on or off: /rag on | off",
     "/sdlc":      "phase 2 on or off: /sdlc on | off",
@@ -67,6 +68,11 @@ class App:
         self.classifier = classifier
         self.mode_name = DEFAULT_MODE
         self.detail = False
+        # Attached for the whole session, not one run: you attach a regulation
+        # once and try several scenarios against it, which is the actual
+        # workflow. Rebuilt whenever the list changes, dropped on exit.
+        self.doc_paths: list[Path] = []
+        self.corpus = None
         self.session_obj = None
         self.last_state: dict | None = None
         HISTORY.parent.mkdir(parents=True, exist_ok=True)
@@ -135,6 +141,7 @@ class App:
             self.session_obj.use_rag = self.use_rag
             self.session_obj.run_sdlc = self.run_sdlc
         self.session_obj.detail = self.detail
+        self._sync_session()
         return self.session_obj
 
     def _rprompt(self) -> HTML:
@@ -205,6 +212,9 @@ class App:
             console.print(f"[dim]framework working "
                           f"{'shown' if self.detail else 'hidden'}[/]")
 
+        elif name == "/docs":
+            self._docs(arg)
+
         elif name == "/clear":
             console.clear()
 
@@ -237,6 +247,84 @@ class App:
         else:
             console.print(f"[{C_BAD}]unknown command {name!r}[/] [dim]— /help[/]")
         return True
+
+    def _docs(self, arg: str) -> None:
+        """Attach, list or clear the documents this session can cite from."""
+        if arg == "clear":
+            self._drop_corpus()
+            self.doc_paths = []
+            console.print(f"[dim]detached — citing from the curated corpus only[/]")
+            return
+
+        if not arg:
+            if not self.doc_paths:
+                console.print("[dim]no documents attached. "
+                              "/docs path/to/file.pdf to add one[/]")
+                return
+            t = render.Table(box=None, padding=(0, 2), show_header=False)
+            t.add_column(style=C_KEY)
+            t.add_column(style=C_DIM)
+            for name, msg in (self.corpus.report if self.corpus else []):
+                t.add_row(name, msg)
+            console.print(render.Panel(
+                t, title="[bold]attached for this session[/]",
+                subtitle=r"[dim]citations from these are marked \[supplied][/]",
+                border_style=C_DIM, padding=(1, 2)))
+            return
+
+        path = Path(arg).expanduser()
+        if not path.exists():
+            console.print(f"[{C_BAD}]no such file or directory: {path}[/]")
+            return
+
+        already = {n for n, _ in (self.corpus.report if self.corpus else [])}
+        self.doc_paths.append(path)
+        self._rebuild_corpus(quiet_for=already)
+
+    def _rebuild_corpus(self, quiet_for: set[str] | None = None) -> None:
+        """Re-index everything attached. Cheap enough to redo on each addition.
+
+        Rebuilding rather than appending because the store is disposable and
+        incremental state is where this would rot -- a half-added document is
+        harder to reason about than a rebuild that takes a second.
+        """
+        from src.rag.session import SessionCorpus, SuppliedDocError
+
+        self._drop_corpus()
+        try:
+            with render.Thinking(["reading the document",
+                                  "splitting it into clauses",
+                                  "embedding the passages",
+                                  "indexing for this session"]):
+                self.corpus = SessionCorpus(self.doc_paths).build()
+        except SuppliedDocError as e:
+            console.print(f"[{C_BAD}]{e}[/]")
+            self.doc_paths.pop()
+            return
+
+        # Report only what is new. Everything is re-indexed on each addition,
+        # but re-announcing documents already attached reads like they were
+        # added twice.
+        seen = quiet_for or set()
+        for name, msg in self.corpus.report:
+            if name in seen:
+                continue
+            ok = "passages" in msg
+            console.print(f"  [{C_OK if ok else C_BAD}]{'+' if ok else '!'}[/] "
+                          f"{name} [dim]— {msg}[/]")
+        self._sync_session()
+
+    def _drop_corpus(self) -> None:
+        if self.corpus:
+            self.corpus.cleanup()
+        self.corpus = None
+        self._sync_session()
+
+    def _sync_session(self) -> None:
+        dirs = ([self.corpus.persist_dir]
+                if self.corpus and self.corpus.usable else [])
+        if self.session_obj is not None:
+            self.session_obj.extra_dirs = dirs
 
     def _why(self, qid: str) -> None:
         rec = (self.last_state or {}).get("sdlc")
@@ -307,5 +395,6 @@ class App:
                 continue
             self._run(text)
 
+        self._drop_corpus()          # temporary stores do not outlive the session
         console.print("[dim]bye[/]")
         return 0

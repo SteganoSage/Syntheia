@@ -412,7 +412,13 @@ def print_sdlc(rec, detail: bool = False) -> None:
                             title_align="left", border_style=C_DIM,
                             padding=(0, 1)))
 
-    if rec.summary:
+    # Not both when they are the same. The model filled `recommendation_summary`
+    # and `shortcut` with identical text and the reader got the same sentence in
+    # two boxes -- which reads as a bug even when the content is right.
+    def _norm(x):
+        return "".join(ch for ch in (x or "").lower() if ch.isalnum())
+
+    if rec.summary and _norm(rec.summary) != _norm(rec.shortcut):
         console.print(Panel(rec.summary, border_style=C_DIM, padding=(0, 1)))
     if rec.shortcut:
         console.print(Panel(Text(rec.shortcut, style=f"bold {C_KEY}"),

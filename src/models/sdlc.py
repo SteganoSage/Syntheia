@@ -113,14 +113,22 @@ class ModelJustification(BaseModel):
 class JustificationSet(BaseModel):
     justifications: list[ModelJustification]
     recommendation_summary: str = Field(
-        description="Two or three sentences recommending the top model and "
-                    "saying what would have to change for the runner-up to win"
+        description="Two or three full sentences recommending the top model and "
+                    "saying what would have to change for the runner-up to win. "
+                    "PROSE, not the shortcut — do not repeat the one-line form "
+                    "here."
     )
+    # No worked example here, deliberately. The first version carried a
+    # fully-populated one -- "stable requirements + as-is conversion + critical
+    # payroll system + strong testing requirement + fixed schedule -> V-Model"
+    # -- and the model copied it almost verbatim onto an INSURANCE scenario,
+    # changing only the model name. A concrete example in a field meant to be
+    # filled from the project is an invitation to fill it from the example.
     shortcut: str = Field(
-        description="One line, the signature of the decision, in the form "
-                    "'trait + trait + trait -> Model'. Example: 'stable "
-                    "requirements + as-is conversion + critical payroll system "
-                    "+ strong testing requirement + fixed schedule -> V-Model'."
+        description="One line: three to five traits OF THIS PROJECT, joined by "
+                    "'+', then '->' and the chosen model. Every trait must come "
+                    "from this project's own answers. Shape only: "
+                    "<trait> + <trait> + <trait> -> <Model>"
     )
 
 

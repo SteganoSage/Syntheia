@@ -162,9 +162,39 @@ def _dedupe(hits: list[dict], max_per_doc: int | None = None) -> list[dict]:
     return out
 
 
+def _query_all(text: str, k: int, where: dict | None = None,
+               persist_dir: Path | None = None,
+               extra_dirs: list[Path] | None = None) -> list[dict]:
+    """Search the curated corpus and any documents supplied for this run.
+
+    One merged, re-sorted list. Supplied passages are NOT boosted -- they
+    compete on the same cosine score against the same floors. Ranking them
+    higher because someone chose them would be an unearned claim, and would let
+    a loosely-related PDF outrank a real clause.
+    """
+    def one(d):
+        try:
+            return store.query(text, k=k, where=where, persist_dir=d)
+        except Exception:
+            # Metadata filtering support varies by Chroma version; an unfiltered
+            # result beats no grounding at all.
+            return store.query(text, k=k, persist_dir=d)
+
+    hits = one(persist_dir)
+    for d in (extra_dirs or []):
+        try:
+            hits += one(d)
+        except Exception:
+            # A broken session store must never take the curated one down with
+            # it -- the run degrades to the corpus alone.
+            continue
+    return sorted(hits, key=lambda h: -h["score"])
+
+
 def retrieve_context(scenario: str, k: int | None = None,
                      applicability: str | None = None,
-                     persist_dir: Path | None = None) -> list[dict]:
+                     persist_dir: Path | None = None,
+                     extra_dirs: list[Path] | None = None) -> list[dict]:
     """Evidence for the extraction prompt.
 
     k defaults to 4 because of the local context budget, not because 4 is
@@ -175,12 +205,7 @@ def retrieve_context(scenario: str, k: int | None = None,
     """
     want = k or CONTEXT_K
     where = {"applicability": {"$contains": applicability}} if applicability else None
-    try:
-        hits = store.query(scenario, k=want * OVERFETCH, where=where, persist_dir=persist_dir)
-    except Exception:
-        # Metadata filtering support varies by Chroma version; an unfiltered
-        # result is far better than no grounding at all.
-        hits = store.query(scenario, k=want * OVERFETCH, persist_dir=persist_dir)
+    hits = _query_all(scenario, want * OVERFETCH, where, persist_dir, extra_dirs)
     hits = _dedupe(hits, max_per_doc=MAX_PER_DOC)[:want]
     if hits and hits[0]["score"] < MIN_CONTEXT_RELEVANCE:
         return []
@@ -189,7 +214,8 @@ def retrieve_context(scenario: str, k: int | None = None,
 
 def ground_requirement(statement: str, k: int | None = None,
                        min_confidence: float | None = None,
-                       persist_dir: Path | None = None) -> dict:
+                       persist_dir: Path | None = None,
+                       extra_dirs: list[Path] | None = None) -> dict:
     """Citations for one requirement. No LLM call -- embedding lookup only.
 
     Returns citations above the confidence floor, plus `needs_review` when
@@ -198,7 +224,8 @@ def ground_requirement(statement: str, k: int | None = None,
     """
     want = k or GROUND_K
     floor = MIN_CONFIDENCE if min_confidence is None else min_confidence
-    hits = _dedupe(store.query(statement, k=want * OVERFETCH, persist_dir=persist_dir))
+    hits = _dedupe(_query_all(statement, want * OVERFETCH, None,
+                              persist_dir, extra_dirs))
 
     def as_citation(h: dict) -> dict:
         m = h["metadata"]
@@ -247,6 +274,82 @@ def ground_requirement(statement: str, k: int | None = None,
         # case §6 says to escalate.
         "needs_review": not citations,
     }
+
+
+SUPPLIED_K = 8
+MIN_SUPPLIED_RELEVANCE = 0.35
+
+
+def retrieve_supplied(scenario: str, extra_dirs: list[Path],
+                      k: int | None = None) -> list[dict]:
+    """Passages from documents attached to THIS run, for extraction to use.
+
+    Separate from `retrieve_context`, and held to a much lower bar, because a
+    supplied document is a different kind of evidence. A corpus hit is something
+    similarity search found; a supplied document is something a person chose for
+    this scenario. `MIN_CONTEXT_RELEVANCE = 0.60` exists because retrieved loan
+    RFPs were leaking a "mobile-responsive online loan application portal" into
+    a COBOL migration -- a risk that comes from the corpus being general. It does
+    not apply the same way to a file someone attached on purpose.
+
+    So the floor here is 0.35: low enough that the relevant parts of a
+    regulation reach the model, high enough to drop passages about a different
+    subject entirely. More passages than the corpus gets (8 vs 4) because this
+    is source material rather than phrasing reference.
+    """
+    if not extra_dirs:
+        return []
+    want = k or SUPPLIED_K
+    hits: list[dict] = []
+    for d in extra_dirs:
+        try:
+            hits += store.query(scenario, k=want * 2, persist_dir=d)
+        except Exception:
+            continue
+    hits = sorted(hits, key=lambda h: -h["score"])
+    return [h for h in hits if h["score"] >= MIN_SUPPLIED_RELEVANCE][:want]
+
+
+def format_supplied(hits: list[dict]) -> str:
+    """Render attached documents as SOURCE MATERIAL, not as reference.
+
+    The opposite instruction to `format_context`, on purpose. Corpus passages
+    are reference only -- the model must not take requirements from them,
+    because nobody asserted they apply. These were attached for this project by
+    the person running it, which is the assertion, and deriving requirements
+    from them is the supervisor's part 1 in its most literal form: "feed a
+    lightweight LLM existing requirement documents... then prompt it to generate
+    the specific requirements".
+
+    The guard that remains is relevance to the SYSTEM the scenario describes. A
+    regulation covers a whole industry; only the parts that bear on this system
+    are requirements of this project.
+    """
+    if not hits:
+        return ""
+    blocks = []
+    for i, h in enumerate(hits, 1):
+        m = h["metadata"]
+        label = m.get("citation") or m.get("title", "unknown source")
+        blocks.append(f"[D{i}] {label}\n{h['text'].strip()}")
+    return (
+        "### Documents provided for this project\n\n"
+        "The passages below come from documents supplied ALONGSIDE the scenario "
+        "for this specific project. Treat them as source material, not as "
+        "background.\n\n"
+        "**Derive requirements from them.** Where a passage states an "
+        "obligation, a limit, a retention period or a control that applies to "
+        "the system the scenario describes, that is a requirement of this "
+        "project even though the scenario does not spell it out. Cite the "
+        "passage in `applicable_regulations` when you do.\n\n"
+        "Two limits:\n"
+        "- The scenario still defines the project. A passage about a capability "
+        "this system does not have is not a requirement of it -- a rule about "
+        "motor claims does not belong in a health-claims portal.\n"
+        "- Prefer the document's own numbers. If it says ten years, or five "
+        "steps, or 99.5 per cent, use that figure rather than inventing one.\n\n"
+        + "\n\n".join(blocks)
+    )
 
 
 def format_context(hits: list[dict]) -> str:

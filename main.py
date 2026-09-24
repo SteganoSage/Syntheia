@@ -13,6 +13,7 @@ run on our own model through Ollama (local 3B or cloud 8B, selected by
     echo "Build a payments reconciliation engine..." | python main.py -
     python main.py scenario.txt --no-rag          # ungrounded control arm
     python main.py scenario.txt --json run.json   # machine-readable
+    python main.py scenario.txt --docs irdai.pdf  # cite from a document too
 
 `python -m src.graph` still works and is equivalent; it delegates here so the
 two cannot drift apart.
@@ -74,6 +75,14 @@ def build_parser() -> argparse.ArgumentParser:
                      help="suppress the report; useful with --json")
 
     stages = p.add_argument_group("stages")
+    p.add_argument(
+        "--docs", type=Path, action="append", metavar="PATH", default=None,
+        help="a document to cite from for THIS run, alongside the curated "
+             "knowledge base. Repeatable; a directory brings everything in it. "
+             "Citations from these are marked [supplied], because no manifest "
+             "exists and their provenance cannot be vouched for.",
+    )
+
     stages.add_argument("--no-rag", action="store_true",
                         help="skip retrieval and generate from the model's own "
                              "knowledge -- the control arm for the "
@@ -244,26 +253,48 @@ def main(argv: list[str] | None = None) -> int:
     if not args.quiet:
         print(f"Grounding:  {'OFF (--no-rag)' if args.no_rag else 'retrieval-augmented'}")
 
+    # Indexed before the clock starts and thrown away after, whatever happens.
+    session = None
+    if args.docs and not args.no_rag:
+        from src.rag.session import SessionCorpus
+
+        session = SessionCorpus(args.docs).build()
+        if not args.quiet:
+            for name, msg in session.report:
+                print(f"  supplied: {name} — {msg}")
+            if not session.usable:
+                print("  (nothing usable from the supplied documents — "
+                      "continuing on the curated corpus alone)")
+
+    extra_dirs = [session.persist_dir] if session and session.usable else []
+
     t0 = time.perf_counter()
-    state = build_pipeline().invoke({
-        "text": text,
-        "requirements": [],
-        "quality_report": None,
-        "classifier": args.classifier,
-        "use_rag": not args.no_rag,
-        "context": [],
-        "grounding": {},
-        "sdlc": None,
-        "run_sdlc": not args.no_sdlc,
+    try:
+        state = build_pipeline().invoke({
+            "text": text,
+            "requirements": [],
+            "quality_report": None,
+            "classifier": args.classifier,
+            "use_rag": not args.no_rag,
+            "context": [],
+            "grounding": {},
+            "sdlc": None,
+            "run_sdlc": not args.no_sdlc,
         # Follow-up questions only when a person is actually there to answer.
         #
         # stdin ONLY. The first version also required stdout to be a tty, which
         # is the wrong test and silently disabled the whole feature: redirecting
         # or wrapping output does not stop anyone typing an answer -- only a
         # piped stdin does. `--quiet` and `--no-interview` are explicit refusals.
-        "interactive": (sys.stdin.isatty()
-                        and not args.quiet and not args.no_interview),
-    })
+            "interactive": (sys.stdin.isatty()
+                            and not args.quiet and not args.no_interview),
+            "extra_dirs": extra_dirs,
+        })
+    finally:
+        # The temporary store goes even if the run fails. Leaving it behind
+        # would accumulate a ChromaDB directory per crashed run.
+        if session:
+            session.cleanup()
     elapsed = time.perf_counter() - t0
 
     if not args.quiet:

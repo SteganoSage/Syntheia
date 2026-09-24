@@ -16,6 +16,7 @@ failure §6 exists to prevent.
 
 from __future__ import annotations
 
+from datetime import datetime
 from pathlib import Path
 
 import yaml
@@ -166,6 +167,36 @@ def load_document(path: Path) -> tuple[str, SourceDoc]:
     """Text and provenance for one document. Raises if either is unusable."""
     doc = load_manifest(path)
     return read_text(path), doc
+
+
+def load_supplied(path: Path) -> tuple[str, SourceDoc]:
+    """Text and minimal provenance for a document handed to a single run.
+
+    The deliberate counterpart to `load_document`, which refuses anything
+    without a manifest. That refusal is right for the curated corpus: §5 wants
+    source, jurisdiction, effective date and applicability on every knowledge
+    item, and a hand-written sidecar is how those get there.
+
+    A document handed over at the prompt has none of that and never will. The
+    honest response is not to invent it, and not to refuse the document either
+    -- it is to record what is actually knowable (the filename, the size, when
+    it arrived) and mark the whole thing `supplied`, so every citation drawn
+    from it says so. Unknown provenance, stated, beats provenance assumed.
+    """
+    text = read_text(path)
+    stat = path.stat()
+    return text, SourceDoc(
+        path=str(path),
+        title=path.name,
+        issuer="unknown — supplied at run time, not from the curated corpus",
+        jurisdiction="unknown",
+        doc_id="none",
+        version=f"{stat.st_size // 1024} KB, supplied "
+                f"{datetime.fromtimestamp(stat.st_mtime):%Y-%m-%d}",
+        doc_type="regulation",
+        applicability=["supplied"],
+        provenance="supplied",
+    )
 
 
 def discover(root: Path) -> list[Path]:

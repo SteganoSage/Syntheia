@@ -47,10 +47,26 @@ class SourceDoc(BaseModel):
     applicability: list[str] = Field(default_factory=lambda: ["general"])
     doc_type: DocType = "regulation"
     url: str = ""
+    # "curated"  -- in data/knowledge_base, with a hand-written manifest giving
+    #               the source, jurisdiction and effective date §5 requires
+    # "supplied" -- handed to a single run by whoever was using it. No manifest
+    #               exists, so none of that provenance can be claimed, and a
+    #               citation drawn from it must say so rather than look like a
+    #               curated one.
+    provenance: str = "curated"
 
     def citation(self, clause_id: str = "") -> str:
-        """Human-readable citation, the string that ends up in a requirement."""
-        bits = [self.title]
+        """Human-readable citation, the string that ends up in a requirement.
+
+        A supplied document is marked. It has no manifest, so its issuer,
+        jurisdiction and effective date are unknown -- and a citation that looks
+        identical to one from the curated corpus would quietly claim provenance
+        the system cannot vouch for. That is the specific thing §5 exists to
+        prevent, so the difference is visible in the citation string itself
+        rather than in a field someone has to go and check.
+        """
+        bits = ["[supplied]"] if self.provenance != "curated" else []
+        bits.append(self.title)
         if clause_id:
             bits.append(f"§{clause_id}")
         if self.doc_id and self.doc_id != "none":
