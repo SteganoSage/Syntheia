@@ -70,11 +70,43 @@ class CrossCheckRanking(BaseModel):
     reasoning: str = Field(description="Two sentences on why the top choice fits")
 
 
+# Structure taken from the marked answer to CS305 Class Test-1 -- the shape an
+# examiner actually rewards: name the model, list the project characteristics
+# that favour it, map each advantage to THIS project, say what it costs, and
+# close with a one-line signature of the decision.
+#
+# It is also the fix for a whole class of defect. One free-prose field made the
+# model responsible for organising the argument, and it kept getting the
+# organisation wrong: burying the winner's reasons under objections, inverting
+# the direction of a mismatch, inventing totals. Splitting it into named fields
+# removes those decisions from the model -- the order is the schema's, not its.
+class Advantage(BaseModel):
+    advantage: str = Field(description="The property, 3-6 words: 'Testing planned early'")
+    relevance: str = Field(
+        description="What it buys THIS project, one sentence, naming a "
+                    "requirement or framework question id. A line that would "
+                    "read the same for any project is not an answer."
+    )
+
+
 class ModelJustification(BaseModel):
     model: str = Field(description="SDLC model name")
-    justification: str = Field(
-        description="Why this model suits the project. Cite framework question "
-                    "ids (REQ-3, PTR-2) and requirement ids (REQ-002)."
+    # NOT generated. Composed in Python from the questions this model actually
+    # matched, because the model could not be trusted to select them: asked for
+    # "the characteristics that favour this model" it listed Waterfall's own
+    # mismatches -- "the requirements are not easily defined", "the requirements
+    # cannot be defined early" -- as reasons Waterfall fitted, when Waterfall
+    # expects the opposite of both.
+    #
+    # That is not a phrasing failure, it is a selection failure, and selection
+    # is arithmetic we have already done. Third bug of this exact shape.
+    why_it_fits: list[str] = Field(default_factory=list, exclude=True)
+    advantages: list[Advantage] = Field(
+        description="2-4 advantages of this model for this specific project"
+    )
+    gives_up: str = Field(
+        description="One sentence: what this model costs. For a MISMATCH, say "
+                    "the model assumes the opposite of what the project needs."
     )
 
 
@@ -83,6 +115,12 @@ class JustificationSet(BaseModel):
     recommendation_summary: str = Field(
         description="Two or three sentences recommending the top model and "
                     "saying what would have to change for the runner-up to win"
+    )
+    shortcut: str = Field(
+        description="One line, the signature of the decision, in the form "
+                    "'trait + trait + trait -> Model'. Example: 'stable "
+                    "requirements + as-is conversion + critical payroll system "
+                    "+ strong testing requirement + fixed schedule -> V-Model'."
     )
 
 
@@ -120,6 +158,10 @@ class SDLCRecommendation(BaseModel):
     criteria: list[CriterionAnswer]
     justifications: list[ModelJustification] = Field(default_factory=list)
     summary: str = ""
+    # The one-line signature of the decision, in the instructor's own form.
+    # Worth its own field: it is the sentence a reader remembers and the one an
+    # examiner looks for.
+    shortcut: str = ""
     coverage: dict[str, TableCoverage] = Field(default_factory=dict)
 
     # The LLM's independent opinion and whether it agreed. Not used to pick the

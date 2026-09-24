@@ -7,6 +7,8 @@ run on our own model through Ollama (local 3B or cloud 8B, selected by
 `OLLAMA_HOST`), and classification runs the fine-tuned RoBERTa.
 
     python main.py                                # interactive application
+    python main.py scenario.txt                   # one-shot; still asks follow-ups
+    python main.py scenario.txt --no-interview    # one-shot, no questions
     python main.py data/test_cases/kyc_onboarding/scenario_01.txt
     echo "Build a payments reconciliation engine..." | python main.py -
     python main.py scenario.txt --no-rag          # ungrounded control arm
@@ -64,6 +66,10 @@ def build_parser() -> argparse.ArgumentParser:
     out.add_argument("--json", type=Path, default=None, metavar="PATH",
                      help="also write the run as JSON (read by "
                           "notebooks/11_eval_sdlc.py --runs)")
+    out.add_argument("--detail", action="store_true",
+                     help="also print the framework working -- every score, "
+                          "answer and coverage figure. Off by default: it is "
+                          "how the decision is computed, not what it is")
     out.add_argument("--quiet", action="store_true",
                      help="suppress the report; useful with --json")
 
@@ -72,6 +78,9 @@ def build_parser() -> argparse.ArgumentParser:
                         help="skip retrieval and generate from the model's own "
                              "knowledge -- the control arm for the "
                              "grounded-vs-ungrounded comparison")
+    stages.add_argument("--no-interview", action="store_true",
+                        help="never ask follow-up questions, even at a terminal "
+                             "-- for reproducible runs and timing measurements")
     stages.add_argument("--no-sdlc", action="store_true",
                         help="stop after Phase 1 -- faster when iterating on "
                              "extraction")
@@ -125,13 +134,19 @@ def needs_review(state: dict) -> list[str]:
     # the corpus cannot corroborate it, which is the §6 escalation case. The
     # retriever reports the fact; deciding what to escalate is this function's
     # job, and conflating the two flagged every testing requirement.
-    claims = {r.id: r.applicable_regulations for r in state.get("requirements", [])}
+    # In words, not ids. "PTR-5" and "REQ-001" are internal labels; a reader
+    # seeing them has to go and look them up, which for a review notice is
+    # exactly backwards -- the point is to say plainly what is unsafe to trust.
+    by_req = {r.id: r for r in state.get("requirements", [])}
     ungrounded = sorted(rid for rid, g in (state.get("grounding") or {}).items()
-                        if g.get("needs_review") and claims.get(rid))
-    if ungrounded:
+                        if g.get("needs_review") and by_req.get(rid)
+                        and by_req[rid].applicable_regulations)
+    for rid in ungrounded:
+        req = by_req[rid]
+        named = ", ".join(req.applicable_regulations)
         reasons.append(
-            f"{len(ungrounded)} requirement(s) assert a regulation the "
-            f"knowledge base cannot corroborate: {', '.join(ungrounded)}")
+            f"\"{req.statement}\" claims {named} applies, but nothing in the "
+            f"knowledge base supports that — the citation is unverified.")
 
     report = state.get("quality_report")
     if report:
@@ -148,13 +163,25 @@ def needs_review(state: dict) -> list[str]:
             f"the reported recommendation is first by name, not by fit")
     if rec:
         # An answer the gate overruled is not an abstention -- the model
-        # committed and could not support it. Worth surfacing at the top level,
-        # because it silently shrinks the scoring denominator.
-        overruled = [a.question_id for a in rec.criteria
+        # committed and could not support it. Worth surfacing, because it
+        # silently shrinks the scoring denominator.
+        overruled = [a for a in rec.criteria
                      if a.reasoning.startswith("UNSUPPORTED")]
         if overruled:
-            reasons.append(f"{len(overruled)} framework answer(s) dropped as "
-                           f"unsupported: {', '.join(overruled)}")
+            from src.sdlc.framework import Framework
+
+            fw = Framework.load()
+            for a in overruled:
+                q = fw.question(a.question_id)
+                # `says_yes` is already a statement -- "the product will be
+                # running for years" -- so it reads after "whether". The
+                # question text does not: it starts "Is the product...", giving
+                # "whether is the product...".
+                subject = (q.says_yes or q.text.rstrip("?")) if q else a.question_id
+                reasons.append(
+                    f"could not establish whether {subject} — the model gave an "
+                    f"answer but could not point at anything in the scenario "
+                    f"that says so, so it was left out of the scoring.")
     return reasons
 
 
@@ -228,13 +255,21 @@ def main(argv: list[str] | None = None) -> int:
         "grounding": {},
         "sdlc": None,
         "run_sdlc": not args.no_sdlc,
+        # Follow-up questions only when a person is actually there to answer.
+        #
+        # stdin ONLY. The first version also required stdout to be a tty, which
+        # is the wrong test and silently disabled the whole feature: redirecting
+        # or wrapping output does not stop anyone typing an answer -- only a
+        # piped stdin does. `--quiet` and `--no-interview` are explicit refusals.
+        "interactive": (sys.stdin.isatty()
+                        and not args.quiet and not args.no_interview),
     })
     elapsed = time.perf_counter() - t0
 
     if not args.quiet:
         from src.cli import render
 
-        render.print_run(state, elapsed)
+        render.print_run(state, elapsed, detail=args.detail)
 
     if args.json:
         write_json(args.json, scenario_arg, text, state)

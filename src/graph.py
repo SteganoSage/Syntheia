@@ -39,6 +39,9 @@ class PipelineState(TypedDict):
     grounding: dict          # requirement id -> citations, confidence, needs_review
     sdlc: SDLCRecommendation | None
     run_sdlc: bool
+    # True only when a person is at a terminal. Gates the follow-up questions:
+    # a piped run or a --json eval loop must never block on input.
+    interactive: bool
 
 
 def retrieval_node(state: PipelineState) -> dict:
@@ -138,6 +141,16 @@ def quality_node(state: PipelineState) -> dict:
     return {"quality_report": analyse_requirements(state["requirements"])}
 
 
+def _report_skipped_interview(framework, answers, weak=None) -> dict:
+    """Not interactive: name the questions that would have been asked, then move on."""
+    pivotal = framework.pivotal(answers, weak=weak)
+    if pivotal:
+        names = ", ".join(d["question"].id for d in pivotal[:4])
+        print(f"  ({len(pivotal)} question(s) would settle this — {names}. "
+              f"Run at a terminal to be asked, or pass them in.)")
+    return {}
+
+
 def sdlc_node(state: PipelineState) -> dict:
     """Phase 2: the requirements go back in, an SDLC recommendation comes out.
 
@@ -151,7 +164,18 @@ def sdlc_node(state: PipelineState) -> dict:
 
     from src.agents.sdlc import recommend_sdlc
 
-    return {"sdlc": recommend_sdlc(state["requirements"], scenario=state["text"])}
+    ask = None
+    if state.get("interactive"):
+        from src.cli.interview_mode import fill_gaps
+
+        ask = fill_gaps
+    else:
+        # Say so rather than skipping in silence. The interview was disabled by
+        # a wrong tty test for a whole session and looked exactly like "there
+        # was nothing to ask" -- which is the one thing it must never look like.
+        ask = _report_skipped_interview
+    return {"sdlc": recommend_sdlc(state["requirements"],
+                                   scenario=state["text"], ask_user=ask)}
 
 
 def build_pipeline():

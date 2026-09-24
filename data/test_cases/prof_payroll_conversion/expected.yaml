@@ -1,0 +1,51 @@
+# AUTHORITATIVE. Class Test-1, CS305 Software Engineering, NITK Surathkal — Q1,
+# with the marked answer. This is the only ground truth in the set that does not
+# rest on our own reading, which is why it is the one to tune against.
+#
+# The marked answer is V-Model, and the reasoning given is quoted per answer
+# below. Note how close this is to bank_migration: same "as is" conversion, same
+# "no new functionality", same emphasis on testing, same two-person team, same
+# fixed few-month schedule. Our engine returns Waterfall for both while scoring
+# 20/20 on the inferred answers -- so the framework, not the inference, is what
+# disagrees with the examiner.
+
+scenario: prof_payroll_conversion
+source: "CS305 Class Test-1, Q1 (marked answer provided by the course instructor)"
+expected_models: [V-Shaped]
+expected_verified: true          # the MODEL is the instructor's, not ours
+verified: false                  # the per-question answers below are still our reading
+
+answers:
+  # "It is a conversion of an existing system rather than development of a new
+  #  system" / "The requirement is explicitly 'as is'"
+  REQ-1: yes
+  REQ-2: yes
+  # "low-change, well-defined system conversion"
+  REQ-3: no
+  REQ-4: no
+  REQ-5: no
+  PTR-1: no           # same product, new platform
+  PTR-2: no           # a re-platforming, not an integration of separate systems
+  PTR-3: no           # "conversion ... rather than development of a new system",
+                      # but nothing is being ADDED, so not an enhancement either
+  PTR-4: yes          # "fixed five-month schedule"
+  PTR-5: yes          # payroll is long-lived infrastructure
+  # "The project specifically states that testing and verification will be
+  #  emphasized" -- the instructor treats this as decisive
+  PTR-6: yes
+  TEAM-1: not_stated
+  TEAM-2: not_stated
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  USER-4: not_stated
+
+notes: >-
+  The instructor's one-line summary: "V-Model -> stable requirements + as-is
+  conversion + critical payroll system + strong testing/verification requirement
+  + fixed schedule." Four of those five are answered by the Requirements table
+  and PTR-4; the fifth is PTR-6, which the supervisor's own 19 questions do not
+  ask. That absence is why the framework cannot reach his answer unweighted.

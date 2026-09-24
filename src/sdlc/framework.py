@@ -42,6 +42,18 @@ class Question:
     # the supervisor's wording is terse, and several questions were being
     # answered as though they asked something else.
     gloss: str = ""
+    # The criterion as a plain sentence, one per answer. Lets the "why it fits"
+    # bullets be composed in Python from the questions that actually matched --
+    # the model repeatedly listed a model's own MISMATCHES as reasons it fitted,
+    # which is not a phrasing problem but a selection one, and selection is
+    # arithmetic we have already done.
+    says_yes: str = ""
+    says_no: str = ""
+
+    def says(self, answer: bool) -> str:
+        """How this criterion reads given the project's answer."""
+        said = self.says_yes if answer else self.says_no
+        return said or f"{self.text} — {'yes' if answer else 'no'}"
     # "either" | "scenario". Which source can legitimately support an answer.
     # Requirements cannot testify about budgets or product lifespan; both models
     # cited requirement ids for exactly those, and the citations passed every
@@ -64,6 +76,10 @@ class Model:
     name: str
     source: str                      # "supervisor_framework" | "derived"
     basis: str = ""
+    # What this methodology is FOR -- properties of the model itself, the same
+    # for every project. Static because they are static: asked to generate them
+    # per candidate, the LLM produced one identical list for all three.
+    advantages: tuple[str, ...] = ()
 
     @property
     def is_derived(self) -> bool:
@@ -105,7 +121,9 @@ class Framework:
         data = yaml.safe_load(Path(path or FRAMEWORK_PATH).read_text(encoding="utf-8"))
 
         models = [Model(id=m["id"], name=m["name"], source=m["source"],
-                        basis=m.get("basis", "")) for m in data["models"]]
+                        basis=m.get("basis", ""),
+                        advantages=tuple(m.get("advantages", []) or ()))
+                  for m in data["models"]]
         model_ids = {m.id for m in models}
         if len(model_ids) != len(models):
             raise FrameworkError("duplicate model ids in the framework")
@@ -134,6 +152,8 @@ class Framework:
                     expects=expects, agile_rationale=q.get("agile_rationale", ""),
                     origin=q.get("origin", "supervisor_framework"),
                     gloss=q.get("gloss", "").strip(),
+                    says_yes=q.get("says_yes", "").strip(),
+                    says_no=q.get("says_no", "").strip(),
                     evidence_from=q.get("evidence_from", "either"),
                 ))
 
@@ -176,6 +196,53 @@ class Framework:
         # Ties broken by name so a rerun cannot reorder equal scores -- the
         # ranking has to be reproducible to be worth citing.
         return sorted(scores, key=lambda s: (-s.score, s.model.name))
+
+    def pivotal(self, answers: dict[str, bool],
+                weak: set[str] | None = None) -> list[dict]:
+        """Unanswered questions whose answer would change the recommendation.
+
+        This is what makes asking the user worth their time. Nine of the twenty
+        questions come back unanswered on a typical scenario, and asking all
+        nine is an interrogation -- but most of them cannot change anything.
+        Trying both answers for each one and keeping those that move the winner
+        turns "answer nine questions" into "answer the two that decide it".
+
+        No LLM and no heuristic: the scoring function is deterministic, so this
+        is just running it twice per unanswered question. A tie counts as
+        changing the outcome, because a tie is not a recommendation.
+        """
+        current = self.score(answers)
+        if not current:
+            return []
+        baseline = {s.model.name for s in current
+                    if abs(s.score - current[0].score) < 1e-9}
+
+        weak = weak or set()
+        out = []
+        for q in self.questions:
+            # Unanswered, or answered with nothing behind it. A "no" the model
+            # produced citing no evidence is a guess that scores exactly like a
+            # fact, so it is as much worth asking about as a blank -- and the
+            # person may well know the answer.
+            if q.id in answers and q.id not in weak:
+                continue
+            outcomes = {}
+            for choice in (True, False):
+                ranked = self.score({**answers, q.id: choice})
+                outcomes[choice] = {s.model.name for s in ranked
+                                    if abs(s.score - ranked[0].score) < 1e-9}
+            if outcomes[True] == outcomes[False] == baseline:
+                continue                    # cannot move the result either way
+            out.append({
+                "question": q,
+                "if_yes": sorted(outcomes[True]),
+                "if_no": sorted(outcomes[False]),
+                # Decisive when the two answers lead somewhere different, rather
+                # than merely breaking a tie the same way.
+                "decisive": outcomes[True] != outcomes[False],
+            })
+        # Decisive ones first; then by id so the order is reproducible.
+        return sorted(out, key=lambda d: (not d["decisive"], d["question"].id))
 
     def coverage(self, answers: dict[str, bool]) -> dict:
         """Which tables were actually assessed, for the report to state plainly.

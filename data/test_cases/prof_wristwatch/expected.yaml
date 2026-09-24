@@ -1,0 +1,56 @@
+# AUTHORITATIVE. Class Test-1, CS305 Software Engineering, NITK Surathkal — Q2,
+# with the marked answer: Prototyping.
+#
+# Our engine already returns Prototype for this one, so it is the positive
+# control: any weighting or framework change that breaks it has broken something
+# that works.
+#
+# Unusually for this set, the statement DOES answer two Project Team questions.
+# "The company has considerable prior experience in product lines similar to
+# this" is an explicit statement that the team is NOT new to the problem or the
+# technology domain -- and our pipeline currently returns not_stated for both,
+# so this scenario is also a test of whether the team table is being read at all.
+
+scenario: prof_wristwatch
+source: "CS305 Class Test-1, Q2 (marked answer provided by the course instructor)"
+expected_models: [Prototype]
+expected_verified: true
+verified: false
+
+answers:
+  # "Hardware and user-interface issues need practical evaluation ... difficult
+  #  to determine completely on paper"
+  REQ-1: no
+  REQ-2: no
+  # "Some requirements may become clearer only after users interact with the device"
+  REQ-3: yes
+  # "Early user feedback is valuable"
+  REQ-4: yes
+  # "I would like to have a working model to present" / "Reduces technical risk:
+  #  the feasibility of achieving approximately a 50-mile range can be investigated"
+  REQ-5: yes
+  # "venture into a related small-business area" / "introduces a new form factor
+  #  and combination of communication features"
+  PTR-1: yes
+  PTR-2: no
+  PTR-3: no
+  PTR-4: not_stated   # nothing about budget; the six months is a deadline, not funding
+  PTR-5: not_stated   # a demo model, not a commitment to a product line
+  PTR-6: not_stated   # nothing about staged verification
+  # "The company has considerable prior experience in product lines similar to this"
+  TEAM-1: no
+  TEAM-2: no
+  TEAM-3: not_stated
+  TEAM-4: not_stated
+  TEAM-5: not_stated
+  USER-1: not_stated
+  USER-2: not_stated
+  USER-3: not_stated
+  # "Potential customers and evaluators at demonstrations can provide feedback
+  #  that can be incorporated into subsequent versions"
+  USER-4: yes
+
+notes: >-
+  The instructor's one-line summary: "New/innovative product + unclear/
+  experimental aspects + working model needed quickly + user feedback +
+  technical feasibility -> Prototyping Model."

@@ -122,9 +122,16 @@ def print_sdlc(rec: SDLCRecommendation | None) -> None:
 
     for j in rec.justifications:
         print(f"\n  --- {j.model} ---")
-        print(f"    {j.justification}")
+        for b in j.why_it_fits:
+            print(f"    + {b}")
+        for a in j.advantages:
+            print(f"    * {a.advantage}: {a.relevance}")
+        if j.gives_up:
+            print(f"    - gives up: {j.gives_up}")
     if rec.summary:
         print(f"\n  {rec.summary}")
+    if rec.shortcut:
+        print(f"\n  IN ONE LINE: {rec.shortcut}")
     print()
 
 

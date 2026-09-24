@@ -31,52 +31,88 @@ from src.cli import render
 from src.cli.render import C_DIM, C_KEY, C_OK, console
 
 # Per stage: the label, how to summarise what it produced, and the chatter.
-# Every line has to be something the stage genuinely does -- filler that turns
-# out to be wrong is worse than no filler.
+#
+# The chatter is there to make a four-minute wait feel like something is alive.
+# It is scoped to the running stage, so it is never wildly wrong about what is
+# happening -- but it is not a progress log either, and it does not pretend to
+# be. A little personality costs nothing and the alternative is a spinner and
+# silence, which is what a hang looks like.
 STAGES: list[dict] = [
     dict(node="retrieval", label="retrieving source material",
          summary=lambda s: _passages(s),
-         chatter=["searching the knowledge base",
-                  "ranking clauses by relevance",
-                  "checking the scenario clears the relevance floor",
-                  "reading RBI master directions",
-                  "skipping tables of contents"]),
+         chatter=["speed-reading the RBI",
+                  "flipping through 800 pages of master direction",
+                  "the regulator has thoughts about this",
+                  "wading through legalese",
+                  "judging documents by their section numbers",
+                  "somewhere in here is a relevant clause",
+                  "hoping someone wrote this down",
+                  "consulting thirteen very serious PDFs",
+                  "skipping the table of contents, obviously",
+                  "asking the corpus nicely"]),
     dict(node="extraction", label="extracting requirements",
          summary=lambda s: f"{len(s.get('requirements') or [])} requirements",
-         chatter=["reading the scenario",
-                  "separating system requirements from project facts",
-                  "writing acceptance criteria",
-                  "naming stakeholders",
-                  "deciding what the system must enforce",
-                  "resisting the urge to invent a portal"]),
+         chatter=["turning vibes into 'the system shall'",
+                  "pretending to be a business analyst",
+                  "nobody says 'shall' in real life",
+                  "inventing a stakeholder who cares",
+                  "writing acceptance criteria nobody will read",
+                  "resisting the urge to add a dashboard",
+                  "deciding this counts as one requirement",
+                  "your scenario was three sentences, give me a moment",
+                  "no, team size is not a requirement",
+                  "being very normal about the word 'shall'",
+                  "extracting, allegedly",
+                  "this is the fun part"]),
     dict(node="grounding", label="grounding against the knowledge base",
          summary=lambda s: _grounding(s),
-         chatter=["matching requirements to clauses",
-                  "resolving clause ids",
-                  "checking named instruments actually exist",
-                  "separating regulations from tender precedent",
-                  "flagging claims the corpus cannot corroborate"]),
+         chatter=["demanding receipts",
+                  "citation needed",
+                  "asking 'says who?'",
+                  "making sure we did not make that up",
+                  "matching claims to clauses, suspiciously",
+                  "the corpus has never heard of this",
+                  "verifying, reluctantly",
+                  "a tender is not a regulation, sorry",
+                  "double-checking the paperwork"]),
     dict(node="classification", label="classifying",
          summary=lambda s: _categories(s),
-         chatter=["running the fine-tuned RoBERTa",
-                  "applying the calibrated threshold",
-                  "assigning multi-label categories"]),
+         chatter=["RoBERTa has opinions",
+                  "twenty-one milliseconds of pure judgement",
+                  "is this Security or Privacy? yes",
+                  "slapping labels on things",
+                  "one label was never going to be enough",
+                  "the classifier is suspiciously confident",
+                  "thirteen categories, no mercy"]),
     dict(node="quality", label="checking quality",
          summary=lambda s: _quality(s),
-         chatter=["looking for unmeasurable adjectives",
-                  "checking for undefined terminology",
-                  "testing each requirement for ambiguity",
-                  "ignoring its own citations as jargon"]),
+         chatter=["being deliberately annoying",
+                  "asking what 'user-friendly' means, again",
+                  "nitpicking professionally",
+                  "someone has to be the pedant",
+                  "'real-time' is not a number",
+                  "hunting weasel words",
+                  "this is the part everyone hates",
+                  "adjectives are not requirements",
+                  "yes it is testable, prove it",
+                  "no notes. actually, several notes"]),
     dict(node="sdlc", label="scoring the SDLC framework",
          summary=lambda s: (s["sdlc"].recommendation if s.get("sdlc") else "skipped"),
-         chatter=["answering the Requirements table",
-                  "answering Project Type & Risk",
-                  "asking whether this is an integration project",
-                  "checking the evidence is traceable",
-                  "counting matches against the supervisor's tables",
-                  "weighing Waterfall against V-Shaped",
-                  "ranking without looking at the scores",
-                  "writing the justification"]),
+         chatter=["consulting the sacred tables",
+                  "Waterfall versus V-Shaped, round forty-seven",
+                  "agile? in this economy?",
+                  "seven models enter, one leaves",
+                  "counting on fingers",
+                  "arguing with itself about integration",
+                  "trying very hard not to just say Agile",
+                  "ranking without peeking at the scores",
+                  "doing arithmetic, slowly, out loud",
+                  "the framework has spoken",
+                  "asking whether anything could still change its mind",
+                  "dropping the answers it cannot back up",
+                  "writing this up like an exam answer",
+                  "putting four months of project into one line",
+                  "nearly there, promise"]),
 ]
 
 # Where to interrupt the spinner and print. Requirements are only complete once
@@ -144,6 +180,15 @@ class _Progress:
     def __init__(self, order: list[str], skipped: set[str]):
         self.order = order
         self.skipped = skipped
+        # Set once the finished stages have been printed permanently -- after
+        # that this renders only the stage still working, so the checklist is
+        # not repeated below whatever was written in between.
+        self.compact = False
+        # Stages whose finished line has already been printed permanently. The
+        # checklist is not one block that redraws -- it grows downward, a line
+        # at a time, with results printed in between. Without this every
+        # milestone reprinted the whole list under the panel it had just shown.
+        self._committed: set[str] = set()
         self.done: dict[str, str] = {}
         self.t0 = time.perf_counter()
         self._cycle = None
@@ -179,6 +224,22 @@ class _Progress:
         t.add_column(width=2)
         t.add_column(width=38)
         t.add_column(style=C_DIM)
+
+        # Someone else owns the screen -- the interview. Draw nothing at all
+        # rather than trying to coexist.
+        if render.is_muted():
+            return t
+
+        if self.compact:
+            if not self._current:
+                return t
+            st = BY_NODE[self._current]
+            t.add_row(Spinner("dots", style=C_KEY),
+                      f"[{C_KEY}]{st['label']}[/]",
+                      f"[dim italic]{self._chatter}[/]  "
+                      f"[dim]{self.elapsed:.0f}s[/]")
+            return t
+
         for st in STAGES:
             node, label = st["node"], st["label"]
             if node in self.skipped:
@@ -194,19 +255,64 @@ class _Progress:
                 t.add_row("", f"[dim]{label}[/]", "")
         return t
 
-    def final(self) -> Table:
-        """The same checklist with nothing in flight, for scrollback."""
+    def _row(self, t: Table, node: str, label: str, running: bool = False) -> None:
+        if node in self.skipped:
+            t.add_row("", f"[dim]{label}[/]", "[dim]skipped[/]")
+        elif node in self.done:
+            t.add_row(f"[{C_OK}]\u2713[/]", label, self.done[node])
+        elif running:
+            t.add_row(f"[{C_KEY}]\u00b7[/]", f"[{C_KEY}]{label}[/]",
+                      "[dim]in progress[/]")
+        else:
+            t.add_row("", f"[dim]{label}[/]", "")
+
+    def commit_new(self, include_running: bool = False) -> Table | None:
+        """The stages that have finished since the last commit, ready to print.
+
+        Returns None when nothing new has finished, so a caller can skip
+        printing an empty block. Marks what it returns as committed, so the same
+        line is never printed twice.
+        """
+        t = Table.grid(padding=(0, 1))
+        t.add_column(width=2)
+        t.add_column(width=38)
+        t.add_column(style=C_DIM)
+        rows = 0
+        for st in STAGES:
+            node = st["node"]
+            if node in self._committed:
+                continue
+            if node in self.done or node in self.skipped:
+                self._row(t, node, st["label"])
+                self._committed.add(node)
+                rows += 1
+            elif include_running and node == self._current:
+                self._row(t, node, st["label"], running=True)
+                rows += 1
+        return t if rows else None
+
+    def snapshot(self) -> Table | None:
+        """What to freeze into the scrollback before someone writes under it."""
+        return self.commit_new(include_running=True)
+
+    def final(self) -> Table | None:
+        """Whatever has not been printed yet, once the graph has returned."""
         self._current = None
         self._cycle = None
-        return self.__rich__()
+        self.compact = False
+        return self.commit_new()
 
 
 class ScenarioSession:
     def __init__(self, use_rag: bool = True, run_sdlc: bool = True,
-                 classifier: str = "auto"):
+                 classifier: str = "auto", interactive: bool = True):
         self.use_rag = use_rag
         self.run_sdlc = run_sdlc
         self.classifier = classifier
+        # Off for one-shot and scripted runs: a batch loop or a --json eval
+        # must never stop for input it will never get.
+        self.interactive = interactive
+        self.detail = False
         self.last_state: dict | None = None
 
     def handle(self, text: str) -> dict:
@@ -226,10 +332,18 @@ class ScenarioSession:
             "classifier": self.classifier, "use_rag": self.use_rag,
             "context": [], "grounding": {}, "sdlc": None,
             "run_sdlc": self.run_sdlc,
+            # The SDLC node asks its follow-up questions only when this is set,
+            # and it asks them BEFORE scoring, so one recommendation is printed
+            # rather than one that is immediately superseded.
+            "interactive": self.interactive,
         }
 
         live = Live(prog, console=console, refresh_per_second=8, transient=True)
         live.start()
+        # Tell the rest of the app who owns the terminal, so the interview --
+        # which fires from deep inside the graph and cannot reach this object --
+        # can quiet it before prompting.
+        render.set_live(live, prog)
         try:
             for chunk in build_pipeline().stream(state, stream_mode="updates"):
                 for node, update in chunk.items():
@@ -246,19 +360,31 @@ class ScenarioSession:
                     milestone = MILESTONES.get(node)
                     if milestone:
                         live.stop()
+                        # The lines that just finished, printed once and left
+                        # alone -- then the result underneath them. The list
+                        # grows downward instead of redrawing whole.
+                        newly = prog.commit_new()
+                        if newly is not None:
+                            console.print(newly)
                         self._emit(milestone, state, prog.elapsed)
                         if any(n not in prog.done for n in order):
+                            prog.compact = True
                             live = Live(prog, console=console,
                                         refresh_per_second=8, transient=True)
                             live.start()
+                            render.set_live(live, prog)
         finally:
             try:
                 live.stop()
             except Exception:
                 pass
+            render.set_live(None)
 
-        console.print(prog.final())
+        tail = prog.final()
+        if tail is not None:
+            console.print(tail)
         console.print(f"[dim]done in {prog.elapsed:.0f}s[/]")
+
         render.print_review(needs_review(state))
         self.last_state = state
         return state
@@ -270,4 +396,4 @@ class ScenarioSession:
         elif what == "quality":
             render.print_quality(state.get("quality_report"))
         elif what == "sdlc":
-            render.print_sdlc(state.get("sdlc"))
+            render.print_sdlc(state.get("sdlc"), detail=self.detail)

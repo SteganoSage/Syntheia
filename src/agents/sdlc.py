@@ -292,33 +292,95 @@ CONTEXT_PROMPT = """\
 You are a software engineering analyst. Given a project's problem statement, \
 answer questions about how the PROJECT will be run — its team and its users.
 
+Two failures are possible here and they are NOT symmetric in how often they \
+happen. Inventing an answer is the obvious one. The commoner one is missing an \
+answer that is sitting in the text in different words.
+
 Rules:
-- Answer ONLY from the problem statement. These questions are about people and \
-circumstances, not about the software.
-- **Answer not_stated whenever the statement does not say.** Most statements are \
-silent on several of these, and that is the correct answer — do not infer a team's \
-experience from the kind of system being built, or users' availability from the \
-fact that they are users. A wrong answer here scores against every model exactly \
-as a right one would.
-- When you do answer yes or no, quote the words from the statement that say so \
-in `evidence`. If you cannot quote them, the answer is not_stated.
+- Answer ONLY from the problem statement. Never infer a team's experience from \
+the kind of system being built, or users' availability from the fact that they \
+are users.
+- **But when the statement DOES say something, record it — even if it does not \
+use the words in the question.** These questions are phrased for a scoring \
+sheet; a real brief never phrases things that way. "The company has \
+considerable prior experience in product lines similar to this" is a direct \
+answer to whether the team is new to the problem domain. So is "they have never \
+built ML systems before", in the other direction.
+- `not_stated` is for subjects the statement does not touch at all — not for \
+subjects it addresses in its own words.
+- When you answer yes or no, quote the words that say so in `evidence`. If you \
+cannot quote them, the answer is not_stated.
 - `reasoning` is one sentence naming what decided it.
 - Answer EVERY question, using the exact question ids.
 
-Both outcomes are common. Two worked examples:
+Worked examples, in both directions:
 
-  Statement: "...they have never built ML systems before."
-  Question:  "Are the majority of team members new to the technology domain?"
-  Answer:    yes — evidence "never built ML systems before". The statement says
-             it, so answer it.
+  "...they have never built ML systems before."
+  Q: Are the majority of team members new to the technology domain?
+  → yes. Evidence "never built ML systems before".
 
-  Statement: "The team has 15 developers, funding is approved for 18 months."
-  Question:  "Is there training available for the project team if required?"
-  Answer:    not_stated — team SIZE is given, but nothing about training.
+  "The company has considerable prior experience in product lines similar to
+   this."
+  Q: Are the majority of team members new to the problem domain?
+  → NO. Prior experience in similar products is the opposite of new to it.
+    Evidence "considerable prior experience in product lines similar to this".
 
-Answering a question the statement addresses is as important as declining one it
-does not. Do not default to not_stated.
+  "...then iterate based on user feedback."
+  Q: Do the users want to be involved in all phases of the life cycle?
+  → yes. Evidence "iterate based on user feedback".
+
+  "The team has 15 developers, funding is approved for 18 months."
+  Q: Is there training available for the project team if required?
+  → not_stated. Team SIZE and FUNDING are given; training is not mentioned at
+    all, in any words.
+
+Both outcomes are common. Declining a question the statement does not address
+is as important as answering one it does — and answering one it does address is
+as important as declining one it does not.
 """
+
+
+# Vocabulary that marks a sentence as being ABOUT the team or ABOUT the users.
+# Deliberately generous -- a false positive costs one sentence of prompt, a
+# false negative loses a fact the scenario actually states.
+_MENTIONS = {
+    "project_team": re.compile(
+        r"\b(team|teams|developer|developers|engineer|engineers|programmer|"
+        r"staff|staffing|headcount|people|resource|resources|hire|hired|"
+        r"hiring|experience|experienced|expertise|skilled|skill|familiar|"
+        r"trained|training|novice|never built|first time|in-house|contractor|"
+        r"vendor|reassign|replaced|dedicated)\b", re.I),
+    "user_community": re.compile(
+        r"\b(user|users|customer|customers|client|clients|stakeholder|"
+        r"stakeholders|representative|representatives|end.user|audience|"
+        r"feedback|involve|involved|involvement|consulted|available|"
+        r"availability|business user|domain expert)\b", re.I),
+}
+
+_SENTENCE = re.compile(r"(?<=[.!?])\s+|\n+")
+
+
+def relevant_sentences(scenario: str, table: str) -> list[str]:
+    """The sentences that say anything at all about this table's subject.
+
+    A deterministic pre-filter, and the fix for the thing that made this step
+    oscillate. One LLM call was answering two different questions at once --
+    "does the scenario mention the team?" and "what does it say?" -- and the
+    first is retrieval, which a regex does perfectly, while the second is
+    judgement. Conflated, the model would either read the team out of a brief
+    that never mentions one, or miss "considerable prior experience in product
+    lines similar to this" because the surrounding text was about wristwatches.
+
+    Separated: if nothing here matches, the scenario genuinely does not discuss
+    the subject, no model is asked to pretend otherwise, and the interview asks.
+    If something matches, the model sees only those sentences -- a much smaller
+    and more pointed task than reading a whole brief for nine rubric questions.
+    """
+    pattern = _MENTIONS.get(table)
+    if not pattern:
+        return [scenario] if scenario.strip() else []
+    return [s.strip() for s in _SENTENCE.split(scenario)
+            if s.strip() and pattern.search(s)]
 
 
 def infer_project_context(scenario: str,
@@ -340,23 +402,116 @@ def infer_project_context(scenario: str,
 
     by_table: dict[str, list[Question]] = {}
     for q in questions:
+        by_table.setdefault(q.table, []).append(q)
+
+    out: list[CriterionAnswer] = []
+    for table, table_qs in by_table.items():
+        table_name = table_qs[0].table_name
+        valid = {q.id for q in table_qs}
+
+        # Does the scenario discuss this subject at all? Decided in code, not by
+        # the model. When it does not, no call is made -- there is nothing to
+        # read, and asking a model to read it anyway is how the fabricated team
+        # answers started.
+        sentences = relevant_sentences(scenario, table)
+        if not sentences:
+            out.extend(CriterionAnswer(
+                question_id=q.id, answer="not_stated", evidence=[],
+                reasoning=f"The problem statement does not mention the "
+                          f"{table_name.lower()} at all.")
+                for q in table_qs)
+            continue
+
+        # It does -- so the model reads ONLY those lines. A pointed task on two
+        # sentences beats the same task on a whole brief, and it cannot drift
+        # onto text that has nothing to do with the question.
+        excerpt = "\n".join(f"- {x}" for x in sentences)
+        result = call_structured(
+            system_prompt=CONTEXT_PROMPT,
+            user_prompt=(
+                f"These are the only lines in the problem statement that "
+                f"mention the {table_name.lower()}:\n\n{excerpt}\n\n"
+                f"Answer these questions from them:\n\n"
+                f"{_format_questions(table_qs)}"
+            ),
+            response_model=CriterionAnswerSet,
+            temperature=0.0,
+        )
+        out.extend(_gate_on_evidence(
+            [a for a in result.answers if a.question_id in valid],
+            "\n".join(sentences)))
+    return out
+
+
+REPLY_PROMPT = """\
+A person was just asked about their project and this is their answer. Read it \
+and record what they said.
+
+This is a REPLY, not a document. They were asked these exact questions and are \
+answering them, so **expect answers, not silence.** Reading a direct answer as \
+"not stated" throws away the thing they took the trouble to tell you.
+
+Rules:
+- **A hedge is an answer.** "maybe they're new to the tech", "I think so", \
+"probably not" all answer the question. Record the direction they lean. Only \
+`not_stated` when they did not touch the subject at all.
+- Informal spelling and grammar are normal here. Read what they meant: "knew to \
+technology" means NEW to the technology; "ya" means yes; "2-3 member" means a \
+team of two or three.
+- One sentence often answers several questions. "they know the domain but are \
+new to the tech and training is available" answers three.
+- **But do not stretch one sentence onto a question it does not address.** The \
+business area, the technology and the specific tools are three different \
+questions: being new to the technology says nothing about the tools, and a \
+quote about one is not evidence about another. If they did not mention it, it \
+is `not_stated`.
+- Read the whole reply for each question before answering. "they are not to be \
+replaced" answers whether people will be reassigned, even though it does not \
+use that word.
+- Quote their own words in `evidence`. If you cannot quote them, it is \
+`not_stated`.
+- `reasoning` is one sentence naming what they said that decided it.
+- Answer EVERY question, using the exact question ids.
+"""
+
+
+def infer_from_reply(reply: str,
+                     questions: list[Question]) -> list[CriterionAnswer]:
+    """Read framework answers out of what a person said when asked.
+
+    Separate from `infer_project_context` because the two read different things
+    and need opposite defaults. A problem statement is usually silent on the
+    team, so that prompt leans hard on `not_stated` -- correctly, since inferring
+    there produced fabrications in every run. A reply to a direct question is the
+    opposite: silence is the unlikely case, and the same caution made the model
+    answer "not stated" to "training is available" when asked whether training
+    was available.
+
+    The evidence gate is unchanged. An answer that cannot be quoted from what
+    they actually said is still dropped, so a generous reading buys no licence
+    to invent.
+    """
+    if not reply.strip():
+        return []
+
+    by_table: dict[str, list[Question]] = {}
+    for q in questions:
         by_table.setdefault(q.table_name, []).append(q)
 
     out: list[CriterionAnswer] = []
     for table_name, table_qs in by_table.items():
         valid = {q.id for q in table_qs}
         result = call_structured(
-            system_prompt=CONTEXT_PROMPT,
-            user_prompt=(
-                f"Problem statement:\n\n{scenario}\n\n"
-                f"Answer these questions about the project's "
-                f"{table_name.lower()}:\n\n{_format_questions(table_qs)}"
-            ),
+            system_prompt=REPLY_PROMPT,
+            user_prompt=(f"They were asked about the project's "
+                         f"{table_name.lower()} and said:\n\n\"{reply}\"\n\n"
+                         f"Record their answers to:\n\n"
+                         f"{_format_questions(table_qs)}"),
             response_model=CriterionAnswerSet,
             temperature=0.0,
         )
         out.extend(_gate_on_evidence(
-            [a for a in result.answers if a.question_id in valid], scenario))
+            [a for a in result.answers if a.question_id in valid], reply))
     return out
 
 
@@ -388,29 +543,33 @@ def cross_check(requirements: list[Requirement], framework: Framework) -> CrossC
 
 JUSTIFY_PROMPT = """\
 You are a software engineering analyst writing the rationale for an SDLC \
-selection that has already been made by scoring the project against a selection \
-framework.
+selection that has ALREADY been made by scoring the project against a selection \
+framework. Explain the outcome — do not re-decide it.
 
-You are given, for each of the top candidates, which framework questions its \
-profile matched and which it did not. Explain the outcome — do not re-decide it.
+You are given, for each candidate, every framework question its profile matched \
+and the ones it did not, with BOTH answers and a MATCH/MISMATCH verdict.
+
+Fill the fields:
+
+- `advantages` — each candidate's advantages are LISTED FOR YOU under its \
+scoring block. Copy each `advantage` across **exactly as written** and fill in \
+only `relevance`: one sentence on what that property buys THIS project, \
+pointing at something concrete from the scenario or the requirements. Quote the \
+requirement rather than citing "REQ-002" alone. A `relevance` line that would \
+read the same for any financial system is not an answer, and the three \
+candidates must not share one.
+- `shortcut` — one line for the whole decision, traits joined by "+", ending in \
+the chosen model. Example: "stable requirements + as-is conversion + critical \
+payroll system + strong testing requirement + fixed schedule -> V-Model".
 
 Rules:
-- Cite framework question ids (REQ-3, PTR-2, ...) and requirement ids (REQ-002) \
-in every justification.
-- Each question shows BOTH answers: what the project answered and what this \
-SDLC model expects, then a MATCH or MISMATCH verdict. **Read the verdict; do \
-not infer it.** A model "agrees" when the two answers are equal — which often \
-means agreeing on a NO.
-- **A MISMATCH means this model assumes the opposite of what the project needs. \
-Never credit a model with a property it mismatches on.** If the project needs \
-staged verification (PTR-6 = YES) and Waterfall expects NO, then Waterfall does \
-NOT provide staged verification — say that it gives this up, never that it \
-suits it. Getting this backwards inverts the entire justification.
-- Say what each model gives up, not only what it offers.
-- In the summary, name the runner-up and state what would have to be different \
-about the project for it to win instead.
-- Be concrete about this project. A justification that would read the same for \
-any financial system is not useful.
+- The FINAL STANDING is given and is already decided. Do not re-rank, and name \
+no runner-up other than the one stated.
+- Do not count. Each scoreline is given; never state a total that contradicts it.
+- **No question ids anywhere in your output.** They are internal labels for a \
+scoring sheet; a reader sees only the criterion itself. Requirement ids are \
+different — REQ-002 is a label for something printed above, so it may be cited, \
+but quote the requirement alongside it.
 """
 
 
@@ -454,14 +613,30 @@ def justify(requirements: list[Requirement], framework: Framework,
                 f'   ->  {verdict}')
 
     blocks = []
-    for s in top:
+    for rank, s in enumerate(top, start=1):
         mid, mname = s.model.id, s.model.name
-        matched = "\n    ".join(render(q, mid, mname) for q in s.matched[:6]) or "none"
-        missed = "\n    ".join(render(q, mid, mname) for q in s.missed[:4]) or "none"
+        # Every match, capped misses. The old 6/4 split gave the WINNER a third
+        # of its evidence as reasons against itself, and the justification read
+        # like a case for the prosecution. Worse, truncating matches made the
+        # model fill the gap: with 8 matches cut to 6 it asserted Prototype
+        # "assumes the funding will be stable, which is not the case" -- PTR-4
+        # was a match that fell off the end.
+        matched = "\n    ".join(render(q, mid, mname) for q in s.matched) or "none"
+        missed = "\n    ".join(render(q, mid, mname) for q in s.missed[:3]) or "none"
+        # A scoreline the model cannot miscount. It repeatedly invented totals
+        # ("matches on 6 out of 11 properties" for a model scoring 10/11).
+        role = ("RECOMMENDED — explain why it WON"
+                if rank == 1 else f"ranked #{rank}")
+        adv = "\n    ".join(f"- {a}" for a in s.model.advantages) or "none listed"
         blocks.append(
-            f"{mname} — scored {s.score:.0%} ({len(s.matched)}/{s.answered})\n"
-            f"  WHERE {mname.upper()} FITS:\n    {matched}\n"
-            f"  WHERE {mname.upper()} DOES NOT FIT:\n    {missed}"
+            f"{mname} [{role}] — {len(s.matched)} of {s.answered} match "
+            f"({s.score:.0%})\n"
+            f"  {mname.upper()}'S ADVANTAGES (copy these verbatim, write only "
+            f"the relevance):\n    {adv}\n"
+            f"  FITS on {len(s.matched)}:\n    {matched}\n"
+            f"  DOES NOT FIT on {len(s.missed)}"
+            + (f" (showing 3)" if len(s.missed) > 3 else "")
+            + f":\n    {missed}"
         )
 
     evidence = "\n".join(
@@ -469,6 +644,23 @@ def justify(requirements: list[Requirement], framework: Framework,
         f"[{', '.join(a.evidence) or 'no requirement cited'}] {a.reasoning}"
         for a in answers
     )
+    # Name the runner-up rather than leaving it to be worked out. The summary
+    # field asks what "the runner-up" would need to win, and nothing told the
+    # model which one that was -- it inferred it from the blocks and could as
+    # easily have named #3, or a model tied at a lower score. The ranking is
+    # already computed; stating it costs one line and removes the guess.
+    standing = "\n".join(
+        f"  #{i}  {x.model.name}  {x.score:.0%} ({len(x.matched)}/{x.answered})"
+        f"{'   <- RECOMMENDED' if i == 1 else ''}"
+        f"{'   <- RUNNER-UP' if i == 2 else ''}"
+        for i, x in enumerate(top, start=1))
+    runner_up = top[1].model.name if len(top) > 1 else None
+    standing_note = (
+        f"\n\nFINAL STANDING (already decided — do not re-rank):\n{standing}\n"
+        + (f'When the summary says "the runner-up", it means {runner_up}. '
+           f"Name no other model as the runner-up.\n" if runner_up else "")
+    )
+
     tie_note = ""
     if tied_with and len(tied_with) > 1:
         # Without this the summary invents a margin: asked to name "the
@@ -481,16 +673,70 @@ def justify(requirements: list[Requirement], framework: Framework,
             f"answered. Do not claim one is the better fit.\n"
         )
 
-    return call_structured(
+    result = call_structured(
         system_prompt=JUSTIFY_PROMPT,
         user_prompt=(
             f"Requirements:\n\n{_format_requirements(requirements)}\n\n"
             f"How the project answered the framework:\n{evidence}\n\n"
-            f"Scoring outcome:\n\n" + "\n\n".join(blocks) + tie_note
+            f"Scoring outcome:\n\n" + "\n\n".join(blocks)
+            + standing_note + tie_note
         ),
         response_model=JustificationSet,
         temperature=0.0,
     )
+
+    # Fill in the fits from the scoring, not from the model. Every bullet here
+    # is a question this model demonstrably matched, phrased from the framework
+    # file -- so it cannot list a mismatch as a reason, cannot invert a
+    # direction, and cannot miscount.
+    by_name = {s.model.name: s for s in top}
+    for j in result.justifications:
+        scored = by_name.get(j.model)
+        if not scored:
+            continue
+        # The advantage names come from the framework, not the model -- it
+        # inverted the two fields (a whole sentence in `advantage`, a bare
+        # "REQ-002" in `relevance`) and emitted one identical list for all three
+        # candidates. Only `relevance` is its work, so only `relevance` is kept.
+        canon = list(scored.model.advantages)
+        if canon:
+            paired = []
+            for i, a in enumerate(j.advantages[:len(canon)]):
+                a.advantage = canon[i]
+                paired.append(a)
+            j.advantages = paired
+        # The cost, composed from what this model actually missed. Generated,
+        # it claimed V-Shaped "gives up the need for formal verification and
+        # testing at multiple stages" -- which is V-Shaped's defining property.
+        # A mismatch means the project needs something this model does not
+        # provide, and that is arithmetic, not judgement.
+        # Phrased from the MODEL's assumption, not the project's answer. A miss
+        # means the methodology is built for a situation this project is not in,
+        # so "X assumes <what X expects>, which is not the case here" is both
+        # correct and readable. Framing it the other way round produced "This
+        # project needs this is not an extension of an existing system".
+        costs = []
+        for qid in scored.missed[:2]:
+            q = framework.question(qid)
+            if q:
+                costs.append(q.says(q.expects[scored.model.id]))
+        if costs:
+            body = costs[0] + (f", and that {costs[1]}" if len(costs) > 1 else "")
+            tail = ("neither is true here" if len(costs) > 1 else "that is not the "
+                    "case here")
+            j.gives_up = (f"{j.model} assumes {body} — {tail}, so that part of "
+                          f"its design earns nothing on this project.")
+        else:
+            j.gives_up = (f"Nothing in this project's profile works against "
+                          f"{j.model}.")
+
+        j.why_it_fits = [
+            framework.question(qid).says(by_id[qid].as_bool)
+            for qid in scored.matched
+            if framework.question(qid) and qid in by_id
+            and by_id[qid].as_bool is not None
+        ][:6]
+    return result
 
 
 # ── Orchestration ──────────────────────────────────────────────────────
@@ -499,7 +745,8 @@ def recommend_sdlc(requirements: list[Requirement],
                    framework: Framework | None = None,
                    supplied_answers: dict[str, bool] | None = None,
                    run_cross_check: bool = True,
-                   scenario: str = "") -> SDLCRecommendation:
+                   scenario: str = "",
+                   ask_user=None) -> SDLCRecommendation:
     """Requirements in, ranked SDLC recommendation with justification out.
 
     `supplied_answers` covers the Project Team and User Community tables, which
@@ -523,13 +770,42 @@ def recommend_sdlc(requirements: list[Requirement],
         answer_map.update({k: bool(v) for k, v in supplied_answers.items()
                            if fw.question(k)})
 
+    # Fill the gaps BEFORE scoring, not after. `ask_user` is supplied only when
+    # a person is at a terminal; it receives the answers so far and returns any
+    # it could establish by asking. Doing this after scoring would mean showing
+    # a recommendation and then retracting it, which teaches a reader to
+    # distrust the first number -- and the first number was never meant to be
+    # shown.
+    if ask_user is not None:
+        # An answer with no evidence behind it is a guess that scores exactly
+        # like a fact. Offer those for asking about too, not just the blanks.
+        weak = {a.question_id for a in inferred
+                if a.as_bool is not None and not a.evidence}
+        extra = ask_user(fw, dict(answer_map), weak) or {}
+        for qid, val in extra.items():
+            if fw.question(qid):
+                answer_map[qid] = bool(val)
+                # Record it alongside the inferred answers so `criteria` and
+                # `coverage` describe the decision that was actually made.
+                inferred = [a for a in inferred if a.question_id != qid]
+                inferred.append(CriterionAnswer(
+                    question_id=qid, answer="yes" if val else "no",
+                    evidence=["supplied by the user when asked"],
+                    reasoning="Established in conversation, not from the scenario."))
+
     scores = fw.score(answer_map)
     top = scores[:TOP_N]
+    # Only the winner is explained. Justifying the runners-up produced three
+    # near-identical blocks -- the same fits, the same advantages, the same
+    # cost -- because the interesting differences are small and the model
+    # padded. The ranking is still printed; what a reader wants is one correct
+    # argument, not three interchangeable ones.
+    explained = scores[:1]
     tied = [s.model.name for s in scores if abs(s.score - scores[0].score) < 1e-9]
     tied_with = tied if len(tied) > 1 else []
 
     xc = cross_check(requirements, fw) if run_cross_check else None
-    just = justify(requirements, fw, top, inferred, tied_with)
+    just = justify(requirements, fw, explained, inferred, tied_with)
 
     agrees = None
     if xc and xc.ranked_models:
@@ -545,6 +821,7 @@ def recommend_sdlc(requirements: list[Requirement],
         criteria=inferred,
         justifications=just.justifications,
         summary=just.recommendation_summary,
+        shortcut=just.shortcut,
         coverage={k: TableCoverage(**v) for k, v in fw.coverage(answer_map).items()},
         cross_check_ranking=xc.ranked_models if xc else [],
         cross_check_reasoning=xc.reasoning if xc else "",

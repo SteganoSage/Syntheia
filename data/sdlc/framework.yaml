@@ -39,21 +39,51 @@ extended: 2026-09-17
 models:
   - id: waterfall
     name: Waterfall
+    advantages:
+      - "Predictable schedule and cost"
+      - "Clear phase gates and sign-offs"
+      - "Documentation produced as you go"
+      - "Simple to manage and staff"
     source: supervisor_framework
   - id: v_shaped
     name: V-Shaped
+    advantages:
+      - "Testing planned alongside each development stage"
+      - "Test cases written early, from the requirements"
+      - "Defects found at the stage that caused them"
+      - "Every requirement traceable to a test"
     source: supervisor_framework
   - id: prototype
     name: Prototype
+    advantages:
+      - "A working model quickly"
+      - "Requirements clarified by seeing them run"
+      - "Technical risk investigated before committing"
+      - "Early feedback from real users"
     source: supervisor_framework
   - id: spiral
     name: Spiral
+    advantages:
+      - "Risk assessed and addressed every cycle"
+      - "Expensive commitments deferred until risk drops"
+      - "Prototyping and planning combined"
+      - "Natural stopping points if funding changes"
     source: supervisor_framework
   - id: rad
     name: RAD
+    advantages:
+      - "Delivery in weeks rather than months"
+      - "Heavy reuse of existing components"
+      - "Users see working software continuously"
+      - "Timeboxing forces scope discipline"
     source: supervisor_framework
   - id: incremental
     name: Incremental
+    advantages:
+      - "Usable software delivered in stages"
+      - "Value in production before the whole is finished"
+      - "Later increments absorb what earlier ones taught"
+      - "Risk spread across releases rather than one launch"
     source: supervisor_framework
 
   # NOT in the supervisor's tables, which carry six columns and no Agile.
@@ -64,6 +94,11 @@ models:
   # mistake it for the supervisor's own.
   - id: agile
     name: Agile
+    advantages:
+      - "Change absorbed without re-planning the project"
+      - "Working software every iteration"
+      - "Priorities re-set as the business learns"
+      - "Close, continuous contact with users"
     source: derived
     basis: >-
       Agile Manifesto principles and standard SDLC selection criteria.
@@ -78,30 +113,40 @@ tables:
     questions:
       - id: REQ-1
         text: "Are the requirements easily defined and/or well known?"
+        says_yes: "the requirements are already well understood"
+        says_no: "the requirements are not yet well understood"
         gloss: >-
           Yes when the requirements already exist somewhere authoritative and only need transcribing -- an RFP, a regulation, or an existing system being reproduced. No when the organisation is still working out what it wants.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: false, agile: false}
         agile_rationale: "Agile exists for requirements that are not well known up front."
       - id: REQ-2
         text: "Can the requirements be defined early in the cycle?"
+        says_yes: "the full set can be pinned down before build starts"
+        says_no: "the full set cannot be pinned down before build starts"
         gloss: >-
           Can the full set be pinned down BEFORE build starts? This is about timing, not difficulty.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: false}
         agile_rationale: "Requirements emerge across iterations rather than being fixed at the outset."
       - id: REQ-3
         text: "Will the requirements change often in the cycle?"
+        says_yes: "scope is expected to keep changing as work goes on"
+        says_no: "scope is settled and is not expected to change"
         gloss: >-
           About scope churn after work begins -- new or changed requirements. Not about whether the software itself is configurable.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: true}
         agile_rationale: "Responding to change over following a plan is the central premise."
       - id: REQ-4
         text: "Is there a need to demonstrate the requirements to achieve definition?"
+        says_yes: "stakeholders need to see something working before they can say what they want"
+        says_no: "stakeholders can specify what they want without seeing it first"
         gloss: >-
           Do stakeholders need to see something working before they can say what they want? Yes for 'we'll know it when we see it'.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
         agile_rationale: "Working software each iteration is how requirements get settled."
       - id: REQ-5
         text: "Is a proof of concept required to demonstrate capability?"
+        says_yes: "technical feasibility itself is in doubt and has to be proven"
+        says_no: "technical feasibility is not in doubt"
         gloss: >-
           Is technical FEASIBILITY itself in doubt -- can this even be built? Not the same as wanting an early release.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: true, incremental: false, agile: true}
@@ -113,24 +158,32 @@ tables:
     questions:
       - id: PTR-1
         text: "Does the project identify a new product direction for the organization?"
+        says_yes: "this takes the organisation somewhere it has not been before"
+        says_no: "this is familiar ground for the organisation"
         gloss: >-
           Yes when this takes the organisation into a product, market or capability it has not had before. A new channel or interface for an existing business line is not a new direction.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: true}
         agile_rationale: "Incremental delivery suits an unproven direction; course correction is cheap."
       - id: PTR-2
         text: "Is the project a system integration project?"
+        says_yes: "the system has to interoperate with systems outside itself"
+        says_no: "the system stands on its own"
         gloss: >-
           Yes when the system must interoperate with systems outside itself -- external databases, third-party APIs, regulator or bureau services, existing internal platforms. This is NOT asking whether a systems-integrator vendor is doing the work.
         expects: {waterfall: false, v_shaped: true, prototype: true, spiral: true, rad: true, incremental: true, agile: true}
         agile_rationale: "Continuous integration makes integration risk visible early and often."
       - id: PTR-3
         text: "Is the project an enhancement to an existing system?"
+        says_yes: "an existing system is being extended"
+        says_no: "this is not an extension of an existing system"
         gloss: >-
           Yes when an existing system is being extended or modified. A replacement or re-platforming that reproduces existing behaviour is NOT an enhancement -- nothing is being added.
         expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
         agile_rationale: "Enhancement work decomposes naturally into independently shippable increments."
       - id: PTR-4
         text: "Is the funding for the project expected to be stable throughout the life cycle?"
+        says_yes: "funding is settled for the life of the project"
+        says_no: "funding is not settled for the life of the project"
         gloss: >-
           Yes only when the problem statement says funding or budget is approved, committed or fixed. Requirements never testify about funding.
         evidence_from: scenario
@@ -138,9 +191,13 @@ tables:
         agile_rationale: "Iteration boundaries are natural stopping points when funding is uncertain -- matching Spiral and Incremental."
       - id: PTR-5
         text: "Is the product expected to have a long life in the organization?"
+        says_yes: "the product will be running for years"
+        says_no: "the product is not expected to be long-lived"
         gloss: >-
-          Yes for infrastructure the organisation will run for years. A proof of concept that may not proceed is not.
-        evidence_from: scenario
+          Yes for infrastructure the organisation will run for years -- a core banking
+          system, a payroll system, a payments platform, a KYC pipeline. A proof of
+          concept that may not proceed is not. What the system IS answers this; the
+          statement does not have to say "long life" in words.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: true}
         agile_rationale: "Continuous evolution and refactoring are how Agile sustains a long-lived product."
 
@@ -158,6 +215,8 @@ tables:
       - id: PTR-6
         origin: derived
         text: "Does the project require formal verification and testing at multiple stages?"
+        says_yes: "verification is required at every stage, not once at the end"
+        says_no: "verification at every stage is not required"
         gloss: >-
           Yes when the project calls for verification at each stage of development, rather than one test phase at the end.
         expects: {waterfall: false, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: true}
@@ -180,30 +239,44 @@ tables:
     questions:
       - id: TEAM-1
         text: "Are the majority of team members new to the problem domain for the project?"
+        says_yes: "the team is new to this business area"
+        says_no: "the team already knows this business area"
         gloss: >-
           The PROBLEM domain -- the business area. Not the technology.
+          POLARITY: answer NO when the statement says they HAVE experience in the business area ('considerable prior experience in similar product lines' → NO). Answer YES only when it says they LACK it.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: false, agile: false}
         agile_rationale: "Agile relies on a self-organising team with enough domain judgement to make decisions each iteration."
       - id: TEAM-2
         text: "Are the majority of team members new to the technology domain for the project?"
+        says_yes: "the team is new to this technology"
+        says_no: "the team already knows this technology"
         gloss: >-
           The TECHNOLOGY domain -- the languages, platforms and techniques. Not the business area.
+          POLARITY: answer NO when the statement says they already know the technology. Answer YES only when it says they do not ('never built ML systems before' → YES).
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Short iterations leave little slack for learning an unfamiliar stack."
       - id: TEAM-3
         text: "Are the majority of team members new to the tools to be used on the project?"
+        says_yes: "the team is new to the tooling"
+        says_no: "the team already knows the tooling"
         gloss: >-
           The specific tooling: IDEs, build systems, frameworks, infrastructure.
+          POLARITY: answer NO when they already use these tools; YES only when the statement says the tools are unfamiliar.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: false, agile: false}
         agile_rationale: "As TEAM-2: tooling fluency is assumed by the iteration cadence."
       - id: TEAM-4
         text: "Are the team members subject to reassignment during the life cycle?"
+        says_yes: "people will be pulled onto other work during the project"
+        says_no: "the team stays on the project throughout"
         gloss: >-
           Yes when the statement says people will be pulled onto other work. Team SIZE says nothing about this.
+          POLARITY: answer NO when people are staying on the project ('irreplaceable', 'not to be replaced', 'dedicated' → NO). Answer YES only when it says they will be pulled onto other work.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Velocity and shared context depend on a stable team."
       - id: TEAM-5
         text: "Is there training available for the project team if required?"
+        says_yes: "training is available if the team needs it"
+        says_no: "no training is available"
         gloss: >-
           Yes when the statement mentions training, upskilling or onboarding being available.
         expects: {waterfall: false, v_shaped: true, prototype: false, spiral: false, rad: true, incremental: true, agile: true}
@@ -215,24 +288,34 @@ tables:
     questions:
       - id: USER-1
         text: "Will the availability of the user representatives be restricted, or limited during the life cycle?"
+        says_yes: "the user representatives' time will be limited"
+        says_no: "the user representatives will be readily available"
         gloss: >-
           About the user representatives' AVAILABILITY to the project -- how much of their time it gets.
+          POLARITY: answer NO when users are readily available; YES only when their time is limited or hard to get.
         expects: {waterfall: true, v_shaped: true, prototype: false, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "An available customer representative is a defining Agile practice."
       - id: USER-2
         text: "Are the user representatives new to system definition?"
+        says_yes: "the user representatives have not specified software before"
+        says_no: "the user representatives have specified software before"
         gloss: >-
           About the USER representatives' experience with specifying software -- not the development team's. A fact about the team does not answer this.
+          POLARITY: answer NO when the user representatives have specified software before; YES only when they have not.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: true, rad: false, incremental: true, agile: false}
         agile_rationale: "Agile asks users to prioritise a backlog, which assumes some fluency."
       - id: USER-3
         text: "Are the user representatives experts in the problem domain?"
+        says_yes: "the user representatives know the business area well"
+        says_no: "the user representatives are not experts in the business area"
         gloss: >-
           Are the user representatives experts in the BUSINESS area? Usually yes for internal stakeholders, unknown for end customers.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: true, agile: true}
         agile_rationale: "Domain-expert users are what make short feedback loops worth having."
       - id: USER-4
         text: "Do the users want to be involved in all phases of the life cycle?"
+        says_yes: "the users want to be involved throughout"
+        says_no: "the users do not want to be involved throughout"
         gloss: >-
           Yes when the statement says users will be engaged throughout -- feedback loops, reviews, iteration with users.
         expects: {waterfall: false, v_shaped: false, prototype: true, spiral: false, rad: true, incremental: false, agile: true}

@@ -47,6 +47,7 @@ COMMANDS = {
     "/sdlc":      "phase 2 on or off: /sdlc on | off",
     "/save":      "write the last run as JSON: /save run.json",
     "/why":       "explain one framework answer: /why PTR-2",
+    "/detail":    "show or hide the framework working: /detail on | off",
     "/clear":     "clear the screen",
     "/exit":      "quit (also Ctrl-D)",
 }
@@ -65,6 +66,7 @@ class App:
         self.run_sdlc = run_sdlc
         self.classifier = classifier
         self.mode_name = DEFAULT_MODE
+        self.detail = False
         self.session_obj = None
         self.last_state: dict | None = None
         HISTORY.parent.mkdir(parents=True, exist_ok=True)
@@ -73,26 +75,29 @@ class App:
 
         @kb.add("enter")
         def _(event):
-            """Submit if it is a command or a single line; else newline.
+            """Enter submits. Always.
 
-            A scenario is a paragraph, so Enter has to be able to mean
-            "newline". But requiring Esc-Enter for `/help` would be obnoxious,
-            so anything starting with `/` submits immediately, as does a single
-            line that looks finished.
+            The first version tried to be clever -- submit a single line, insert
+            a newline once the buffer was already multi-line -- and it trapped
+            you: after one Enter the buffer contained a newline, so every
+            subsequent Enter added another and there was no way to submit at
+            all except a shortcut nobody had been told about.
+
+            Pasting a paragraph still works, because a bracketed paste inserts
+            its newlines directly and never fires this binding. Typing one by
+            hand uses Alt-Enter. Enter meaning "send" is what every other prompt
+            in the world does, and guessing on the user's behalf was the bug.
             """
             buf = event.current_buffer
-            text = buf.text
-            if text.lstrip().startswith("/") or not text.strip():
+            if buf.text.strip():
                 buf.validate_and_handle()
-            elif "\n" in text:
-                buf.insert_text("\n")
-            else:
-                buf.validate_and_handle()
+            # Empty or whitespace-only: swallow it rather than submitting a
+            # blank line and reprinting the banner.
 
-        @kb.add("escape", "enter")
-        @kb.add("c-j")
+        @kb.add("escape", "enter")   # Alt-Enter in most terminals
+        @kb.add("c-j")               # Ctrl-J, for terminals that eat Alt-Enter
         def _(event):
-            event.current_buffer.validate_and_handle()
+            event.current_buffer.insert_text("\n")
 
         self.prompt = PromptSession(
             history=FileHistory(str(HISTORY)),
@@ -129,6 +134,7 @@ class App:
         else:
             self.session_obj.use_rag = self.use_rag
             self.session_obj.run_sdlc = self.run_sdlc
+        self.session_obj.detail = self.detail
         return self.session_obj
 
     def _rprompt(self) -> HTML:
@@ -157,7 +163,7 @@ class App:
                 t.add_row(c, d)
             console.print(render.Panel(
                 t, title="[bold]commands[/]", border_style=C_DIM,
-                subtitle="[dim]Enter submits · Esc-Enter for a newline mid-paragraph[/]",
+                subtitle="[dim]Enter sends · Alt-Enter (or Ctrl-J) for a newline · paste works as-is[/]",
                 padding=(1, 2)))
 
         elif name == "/modes":
@@ -193,6 +199,11 @@ class App:
         elif name == "/sdlc":
             self.run_sdlc = arg != "off"
             console.print(f"[dim]phase 2 {'on' if self.run_sdlc else 'off'}[/]")
+
+        elif name == "/detail":
+            self.detail = arg != "off"
+            console.print(f"[dim]framework working "
+                          f"{'shown' if self.detail else 'hidden'}[/]")
 
         elif name == "/clear":
             console.clear()

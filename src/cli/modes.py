@@ -70,16 +70,21 @@ MODES: dict[str, Mode] = {
         prompt="scenario",
         factory=_scenario_factory,
     ),
+    # Built, but not a mode you switch to -- it fires by itself from inside
+    # scenario mode when the framework says an open question would change the
+    # recommendation, and stays quiet when nothing would. Listed here so /modes
+    # explains where it went rather than leaving a gap someone goes looking for.
     "interview": Mode(
         name="interview",
-        summary="the system asks you the framework questions it cannot infer",
+        summary="automatic — asks only when an open question would change the answer",
         prompt="interview",
         available=False,
         placeholder=(
-            "Not built yet. This is where the Project Team and User Community "
-            "tables get answered honestly: 9 of the 20 framework questions need "
-            "facts a problem statement does not carry, and inferring them "
-            "produced fabrications in every run. Asking is the fix."
+            "This is not a mode any more. It happens on its own: after the "
+            "requirements and quality report are in, the framework is asked "
+            "which unanswered questions could still change the recommendation. "
+            "If any could, you are asked about them in plain English before a "
+            "result is shown; if none could, nothing interrupts you."
         ),
     ),
     "chat": Mode(

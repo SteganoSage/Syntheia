@@ -17,7 +17,12 @@ from __future__ import annotations
 
 import textwrap
 
+import time
+from contextlib import contextmanager
+
 from rich.console import Console, Group
+from rich.live import Live
+from rich.spinner import Spinner
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
@@ -31,6 +36,155 @@ C_BAD = "red"
 C_DIM = "dim"
 C_KEY = "cyan"
 C_HEAD = "bold bright_white"
+
+
+# ── One terminal, one owner ────────────────────────────────────────────
+#
+# Rich's Live repaints on its own thread, so anything else writing to the same
+# terminal loses: the pipeline checklist drew straight over the interview
+# prompt, and starting the interview's own spinner made two Live displays fight
+# for the screen while prompt_toolkit tried to render an input line into the
+# middle of it.
+#
+# The interview happens deep inside the graph -- sdlc node -> recommend_sdlc ->
+# ask_user -- so it cannot reach the Live that scenario mode started. Hence a
+# module-level handle: whoever owns the screen registers here, and anyone that
+# needs it quiet borrows it through `suspended()`.
+
+_active_live = None
+_active_owner = None
+_muted = False
+
+
+def is_muted() -> bool:
+    """True while something else owns the screen and progress must draw nothing.
+
+    Belt and braces on top of stopping the Live. Stopping alone proved fragile:
+    the checklist still appeared in the middle of the interview, because there
+    are several paths that can start a Live and only one that knows the
+    interview is happening. A renderable that returns nothing cannot draw over
+    anything, whoever restarts it.
+    """
+    return _muted
+
+
+def set_live(live, owner=None) -> None:
+    """Register the Live that currently owns the terminal (None to clear).
+
+    `owner` is the object being rendered -- the progress checklist. It has to be
+    passed explicitly: rich wraps the renderable in a Group once the Live
+    starts, so `live.renderable` afterwards is NOT the object handed in, and
+    reaching for `snapshot()` on it silently finds nothing.
+    """
+    global _active_live, _active_owner
+    _active_live = live
+    _active_owner = owner if live is not None else None
+
+
+@contextmanager
+def suspended(commit: bool = False):
+    """Stop the active Live for the duration, then bring it back.
+
+    Used around anything that reads input or starts a display of its own.
+    Restarting is best-effort: a Live that has already been stopped by its owner
+    must not resurrect itself here and start painting over whatever came next.
+
+    `commit=True` is for a suspension the user will write underneath -- the
+    interview. A transient Live erases itself on stop and redraws itself whole
+    on start, so without this the finished checklist vanished, the questions and
+    answers scrolled past, and then the entire checklist reappeared below them
+    as if the run had restarted. Committing prints the progress permanently
+    first and switches it to compact, so what comes back afterwards is only the
+    one stage still working.
+    """
+    global _muted
+    live = _active_live
+    running = bool(live and getattr(live, "is_started", False))
+    renderable = _active_owner if running else None
+    was_muted, _muted = _muted, True
+
+    if running:
+        try:
+            live.stop()
+            if commit:
+                # Freeze what has finished into the scrollback before anyone
+                # writes below it.
+                snap = getattr(renderable, "snapshot", None)
+                if callable(snap):
+                    console.print(snap())
+                if hasattr(renderable, "compact"):
+                    renderable.compact = True
+        except Exception:
+            running = False
+    try:
+        yield
+    finally:
+        _muted = was_muted
+        if running:
+            try:
+                live.start()
+            except Exception:
+                pass
+
+
+class Thinking:
+    """A spinner whose caption rotates while a blocking call runs.
+
+    Lazy for the same reason the pipeline checklist is: whatever it is waiting
+    on holds the thread, so nothing calls `update()`. Rich re-renders an object
+    with `__rich__` on its own refresh thread, which is the only way the caption
+    moves and the clock ticks during a call that blocks for a minute.
+
+    Used wherever the app would otherwise sit silent. Silence during a long call
+    is indistinguishable from a hang -- which is how a runaway generation went
+    undiagnosed for two sittings.
+    """
+
+    SWAP_SECONDS = 2.2
+
+    def __init__(self, lines, style: str = C_KEY):
+        self.lines = list(lines) or ["working"]
+        self.style = style
+        self._i = 0
+        self._t0 = 0.0
+        self._last = 0.0
+        self._live = None
+
+    def __rich__(self):
+        now = time.perf_counter()
+        if now - self._last > self.SWAP_SECONDS:
+            self._i = (self._i + 1) % len(self.lines)
+            self._last = now
+        t = Table.grid(padding=(0, 1))
+        t.add_column(width=2)
+        t.add_column()
+        t.add_row(Spinner("dots", style=self.style),
+                  Text.from_markup(f"[dim italic]{self.lines[self._i]}[/]  "
+                                   f"[dim]{now - self._t0:.0f}s[/]"))
+        return t
+
+    def __enter__(self):
+        self._t0 = self._last = time.perf_counter()
+        # Take the screen from whoever has it: rich refuses two simultaneous
+        # Live displays, and the failure mode is a corrupted terminal rather
+        # than an error.
+        self._borrow = suspended()
+        self._borrow.__enter__()
+        self._live = Live(self, console=console, refresh_per_second=8,
+                          transient=True)
+        self._live.start()
+        return self
+
+    def __exit__(self, *exc):
+        try:
+            self._live.stop()
+        except Exception:
+            pass
+        try:
+            self._borrow.__exit__(None, None, None)
+        except Exception:
+            pass
+        return False
 
 
 def banner(provider: str, classifier: str, grounding: str, mode: str) -> None:
@@ -181,7 +335,20 @@ def print_quality(report) -> None:
         border_style=C_WARN, padding=(0, 1)))
 
 
-def print_sdlc(rec) -> None:
+def print_sdlc(rec, detail: bool = False) -> None:
+    """The recommendation, as an argument rather than a scorecard.
+
+    The percentages, the match counts and the coverage fractions are gone from
+    the default view. They are how the decision is computed, not what the
+    decision IS, and leading with "8/9, 89%" invites a reader to audit the
+    instrument instead of the reasoning -- while making a partial assessment
+    look like a measurement. The marked answer this output is modelled on has no
+    numbers in it either: it names the model, says which characteristics of the
+    project favour it, what that buys, and what it costs.
+
+    Nothing is lost. `--detail` prints the full working, and the JSON always
+    carries every answer, score and coverage figure.
+    """
     if not rec:
         return
 
@@ -190,80 +357,107 @@ def print_sdlc(rec) -> None:
 
     head = Text()
     if rec.tied_with:
-        # A tie is not a recommendation. Two of five runs were decided
-        # alphabetically and printed as findings before this existed.
         head.append("TIED  ", style=f"bold {C_WARN}")
-        head.append(" = ".join(rec.tied_with), style=f"bold {C_WARN}")
-        head.append("\nthe framework does not separate these. Listed first by "
-                    "name, which is not a preference.", style=C_DIM)
+        head.append(" and ".join(rec.tied_with), style=f"bold {C_WARN}")
+        head.append("\nthe evidence does not separate these two. More about "
+                    "the project would.", style=C_DIM)
     else:
         head.append(top, style=f"bold {C_OK}")
         if derived:
-            head.append("   (derived column — not in the supplied framework)",
+            head.append("   (our reading — not one of the six supplied models)",
                         style=C_WARN)
 
-    scores = Table(box=None, padding=(0, 1), show_header=False)
-    scores.add_column(width=2)
-    scores.add_column(width=13)
-    scores.add_column(justify="right", width=5)
-    scores.add_column(style=C_DIM)
-    for s in rec.ranking:
-        is_top = s.name == top or s.name in (rec.tied_with or [])
-        bar = "█" * round(s.score * 18)
-        scores.add_row(
-            "▸" if is_top else "",
-            f"[bold]{s.name}[/]" if is_top else f"[dim]{s.name}[/]",
-            f"{s.score:.0%}",
-            Text.from_markup(
-                f"[{C_OK if is_top else C_DIM}]{bar}[/] "
-                f"{len(s.matched)}/{len(s.matched) + len(s.missed)}"
-                + ("  derived" if s.is_derived else "")),
-        )
-
-    answers = Table(box=None, padding=(0, 1), show_header=False)
-    answers.add_column(width=7, style=C_KEY)
-    answers.add_column(width=4)
-    answers.add_column(overflow="fold", style=C_DIM)
-    for a in rec.criteria:
-        overruled = a.reasoning.startswith("UNSUPPORTED")
-        label, style = {"yes": ("yes", C_OK), "no": ("no", C_WARN),
-                        "not_stated": ("—", C_DIM)}[a.answer]
-        if overruled:
-            ev = f"[{C_BAD}]dropped: nothing traceable to the scenario[/]"
-        else:
-            ev = ", ".join(e[:52] for e in a.evidence) or "[dim]nothing cited[/]"
-        answers.add_row(a.question_id, f"[{style}]{label}[/]", ev)
-
-    cov = Table(box=None, padding=(0, 1), show_header=False)
-    cov.add_column(width=22, style=C_DIM)
-    cov.add_column()
-    for c in rec.coverage.values():
-        ok = c.answered == c.total
-        style = C_OK if ok else (C_WARN if c.assessed else C_BAD)
-        cov.add_row(c.name, f"[{style}]{c.answered}/{c.total}[/] "
-                            f"[dim]{c.source}[/]")
-
-    blocks = [head, "", Text("framework scoring", style=C_DIM), scores,
-              "", Text("inferred answers", style=C_DIM), answers,
-              "", Text("coverage", style=C_DIM), cov]
+    others = [m.name for m in rec.ranking[1:4]
+              if m.name not in (rec.tied_with or [])]
+    blocks = [head]
+    if others:
+        blocks += ["", Text.from_markup(
+            f"[dim]also considered: {', '.join(others)}[/]")]
 
     if rec.cross_check_ranking:
         agrees = rec.cross_check_agrees
         blocks += ["", Text.from_markup(
-            f"[{C_OK if agrees else C_WARN}]cross-check "
-            f"{'agrees' if agrees else 'disagrees'}[/][dim] — ranked without "
-            f"seeing scores: {' > '.join(rec.cross_check_ranking[:4])}[/]")]
+            f"[{C_OK if agrees else C_WARN}]a second, independent read "
+            f"{'agreed' if agrees else 'disagreed'}[/]"
+            + ("" if agrees else
+               f"[dim] — it would have chosen "
+               f"{rec.cross_check_ranking[0]}[/]"))]
 
-    console.print(Panel(Group(*blocks), title="[bold]SDLC recommendation[/]",
+    console.print(Panel(Group(*blocks), title="[bold]recommended approach[/]",
                         border_style=C_WARN if rec.tied_with else C_OK,
                         padding=(1, 2)))
 
     for j in rec.justifications:
-        console.print(Panel(j.justification, title=f"[dim]{j.model}[/]",
+        body = Table.grid(padding=(0, 1))
+        body.add_column(style=C_DIM, justify="right", width=11)
+        body.add_column(overflow="fold")
+
+        fits = Text()
+        for b in j.why_it_fits:
+            fits.append("• ", style=C_OK)
+            fits.append(f"{b}\n")
+        body.add_row("[green]fits[/]", fits or Text("—", style=C_DIM))
+
+        if j.advantages:
+            adv = Text()
+            for a in j.advantages:
+                adv.append(f"{a.advantage}\n", style="bold")
+                adv.append(f"  {a.relevance}\n", style=C_DIM)
+            body.add_row("buys you", adv)
+
+        if j.gives_up:
+            body.add_row(f"[{C_WARN}]gives up[/]", Text(j.gives_up, style=C_WARN))
+
+        console.print(Panel(body, title=f"[bold]{j.model}[/]",
                             title_align="left", border_style=C_DIM,
                             padding=(0, 1)))
+
     if rec.summary:
         console.print(Panel(rec.summary, border_style=C_DIM, padding=(0, 1)))
+    if rec.shortcut:
+        console.print(Panel(Text(rec.shortcut, style=f"bold {C_KEY}"),
+                            title="[dim]in one line[/]", title_align="left",
+                            border_style=C_KEY, padding=(0, 1)))
+
+    if detail:
+        print_sdlc_detail(rec)
+
+
+def print_sdlc_detail(rec) -> None:
+    """The full working: every score, every answer, every coverage figure.
+
+    Kept for us, not for the report. This is what makes a disagreement
+    debuggable, and it is exactly what should not be the first thing a reader
+    sees.
+    """
+    scores = Table(box=None, padding=(0, 1), show_header=False)
+    scores.add_column(width=2); scores.add_column(width=13)
+    scores.add_column(justify="right", width=5); scores.add_column(style=C_DIM)
+    for s in rec.ranking:
+        is_top = s.name == rec.recommendation or s.name in (rec.tied_with or [])
+        scores.add_row("▸" if is_top else "",
+                       f"[bold]{s.name}[/]" if is_top else f"[dim]{s.name}[/]",
+                       f"{s.score:.0%}",
+                       f"{len(s.matched)}/{len(s.matched) + len(s.missed)}"
+                       + ("  derived" if s.is_derived else ""))
+
+    answers = Table(box=None, padding=(0, 1), show_header=False)
+    answers.add_column(width=4); answers.add_column(overflow="fold")
+    for a in rec.criteria:
+        label, style = {"yes": ("yes", C_OK), "no": ("no", C_WARN),
+                        "not_stated": ("—", C_DIM)}[a.answer]
+        answers.add_row(f"[{style}]{label}[/]", f"[dim]{a.reasoning[:88]}[/]")
+
+    cov = Table(box=None, padding=(0, 1), show_header=False)
+    cov.add_column(width=22, style=C_DIM); cov.add_column()
+    for c in rec.coverage.values():
+        cov.add_row(c.name, f"{c.answered}/{c.total} [dim]{c.source}[/]")
+
+    console.print(Panel(
+        Group(Text("scoring", style=C_DIM), scores, "",
+              Text("answers", style=C_DIM), answers, "",
+              Text("coverage", style=C_DIM), cov),
+        title="[dim]working (--detail)[/]", border_style=C_DIM, padding=(1, 2)))
 
 
 def print_review(reasons: list[str]) -> None:
@@ -279,8 +473,9 @@ def print_review(reasons: list[str]) -> None:
                         border_style=C_BAD, padding=(0, 1)))
 
 
-def print_run(state: dict, elapsed: float | None = None) -> None:
+def print_run(state: dict, elapsed: float | None = None,
+              detail: bool = False) -> None:
     print_requirements(state.get("requirements", []),
                        state.get("grounding", {}), elapsed)
     print_quality(state.get("quality_report"))
-    print_sdlc(state.get("sdlc"))
+    print_sdlc(state.get("sdlc"), detail=detail)
