@@ -159,7 +159,14 @@ def _keep(issue) -> bool:
     # citation came back labelled Ambiguity and sailed past a check that only
     # looked at one label -- and which label the model picks is exactly the
     # thing `_relabel` exists because it gets wrong.
-    if _LOOKS_LIKE_CITATION.search(issue.description):
+    #
+    # Requirement ids are stripped first: "REQ-004" matches the reference
+    # pattern's `[A-Z]{2,}-\d`, and every cross-requirement finding names one by
+    # definition (`_relabel` insists on it). Unstripped, every Inconsistency,
+    # Duplication and Conflicting Expectations finding was dropped here as a
+    # "complaint about a citation" -- §10's cross-requirement checks could never
+    # reach the report. Found by tests/test_quality_filters.py, 14 Nov.
+    if _LOOKS_LIKE_CITATION.search(_REQ_REF.sub("", issue.description)):
         return False
     if _ECHOES_THE_RECORD.search(issue.description):
         return False

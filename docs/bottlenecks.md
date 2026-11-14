@@ -172,6 +172,10 @@ engineering narrative.
 
 ### B12. There are no tests
 
+**Resolved 14 Nov:** 105 offline tests over the deterministic core
+(`python -m pytest tests -q`, ~5 s). The first run found a live bug in the
+quality filter — see `roadmap.md` A1.
+
 `tests/` contains `__init__.py` and nothing else. For a software-engineering
 project this is both a technical risk and an awkward thing to present.
 
