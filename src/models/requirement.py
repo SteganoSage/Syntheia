@@ -103,8 +103,12 @@ class ExtractionDraft(BaseModel):
 
 
 # Extraction output promoted to full Requirements; categories still empty.
+# Not LLM-facing, so defaults are fine here.
 class ExtractionResult(BaseModel):
     requirements: list[Requirement]
+    # Statements removed as project facts (timeline, team, budget...), kept so
+    # the removal is visible: [{"id", "statement", "reason"}].
+    dropped: list[dict] = Field(default_factory=list)
 
     @classmethod
     def from_draft(cls, draft: ExtractionDraft) -> "ExtractionResult":

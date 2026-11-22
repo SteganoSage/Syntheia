@@ -1,6 +1,8 @@
-"""LangGraph pipeline wiring for Phase 1.
+"""LangGraph pipeline wiring.
 
-Pipeline: Extraction (LLM) → Classification (fine-tuned) → Quality (LLM) → END
+Pipeline: retrieval → extraction → grounding → classification → quality
+          → conflicts → compliance → security → risk → clarification   (Phase B)
+          → sdlc → END
 
 Classification is the one node not backed by the LLM API. It runs the
 fine-tuned RoBERTa/BERT multi-label classifier from models/, which scores 80.2%
@@ -45,6 +47,18 @@ class PipelineState(TypedDict):
     # Temporary ChromaDB directories holding documents supplied for THIS run,
     # searched alongside the curated corpus. Empty for a normal run.
     extra_dirs: list
+    # Extracted statements removed as project facts, not system requirements.
+    dropped: list
+    # Regulatory sector(s) the scenario is in ("banking", "insurance"), set by the
+    # retrieval node and used to keep grounding inside that sector.
+    sectors: list
+    # Phase B analysis layer (src/pipeline_analysis.py). Off with --no-analysis.
+    run_analysis: bool
+    conflicts: list
+    compliance: object        # ComplianceReport | None
+    security: object          # SecurityReport | None
+    risk_register: list
+    clarifications: object    # ClarificationResult | None
 
 
 def retrieval_node(state: PipelineState) -> dict:
@@ -70,7 +84,12 @@ def retrieval_node(state: PipelineState) -> dict:
     # and could not be suppressed without an argument threaded through the
     # state. The passages are in `context` -- whoever is rendering decides
     # whether to show them, which is the renderer's job and not the node's.
-    return {"context": retrieve_context(state["text"], extra_dirs=extra)}
+    from src.rag.sectors import scenario_sectors
+
+    sectors = scenario_sectors(state["text"])
+    return {"context": retrieve_context(state["text"], extra_dirs=extra,
+                                        sectors=sectors),
+            "sectors": sorted(sectors)}
 
 
 def extraction_node(state: PipelineState) -> dict:
@@ -93,7 +112,7 @@ def extraction_node(state: PipelineState) -> dict:
         # infers from an empty list, and the run still prints a recommendation.
         print("  !! extraction produced NO requirements -- the rest of this run "
               "is not meaningful. Check the model and the scenario.")
-    return {"requirements": result.requirements}
+    return {"requirements": result.requirements, "dropped": result.dropped}
 
 
 def grounding_node(state: PipelineState) -> dict:
@@ -129,9 +148,10 @@ def grounding_node(state: PipelineState) -> dict:
     if not is_available() and not extra:
         return {"grounding": {}}
 
+    sectors = set(state.get("sectors") or [])
     grounding: dict[str, dict] = {}
     for req in state["requirements"]:
-        g = ground_requirement(req.statement, extra_dirs=extra)
+        g = ground_requirement(req.statement, extra_dirs=extra, sectors=sectors)
         grounding[req.id] = g
         # Only overwrite what the model guessed when the corpus actually
         # supports something; an unsupported requirement keeps the model's own
@@ -210,7 +230,10 @@ def build_pipeline():
     graph.add_edge("extraction", "grounding")
     graph.add_edge("grounding", "classification")
     graph.add_edge("classification", "quality")
-    graph.add_edge("quality", "sdlc")
+    # quality → conflicts → compliance → security → risk → clarification → sdlc
+    from src.pipeline_analysis import add_analysis_nodes
+
+    add_analysis_nodes(graph, after="quality", before="sdlc")
     graph.add_edge("sdlc", END)
     return graph.compile()
 

@@ -1,0 +1,788 @@
+# Compliance rule pack — deterministic checks for the compliance agent (PS §11).
+#
+# Each rule is an obligation from a document IN THE KNOWLEDGE BASE. The
+# citation is not typed here: `source` names the document and the obligation
+# text, and src/agents/rulepack.py resolves it against the index at run time,
+# so a finding cites the clause as the corpus currently chunks it.
+#
+# STATUS: drafted by Claude on 14 Nov 2026 from passages retrieved out of the
+# corpus (each `source.query` was checked to resolve to the intended document).
+# Every rule is `verified: false` until a person has read the clause and agreed
+# the trigger and satisfaction terms are right. `reference` is a human-readable
+# pointer; the resolved citation is authoritative.
+#
+# Matching (see src/utils/evidence.py):
+#   "encrypt*"    prefix          "audit trail"   phrase, hyphen/space-insensitive
+#   applies_when  any term in the scenario or any requirement, OR any category
+#   all_of        ONE requirement must hit every group
+#   min_years     a satisfying requirement must state at least this period
+#
+# NOT here because the corpus lacks the source: PCI-DSS (licence-gated).
+# Digital Lending, CERT-In, payment-data storage, PML Rules and IRDAI were added
+# to the corpus on 14 Nov 2026 -- their rules are at the end of this file.
+#
+# Dropped: card transaction alerts (Card Directions 2025, para 65). The clause
+# is in the corpus but no query reaches it -- unrelated clauses of the same
+# direction outrank it. Restore once re-chunking makes it retrievable.
+
+version: "0.1"
+drafted: 2026-11-14
+
+rules:
+
+  # ── KYC / AML — RBI Master Direction on KYC, 2016 ──────────────────────
+
+  - id: CMP-KYC-01
+    title: Customer identification records kept at least five years after the relationship ends
+    family: record_retention
+    obligation: retention
+    severity: High
+    applies_when:
+      terms: [kyc, know your customer, customer identification, onboard*, account opening,
+              open an account, officially valid document, ekyc, e kyc, video kyc, v cip,
+              customer due diligence]
+    satisfied_when:
+      all_of:
+        - [retain*, retention, preserv*, archiv*, store*, maintain*, keep*]
+        - [record*, document*, kyc data, identification data, customer data, proof*]
+      min_years: 5
+    proposed_requirement: >-
+      The system shall retain customer identification and address records for at
+      least five years after the business relationship with the customer has ended.
+    reference: "RBI KYC Master Direction 2016 — record management (preservation of identification records)"
+    source:
+      title_contains: [Know Your Customer]
+      query: >-
+        preserve the records pertaining to the identification of the customers and
+        their addresses for at least five years after the business relationship is ended
+    rationale: >-
+      Retrieved clause: "(b) preserve the records pertaining to the identification of
+      the customers and their addresses obtained while opening the account and during
+      the course of business relationship, for at least five years after the business
+      relationship is ended".
+    legal_review: false
+    verified: false
+
+  - id: CMP-KYC-02
+    title: Transaction records kept at least five years from the date of transaction
+    family: record_retention
+    obligation: retention
+    severity: High
+    applies_when:
+      terms: [transaction*, payment*, transfer*, remittance*, disburs*, repayment*, settlement*]
+    satisfied_when:
+      all_of:
+        - [retain*, retention, preserv*, archiv*, store*, maintain*, keep*]
+        - [transaction*, payment record*, payment histor*, ledger*]
+      min_years: 5
+    proposed_requirement: >-
+      The system shall retain records of all transactions with the customer for at
+      least five years from the date of the transaction.
+    reference: "RBI KYC Master Direction 2016 — record management (maintenance of transaction records)"
+    source:
+      title_contains: [Know Your Customer]
+      query: >-
+        maintain all necessary records of transactions between the RE and the customer
+        for at least five years from the date of transaction
+    rationale: >-
+      Retrieved clause: "(a) maintain all necessary records of transactions between the
+      RE and the customer, both domestic and international, for at least five years
+      from the date of transaction".
+    verified: false
+
+  - id: CMP-KYC-03
+    title: Customers categorised by money-laundering risk (low / medium / high)
+    family: customer_due_diligence
+    obligation: security_control
+    severity: Medium
+    applies_when:
+      terms: [kyc, know your customer, onboard*, account opening, customer due diligence]
+    satisfied_when:
+      all_of:
+        - [risk categor*, risk rating, risk profil*, risk classif*, risk scor*, risk-based, high risk customer*, risk level]
+    proposed_requirement: >-
+      The system shall categorise each customer as low, medium or high risk using
+      identity, social and financial status, nature of business and location, and
+      record the reasons for the categorisation without disclosing them to the customer.
+    reference: "RBI KYC Master Direction 2016 — customer acceptance policy / risk management"
+    source:
+      title_contains: [Know Your Customer]
+      query: >-
+        risk categorisation shall be undertaken based on parameters such as customer's
+        identity, social/financial status, nature of business activity
+    rationale: >-
+      The direction requires risk categorisation and that the categorisation and its
+      reasons are kept confidential from the customer (to avoid tipping off).
+    verified: false
+
+  - id: CMP-KYC-04
+    title: Periodic updation of KYC, more frequently for higher-risk customers
+    family: customer_due_diligence
+    obligation: other
+    severity: Medium
+    applies_when:
+      terms: [kyc, know your customer, onboard*, account opening, customer due diligence]
+    satisfied_when:
+      all_of:
+        - [periodic updation, periodic update*, re kyc, rekyc, kyc refresh*, kyc renewal, update kyc, kyc update*, periodic review]
+    proposed_requirement: >-
+      The system shall schedule periodic updation of customer KYC according to the
+      customer's risk category and record the date of each updation.
+    reference: "RBI KYC Master Direction 2016 — periodic updation"
+    source:
+      title_contains: [Know Your Customer]
+      query: >-
+        information and documents obtained at the time of periodic updation of KYC are
+        promptly updated in the records of the RE and an intimation mentioning the date of
+        updation of KYC details is provided to the customer
+      # The frequency table (paragraph 38) is not retrievable as its own chunk;
+      # this resolves to the record-updating obligation (§120). Measured 14 Nov.
+    verified: false
+
+  - id: CMP-KYC-05
+    title: Video-based identification proves liveness with varied, real-time questioning
+    family: customer_due_diligence
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: [video kyc, v cip, video based, video call, video verification, video identification]
+    satisfied_when:
+      all_of:
+        - [liveness, live check*, random* question*, varied question*, real time interaction, pre recorded, prerecorded]
+    proposed_requirement: >-
+      The system shall vary the sequence and type of questions during video-based
+      customer identification and run a liveness check to establish that the
+      interaction is real-time and not pre-recorded.
+    reference: "RBI KYC Master Direction 2016 — Video-based Customer Identification Process (V-CIP)"
+    source:
+      title_contains: [Know Your Customer]
+      query: V-CIP video based customer identification process liveness check
+      # The V-CIP clause (§67: "the sequence and/or type of questions, including
+      # those indicating the liveness of the interaction ... shall be varied") sits
+      # inside a long chunk, so it peaks at 0.53 -- under the 0.55 floor. The title
+      # filter already confines it to the KYC direction, which is what the floor
+      # otherwise protects against. Measured 14 Nov; re-check after re-chunking.
+      min_confidence: 0.50
+    verified: false
+
+  # ── Aadhaar — UIDAI (Authentication and Offline Verification) Regulations, 2021
+
+  - id: CMP-AADHAAR-01
+    title: Aadhaar numbers masked or vaulted, never stored in the clear
+    family: identity_data
+    obligation: security_control
+    severity: Critical
+    applies_when:
+      terms: [aadhaar, aadhar, uidai]
+    satisfied_when:
+      all_of:
+        - [aadhaar, aadhar, uid]
+        - [mask*, redact*, vault*, tokeni*, reference number, reference key, truncat*, last four digits, last 4 digits]
+    proposed_requirement: >-
+      The system shall not store full Aadhaar numbers; it shall mask the first eight
+      digits wherever an Aadhaar number is displayed or retained, and store any
+      Aadhaar number needed for authentication only in an Aadhaar Data Vault.
+    reference: "Aadhaar (Authentication and Offline Verification) Regulations 2021, reg. 26"
+    source:
+      title_contains: [Aadhaar]
+      query: >-
+        Aadhaar numbers collected shall be masked by the requesting entity by redacting
+        the first 8 digits of the Aadhaar number before storing
+    rationale: >-
+      Retrieved clause §26(mb) on masking; §26(o) requires specific UIDAI permission to
+      store Aadhaar numbers for non-authentication purposes, in a secure manner.
+    legal_review: true
+    verified: false
+
+  - id: CMP-AADHAAR-02
+    title: Identity information from Aadhaar authentication kept confidential and protected
+    family: identity_data
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: [aadhaar, aadhar, uidai]
+    satisfied_when:
+      all_of:
+        - [aadhaar, aadhar, identity information, ekyc data, e kyc data, authentication data]
+        - [encrypt*, confidential*, protect*, secur*, access control*, restrict* access]
+    proposed_requirement: >-
+      The system shall keep identity information received through Aadhaar
+      authentication confidential, encrypted and accessible only to authorised roles,
+      and use it only for the purpose stated to the Aadhaar number holder.
+    reference: "Aadhaar (Authentication and Offline Verification) Regulations 2021, reg. 30"
+    source:
+      title_contains: [Aadhaar]
+      query: >-
+        identity information of the Aadhaar number holders collected during authentication
+        is kept confidential, secure and protected against access, use and disclosure
+    verified: false
+
+  # ── Personal data — Digital Personal Data Protection Act, 2023 ─────────
+
+  - id: CMP-DPDP-01
+    title: Personal data processed only with the data principal's consent (or another lawful ground)
+    family: personal_data
+    obligation: consent
+    severity: High
+    applies_when:
+      terms: &personal_data [personal data, personal information, pii, customer data, aadhaar,
+                             pan, date of birth, mobile number, phone number, email address,
+                             residential address, biometric*, photograph*, selfie*, income,
+                             salary, credit score*, credit history, bank statement*, kyc]
+      categories: [Privacy]
+    satisfied_when:
+      all_of:
+        - [consent*]
+    proposed_requirement: >-
+      The system shall obtain and record the customer's consent for each specified
+      purpose before processing their personal data, and allow the consent to be
+      withdrawn as easily as it was given.
+    reference: "DPDP Act 2023, s. 4 and s. 6"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        process the personal data of a Data Principal only in accordance with the
+        provisions of this Act for a lawful purpose for which the Data Principal has given consent
+    rationale: >-
+      Banking processing often rests on legal obligation (KYC) rather than consent
+      alone — which ground applies is an interpretation, hence legal review.
+    legal_review: true
+    verified: false
+
+  - id: CMP-DPDP-02
+    title: Notice to the data principal stating what personal data is collected and why
+    family: personal_data
+    obligation: notice
+    severity: Medium
+    applies_when:
+      terms: *personal_data
+      categories: [Privacy]
+    satisfied_when:
+      all_of:
+        - [privacy notice, notice, privacy policy, privacy statement]
+    proposed_requirement: >-
+      The system shall present a notice, before or at the time of collection, stating
+      the personal data collected, the purpose of processing and how the customer can
+      exercise their rights and complain.
+    reference: "DPDP Act 2023, s. 5"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        every request for consent shall be accompanied or preceded by a notice informing
+        the Data Principal of the personal data and the purpose for which it is proposed to be processed
+    verified: false
+
+  - id: CMP-DPDP-03
+    title: Personal data erased when consent is withdrawn or the purpose is served — unless law requires retention
+    family: personal_data
+    obligation: retention
+    severity: Medium
+    applies_when:
+      terms: *personal_data
+      categories: [Privacy]
+    satisfied_when:
+      all_of:
+        - [eras*, delet*, purg*, anonymi*, withdraw* consent, withdrawal of consent, data retention polic*]
+    proposed_requirement: >-
+      The system shall erase a customer's personal data when consent is withdrawn or
+      the purpose is no longer served, except where retention is required by law (such
+      as the five-year KYC record retention), and record the basis for any retention.
+    reference: "DPDP Act 2023, s. 8(7)"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        erase personal data upon the Data Principal withdrawing her consent or as soon as
+        it is reasonable to assume that the specified purpose is no longer being served
+    rationale: >-
+      Interacts with CMP-KYC-01/02: statutory retention prevails over erasure. Which
+      data falls on which side is a legal interpretation.
+    legal_review: true
+    verified: false
+
+  - id: CMP-DPDP-04
+    title: Personal data breaches notified to the Data Protection Board and affected individuals
+    family: personal_data
+    obligation: reporting
+    severity: High
+    applies_when:
+      terms: *personal_data
+      categories: [Privacy]
+    satisfied_when:
+      all_of:
+        - [breach*]
+        - [notif*, intimat*, inform*, report*, alert*]
+    proposed_requirement: >-
+      The system shall support detection of personal data breaches and notification of
+      each breach to the Data Protection Board and every affected customer in the
+      prescribed form and time.
+    reference: "DPDP Act 2023, s. 8(6)"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        In the event of a personal data breach, the Data Fiduciary shall give the Board and
+        each affected Data Principal, intimation of such breach
+      # Resolves to the chunk containing s.8(6), but the citation reads "§8(b)": the
+      # chunker does not recognise numeric sub-sections "(6)" and keeps the last
+      # lettered label. Chunker defect, recorded in docs/roadmap.md.
+    verified: false
+
+  - id: CMP-DPDP-05
+    title: Verifiable parental consent before processing a child's personal data
+    family: personal_data
+    obligation: consent
+    severity: High
+    applies_when:
+      terms: [child*, minor*, student*, under 18, below 18, kids, teen*, juvenile*]
+    satisfied_when:
+      all_of:
+        - [parent*, guardian*]
+        - [consent*]
+    proposed_requirement: >-
+      The system shall obtain verifiable consent from a parent or lawful guardian before
+      processing the personal data of a customer under eighteen, and shall not track or
+      target advertising at such customers.
+    reference: "DPDP Act 2023, s. 9"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        Processing of personal data of children. The Data Fiduciary shall, before processing
+        any personal data of a child, obtain verifiable consent of the parent of such child
+    legal_review: true
+    verified: false
+
+  # ── IT governance — RBI Master Direction on IT Governance, 2023 ─────────
+
+  - id: CMP-ITGOV-01
+    title: Audit trails on every application that can access or affect critical or sensitive information
+    family: audit
+    obligation: audit
+    severity: High
+    applies_when:
+      terms: &financial_system [account*, transaction*, payment*, loan*, lend*, credit*, kyc,
+                                claim*, card*, wallet*, banking, deposit*, insurance, policyholder*,
+                                customer data, financial]
+    satisfied_when:
+      all_of:
+        - [audit trail*, audit log*, audit record*, logging, logged, activity log*, access log*,
+           event log*, transaction log*, immutable log*, auditab*]
+    proposed_requirement: >-
+      The system shall keep tamper-evident audit trails of every access to and change of
+      customer and transaction data, recording who acted, what changed and when.
+    reference: "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15"
+    source:
+      title_contains: [Information Technology Governance]
+      query: >-
+        every IT application which can access or affect critical or sensitive information
+        shall have necessary audit and system logging capability and should provide audit trails
+    verified: false
+
+  - id: CMP-ITGOV-02
+    title: Business continuity and disaster recovery for the system
+    family: continuity
+    obligation: continuity
+    severity: High
+    applies_when:
+      terms: *financial_system
+    satisfied_when:
+      all_of:
+        - [disaster recovery, business continuity, dr site, failover, fail over, backup*, rto, rpo,
+           recovery time, recovery point]
+    proposed_requirement: >-
+      The system shall have a disaster recovery arrangement with defined recovery time
+      and recovery point objectives, tested periodically under the bank's business
+      continuity plan.
+    reference: "RBI Master Direction on IT Governance 2023, Chapter V (paras 28–29)"
+    source:
+      title_contains: [Information Technology Governance]
+      query: >-
+        Business Continuity Plan and Disaster Recovery policy shall adopt best practices to
+        guide its actions in reducing the likelihood or impact of disruptive incidents
+    verified: false
+
+  # ── Cyber security — RBI Cyber Security Framework in Banks, 2016 ────────
+
+  - id: CMP-CSF-01
+    title: Cyber security incidents reported promptly to RBI
+    family: incident_reporting
+    obligation: reporting
+    severity: High
+    applies_when:
+      terms: [bank*, rbi, regulated entit*, nbfc*, payment*, card*, wallet*, loan*, kyc, account*]
+    satisfied_when:
+      all_of:
+        - [incident*, breach*, cyber attack*, cyber event*]
+        - [report*, notif*, escalat*, intimat*]
+    proposed_requirement: >-
+      The system shall detect and log cyber security incidents and support reporting
+      them to RBI (and CERT-In) within the mandated timelines.
+    reference: "RBI Cyber Security Framework in Banks 2016 (RBI/2015-16/418), para 15 and Annex"
+    source:
+      title_contains: [Cyber Security Framework]
+      query: >-
+        banks are required to report promptly the cyber security incidents in the format given
+    rationale: >-
+      The 2016 framework is partly superseded by the 2023 IT direction; CERT-In's 2022
+      six-hour reporting direction is not in the corpus.
+    verified: false
+
+  # ── Fraud — RBI Master Directions on Fraud Risk Management, 2024 ─────────
+
+  - id: CMP-FRAUD-01
+    title: Frauds reported to RBI through the fraud monitoring return within 14 days of classification
+    family: fraud
+    obligation: reporting
+    severity: High
+    applies_when:
+      terms: [fraud*]
+    satisfied_when:
+      all_of:
+        - [fraud*]
+        - [report*, fmr, notif*, intimat*]
+        - [rbi, reserve bank, regulator*]
+    proposed_requirement: >-
+      The system shall generate the fraud monitoring return for each case classified as
+      fraud so that it can be reported to RBI within 14 days of classification.
+    reference: "RBI Master Directions on Fraud Risk Management 2024, para 6.3"
+    source:
+      title_contains: [Fraud Risk Management]
+      query: >-
+        banks shall furnish FMR in individual fraud cases irrespective of the amount
+        involved not later than 14 days from the date of classification
+    verified: false
+
+  - id: CMP-FRAUD-02
+    title: Early warning signals monitored on credit accounts
+    family: fraud
+    obligation: security_control
+    severity: Medium
+    applies_when:
+      terms: [loan*, lend*, credit facilit*, borrower*, advances, credit account*]
+    satisfied_when:
+      all_of:
+        - [early warning, ews, red flag*, fraud monitor*, fraud detect*, suspicious]
+    proposed_requirement: >-
+      The system shall monitor credit accounts against early warning signals and flag
+      accounts showing them for review under the bank's fraud risk framework.
+    reference: "RBI Master Directions on Fraud Risk Management 2024 — early warning signals"
+    source:
+      title_contains: [Fraud Risk Management]
+      query: >-
+        early warning signals framework for monitoring credit facilities and red flagged accounts
+    verified: false
+
+  # ── Outsourcing — RBI Master Direction on Outsourcing of IT Services, 2023
+
+  - id: CMP-OUT-01
+    title: Outsourced or third-party IT services under due diligence, audit rights and an exit plan
+    family: outsourcing
+    obligation: approval
+    severity: Medium
+    applies_when:
+      terms: [vendor*, third party, outsourc*, cloud, saas, service provider*, external provider*,
+              hosted, managed service*]
+    satisfied_when:
+      all_of:
+        - [due diligence, vendor assessment*, vendor risk, audit right*, right to audit,
+           service level agreement*, sla, exit strateg*, exit plan]
+    proposed_requirement: >-
+      Any third-party or cloud service used by the system shall be subject to due
+      diligence, a contract granting the bank and RBI audit and access rights, and a
+      documented exit strategy.
+    reference: "RBI Master Direction on Outsourcing of IT Services 2023"
+    source:
+      title_contains: [Outsourcing of Information Technology]
+      query: >-
+        the agreement shall provide for the right of the RE and RBI to access and audit the
+        service provider and an exit strategy
+    legal_review: true
+    verified: false
+
+  # ── Customer protection — grievance redressal ──────────────────────────
+
+  - id: CMP-GRV-01
+    title: A grievance redressal mechanism for customers
+    family: customer_protection
+    obligation: customer_protection
+    severity: Medium
+    applies_when:
+      terms: [customer*, cardholder*, wallet*, borrower*, policyholder*, applicant*, account holder*]
+    satisfied_when:
+      all_of:
+        - [grievance*, complaint*, dispute*]
+    proposed_requirement: >-
+      The system shall let customers raise complaints and disputes, track them to
+      resolution, and show the contact details of the designated grievance redressal officer.
+    reference: "RBI PPI Master Directions para 16; Card Directions 2025 para 78; Outsourcing Direction para 7"
+    source:
+      title_contains: [Prepaid Payment, Credit Card and Debit Card, Outsourcing of Information Technology]
+      query: customer protection and grievance redressal mechanism for customers
+    verified: false
+
+  - id: CMP-PPI-01
+    title: Wallet login protected against repeated invalid attempts, with timeout and logout
+    family: access_security
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: [wallet*, ppi, prepaid*]
+    satisfied_when:
+      all_of:
+        - [lock*, invalid attempt*, failed attempt*, timeout, time out, session expir*, inactivity]
+    proposed_requirement: >-
+      The system shall restrict repeated invalid login attempts, time out inactive
+      sessions, and offer a prominent logout option on web and mobile.
+    reference: "RBI PPI Master Directions, para 15.3"
+    source:
+      title_contains: [Prepaid Payment]
+      query: >-
+        restrict multiple invalid attempts to login access to the PPI inactivity timeout
+        feature option to logout prominently
+    verified: false
+
+  # ── Added 14 Nov 2026 with the six manually downloaded documents ────────
+  # Each obligation below was located in the document's own text first (quoted
+  # in `rationale`), then given a query.
+
+  # RBI (Digital Lending) Directions, 2025
+  - id: CMP-DL-01
+    title: Borrower given a Key Facts Statement before the loan contract
+    family: lending_disclosure
+    obligation: notice
+    severity: High
+    applies_when:
+      terms: &digital_lending [digital loan*, digital lending, instant loan*, instant personal loan*,
+                               online loan*, loan app*, lending app*, loans through the app]
+    satisfied_when:
+      all_of:
+        - [key fact statement, key facts statement, kfs]
+    proposed_requirement: >-
+      The system shall present the borrower with a Key Facts Statement (APR, repayment
+      schedule, all charges) before the loan contract is executed.
+    reference: "RBI (Digital Lending) Directions 2025, para 8"
+    source:
+      title_contains: [Digital Lending]
+      query: Disclosures to borrowers. RE shall provide a Key Fact Statement (KFS) as per instructions
+    rationale: 'Para 8(i): "RE shall provide a Key Fact Statement (KFS), as per instructions contained in circular ... dated April 15, 2024".'
+    verified: false
+
+  - id: CMP-DL-02
+    title: Cooling-off period to exit a digital loan without penalty
+    family: lending_disclosure
+    obligation: customer_protection
+    severity: High
+    applies_when:
+      terms: *digital_lending
+    satisfied_when:
+      all_of:
+        - [cooling off, look up period, free look, exit the loan, exit a digital loan, exit without penalty]
+    proposed_requirement: >-
+      The system shall let a borrower exit a digital loan during a cooling-off period of at
+      least one day by repaying the principal and proportionate APR, without penalty.
+    reference: "RBI (Digital Lending) Directions 2025, para 10"
+    source:
+      title_contains: [Digital Lending]
+      query: >-
+        Cooling-off period. The borrower shall be given an explicit option to exit a digital loan
+        by paying the principal and the proportionate APR without any penalty
+    rationale: 'Para 10(i): "...not being less than one day."'
+    verified: false
+
+  - id: CMP-DL-03
+    title: Lending app does not access contacts, call logs or media; device access only with explicit consent
+    family: personal_data
+    obligation: consent
+    severity: High
+    applies_when:
+      terms: *digital_lending
+    satisfied_when:
+      all_of:
+        - [contact list, contacts, call log*, file and media, media files, phone resources,
+           app permission*, device permission*]
+    proposed_requirement: >-
+      The lending app shall not access the borrower's files and media, contact list, call
+      logs or telephony functions; camera, microphone and location may be accessed once,
+      for onboarding/KYC only, with explicit consent recorded in an audit trail.
+    reference: "RBI (Digital Lending) Directions 2025 — data collection by DLAs"
+    source:
+      title_contains: [Digital Lending]
+      query: >-
+        DLA of RE/LSP desist from accessing mobile phone resources like file and media, contact
+        list, call logs, telephony functions
+    legal_review: true
+    verified: false
+
+  - id: CMP-DL-04
+    title: Loans disbursed only into the borrower's own bank account, never via a third party
+    family: lending_operations
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: *digital_lending
+    satisfied_when:
+      all_of:
+        - [disburs*]
+        - [borrower's bank account, borrower's account, bank account of the borrower,
+           directly to the borrower, directly into the borrower, end beneficiary]
+    proposed_requirement: >-
+      The system shall disburse loans only into the borrower's own bank account and never
+      through any third-party or lending-service-provider account.
+    reference: "RBI (Digital Lending) Directions 2025 — loan disbursal and servicing"
+    source:
+      title_contains: [Digital Lending]
+      query: >-
+        in no case disbursal is made to a third-party account including the accounts of LSP;
+        loan disbursed directly into the bank account
+    verified: false
+
+  - id: CMP-DL-05
+    title: Digital lending data stored only on servers in India
+    family: data_localisation
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: *digital_lending
+    satisfied_when:
+      all_of:
+        - &in_india [in india, within india, indian data cent*, india region, data locali*,
+                     located in india, servers in india, indian jurisdiction]
+    proposed_requirement: >-
+      The system shall store all borrower and loan data only on servers located in India.
+    reference: "RBI (Digital Lending) Directions 2025 — data storage"
+    source:
+      title_contains: [Digital Lending]
+      query: RE shall ensure that all data is stored only in servers located within India
+    verified: false
+
+  # RBI circular on Storage of Payment System Data, 2018
+  - id: CMP-PAY-01
+    title: Payment system data stored only in India
+    family: data_localisation
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: [payment*, upi, card*, wallet*, remittance*, fund transfer*, prepaid*, settlement*]
+    satisfied_when:
+      all_of:
+        - *in_india
+    proposed_requirement: >-
+      The system shall store the full end-to-end data of every payment transaction only in
+      systems located in India.
+    reference: "RBI circular RBI/2017-18/153, Storage of Payment System Data (06 Apr 2018)"
+    source:
+      title_contains: [Storage of Payment System Data]
+      query: >-
+        entire data relating to payment systems operated by them are stored in a system only in India
+    verified: false
+
+  # CERT-In Directions, 28 Apr 2022 (repeated for insurers by IRDAI 2023)
+  - id: CMP-CERTIN-01
+    title: Cyber incidents reported to CERT-In within 6 hours
+    family: incident_reporting
+    obligation: reporting
+    severity: High
+    applies_when:
+      terms: *financial_system
+    satisfied_when:
+      all_of:
+        - [incident*, breach*, cyber attack*]
+        - [cert in, certin, 6 hours, six hours]
+    proposed_requirement: >-
+      The system shall support reporting cyber incidents to CERT-In within 6 hours of their
+      being noticed, with a copy to the sector regulator.
+    reference: "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (ii)"
+    source:
+      title_contains: [CERT-In Directions]
+      query: >-
+        mandatorily report cyber incidents to CERT-In within 6 hours of noticing such incidents
+    verified: false
+
+  - id: CMP-CERTIN-02
+    title: ICT system logs kept for a rolling 180 days within India
+    family: audit
+    obligation: retention
+    severity: High
+    applies_when:
+      terms: *financial_system
+    satisfied_when:
+      all_of:
+        - [logs, logging, log retention, system log*, audit log*, event log*, access log*, audit trail*]
+        - [180 days, 180 day, six months, 6 months]
+    proposed_requirement: >-
+      The system shall keep logs of all its ICT components securely for a rolling 180 days,
+      within India, and make them available to CERT-In on request.
+    reference: "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (iv)"
+    source:
+      title_contains: [CERT-In Directions]
+      query: >-
+        enable logs of all their ICT systems and maintain them securely for a rolling period of
+        180 days within the Indian jurisdiction
+    verified: false
+
+  - id: CMP-CERTIN-03
+    title: System clocks synchronised to NIC/NPL time servers
+    family: audit
+    obligation: security_control
+    severity: Medium
+    applies_when:
+      terms: *financial_system
+    satisfied_when:
+      all_of:
+        - [ntp, network time protocol, time synchroni*, clock synchroni*, time sync*]
+    proposed_requirement: >-
+      The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers
+      traceable to them), so that log timestamps are reliable.
+    reference: "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (i)"
+    source:
+      title_contains: [CERT-In Directions]
+      query: >-
+        connect to the Network Time Protocol NTP Server of National Informatics Centre NIC or
+        National Physical Laboratory NPL for synchronisation of all their ICT systems clocks
+    verified: false
+
+  # PML (Maintenance of Records) Rules, 2005
+  - id: CMP-PML-01
+    title: Suspicious and large cash transactions recorded and reported (STR/CTR)
+    family: aml_reporting
+    obligation: reporting
+    severity: High
+    applies_when:
+      terms: [transaction*, deposit*, withdrawal*, remittance*, cash, payment*, fund transfer*]
+    satisfied_when:
+      all_of:
+        - [suspicious transaction*, str, cash transaction report*, ctr, fiu, financial intelligence unit,
+           report suspicious]
+    proposed_requirement: >-
+      The system shall flag suspicious transactions and cash transactions above the
+      prescribed threshold, keep their records, and produce suspicious- and cash-transaction
+      reports for the Financial Intelligence Unit.
+    reference: "Prevention of Money-laundering (Maintenance of Records) Rules 2005, rule 3"
+    source:
+      title_contains: [Maintenance of Records]
+      # The first query resolved to §2(iii) -- the definition of a small account --
+      # at 0.65. This wording lands on rule 3 itself (0.71). Checked 14 Nov.
+      query: >-
+        Maintenance of records of transactions: every reporting entity shall maintain the record
+        of all suspicious transactions whether or not made in cash
+    verified: false
+
+  # IRDAI Information and Cyber Security Guidelines, 2023
+  - id: CMP-IRDAI-01
+    title: Insurer's ICT logs, critical and business data stored in India
+    family: data_localisation
+    obligation: security_control
+    severity: High
+    applies_when:
+      terms: [insur*, policyholder*, claim*, premium*, underwrit*]
+    satisfied_when:
+      all_of:
+        - *in_india
+    proposed_requirement: >-
+      The system shall keep its ICT infrastructure logs and all critical and business data in
+      India, with logs retained for a rolling 180 days.
+    reference: "IRDAI Information and Cyber Security Guidelines 2023 (logging; audit questionnaire items 145-146)"
+    source:
+      title_contains: [IRDAI]
+      query: >-
+        ICT infrastructure logs shall be maintained for a rolling period of 180 days and within the
+        Indian jurisdiction
+    verified: false

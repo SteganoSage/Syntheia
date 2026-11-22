@@ -132,10 +132,34 @@ def extract_requirements(
         system_prompt=SYSTEM_PROMPT,
         user_prompt=user_prompt,
         response_model=ExtractionDraft,
+        # Greedy, like every other agent. At the default 0.2 the same insurance
+        # scenario gave 5, then 2, then 5 requirements on consecutive 8B runs
+        # (14 Nov) -- and an extraction that changes on identical input cannot
+        # be evaluated, let alone defended.
+        temperature=0.0,
     )
     # Promote to full Requirements with `category` empty; the classification
     # node fills it.
-    return ExtractionResult.from_draft(draft)
+    result = ExtractionResult.from_draft(draft)
+
+    # Enforce the scope rule the prompt states and the 8B still broke.
+    from src.agents.project_facts import project_fact
+
+    kept = []
+    for r in result.requirements:
+        reason = project_fact(r.statement)
+        if reason:
+            result.dropped.append({"id": r.id, "statement": r.statement,
+                                   "reason": reason})
+        else:
+            kept.append(r)
+    # Never filter down to nothing: an extraction that yielded only project
+    # facts is a failure worth seeing, not an empty run that looks clean.
+    if kept:
+        result.requirements = kept
+    else:
+        result.dropped = []
+    return result
 
 
 if __name__ == "__main__":

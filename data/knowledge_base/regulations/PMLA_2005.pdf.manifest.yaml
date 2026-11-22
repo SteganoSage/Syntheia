@@ -1,0 +1,18 @@
+title: Prevention of Money-laundering (Maintenance of Records) Rules, 2005
+issuer: Ministry of Finance (Department of Revenue), Government of India
+doc_id: G.S.R. 444(E)
+jurisdiction: IN
+effective_date: 2005-07-01
+version: consolidated text, as amended
+applicability:
+- general  # PML Rules bind every reporting entity -- banks, insurers, intermediaries (added 14 Nov)
+- kyc_onboarding
+- lending
+- payments
+- regulatory_reporting
+doc_type: regulation
+url: ''
+# Downloaded manually by the user, 14 Nov 2026 as "PMLA_2005.pdf". It is the
+# RULES (record maintenance, the legal basis of the 5-year retention the KYC
+# direction applies), not the 2002 Act. In force on publication, 1 Jul 2005.
+# Source URL not verified.

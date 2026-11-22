@@ -1,0 +1,165 @@
+# Risk scoring rubric for the risk-analysis agent (PS agent table; §12 "threat
+# and risk register").
+#
+# Likelihood and impact are 1-5. Score = likelihood x impact; the rating bands
+# are the standard 5x5 matrix. Every number below is a judgement written down
+# so it can be argued with -- the same treatment the SDLC framework's derived
+# column gets. None of them is fitted to data, and they should not be: there is
+# no labelled risk data to fit to.
+#
+# STATUS: drafted by Claude 14 Nov 2026, unverified.
+
+version: "0.1"
+
+rating:          # minimum score for each rating
+  Critical: 20
+  High: 12
+  Medium: 6
+  Low: 1
+
+# Impact by the severity of the finding that raised the risk.
+severity_impact: {Critical: 5, High: 4, Medium: 3, Low: 2}
+
+# One entry per kind of finding the earlier agents produce.
+sources:
+  compliance_gap:
+    category: Compliance
+    likelihood: 4        # nothing covers it, so unless someone adds it, it will be missed
+    owner: Compliance officer
+    consequence: Regulatory breach found at audit or inspection, with penalty and rework.
+    mitigation: "Add the requirement: {proposed}"
+  compliance_weak:
+    category: Compliance
+    likelihood: 3        # covered, but short of the obligation
+    owner: Compliance officer
+    consequence: The obligation is only partly met, which an inspection will treat as unmet.
+    mitigation: "Strengthen the requirement: {detail}"
+  security_gap:
+    category: Security
+    likelihood: 3
+    owner: Information-security team
+    consequence: An exploitable weakness reaches production.
+    mitigation: "Add the requirement: {proposed}"
+  unprotected_data:
+    category: Security
+    likelihood: 3
+    impact_high: 5       # Aadhaar, PAN, card, biometrics, financial profile
+    impact_medium: 3
+    owner: Information-security team
+    consequence: Exposure of {label} — a reportable personal data breach.
+    mitigation: Add a requirement protecting {label} (encryption, masking, access control).
+  conflict:
+    category: Delivery
+    likelihood: 4        # contradictions surface late, usually in testing
+    impact: 3
+    owner: Business analyst
+    consequence: One of the two requirements will be built wrong and reworked.
+    mitigation: "{resolution}"
+  duplicate:
+    category: Delivery
+    likelihood: 3
+    impact: 2
+    owner: Business analyst
+    consequence: Duplicated effort, and the copies drift apart.
+    mitigation: Merge the requirements or state what distinguishes them.
+  ungrounded_regulation:
+    category: Compliance
+    likelihood: 3
+    impact: 4
+    owner: Compliance officer
+    consequence: The design rests on a regulation nobody has checked applies, or exists in that form.
+    mitigation: Have compliance confirm the named regulation and its applicable clause.
+  quality_issue:
+    category: Delivery
+    likelihood: 3
+    owner: Business analyst
+    consequence: The requirement cannot be built or tested as written.
+    mitigation: "{suggestion}"
+  integration_dependency:
+    category: Technical
+    likelihood: 3
+    impact: 4
+    owner: Software architect
+    consequence: An external system's availability, contract or interface change blocks a high-risk function.
+    mitigation: Agree interface contracts early, stub the dependency for testing, and define fallback behaviour.
+
+# Project-level risks read straight off the scenario. `terms` use the rule-pack
+# syntax; `pattern` is a regular expression for what terms cannot express.
+# Evidence is the sentence that matched -- quoted, never paraphrased.
+scenario_signals:
+  - id: legacy
+    title: Legacy migration — undocumented behaviour and data conversion
+    category: Technical
+    terms: [legacy, mainframe, cobol, migrat*, as is, re platform*, conversion, replicat*, rewrit*]
+    likelihood: 3
+    impact: 4
+    owner: Software architect
+    consequence: Behaviour the old system relied on is lost or data is converted wrongly.
+    mitigation: Inventory existing behaviour, reconcile migrated data, and run old and new in parallel before cut-over.
+  - id: schedule
+    title: Fixed deadline
+    category: Delivery
+    # Not "fair": in banking text it is "fair lending" and "fair practices code".
+    terms: [deadline*, go live, launch by, by the end of, fixed schedule, time box*]
+    pattern: '\b(?:within|in|by)\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|twelve|eighteen)\s+(?:weeks?|months?)\b'
+    likelihood: 3
+    impact: 3
+    owner: Project manager
+    consequence: Scope is cut or quality slips to hold the date.
+    mitigation: Agree what is in the first release, track it weekly, and protect testing time.
+  - id: small_team
+    title: Small team — key-person dependency
+    category: Operational
+    terms: [small team, single developer, one developer]
+    pattern: '\b(?:one|two|three|1|2|3)\s+(?:developers?|people|persons|engineers?|members?|programmers?)\b'
+    likelihood: 3
+    impact: 4
+    owner: Project manager
+    consequence: Losing one person stalls the project.
+    mitigation: Pair on critical components, document as you go, and identify a backup for each area.
+  - id: new_technology
+    title: Team new to the technology
+    category: Technical
+    terms: [never built, new to, first time, unfamiliar, no experience, no prior experience, novel,
+            cutting edge, emerging technolog*]
+    likelihood: 4
+    impact: 3
+    owner: Software architect
+    consequence: Estimates are wrong and design mistakes are found late.
+    mitigation: Spike the riskiest technical question first and bring in experienced review.
+  - id: external_dependency
+    title: Dependence on external services
+    category: Technical
+    terms: [third party, vendor*, credit bureau*, nsdl, cibil, uidai, npci, upi, external api*, external service*]
+    likelihood: 3
+    impact: 3
+    owner: Software architect
+    consequence: Outages or contract changes outside the bank's control stop the system.
+    mitigation: Define fallbacks and timeouts for every external call, and monitor provider SLAs.
+  - id: scale
+    title: Performance at scale
+    category: Technical
+    terms: [real time, millions, million, high volume, concurren*, peak, 24x7, 24 7, round the clock]
+    likelihood: 3
+    impact: 4
+    owner: Software architect
+    consequence: The system misses response or availability targets under real load.
+    mitigation: Set measurable targets and load-test against them before go-live.
+  - id: volatility
+    title: Requirements expected to change
+    category: Business
+    terms: [iterate, iterative, evolving, not sure, unclear, exploratory, mvp, pivot, based on user feedback, we will see]
+    likelihood: 4
+    impact: 3
+    owner: Product owner
+    consequence: Work built early is discarded as the scope moves.
+    mitigation: Deliver in short increments and keep the backlog prioritised with the product owner.
+  - id: regulatory_change
+    title: Regulation changing during delivery
+    category: Compliance
+    terms: [new regulation*, upcoming regulation*, amendment*, regulatory change*, evolving regulation*, draft guideline*]
+    likelihood: 3
+    impact: 4
+    owner: Compliance officer
+    consequence: Built behaviour falls out of compliance before or soon after go-live.
+    mitigation: Track the regulator's publications and keep rule logic configurable rather than hard-coded.

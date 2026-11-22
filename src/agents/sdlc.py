@@ -219,39 +219,15 @@ def infer_criteria(requirements: list[Requirement],
 
 # ── The evidence gate ──────────────────────────────────────────────────
 
-_WORD = re.compile(r"[a-z0-9']+")
-
-
-def _normalise(text: str) -> str:
-    """Lowercase, straighten quotes, collapse whitespace."""
-    text = text.lower().replace("\u2019", "'").replace("\u2018", "'")
-    text = text.replace("\u201c", '"').replace("\u201d", '"').replace("\u2014", " ")
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def _quotes_the_source(quote: str, source: str) -> bool:
-    """Is this quote actually traceable to the problem statement?
-
-    Substring after normalisation, else a word-overlap fallback -- the model
-    paraphrases as often as it quotes ("the original problem statement says the
-    product team is small"), and rejecting a faithful paraphrase would push a
-    correct answer to not_stated for a formatting reason.
-
-    This catches invented quotes. It cannot catch a real quote attached to the
-    wrong question -- credit_risk answered USER-2 ("are the user representatives
-    new to system definition?") YES and cited "they've never built ML systems
-    before", which is a true sentence about the TEAM. That needs a reader.
-    """
-    q, src = _normalise(quote), _normalise(source)
-    if not q:
-        return False
-    if q in src:
-        return True
-    words = [w for w in _WORD.findall(q) if len(w) > 3]
-    if not words:
-        return False
-    hits = sum(1 for w in words if w in src)
-    return hits / len(words) >= 0.6
+# Moved to src/utils/evidence.py so Phase B's agents apply the identical check.
+# Kept under the old names: the gate below and the tests both use them.
+#
+# The limit still applies: this catches invented quotes, not a real quote
+# attached to the wrong question -- credit_risk answered USER-2 ("are the user
+# representatives new to system definition?") YES citing "they've never built
+# ML systems before", a true sentence about the TEAM. That needs a reader.
+from src.utils.evidence import normalise as _normalise  # noqa: E402,F401
+from src.utils.evidence import quotes_source as _quotes_the_source  # noqa: E402
 
 
 def _gate_on_evidence(answers: list[CriterionAnswer],

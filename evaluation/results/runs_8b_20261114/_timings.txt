@@ -1,0 +1,12 @@
+pytest rc=0 53s_total 53s
+conflicts_judge rc=0 154s_total 101s
+planted_defects rc=1 357s_total 203s
+bank_migration rc=1 526s_total 169s
+credit_risk rc=1 717s_total 191s
+fintech_startup rc=1 892s_total 175s
+insurance_claims rc=1 1057s_total 165s
+kyc_onboarding rc=1 1359s_total 302s
+prof_payroll_conversion rc=1 1601s_total 242s
+prof_wristwatch rc=1 1795s_total 194s
+sdlc_eval rc=1 1795s_total 0s
+ALL DONE 09:40:32

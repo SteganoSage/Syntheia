@@ -116,3 +116,37 @@ def test_json_is_salvaged_from_wrapped_replies(reply, expected):
 @pytest.mark.parametrize("reply", ["", "no json here", "{broken: ,}"])
 def test_unsalvageable_replies_return_none(reply):
     assert extract_json(reply) is None
+
+
+def test_timed_run_reproduces_invoke_and_times_every_stage():
+    from main import _run_timed
+
+    class FakeGraph:
+        def stream(self, state, stream_mode):
+            assert stream_mode == "updates"
+            yield {"a": {"x": 1}}
+            yield {"b": {"x": 2, "y": 3}}
+            yield {"c": None}
+
+    state, times = _run_timed(FakeGraph(), {"x": 0, "z": 9})
+    assert state == {"x": 2, "y": 3, "z": 9}
+    assert list(times) == ["a", "b", "c"] and all(t >= 0 for t in times.values())
+
+
+def test_a_dead_endpoint_is_recognised_through_wrapping():
+    from main import _endpoint_failure
+
+    try:
+        try:
+            raise ConnectionError("HTTPSConnectionPool: Max retries exceeded (Connection refused)")
+        except ConnectionError as inner:
+            raise RuntimeError("llama3.1:8b failed to produce valid ExtractionDraft") from inner
+    except RuntimeError as outer:
+        assert _endpoint_failure(outer)
+
+
+def test_an_ordinary_bug_is_not_mistaken_for_a_dead_endpoint():
+    from main import _endpoint_failure
+
+    assert not _endpoint_failure(KeyError("requirements"))
+    assert not _endpoint_failure(ValueError("schema mismatch"))

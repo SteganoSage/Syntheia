@@ -1,0 +1,277 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  49%|████▉     | 98/199 [00:00<00:00, 974.59it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1035.38it/s]
+  classifier     12.1s  roberta_classifier
+  llm             5.5s  llama3.1:8b [cloud]
+  total          17.7s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights:  77%|███████▋  | 79/103 [00:00<00:00, 789.57it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 999.87it/s]
+  (10 question(s) would settle this — PTR-3, PTR-5, PTR-6, TEAM-2. Run at a terminal to be asked, or pass them in.)
+
+4 requirements in 154s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall enable two-way communication between         │
+│                wristwatch communicators within a 50-mile radius              │
+│                                                                              │
+│     categories Usability                                                     │
+│    stakeholder Product Manager                                               │
+│      rationale Competitive advantage in the market by offering a             │
+│                lower-priced alternative to cellular services                 │
+│     acceptance Successful two-way communication between wristwatch           │
+│                communicators within the specified range                      │
+│    regulations none claimed, none found (best match 0.34)                    │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall have a user-friendly interface for easy      │
+│                operation and configuration                                   │
+│                                                                              │
+│     categories Usability                                                     │
+│    stakeholder End User                                                      │
+│      rationale Increased adoption and customer satisfaction by providing an  │
+│                intuitive user experience                                     │
+│     acceptance Users can easily navigate and configure the device within 30  │
+│                minutes                                                       │
+│    regulations none claimed, none found (best match 0.54)                    │
+│    risk / conf Low · 0.8                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall be compatible with the national electronics  │
+│                fair's power and data requirements                            │
+│                                                                              │
+│     categories Regulatory                                                    │
+│    stakeholder Event Organizer                                               │
+│      rationale Successful demonstration of the product at the national       │
+│                electronics fair                                              │
+│     acceptance Device operates correctly and demonstrates features at the    │
+│                fair                                                          │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf Low · 0.7                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be developed and tested within six months to │
+│                meet the national electronics fair deadline                   │
+│                                                                              │
+│     categories Business, Operational                                         │
+│    stakeholder Project Manager                                               │
+│      rationale Successful product demonstration at the fair to generate      │
+│                interest and sales                                            │
+│     acceptance Working prototype available for demonstration at the fair     │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf High · 0.6                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  2 passed 2 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Undefined Terminology — The term 'wristwatch          │
+│                        communicators' is not defined. Is it a specific       │
+│                        device model or a generic term?                       │
+│                        → Define 'wristwatch communicators' in the            │
+│                        requirement or provide a reference to a published     │
+│                        source that defines it.                               │
+│  REQ-002    Low        Ambiguity — The term 'user-friendly' is vague and     │
+│                        not measurable. What specific characteristics make    │
+│                        the interface user-friendly?                          │
+│                        → Replace 'user-friendly' with specific, measurable   │
+│                        criteria, such as 'users can navigate and configure   │
+│                        the device within 30 minutes'.                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  2 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────── risk register  6 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   3×3=9   Market Acceptance (Business)         Project manager     │
+│                     The problem statement says:                              │
+│                     "value-added challenge to the                            │
+│                     cellular market"                                         │
+│  RISK-002   3×3=9   Technical Complexity (Business)      Project manager     │
+│                     The problem statement says:                              │
+│                     "wristwatch communicators, two-way                       │
+│                     radio, cellular market"                                  │
+│  RISK-003   3×3=9   Design and Testing (Delivery)        Project manager     │
+│                     The problem statement says: "within                      │
+│                     a 50-mile radius"                                        │
+│  RISK-004   3×3=9   Fixed deadline (Delivery)            Project manager     │
+│                     The problem statement says: "I                           │
+│                     would like to have a working model                       │
+│                     to present at a national                                 │
+│                     electronics fair in six months."                         │
+│  RISK-005   3×3=9   Security events monitored and        Information-secur…  │
+│                     alerted on (Security)                team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §19.6(b)                              │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-006   3×3=9   Vulnerability management, patching   Information-secur…  │
+│                     and security testing before release  team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §7.1                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────── open questions  11 ─────────────────────────────╮
+│ CQ-001 Are there transaction or approval limits — amounts above which extra  │
+│ checks or a senior approval are needed?                                      │
+│        §7 topic not covered: Financial transaction limits                    │
+│ CQ-002 How fast must it respond, how many users or transactions must it      │
+│ handle at peak, and how much downtime is acceptable?                         │
+│        §7 topic not covered: Performance and availability                    │
+│ CQ-003 How is this done today, and what in the current process must stay the │
+│ same?                                                                        │
+│        §7 topic not covered: Existing workflow                               │
+│ CQ-004 How should customers and staff sign in, and who is allowed to see,    │
+│ change or approve what?                                                      │
+│        §7 topic not covered: Authentication and authorisation                │
+│ CQ-005 What information goes in, what comes out, and which business rules    │
+│ decide the outcome — eligibility, thresholds, calculations, routing?         │
+│        §7 topic not covered: Inputs, outputs and business rules              │
+│ CQ-006 What personal and transaction data will be collected, and how long    │
+│ must each kind be kept before it is deleted?                                 │
+│        §7 topic not covered: Data collection and retention                   │
+│ CQ-007 What reports, audit trails or regulatory returns must the system      │
+│ produce, and for whom?                                                       │
+│        §7 topic not covered: Audit and reporting                             │
+│ CQ-008 What should happen when something goes wrong — a check fails, an      │
+│ external service is down, or an application is rejected?                     │
+│        §7 topic not covered: Exceptional conditions                          │
+│ … and 3 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  Prototype                                                                   │
+│                                                                              │
+│  also considered: Waterfall, Agile, Incremental                              │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Prototype ──────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are not yet well understood                   │
+│             • the full set cannot be pinned down before build starts         │
+│             • stakeholders need to see something working before they can say │
+│             what they want                                                   │
+│             • this takes the organisation somewhere it has not been before   │
+│             • this is not an extension of an existing system                 │
+│             • the product is not expected to be long-lived                   │
+│                                                                              │
+│    buys you A working model quickly                                          │
+│               This project needs to present a working model at the national  │
+│             electronics fair, implying that stakeholders need to see         │
+│             something working before they can say what they want (REQ-004).  │
+│             Requirements clarified by seeing them run                        │
+│               The requirements imply a new product line, not a reproduction  │
+│             of an existing system, and the company is still working out what │
+│             it wants (REQ-1).                                                │
+│             Technical risk investigated before committing                    │
+│               The requirements imply a feasible technical solution, as they  │
+│             are specific and well-defined, and the company has considerable  │
+│             prior experience in product lines similar to this (REQ-5).       │
+│             Early feedback from real users                                   │
+│               The project involves developing a new product direction for    │
+│             the organization, wristwatch communicators, which is a related   │
+│             but distinct area from their existing product lines (PTR-1).     │
+│                                                                              │
+│    gives up Prototype assumes scope is expected to keep changing as work     │
+│             goes on, and that technical feasibility itself is in doubt and   │
+│             has to be proven — neither is true here, so that part of its     │
+│             design earns nothing on this project.                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Waterfall ──────────────────────────────────────────────────────────────────╮
+│        fits • The project has a fixed delivery window with approved scope,   │
+│             implying stable requirements (REQ-3).                            │
+│             • The requirements imply a feasible technical solution, as they  │
+│             are specific and well-defined, and the company has considerable  │
+│             prior experience in product lines similar to this (REQ-5).       │
+│             • The company has considerable prior experience in product lines │
+│             similar to this (TEAM-1).                                        │
+│                                                                              │
+│    buys you Requirements are well-defined and stable                         │
+│               The project has a fixed delivery window with approved scope,   │
+│             implying stable requirements (REQ-3).                            │
+│             Requirements can be defined early in the cycle                   │
+│               The requirements imply a feasible technical solution, as they  │
+│             are specific and well-defined, and the company has considerable  │
+│             prior experience in product lines similar to this (REQ-5).       │
+│             Technical risk is low due to prior experience                    │
+│               The company has considerable prior experience in product lines │
+│             similar to this (TEAM-1).                                        │
+│                                                                              │
+│    gives up The project needs to present a working model at the national     │
+│             electronics fair, implying that stakeholders need to see         │
+│             something working before they can say what they want (REQ-004).  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Agile ──────────────────────────────────────────────────────────────────────╮
+│        fits • The project involves developing a new product direction for    │
+│             the organization, wristwatch communicators, which is a related   │
+│             but distinct area from their existing product lines (PTR-1).     │
+│             • The requirements imply a new product line, not a reproduction  │
+│             of an existing system, and the company is still working out what │
+│             it wants (REQ-1).                                                │
+│             • The project needs to present a working model at the national   │
+│             electronics fair, implying that stakeholders need to see         │
+│             something working before they can say what they want (REQ-004).  │
+│                                                                              │
+│    buys you Requirements can change often in the cycle                       │
+│               The requirements imply a new product line, not a reproduction  │
+│             of an existing system, and the company is still working out what │
+│             it wants (REQ-1).                                                │
+│             Requirements are clarified by seeing them run                    │
+│               The project involves developing a new product direction for    │
+│             the organization, wristwatch communicators, which is a related   │
+│             but distinct area from their existing product lines (PTR-1).     │
+│             Early feedback from real users is essential                      │
+│               The project needs to present a working model at the national   │
+│             electronics fair, implying that stakeholders need to see         │
+│             something working before they can say what they want (REQ-004).  │
+│                                                                              │
+│    gives up The project has a fixed delivery window with approved scope,     │
+│             implying stable requirements (REQ-3).                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ The recommended model is Prototype, as it fits the project's needs for a     │
+│ working model quickly, requirements clarified by seeing them run, technical  │
+│ risk investigated before committing, and early feedback from real users. The │
+│ project's fixed delivery window with approved scope implies stable           │
+│ requirements, making Waterfall less suitable. Agile is also less suitable    │
+│ due to the project's need for a working model at the national electronics    │
+│ fair.                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ Fixed delivery window + new product direction + working model at fair ->     │
+│ Prototype                                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/prof_wristwatch.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

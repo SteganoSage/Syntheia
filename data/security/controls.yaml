@@ -1,0 +1,290 @@
+# Security & privacy control catalogue — for the security and privacy agent
+# (PS agent table; §10 "missing security or compliance controls"; §17).
+#
+# Same format and engine as data/compliance/rules.yaml (src/agents/rulepack.py).
+# The split: compliance rules are OBLIGATIONS a regulator imposes; these are the
+# technical CONTROLS a financial system needs. Where a control has a source in
+# the knowledge base it is `basis: regulation` and cites it. Where it does not,
+# it is `basis: practice` and says so -- a finding must never borrow the
+# authority of a regulation it does not rest on.
+#
+# Audit trails and DR live in the compliance pack (RBI mandates them) and are
+# deliberately NOT repeated here, so one gap is reported once.
+#
+# STATUS: drafted by Claude 14 Nov 2026, `verified: false` throughout.
+
+version: "0.1"
+drafted: 2026-11-14
+
+rules:
+
+  - id: SEC-AUTH-01
+    title: Strong customer authentication — a second factor at login and for high-value actions
+    family: authentication
+    severity: High
+    applies_when:
+      terms: &customer_access [login, log in, sign in, portal, mobile app, web app*, internet banking,
+                               mobile banking, online, self service, wallet*, payment*, fund transfer*,
+                               customer account*]
+    satisfied_when:
+      all_of:
+        - [multi factor, mfa, 2fa, two factor, otp, one time password, step up, biometric*,
+           additional factor, second factor]
+    proposed_requirement: >-
+      The system shall authenticate customers with at least two factors at login, and
+      require step-up authentication for transactions above the organisation-approved
+      risk threshold.
+    reference: "RBI Master Direction on Digital Payment Security Controls 2021, para 33"
+    source:
+      title_contains: [Digital Payment Security Controls]
+      query: >-
+        implement multi-factor authentication for payments through electronic modes and fund
+        transfers through digital payment applications
+    verified: false
+
+  - id: SEC-AUTHZ-01
+    title: Role-based access with least privilege for staff and administrators
+    family: authorisation
+    severity: High
+    applies_when:
+      terms: [officer*, staff, admin*, employee*, approv*, underwriter*, agent*, operator*,
+              back office, role*, maker, checker, branch]
+    satisfied_when:
+      all_of:
+        - [role based, rbac, least privilege, need to know, access control*, authoris*, authoriz*,
+           permission*, maker checker, segregation of duties]
+    proposed_requirement: >-
+      The system shall grant staff access by role on a least-privilege, need-to-know
+      basis, and enforce maker-checker approval for sensitive operations.
+    reference: "RBI Cyber Security Framework 2016, Annex 1 paras 8.3–8.4"
+    source:
+      title_contains: [Cyber Security Framework]
+      query: >-
+        provide access rights on a need to know basis and for specific duration
+        disallow administrative rights
+    verified: false
+
+  - id: SEC-CRYPTO-01
+    title: Sensitive data encrypted at rest and in transit
+    family: cryptography
+    severity: High
+    applies_when:
+      terms: &sensitive_terms [personal data, customer data, pii, aadhaar, pan, account number*,
+                               card number*, biometric*, photograph*, income, salary, credit score*,
+                               bank statement*, kyc, document*]
+      categories: [Privacy, Security]
+    satisfied_when:
+      all_of:
+        - [encrypt*, tls, ssl, aes, https, cryptograph*]
+    proposed_requirement: >-
+      The system shall encrypt customer and transaction data at rest and in transit
+      using algorithms and key lengths approved under the bank's cryptographic policy.
+    reference: "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16"
+    source:
+      title_contains: [Cyber Security Framework, Information Technology Governance]
+      query: >-
+        Provide secure access to the bank's assets and services by protecting data and
+        information at rest using encryption and in-transit
+    verified: false
+
+  - id: SEC-CRYPTO-02
+    title: Cryptographic keys and secrets managed outside the application
+    family: cryptography
+    severity: Medium
+    applies_when:
+      terms: [encrypt*, cryptograph*, credential*, password*, api key*, secret*, certificate*]
+    satisfied_when:
+      all_of:
+        - [key management, hsm, hardware security module, key rotation, secrets management,
+           secret management, vault]
+    proposed_requirement: >-
+      The system shall keep cryptographic keys and service credentials in a managed key
+      store or HSM, rotate them on a defined schedule, and never embed them in code or
+      configuration files.
+    reference: "RBI IT Governance Direction 2023, para 16 (cryptographic controls)"
+    source:
+      title_contains: [Information Technology Governance]
+      query: >-
+        cryptographic controls key length algorithms cipher suites key management
+    verified: false
+
+  - id: SEC-SESSION-01
+    title: Sessions time out and repeated failed logins lock the account
+    family: authentication
+    severity: Medium
+    applies_when:
+      terms: *customer_access
+    satisfied_when:
+      all_of:
+        - [timeout, time out, session expir*, inactivity, lock*, invalid attempt*, failed attempt*,
+           failed login*]
+    proposed_requirement: >-
+      The system shall end inactive sessions after a defined timeout and temporarily lock
+      access after repeated failed login attempts.
+    reference: "RBI Digital Payment Security Controls 2021, para 52 (and para 62 for mobile re-authentication)"
+    source:
+      title_contains: [Digital Payment Security Controls]
+      query: An online session shall be automatically terminated after a fixed period of inactivity
+    verified: false
+
+  - id: SEC-MOBILE-01
+    title: Mobile app refuses rooted/jailbroken devices and checks its own integrity
+    family: secure_development
+    severity: Medium
+    applies_when:
+      terms: [mobile app*, mobile application*, android, ios, app based, smartphone app*]
+    satisfied_when:
+      all_of:
+        - [rooted, root detection, jailbr*, tamper*, device binding, app integrity, integrity check*,
+           checksum]
+    proposed_requirement: >-
+      The mobile app shall refuse to install or run on rooted or jailbroken devices, bind
+      itself to the customer's device and SIM, and verify its own checksum at start-up.
+    reference: "RBI Digital Payment Security Controls 2021, paras 58-59"
+    source:
+      title_contains: [Digital Payment Security Controls]
+      query: >-
+        code that checks if the device is rooted or jailbroken prior to the installation of the
+        mobile application and disallow it to install or function
+    verified: false
+
+  - id: SEC-VULN-01
+    title: Vulnerability management, patching and security testing before release
+    family: secure_development
+    severity: Medium
+    applies_when:
+      terms: [system, platform, application, portal, app, software]
+    satisfied_when:
+      all_of:
+        - [vulnerab*, patch*, penetration test*, pen test*, vapt, security test*, security assessment*,
+           security scan*, code review*]
+    proposed_requirement: >-
+      The system shall undergo vulnerability assessment and penetration testing before
+      go-live and after major changes, and its components shall be patched under the
+      bank's patch management policy.
+    reference: "RBI Cyber Security Framework 2016, Annex 1 para 7"
+    source:
+      title_contains: [Cyber Security Framework]
+      query: >-
+        documented risk-based strategy for inventorying IT components that need to be
+        patched and applying patches to minimise vulnerable systems
+    verified: false
+
+  - id: SEC-MON-01
+    title: Security events monitored and alerted on
+    family: monitoring
+    severity: Medium
+    applies_when:
+      terms: [system, platform, application, portal, app]
+    satisfied_when:
+      all_of:
+        - [siem, soc, security operations, security monitor*, intrusion*, anomal*, security alert*,
+           threat detect*, suspicious activit*]
+    proposed_requirement: >-
+      The system shall forward security events to the bank's security operations
+      monitoring and raise alerts on anomalous access or activity.
+    reference: "RBI Cyber Security Framework 2016 — continuous surveillance / SOC"
+    source:
+      title_contains: [Cyber Security Framework, Outsourcing of Information Technology]
+      query: >-
+        security operations centre continuous surveillance monitoring of security events
+    verified: false
+
+  - id: SEC-APPSEC-01
+    title: Input validated and secure coding practices applied
+    family: secure_development
+    severity: Medium
+    applies_when:
+      terms: [portal, web*, api*, mobile app, form*, upload*]
+    satisfied_when:
+      all_of:
+        - [input validation, validate input*, validat* user input, sanitiz*, sanitis*, owasp,
+           secure coding, injection]
+    proposed_requirement: >-
+      The system shall validate all input on the server side and be built and tested
+      against the OWASP Application Security Verification Standard.
+    reference: "OWASP ASVS (industry practice; not in the knowledge base)"
+    basis: practice
+    verified: false
+
+  - id: SEC-API-01
+    title: Integrations authenticated, encrypted and rate-limited
+    family: integration_security
+    severity: High
+    applies_when:
+      terms: [api*, integrat*, third party, external system*, nsdl, cibil, credit bureau*, uidai,
+              npci, upi, gateway*, core banking]
+      categories: [Integration]
+    satisfied_when:
+      all_of:
+        - [api*, integrat*, interface*, gateway*, connection*]
+        - [authenticat*, oauth, token*, mutual tls, mtls, certificate*, whitelist*, allowlist*,
+           rate limit*, encrypt*]
+    proposed_requirement: >-
+      Every integration with an external system shall be mutually authenticated,
+      encrypted in transit, allow-listed and rate-limited, with failures logged.
+    reference: "Industry practice (OWASP API Security Top 10)"
+    basis: practice
+    verified: false
+
+  - id: PRIV-MASK-01
+    title: Sensitive identifiers masked on screens, in logs and in reports
+    family: data_protection
+    severity: High
+    applies_when:
+      terms: [aadhaar, pan, account number*, card number*, mobile number*]
+    satisfied_when:
+      all_of:
+        - [mask*, redact*, tokeni*, truncat*, obfuscat*]
+    proposed_requirement: >-
+      The system shall mask account, card, PAN and mobile numbers wherever they are
+      displayed, logged or exported, showing only the last four characters.
+    reference: "Industry practice; Aadhaar masking is a regulation (see CMP-AADHAAR-01)"
+    basis: practice
+    verified: false
+
+  - id: PRIV-MIN-01
+    title: Only the personal data necessary for the stated purpose is collected
+    family: data_protection
+    severity: Medium
+    applies_when:
+      terms: *sensitive_terms
+      categories: [Privacy]
+    satisfied_when:
+      all_of:
+        - [data minimi*, minimi* data, only necessary data, purpose limitation, limited to the purpose,
+           necessary for the purpose, minimum data, only the data required]
+    proposed_requirement: >-
+      The system shall collect only the personal data necessary for each specified
+      purpose and reject or discard fields not required for it.
+    reference: "DPDP Act 2023, s. 6(1) — consent limited to data necessary for the purpose"
+    source:
+      title_contains: [Digital Personal Data Protection]
+      query: >-
+        consent shall be limited to such personal data as is necessary for the specified purpose
+    verified: false
+
+
+# ── Sensitive data inventory ─────────────────────────────────────────────
+#
+# What kinds of sensitive data the project touches, and whether any requirement
+# protects each. Feeds Phase E (masking before anything reaches the LLM).
+#
+# A requirement protects a class when it names the class (or a blanket term
+# such as "personal data") AND one of the protection terms.
+
+sensitive_data:
+  protection_terms: [encrypt*, mask*, redact*, tokeni*, consent*, access control*, role based,
+                     anonymi*, pseudonymi*, vault*, confidential*]
+  blanket_terms: [personal data, sensitive data, customer data, pii, all data, customer information]
+  classes:
+    - {kind: aadhaar,      label: Aadhaar number,           sensitivity: high,   terms: [aadhaar, aadhar, uid number]}
+    - {kind: pan,          label: PAN,                      sensitivity: high,   terms: [pan, permanent account number]}
+    - {kind: bank_account, label: Bank account details,     sensitivity: high,   terms: [account number*, bank account*, ifsc]}
+    - {kind: card,         label: Card data,                sensitivity: high,   terms: [card number*, cvv, card pin, atm pin, card details]}
+    - {kind: biometric,    label: Biometrics / likeness,    sensitivity: high,   terms: [biometric*, fingerprint*, face match*, facial, photograph*, selfie*, liveness, video kyc, v cip]}
+    - {kind: financial,    label: Financial profile,        sensitivity: high,   terms: [income, salary, credit score*, cibil, credit history, bank statement*, itr, tax return*]}
+    - {kind: health,       label: Health data,              sensitivity: high,   terms: [health, medical, disabilit*, diagnosis]}
+    - {kind: contact,      label: Contact details,          sensitivity: medium, terms: [mobile number*, phone number*, email address*, residential address, home address]}
+    - {kind: location,     label: Location data,            sensitivity: medium, terms: [geolocation, geo location, gps, location data]}
+    - {kind: device,       label: Device / network identifiers, sensitivity: medium, terms: [device id*, ip address*, device fingerprint*]}

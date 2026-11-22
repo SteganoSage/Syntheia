@@ -1,0 +1,398 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  46%|████▌     | 91/199 [00:00<00:00, 900.51it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1061.09it/s]
+  classifier     11.9s  roberta_classifier
+  llm             5.9s  llama3.1:8b [cloud]
+  total          17.8s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights:  87%|████████▋ | 90/103 [00:00<00:00, 898.78it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1004.11it/s]
+  (1 question(s) would settle this — TEAM-5. Run at a terminal to be asked, or pass them in.)
+
+5 requirements in 136s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall provide a user-friendly interface for rural  │
+│                customers to submit claims                                    │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder End User                                                      │
+│      rationale Rural customers have limited technical expertise; simple      │
+│                interface increases adoption rates                            │
+│     acceptance Portal's claim submission form has a maximum of 5 steps and   │
+│                uses clear, concise language                                  │
+│     UNGROUNDED claims IRDAI — nothing in the knowledge base supports it      │
+│                (best match 0.47)                                             │
+│                needs human review                                            │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall integrate with existing insurance company    │
+│                databases for claims processing                               │
+│                                                                              │
+│     categories Functional, Integration                                       │
+│    stakeholder Business Analyst                                              │
+│      rationale Integration reduces manual data entry errors and increases    │
+│                processing speed                                              │
+│     acceptance Claims data is successfully retrieved and processed within 2  │
+│                hours of submission                                           │
+│     UNGROUNDED claims IRDAI — nothing in the knowledge base supports it      │
+│                (best match 0.55)                                             │
+│                needs human review                                            │
+│      precedent 0.55  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §10 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall store and manage claims data in compliance   │
+│                with IRDAI regulations                                        │
+│                                                                              │
+│     categories Regulatory, Data-management                                   │
+│    stakeholder Compliance Officer                                            │
+│      rationale Compliance with regulations ensures data security and         │
+│                integrity                                                     │
+│     acceptance System logs and audit trails are maintained for 5 years and   │
+│                are accessible for regulatory review                          │
+│       grounded 0.58  Digital Personal Data Protection Act, 2023 §44 (Act No. │
+│                22 of 2023) [as enacted]                                      │
+│                0.57  Digital Personal Data Protection Act, 2023 §10(b) (Act  │
+│                No. 22 of 2023) [as enacted]                                  │
+│                0.57  Digital Personal Data Protection Act, 2023 §4(e) (Act   │
+│                No. 22 of 2023) [as enacted]                                  │
+│                                                                              │
+│      precedent 0.56  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §8 (RFP  │
+│                — Fraud Detection and Prevention System) [current             │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide real-time updates to customers on    │
+│                claim status                                                  │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder End User                                                      │
+│      rationale Real-time updates increase customer satisfaction and reduce   │
+│                inquiries                                                     │
+│     acceptance Customers receive email notifications within 30 minutes of    │
+│                claim status update                                           │
+│    regulations none claimed, none found (best match 0.48)                    │
+│    risk / conf Low · 0.8                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  Low priority ──────────────────────────────────────────────────────╮
+│                The system shall be scalable to handle increased traffic      │
+│                during peak periods                                           │
+│                                                                              │
+│     categories Performance                                                   │
+│    stakeholder Development Team                                              │
+│      rationale Scalability ensures high availability and performance during  │
+│                peak periods                                                  │
+│     acceptance System handles 50% increase in traffic without degradation in │
+│                performance                                                   │
+│    regulations none claimed, none found (best match 0.51)                    │
+│    risk / conf Low · 0.7                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  4 passed 1 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Undefined Terminology — The term 'user-friendly' is   │
+│                        not measurable.                                       │
+│                        → Replace with a measurable definition, e.g., 'The    │
+│                        system shall provide an interface with a user         │
+│                        experience score of at least 80 on the System         │
+│                        Usability Scale (SUS).'                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  2 gap 1 covered ─────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-GRV-01       Medium    A grievance redressal mechanism for customers    │
+│                             Master Direction on Outsourcing of Information   │
+│                             Technology Services §7 (RBI/2023-24/102)         │
+│                             → The system shall let customers raise           │
+│                             complaints and disputes, track them to           │
+│                             resolution, and show the contact details of the  │
+│                             designated grievance redressal officer.          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-003   not_applicable  shall maintain data protection board              │
+│                            Digital Personal Data Protection Act, 2023 §44    │
+│                            (Act No. 22 of 2023)  · IN                        │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ continuity  Business continuity and disaster recovery for the system         │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §28 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  9 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-AUTH-01      High      Strong customer authentication — a second        │
+│                             factor at login and for high-value actions       │
+│                             Cyber Security Framework in Banks §8.4           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall authenticate customers with   │
+│                             at least two factors at login, and require       │
+│                             step-up authentication for transactions above    │
+│                             the organisation-approved risk threshold.        │
+│                             needs compliance/legal sign-off                  │
+│  SEC-AUTHZ-01     High      Role-based access with least privilege for       │
+│                             staff and administrators                         │
+│                             Cyber Security Framework in Banks §8.3           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall grant staff access by role    │
+│                             on a least-privilege, need-to-know basis, and    │
+│                             enforce maker-checker approval for sensitive     │
+│                             operations.                                      │
+│                             needs compliance/legal sign-off                  │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-SESSION-01   Medium    Sessions time out and repeated failed logins     │
+│                             lock the account  (practice, not regulation)     │
+│                             RBI PPI Directions para 15.3 (applied here as    │
+│                             general practice)                                │
+│                             → The system shall end inactive sessions after   │
+│                             a defined timeout and temporarily lock access    │
+│                             after repeated failed login attempts.            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  17 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-002   4×3=12  A grievance redressal mechanism for  Compliance officer  │
+│                     customers (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Outsourcing of Information                               │
+│                     Technology Services §7                                   │
+│                     (RBI/2023-24/102) )                                      │
+│  RISK-003   3×4=12  Unverified regulation on REQ-001     Compliance officer  │
+│                     (Compliance)                                             │
+│                     REQ-001 names IRDAI, which nothing                       │
+│                     in the knowledge base supports.                          │
+│  RISK-004   3×4=12  Unverified regulation on REQ-002     Compliance officer  │
+│                     (Compliance)                                             │
+│                     REQ-002 names IRDAI, which nothing                       │
+│                     in the knowledge base supports.                          │
+│  RISK-005   3×4=12  Integrations authenticated,          Information-secur…  │
+│                     encrypted and rate-limited           team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (practice: Industry                              │
+│                     practice (OWASP API Security Top                         │
+│                     10)).                                                    │
+│  RISK-006   3×4=12  Role-based access with least         Information-secur…  │
+│                     privilege for staff and              team                │
+│                     administrators (Security)                                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.3                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-007   3×4=12  Sensitive data encrypted at rest     Information-secur…  │
+│                     and in transit (Security)            team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.1                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-008   3×4=12  Strong customer authentication — a   Information-secur…  │
+│                     second factor at login and for       team                │
+│                     high-value actions (Security)                            │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.4                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-009   3×4=12  High-risk function depends on an     Software architect  │
+│                     external system (REQ-002)                                │
+│                     (Technical)                                              │
+│                     REQ-002 is high risk and classified                      │
+│                     Integration: The system shall                            │
+│                     integrate with existing insurance                        │
+│                     company databases for claims                             │
+│                     processing                                               │
+│  RISK-010   3×3=9   Regulatory Compliance Risk           Project manager     │
+│                     (Business)                                               │
+│                     The problem statement says: "IRDAI                       │
+│                     regulations"                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 7 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'claim*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-002 Integrations authenticated, encrypted and rate-limited. Should the    │
+│ system include: “Every integration with an external system shall be mutually │
+│ authenticated, encrypted in transit, allow-listed and rate-limited, with     │
+│ failures logged”?                                                            │
+│        SEC-API-01 (practice)                                                 │
+│ CQ-003 Role-based access with least privilege for staff and administrators.  │
+│ Should the system include: “The system shall grant staff access by role on a │
+│ least-privilege, need-to-know basis, and enforce maker-checker approval for  │
+│ sensitive operations”?                                                       │
+│        SEC-AUTHZ-01 (regulation)                                             │
+│ CQ-004 Sensitive data encrypted at rest and in transit. Should the system    │
+│ include: “The system shall encrypt customer and transaction data at rest and │
+│ in transit using algorithms and key lengths approved under the bank's        │
+│ cryptographic policy”?                                                       │
+│        SEC-CRYPTO-01 (regulation)                                            │
+│ CQ-005 Strong customer authentication — a second factor at login and for     │
+│ high-value actions. Should the system include: “The system shall             │
+│ authenticate customers with at least two factors at login, and require       │
+│ step-up authentication for transactions above the organisation-approved risk │
+│ threshold”?                                                                  │
+│        SEC-AUTH-01 (regulation)                                              │
+│ CQ-006 Are there transaction or approval limits — amounts above which extra  │
+│ checks or a senior approval are needed?                                      │
+│        §7 topic not covered: Financial transaction limits                    │
+│ CQ-007 How should customers and staff sign in, and who is allowed to see,    │
+│ change or approve what?                                                      │
+│        §7 topic not covered: Authentication and authorisation                │
+│ CQ-008 What reports, audit trails or regulatory returns must the system      │
+│ produce, and for whom?                                                       │
+│        §7 topic not covered: Audit and reporting                             │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  Waterfall                                                                   │
+│                                                                              │
+│  also considered: V-Shaped, RAD, Incremental                                 │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Waterfall ──────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are already well understood                   │
+│             • the full set can be pinned down before build starts            │
+│             • scope is settled and is not expected to change                 │
+│             • stakeholders can specify what they want without seeing it      │
+│             first                                                            │
+│             • technical feasibility is not in doubt                          │
+│             • this is familiar ground for the organisation                   │
+│                                                                              │
+│    buys you Predictable schedule and cost                                    │
+│               This is relevant because the project has a team of 15          │
+│             developers and funding approved for 18 months, implying a stable │
+│             and predictable schedule.                                        │
+│             Clear phase gates and sign-offs                                  │
+│               This is relevant because the project has a 200-page RFP that   │
+│             implies clear requirements and phase gates.                      │
+│             Documentation produced as you go                                 │
+│               This is relevant because the project has a 200-page RFP that   │
+│             implies documentation is already being produced.                 │
+│             Simple to manage and staff                                       │
+│               This is relevant because the project has a team of 15          │
+│             developers and funding approved for 18 months, implying a        │
+│             manageable and staffed project.                                  │
+│                                                                              │
+│    gives up Waterfall assumes the system stands on its own, and that the     │
+│             users do not want to be involved throughout — neither is true    │
+│             here, so that part of its design earns nothing on this project.  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ The project's predictable schedule, clear phase gates, and stable            │
+│ requirements make Waterfall the best choice. The project's need for user     │
+│ representatives and system integration also align with Waterfall's           │
+│ assumptions.                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ Predictable schedule + Clear phase gates + Stable requirements -> Waterfall  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/insurance_claims.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • "The system shall provide a user-friendly interface for rural customers to │
+│ submit claims" claims IRDAI applies, but nothing in the knowledge base       │
+│ supports that — the citation is unverified.                                  │
+│ • "The system shall integrate with existing insurance company databases for  │
+│ claims processing" claims IRDAI applies, but nothing in the knowledge base   │
+│ supports that — the citation is unverified.                                  │
+│ • 1 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Business continuity and disaster recovery for the system.                    │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│ • could not establish whether people will be pulled onto other work during   │
+│ the project — the model gave an answer but could not point at anything in    │
+│ the scenario that says so, so it was left out of the scoring.                │
+│ • could not establish whether the user representatives have not specified    │
+│ software before — the model gave an answer but could not point at anything   │
+│ in the scenario that says so, so it was left out of the scoring.             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

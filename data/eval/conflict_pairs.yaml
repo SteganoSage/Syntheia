@@ -1,0 +1,133 @@
+# Labelled requirement pairs for the conflict-detection agent.
+#
+#   python -m notebooks.14_eval_conflicts            # candidate stage, no LLM
+#   python -m notebooks.14_eval_conflicts --judge    # plus the LLM judge
+#
+# Hand-written by Claude, 14 Nov 2026, from financial-services phrasing.
+# verified: false -- every label is Claude's and needs a person's check before
+# any number from this file is reported. (Same status as ground_truth.json's
+# B1 problem; stated here so it cannot be forgotten.)
+#
+# label: conflict | duplicate | overlap | unrelated
+#   conflict   both cannot be satisfied as written
+#   duplicate  building one builds the other
+#   overlap    related, both satisfiable
+#   unrelated  different subjects
+#
+# The hard cases are the point: different numbers for DIFFERENT things
+# (unrelated), and a general rule plus a specific one (overlap, not conflict).
+
+verified: false
+
+pairs:
+  # ── conflicts ─────────────────────────────────────────────────────────
+  - id: P01
+    label: conflict
+    a: The system shall display the loan decision within 30 seconds of submission.
+    b: The system shall return the loan decision to the applicant in under 10 seconds.
+  - id: P02
+    label: conflict
+    a: Loan applications above INR 5 lakh shall require approval by a branch credit officer.
+    b: The decision engine shall automatically approve loan applications up to INR 10 lakh.
+  - id: P03
+    label: conflict
+    a: The system shall store the full Aadhaar number of every customer for reference.
+    b: The system shall not store full Aadhaar numbers anywhere in its databases.
+  - id: P04
+    label: conflict
+    a: Customer session tokens shall expire after 5 minutes of inactivity.
+    b: Customer sessions shall remain active for 30 minutes of inactivity before timing out.
+  - id: P05
+    label: conflict
+    a: The platform shall be available 99.9% of the time during banking hours.
+    b: The platform shall guarantee 99.99% availability during banking hours.
+  - id: P06
+    label: conflict
+    a: Transaction records shall be retained for 5 years from the date of transaction.
+    b: Transaction records shall be purged after 2 years from the date of transaction.
+  - id: P07
+    label: conflict
+    a: The daily UPI transfer limit for new customers shall be INR 1 lakh.
+    b: New customers shall be allowed UPI transfers of up to INR 25,000 per day.
+  - id: P08
+    label: conflict
+    a: Customers shall be able to close their account entirely online.
+    b: Account closure shall require the customer to visit a branch in person.
+  - id: P09
+    label: conflict
+    a: The system shall send an OTP for every fund transfer regardless of amount.
+    b: Fund transfers below INR 2,000 shall not require an OTP.
+  - id: P10
+    label: conflict
+    a: Credit bureau reports shall be fetched at most once per application.
+    b: The system shall re-fetch the credit bureau report at every stage of the approval workflow.
+
+  # ── duplicates ────────────────────────────────────────────────────────
+  - id: P11
+    label: duplicate
+    a: Applicants shall sign in with their mobile number and a password.
+    b: Users shall log in using their registered mobile number and password.
+  - id: P12
+    label: duplicate
+    a: The system shall encrypt all customer data at rest.
+    b: All customer information stored by the system shall be encrypted.
+  - id: P13
+    label: duplicate
+    a: The system shall send an SMS to the customer after every card transaction.
+    b: Cardholders shall receive an SMS alert for each card transaction.
+  - id: P14
+    label: duplicate
+    a: The system shall verify the applicant's PAN against the NSDL database.
+    b: The applicant's PAN shall be validated with NSDL.
+  - id: P15
+    label: duplicate
+    a: Failed login attempts shall be locked out after three consecutive failures.
+    b: The account shall be locked after 3 failed login attempts in a row.
+  - id: P16
+    label: duplicate
+    a: The system shall generate a monthly MIS report of disbursed loans for management.
+    b: A monthly management report listing all loans disbursed shall be produced.
+
+  # ── overlaps (related, both satisfiable) ─────────────────────────────
+  - id: P17
+    label: overlap
+    a: The system shall encrypt all customer data at rest.
+    b: The system shall encrypt Aadhaar numbers using AES-256.
+  - id: P18
+    label: overlap
+    a: The system shall log all user actions.
+    b: The system shall keep an audit trail of every change to loan approval limits.
+  - id: P19
+    label: overlap
+    a: The system shall respond to balance enquiries within 2 seconds.
+    b: The system shall respond to all customer requests within 5 seconds.
+  - id: P20
+    label: overlap
+    a: Customers shall be able to raise complaints through the mobile app.
+    b: Complaints shall be acknowledged within 24 hours and resolved within 30 days.
+  - id: P21
+    label: overlap
+    a: The system shall integrate with the core banking system for account opening.
+    b: Account balances shall be fetched from the core banking system in real time.
+
+  # ── unrelated (incl. different numbers for different things) ─────────
+  - id: P22
+    label: unrelated
+    a: The system shall respond to balance enquiries within 2 seconds.
+    b: KYC records shall be retained for 5 years after the account is closed.
+  - id: P23
+    label: unrelated
+    a: Loans above INR 5 lakh shall require officer approval.
+    b: The app shall support Hindi, English and Tamil.
+  - id: P24
+    label: unrelated
+    a: Sessions shall time out after 5 minutes of inactivity.
+    b: Statements shall be emailed within 5 days of month end.
+  - id: P25
+    label: unrelated
+    a: The system shall verify the applicant's PAN against NSDL.
+    b: The system shall generate a sanction letter as a PDF.
+  - id: P26
+    label: unrelated
+    a: Fraud alerts shall be sent to the fraud team within 1 minute.
+    b: Marketing consent shall be collected separately from service consent.

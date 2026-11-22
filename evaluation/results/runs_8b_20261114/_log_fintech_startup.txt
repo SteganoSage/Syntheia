@@ -1,0 +1,405 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  43%|████▎     | 85/199 [00:00<00:00, 844.53it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1019.52it/s]
+  classifier     12.0s  roberta_classifier
+  llm             4.8s  llama3.1:8b [cloud]
+  total          16.8s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1064.65it/s]
+  (2 question(s) would settle this — PTR-5, PTR-6. Run at a terminal to be asked, or pass them in.)
+
+2 requirements in 135s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall disburse loans within 10 minutes of approval │
+│                                                                              │
+│     categories Functional, Performance                                       │
+│    stakeholder Business Owner                                                │
+│      rationale Quick disbursal increases customer satisfaction and reduces   │
+│                loan application abandonment rates                            │
+│     acceptance Loan disbursal occurs within 10 minutes of approval, as       │
+│                measured by system logs                                       │
+│    regulations none claimed, none found (best match 0.57)                    │
+│      precedent 0.57  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §185 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.57  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §164 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support iterative development and deployment │
+│                                                                              │
+│     categories Business, Operational                                         │
+│    stakeholder Development Team                                              │
+│      rationale Requirements will change as we learn from user feedback;      │
+│                iterative development enables rapid adaptation                │
+│     acceptance New features are deployed to production within 1 week of      │
+│                development completion, as measured by version control system │
+│    regulations none claimed, none found (best match 0.53)                    │
+│    risk / conf Low · 0.8                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  1 passed 1 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Infeasibility — The requirement states that the       │
+│                        system shall disburse loans within 10 minutes of      │
+│                        approval, but the assumption states that the loan     │
+│                        approval process is automated and does not require    │
+│                        manual intervention. This implies that the system     │
+│                        may not be able to disburse loans within 10 minutes   │
+│                        if the approval process takes longer than 10          │
+│                        minutes.                                              │
+│                        → Clarify the assumption to state that the loan       │
+│                        approval process takes less than 10 minutes, or       │
+│                        adjust the requirement to account for potential       │
+│                        delays in the approval process.                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  5 gap 0 covered ─────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-01     High      Audit trails on every application that can       │
+│                             access or affect critical or sensitive           │
+│                             information                                      │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §15 (RBI/2023-24                       │
+│                             → The system shall keep tamper-evident audit     │
+│                             trails of every access to and change of          │
+│                             customer and transaction data, recording who     │
+│                             acted, what changed and when.                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-KYC-02       High      Transaction records kept at least five years     │
+│                             from the date of transaction                     │
+│                             Master Direction — Know Your Customer (KYC)      │
+│                             Direction, 2016 §(a) (RBI/DBR/2015-16/18)        │
+│                             → The system shall retain records of all         │
+│                             transactions with the customer for at least      │
+│                             five years from the date of the transaction.     │
+│                             needs compliance/legal sign-off                  │
+│  CMP-FRAUD-02     Medium    Early warning signals monitored on credit        │
+│                             accounts                                         │
+│                             Master Directions on Fraud Risk Management in    │
+│                             Commercial Banks (including RRBs) and AIFIs      │
+│                             §3.1 (RBI/2024-25 Fr                             │
+│                             → The system shall monitor credit accounts       │
+│                             against early warning signals and flag accounts  │
+│                             showing them for review under the bank's fraud   │
+│                             risk framework.                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   Transaction records kept at least five years from the date of    │
+│ transaction                                                                  │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(a) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ continuity  Business continuity and disaster recovery for the system         │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §28 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  3 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-AUTHZ-01     High      Role-based access with least privilege for       │
+│                             staff and administrators                         │
+│                             Cyber Security Framework in Banks §8.3           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall grant staff access by role    │
+│                             on a least-privilege, need-to-know basis, and    │
+│                             enforce maker-checker approval for sensitive     │
+│                             operations.                                      │
+│                             needs compliance/legal sign-off                  │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  13 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Audit trails on every application    Compliance officer  │
+│                     that can access or affect critical                       │
+│                     or sensitive information                                 │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §15 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-003   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-004   4×4=16  Transaction records kept at least    Compliance officer  │
+│                     five years from the date of                              │
+│                     transaction (Compliance)                                 │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction —                          │
+│                     Know Your Customer (KYC) Direction,                      │
+│                     2016 §(a) (RBI/DBR/2015-16/18) )                         │
+│  RISK-005   4×3=12  Requirements expected to change      Product owner       │
+│                     (Business)                                               │
+│                     The problem statement says: "The                         │
+│                     product team is small — 3 people —                       │
+│                     and the CEO wants to launch an MVP                       │
+│                     in 2 months, then iterate based on                       │
+│                     user feedback."                                          │
+│  RISK-006   4×3=12  Early warning signals monitored on   Compliance officer  │
+│                     credit accounts (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Directions on                        │
+│                     Fraud Risk Management in Commercial                      │
+│                     Banks (including RRBs) and AIFIs                         │
+│                     §3.1 (RBI/2024-25 Fraud Risk                             │
+│                     Management) )                                            │
+│  RISK-007   3×4=12  Small team — key-person dependency   Project manager     │
+│                     (Operational)                                            │
+│                     The problem statement says: "The                         │
+│                     product team is small — 3 people —                       │
+│                     and the CEO wants to launch an MVP                       │
+│                     in 2 months, then iterate based on                       │
+│                     user feedback."                                          │
+│  RISK-008   3×4=12  Role-based access with least         Information-secur…  │
+│                     privilege for staff and              team                │
+│                     administrators (Security)                                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.3                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-009   3×3=9   Insufficient User Feedback           Project manager     │
+│                     (Business)                                               │
+│                     The problem statement says: "user                        │
+│                     feedback"                                                │
+│  RISK-010   3×3=9   Fixed deadline (Delivery)            Project manager     │
+│                     The problem statement says: "The                         │
+│                     product team is small — 3 people —                       │
+│                     and the CEO wants to launch an MVP                       │
+│                     in 2 months, then iterate based on                       │
+│                     user feedback."                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 3 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Audit trails on every application that can access or affect critical  │
+│ or sensitive information (Master Direction on Information Technology         │
+│ Governance, Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)     │
+│ [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep tamper-evident audit trails of every  │
+│ access to and change of customer and transaction data, recording who acted,  │
+│ what changed and when”?                                                      │
+│        CMP-ITGOV-01: triggered by 'loan*' in the scenario, 'loan*' in        │
+│ REQ-001                                                                      │
+│ CQ-002 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'loan*' in the scenario, 'loan*' in        │
+│ REQ-001                                                                      │
+│ CQ-003 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'loan*' in the scenario, 'loan*' in REQ-001  │
+│ CQ-004 Transaction records kept at least five years from the date of         │
+│ transaction (Master Direction — Know Your Customer (KYC) Direction, 2016     │
+│ §(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the             │
+│ requirements covers this. Should the system include: “The system shall       │
+│ retain records of all transactions with the customer for at least five years │
+│ from the date of the transaction”?                                           │
+│        CMP-KYC-02: triggered by 'disburs*' in the scenario, 'disburs*' in    │
+│ REQ-001                                                                      │
+│ CQ-005 Role-based access with least privilege for staff and administrators.  │
+│ Should the system include: “The system shall grant staff access by role on a │
+│ least-privilege, need-to-know basis, and enforce maker-checker approval for  │
+│ sensitive operations”?                                                       │
+│        SEC-AUTHZ-01 (regulation)                                             │
+│ CQ-006 Are there transaction or approval limits — amounts above which extra  │
+│ checks or a senior approval are needed?                                      │
+│        §7 topic not covered: Financial transaction limits                    │
+│ CQ-007 How is this done today, and what in the current process must stay the │
+│ same?                                                                        │
+│        §7 topic not covered: Existing workflow                               │
+│ CQ-008 How should customers and staff sign in, and who is allowed to see,    │
+│ change or approve what?                                                      │
+│        §7 topic not covered: Authentication and authorisation                │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  Prototype                                                                   │
+│                                                                              │
+│  also considered: Spiral, Agile, Incremental                                 │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Prototype ──────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are not yet well understood                   │
+│             • the full set cannot be pinned down before build starts         │
+│             • scope is expected to keep changing as work goes on             │
+│             • stakeholders need to see something working before they can say │
+│             what they want                                                   │
+│             • this takes the organisation somewhere it has not been before   │
+│             • this is not an extension of an existing system                 │
+│                                                                              │
+│    buys you A working model quickly                                          │
+│               This project needs to disburse loans within 10 minutes of      │
+│             approval (REQ-001), and a working model quickly will help        │
+│             achieve this goal.                                               │
+│             Requirements clarified by seeing them run                        │
+│               The system shall support iterative development and deployment  │
+│             (REQ-002), and a working model will help clarify the             │
+│             requirements as they change.                                     │
+│             Technical risk investigated before committing                    │
+│               The system shall disburse loans within 10 minutes of approval  │
+│             (REQ-001), and investigating technical risk before committing    │
+│             will ensure this requirement is met.                             │
+│             Early feedback from real users                                   │
+│               The system shall support iterative development and deployment  │
+│             (REQ-002), and early feedback from real users will help the team │
+│             learn from user feedback and iterate accordingly.                │
+│                                                                              │
+│    gives up Prototype assumes technical feasibility itself is in doubt and   │
+│             has to be proven, and that the system has to interoperate with   │
+│             systems outside itself — neither is true here, so that part of   │
+│             its design earns nothing on this project.                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Waterfall ──────────────────────────────────────────────────────────────────╮
+│        fits • The project's requirements are not well defined and will       │
+│             change as the product team learns from user feedback (REQ-1 and  │
+│             REQ-2).                                                          │
+│             • The project is not a system integration project (PTR-2).       │
+│             • The users want to be involved in all phases of the life cycle  │
+│             (USER-4).                                                        │
+│                                                                              │
+│    buys you Well-defined requirements                                        │
+│               The system shall disburse loans within 10 minutes of approval  │
+│             (REQ-001), and well-defined requirements will ensure this        │
+│             requirement is met.                                              │
+│             Long-term planning                                               │
+│               The project is expected to have a long life in the             │
+│             organization (PTR-5), and long-term planning will ensure the     │
+│             system meets the organization's needs.                           │
+│             Formal verification and testing                                  │
+│               The project requires formal verification and testing at        │
+│             multiple stages (PTR-6), and Waterfall's emphasis on planning    │
+│             and documentation will ensure this requirement is met.           │
+│                                                                              │
+│    gives up The project's iterative development and deployment requirements  │
+│             (REQ-002) and lack of well-defined requirements make it          │
+│             unsuitable for a Prototype model.                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Agile ──────────────────────────────────────────────────────────────────────╮
+│        fits • The project's requirements are not well defined and will       │
+│             change as the product team learns from user feedback (REQ-1 and  │
+│             REQ-2).                                                          │
+│             • The project is launching a new personal loan app, which        │
+│             implies a new product direction for the organization (PTR-1).    │
+│             • The users are not experienced in specifying software (USER-2). │
+│                                                                              │
+│    buys you Flexibility and adaptability                                     │
+│               The system shall support iterative development and deployment  │
+│             (REQ-002), and Agile's emphasis on flexibility and adaptability  │
+│             will ensure the system meets the changing requirements.          │
+│             Early feedback from real users                                   │
+│               The system shall support iterative development and deployment  │
+│             (REQ-002), and early feedback from real users will help the team │
+│             learn from user feedback and iterate accordingly.                │
+│             Collaboration and communication                                  │
+│               The users want to be involved in all phases of the life cycle  │
+│             (USER-4), and Agile's emphasis on collaboration and              │
+│             communication will ensure the users' needs are met.              │
+│                                                                              │
+│    gives up The project's short life cycle (PTR-5) and lack of formal        │
+│             verification and testing (PTR-6) make it unsuitable for a        │
+│             Waterfall model.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ The recommended model is Prototype, which fits the project's needs with a    │
+│ score of 77% (10/13).                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ High risk, iterative development, user feedback -> Prototype                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/fintech_startup.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • 4 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber security incidents reported promptly to RBI; Audit trails on every     │
+│ application that can access or affect critical or sensitive information;     │
+│ Business continuity and disaster recovery for the system (and 1 more).       │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│ • could not establish whether the team is new to this business area — the    │
+│ model gave an answer but could not point at anything in the scenario that    │
+│ says so, so it was left out of the scoring.                                  │
+│ • could not establish whether the team is new to this technology — the model │
+│ gave an answer but could not point at anything in the scenario that says so, │
+│ so it was left out of the scoring.                                           │
+│ • could not establish whether the team is new to the tooling — the model     │
+│ gave an answer but could not point at anything in the scenario that says so, │
+│ so it was left out of the scoring.                                           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

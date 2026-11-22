@@ -1,0 +1,74 @@
+# Expected Phase B findings for planted_defects/scenario_01.txt.
+#
+# Named expected_analysis.yaml, NOT expected.yaml, on purpose: the SDLC eval
+# (notebooks/11_eval_sdlc.py) and its pinned test glob */expected.yaml, and this
+# scenario has no SDLC ground truth.
+#
+# Every defect below was planted deliberately, by Claude, 14 Nov 2026.
+# `verified: false` -- the user should confirm each is a real defect.
+#
+# HOW TO READ A MISS. Diagnose the layer first, as with the SDLC engine:
+#   1. Did extraction keep BOTH planted statements? (Read the requirements.) If
+#      one was merged or dropped, the analysis never saw it -- an extraction
+#      miss, not an analysis miss. The 3B merges near-duplicates readily.
+#   2. If both are there: was the pair a candidate? (--json -> conflicts[] with
+#      detected_by.) If not, the similarity floor or the rule signals missed it.
+#   3. If it was a candidate: what did the judge say? untraceable quotes or a
+#      wrong relation is a judge miss.
+#
+# Requirement ids depend on extraction, so pairs are described by content.
+
+scenario: planted_defects
+verified: false
+
+conflicts:
+  - id: C1
+    kind: conflict
+    statements: ["loan decision within 30 seconds of submission",
+                 "decision must be returned to the applicant in under 10 seconds"]
+    signal: rule:numeric:duration
+    note: Two different limits for one response time.
+  - id: C2
+    kind: conflict
+    statements: ["loans above 5 lakh need approval from a branch credit officer",
+                 "loans up to 10 lakh can be approved automatically"]
+    signal: rule:numeric:money
+    note: >-
+      A 7-lakh loan both needs an officer and may be auto-approved. Note the
+      extractor may split this one sentence into two requirements (good) or keep
+      it as one (then there is no PAIR to find -- the quality agent should flag
+      it as inconsistent instead).
+
+duplicates:
+  - id: D1
+    statements: ["sign in with their mobile number and a password",
+                 "log in using their registered mobile number and a password"]
+
+compliance:                     # rule id -> expected status
+  CMP-KYC-01: weak              # documents kept 3 years; KYC requires 5 after the relationship ends
+  CMP-AADHAAR-01: gap           # full Aadhaar shown to support staff; masking required
+  CMP-DPDP-01: gap              # no consent requirement
+  CMP-DPDP-02: gap              # no notice
+  CMP-DPDP-03: satisfied        # "then deleted" -- but conflicts with KYC retention: legal review
+  CMP-ITGOV-01: gap             # no audit trail
+  CMP-ITGOV-02: gap             # no DR
+  CMP-FRAUD-01: gap             # fraud team alerted internally; nothing reports to RBI
+  CMP-GRV-01: gap               # no complaint handling
+
+security:
+  SEC-AUTH-01: gap              # password only, no second factor
+  SEC-CRYPTO-01: gap
+  SEC-AUTHZ-01: gap             # officers and support staff, no access control stated
+  PRIV-MASK-01: gap             # PAN / Aadhaar / mobile shown unmasked
+  SEC-API-01: gap               # CIBIL integration
+
+unprotected_data: [aadhaar, pan, biometric, financial, contact]
+
+risks_from_scenario:            # rubric scenario_signals ids
+  - small_team                  # "three developers"
+  - schedule                    # "in four months"
+  - external_dependency         # CIBIL
+  - scale                       # "real time"
+
+clarification:
+  first_question_source: conflict      # contradictions are asked first

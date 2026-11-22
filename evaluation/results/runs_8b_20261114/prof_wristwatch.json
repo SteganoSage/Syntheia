@@ -1,0 +1,869 @@
+{
+  "scenario": "data/test_cases/prof_wristwatch/scenario_01.txt",
+  "scenario_name": "prof_wristwatch",
+  "scenario_text": "An electronics giant has recently decided to venture into a related small-business area by developing wristwatch communicators. The device would be similar to a two-way radio and expected to work within a 50-mile radius. The company has considerable prior experience in product lines similar to this and believes that a lower price could pose a value-added challenge to the cellular market. I would like to have a working model to present at a national electronics fair in six months.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall enable two-way communication between wristwatch communicators within a 50-mile radius",
+      "source_stakeholder": "Product Manager",
+      "business_justification": "Competitive advantage in the market by offering a lower-priced alternative to cellular services",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Line of sight between wristwatch communicators and minimal interference from other devices",
+      "acceptance_criteria": "Successful two-way communication between wristwatch communicators within the specified range",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall have a user-friendly interface for easy operation and configuration",
+      "source_stakeholder": "End User",
+      "business_justification": "Increased adoption and customer satisfaction by providing an intuitive user experience",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have basic knowledge of electronic devices and communication concepts",
+      "acceptance_criteria": "Users can easily navigate and configure the device within 30 minutes",
+      "applicable_regulations": [],
+      "risk_level": "Low",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "category": [
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall be compatible with the national electronics fair's power and data requirements",
+      "source_stakeholder": "Event Organizer",
+      "business_justification": "Successful demonstration of the product at the national electronics fair",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "Fair organizers will provide necessary power and data infrastructure",
+      "acceptance_criteria": "Device operates correctly and demonstrates features at the fair",
+      "applicable_regulations": [],
+      "risk_level": "Low",
+      "confidence_score": 0.7,
+      "approval_status": "Pending",
+      "category": [
+        "Regulatory"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall be developed and tested within six months to meet the national electronics fair deadline",
+      "source_stakeholder": "Project Manager",
+      "business_justification": "Successful product demonstration at the fair to generate interest and sales",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Sufficient resources and personnel will be allocated for development and testing",
+      "acceptance_criteria": "Working prototype available for demonstration at the fair",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.6,
+      "approval_status": "Pending",
+      "category": [
+        "Business",
+        "Operational"
+      ]
+    }
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.3434,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5392,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4856,
+      "needs_review": true
+    },
+    "REQ-004": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4879,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'wristwatch communicators' is not defined. Is it a specific device model or a generic term?",
+            "severity": "Medium",
+            "suggestion": "Define 'wristwatch communicators' in the requirement or provide a reference to a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'user-friendly' is vague and not measurable. What specific characteristics make the interface user-friendly?",
+            "severity": "Low",
+            "suggestion": "Replace 'user-friendly' with specific, measurable criteria, such as 'users can navigate and configure the device within 30 minutes'."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "Prototype",
+    "ranking": [
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.6364,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "TEAM-1"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.5455,
+        "matched": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-6",
+          "TEAM-1"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-5"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.4545,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "TEAM-1"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.4545,
+        "matched": [
+          "REQ-1",
+          "REQ-3",
+          "REQ-5",
+          "PTR-1",
+          "TEAM-1"
+        ],
+        "missed": [
+          "REQ-2",
+          "REQ-4",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.4545,
+        "matched": [
+          "REQ-3",
+          "REQ-4",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.4545,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.2727,
+        "matched": [
+          "REQ-3",
+          "REQ-5",
+          "TEAM-1"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements imply a new product line, not a reproduction of an existing system, and the company is still working out what it wants."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "no",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The project has a tight deadline, and the requirements need to be defined within six months, implying that they cannot be defined early in the cycle."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "no",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The project has a fixed delivery window with approved scope, implying stable requirements."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "yes",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The company wants to present a working model at the national electronics fair, implying that stakeholders need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The requirements imply a feasible technical solution, as they are specific and well-defined, and the company has considerable prior experience in product lines similar to this."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The project involves developing a new product direction for the organization, wristwatch communicators, which is a related but distinct area from their existing product lines."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that the system must interoperate with external systems or services."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that an existing system is being extended or modified."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The problem statement mentions a fixed deadline and the requirement to develop and test within six months, implying that funding is approved and committed."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "The project is focused on developing a working model for a national electronics fair, which is a short-term goal, and there is no indication that the product will have a long life in the organization."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that formal verification and testing are required at multiple stages of development."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "no",
+        "evidence": [
+          "considerable prior experience in product lines similar to this"
+        ],
+        "reasoning": "The statement says the company has considerable prior experience in product lines similar to this, indicating that the majority of team members are not new to the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the technology domain or the team's experience with it."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the tools to be used on the project or the team's experience with them."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the team members being subject to reassignment during the life cycle."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention training, upskilling, or onboarding being available for the project team."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "Prototype",
+        "advantages": [
+          {
+            "advantage": "A working model quickly",
+            "relevance": "This project needs to present a working model at the national electronics fair, implying that stakeholders need to see something working before they can say what they want (REQ-004)."
+          },
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The requirements imply a new product line, not a reproduction of an existing system, and the company is still working out what it wants (REQ-1)."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The requirements imply a feasible technical solution, as they are specific and well-defined, and the company has considerable prior experience in product lines similar to this (REQ-5)."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The project involves developing a new product direction for the organization, wristwatch communicators, which is a related but distinct area from their existing product lines (PTR-1)."
+          }
+        ],
+        "gives_up": "Prototype assumes scope is expected to keep changing as work goes on, and that technical feasibility itself is in doubt and has to be proven \u2014 neither is true here, so that part of its design earns nothing on this project."
+      },
+      {
+        "model": "Waterfall",
+        "advantages": [
+          {
+            "advantage": "Requirements are well-defined and stable",
+            "relevance": "The project has a fixed delivery window with approved scope, implying stable requirements (REQ-3)."
+          },
+          {
+            "advantage": "Requirements can be defined early in the cycle",
+            "relevance": "The requirements imply a feasible technical solution, as they are specific and well-defined, and the company has considerable prior experience in product lines similar to this (REQ-5)."
+          },
+          {
+            "advantage": "Technical risk is low due to prior experience",
+            "relevance": "The company has considerable prior experience in product lines similar to this (TEAM-1)."
+          }
+        ],
+        "gives_up": "The project needs to present a working model at the national electronics fair, implying that stakeholders need to see something working before they can say what they want (REQ-004)."
+      },
+      {
+        "model": "Agile",
+        "advantages": [
+          {
+            "advantage": "Requirements can change often in the cycle",
+            "relevance": "The requirements imply a new product line, not a reproduction of an existing system, and the company is still working out what it wants (REQ-1)."
+          },
+          {
+            "advantage": "Requirements are clarified by seeing them run",
+            "relevance": "The project involves developing a new product direction for the organization, wristwatch communicators, which is a related but distinct area from their existing product lines (PTR-1)."
+          },
+          {
+            "advantage": "Early feedback from real users is essential",
+            "relevance": "The project needs to present a working model at the national electronics fair, implying that stakeholders need to see something working before they can say what they want (REQ-004)."
+          }
+        ],
+        "gives_up": "The project has a fixed delivery window with approved scope, implying stable requirements (REQ-3)."
+      }
+    ],
+    "summary": "The recommended model is Prototype, as it fits the project's needs for a working model quickly, requirements clarified by seeing them run, technical risk investigated before committing, and early feedback from real users. The project's fixed delivery window with approved scope implies stable requirements, making Waterfall less suitable. Agile is also less suitable due to the project's need for a working model at the national electronics fair.",
+    "shortcut": "Fixed delivery window + new product direction + working model at fair -> Prototype",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 5,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 1,
+        "total": 5,
+        "assessed": true
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 0,
+        "total": 4,
+        "assessed": false
+      }
+    },
+    "cross_check_ranking": [
+      "Agile",
+      "Incremental",
+      "RAD",
+      "Spiral",
+      "Prototype",
+      "V-Shaped",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "Agile fits because it allows for rapid development and testing, which aligns with the high priority and tight deadline of REQ-004. It also enables flexibility and adaptability, which is beneficial given the medium risk and medium priority of REQ-003.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": true
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [],
+    "mappings": [],
+    "obligations": [],
+    "checkpoints": []
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in REQ-001",
+          "'system' in REQ-002",
+          "'system' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in REQ-001",
+          "'system' in REQ-002",
+          "'system' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": []
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Market Acceptance",
+      "category": "Business",
+      "cause": "The problem statement says: \"value-added challenge to the cellular market\"",
+      "consequence": "The market may not accept the device as a viable alternative to cellular services, reducing demand and revenue.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "value-added challenge to the cellular market"
+      ]
+    },
+    {
+      "id": "RISK-002",
+      "title": "Technical Complexity",
+      "category": "Business",
+      "cause": "The problem statement says: \"wristwatch communicators, two-way radio, cellular market\"",
+      "consequence": "The device may be more complex to develop than anticipated, requiring significant technical expertise and resources.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "wristwatch communicators, two-way radio, cellular market"
+      ]
+    },
+    {
+      "id": "RISK-003",
+      "title": "Design and Testing",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"within a 50-mile radius\"",
+      "consequence": "The device may not perform as expected within the specified range, requiring redesign and retesting, which could delay the project timeline.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "within a 50-mile radius"
+      ]
+    },
+    {
+      "id": "RISK-004",
+      "title": "Fixed deadline",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"I would like to have a working model to present at a national electronics fair in six months.\"",
+      "consequence": "Scope is cut or quality slips to hold the date.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Agree what is in the first release, track it weekly, and protect testing time.",
+      "owner": "Project manager",
+      "source": "scenario:schedule",
+      "evidence": [
+        "I would like to have a working model to present at a national electronics fair in six months."
+      ]
+    },
+    {
+      "id": "RISK-005",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-006",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Are there transaction or approval limits \u2014 amounts above which extra checks or a senior approval are needed?",
+        "why": "\u00a77 topic not covered: Financial transaction limits",
+        "topic": "Financial transaction limits",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "How fast must it respond, how many users or transactions must it handle at peak, and how much downtime is acceptable?",
+        "why": "\u00a77 topic not covered: Performance and availability",
+        "topic": "Performance and availability",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "How is this done today, and what in the current process must stay the same?",
+        "why": "\u00a77 topic not covered: Existing workflow",
+        "topic": "Existing workflow",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "How should customers and staff sign in, and who is allowed to see, change or approve what?",
+        "why": "\u00a77 topic not covered: Authentication and authorisation",
+        "topic": "Authentication and authorisation",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "What information goes in, what comes out, and which business rules decide the outcome \u2014 eligibility, thresholds, calculations, routing?",
+        "why": "\u00a77 topic not covered: Inputs, outputs and business rules",
+        "topic": "Inputs, outputs and business rules",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "What personal and transaction data will be collected, and how long must each kind be kept before it is deleted?",
+        "why": "\u00a77 topic not covered: Data collection and retention",
+        "topic": "Data collection and retention",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "What reports, audit trails or regulatory returns must the system produce, and for whom?",
+        "why": "\u00a77 topic not covered: Audit and reporting",
+        "topic": "Audit and reporting",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "What should happen when something goes wrong \u2014 a check fails, an external service is down, or an application is rejected?",
+        "why": "\u00a77 topic not covered: Exceptional conditions",
+        "topic": "Exceptional conditions",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "About \u201cThe system shall enable two-way communication between wristwatch communicators within a 50-mile radius\u201d: The term 'wristwatch communicators' is not defined. Is it a specific device model or a generic term? (For example: Define 'wristwatch communicators' in the requirement or provide a reference to a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-001"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "Security events monitored and alerted on. Should the system include: \u201cThe system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity\u201d?",
+        "why": "SEC-MON-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "Vulnerability management, patching and security testing before release. Should the system include: \u201cThe system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy\u201d?",
+        "why": "SEC-VULN-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "needs_review": [
+    "could not establish whether funding is settled for the life of the project \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

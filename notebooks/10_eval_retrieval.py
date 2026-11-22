@@ -68,12 +68,36 @@ QUERIES: list[tuple[str, str]] = [
 
 ]
 
+# Second documents that ALSO correctly answer a query, added 14 Nov 2026 when
+# the corpus grew from 13 to 19 documents. The gold set above names one source
+# per query, so a new document that answers as well or better counted as a miss.
+# Each addition is justified by what the document actually says. Results are
+# reported BOTH ways -- strict (the original gold, unchanged) and with these --
+# so an alternate can never quietly flatter the headline number.
+ALSO_CORRECT: dict[str, list[str]] = {
+    # PML (Maintenance of Records) Rules, rule 9: the documents to be obtained
+    # for client identification -- the legal basis the KYC direction applies.
+    "What identity documents must be collected when opening an account?": ["pmla"],
+    # PML Rules, rules 3 and 7-8: the suspicious-transaction record and the duty
+    # to furnish it. The KYC direction restates this; the Rules impose it.
+    "When must a suspicious transaction be reported to the financial intelligence unit?": ["pmla"],
+    # RBI Master Direction on Digital Payment Security Controls, para 33:
+    # multi-factor authentication for payments through electronic modes,
+    # which is the card-not-present case.
+    "What authentication is required for a card-not-present transaction?": ["md7493544c24b5fc47d0ab12798c61cdb56f"],
+}
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--k", type=int, default=5)
     p.add_argument("--show-misses", action="store_true",
                    help="print what was retrieved instead, for every miss")
+    p.add_argument("--sector", choices=["banking", "insurance"], default=None,
+                   help="filter as the pipeline does for a scenario in this sector "
+                        "(every query here is written for a banking scenario)")
+    p.add_argument("--out", type=Path, default=REPORT,
+                   help="where to save the report (default: the Day 14 file)")
     return p.parse_args()
 
 
@@ -89,15 +113,30 @@ def main() -> int:
     print(f"index: {st['chunks']} chunks | embedding model: {st['embedding_model']}")
     print(f"queries: {len(QUERIES)} | k = {args.k}\n")
 
+    from src.rag.sectors import in_sector
+
+    sectors = {args.sector} if args.sector else None
+    if sectors:
+        print(f"sector filter: {args.sector}\n")
+    alt_at_1 = alt_at_k = 0
+    alt_rr: list[float] = []
     hits_at_1 = hits_at_k = 0
     reciprocal: list[float] = []
     top_scores: list[float] = []
     misses: list[dict] = []
 
     for query, expected in QUERIES:
-        results = store.query(query, k=args.k)
+        results = (in_sector(store.query(query, k=args.k * 3), sectors)[:args.k]
+                   if sectors else store.query(query, k=args.k))
         paths = [r["metadata"].get("doc_path", "") for r in results]
         rank = next((i for i, p in enumerate(paths) if expected in p.lower()), None)
+        ok = [expected] + ALSO_CORRECT.get(query, [])
+        alt = next((i for i, p in enumerate(paths) if any(e in p.lower() for e in ok)), None)
+        if alt == 0:
+            alt_at_1 += 1
+        if alt is not None:
+            alt_at_k += 1
+        alt_rr.append(1 / (alt + 1) if alt is not None else 0.0)
 
         if results:
             top_scores.append(results[0]["score"])
@@ -129,12 +168,22 @@ def main() -> int:
         "mean_top_score": round(statistics.mean(top_scores), 3) if top_scores else None,
         "chunks": st["chunks"],
         "embedding_model": st["embedding_model"],
+        "sector_filter": args.sector,
+        "with_alternates": {
+            "recall_at_1": round(alt_at_1 / n, 3),
+            f"recall_at_{args.k}": round(alt_at_k / n, 3),
+            "mrr": round(statistics.mean(alt_rr), 3),
+            "alternates": len(ALSO_CORRECT),
+        },
     }
 
     print(f"\n  recall@1   {summary['recall_at_1']:.0%}")
     print(f"  recall@{args.k}   {summary[f'recall_at_{args.k}']:.0%}")
     print(f"  MRR        {summary['mrr']:.3f}")
     print(f"  mean top score {summary['mean_top_score']}")
+    w = summary["with_alternates"]
+    print(f"  with {w['alternates']} justified alternates: recall@1 {w['recall_at_1']:.0%}  "
+          f"recall@{args.k} {w[f'recall_at_{args.k}']:.0%}  MRR {w['mrr']:.3f}")
 
     if args.show_misses and misses:
         print(f"\n  {len(misses)} miss(es):")
@@ -150,9 +199,9 @@ def main() -> int:
     print("  document is confidently winning, which is what produces a citation")
     print("  that looks authoritative and is not.")
 
-    REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text(json.dumps({"summary": summary, "misses": misses}, indent=2) + "\n")
-    print(f"\n  Saved to {REPORT.relative_to(REPO)}")
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    args.out.write_text(json.dumps({"summary": summary, "misses": misses}, indent=2) + "\n")
+    print(f"\n  Saved to {args.out}")
     return 0
 
 

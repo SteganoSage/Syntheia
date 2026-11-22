@@ -1,0 +1,2823 @@
+{
+  "scenario": "data/test_cases/planted_defects/scenario_01.txt",
+  "scenario_name": "planted_defects",
+  "scenario_text": "A private bank wants a mobile app for instant personal loans. Applicants sign in with their mobile number and a password, then complete KYC by entering their PAN and Aadhaar number and uploading a selfie, and share six months of bank statements. Credit scores are pulled from CIBIL in real time. The app must show a loan decision within 30 seconds of submission. Loans above 5 lakh need approval from a branch credit officer, while loans up to 10 lakh can be approved automatically by the decision engine. Applicant documents should be kept for three years and then deleted. Customer support staff must be able to see the full Aadhaar number so they can help applicants. The decision must be returned to the applicant in under 10 seconds. Users log in using their registered mobile number and a password. The bank's fraud team should be alerted to suspicious applications. The project has three developers and must launch before Diwali, in four months.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall provide a mobile app for instant personal loans",
+      "source_stakeholder": "End User",
+      "business_justification": "Customers expect instant loan processing; mobile app increases convenience and accessibility",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have smartphones with stable internet connectivity",
+      "acceptance_criteria": "App renders correctly and is fully functional on screen widths from 320px to 1920px",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall allow applicants to sign in with their mobile number and password",
+      "source_stakeholder": "End User",
+      "business_justification": "Users expect to log in using familiar credentials; password-based authentication increases security",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have registered mobile numbers and passwords",
+      "acceptance_criteria": "App allows successful login with valid credentials",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Privacy",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall enable KYC completion by entering PAN and Aadhaar number and uploading a selfie",
+      "source_stakeholder": "End User",
+      "business_justification": "KYC is required for loan processing; system must facilitate accurate and secure data collection",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have PAN and Aadhaar numbers and a selfie",
+      "acceptance_criteria": "App allows successful KYC completion with valid data",
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a75(k) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a73(bb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Privacy",
+        "Regulatory",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall allow applicants to share six months of bank statements",
+      "source_stakeholder": "End User",
+      "business_justification": "Bank statements are required for loan processing; system must facilitate secure data upload",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have access to bank statements",
+      "acceptance_criteria": "App allows successful upload of bank statements",
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a775(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Privacy",
+        "Regulatory"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "statement": "The system shall pull credit scores from CIBIL in real time",
+      "source_stakeholder": "End User",
+      "business_justification": "Credit scores are required for loan processing; system must facilitate accurate and up-to-date data",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "CIBIL API is available and functional",
+      "acceptance_criteria": "App retrieves accurate credit scores in real time",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "statement": "The system shall display a loan decision within 30 seconds of submission",
+      "source_stakeholder": "End User",
+      "business_justification": "Users expect instant loan decisions; system must facilitate fast processing",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "System has sufficient processing power and resources",
+      "acceptance_criteria": "App displays loan decision within 30 seconds of submission",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Performance"
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "statement": "The system shall allow loans above 5 lakh to require approval from a branch credit officer",
+      "source_stakeholder": "Business",
+      "business_justification": "Loans above 5 lakh require manual review; system must facilitate approval process",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Branch credit officers are available and functional",
+      "acceptance_criteria": "App allows successful approval from branch credit officer for loans above 5 lakh",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "category": [
+        "Business",
+        "Stakeholder",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "statement": "The system shall allow loans up to 10 lakh to be approved automatically by the decision engine",
+      "source_stakeholder": "Business",
+      "business_justification": "Loans up to 10 lakh can be processed automatically; system must facilitate efficient processing",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Decision engine is available and functional",
+      "acceptance_criteria": "App allows successful automatic approval for loans up to 10 lakh",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "category": [
+        "Business",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-009",
+      "statement": "The system shall store applicant documents for three years and then delete them",
+      "source_stakeholder": "Business",
+      "business_justification": "Documents must be retained for regulatory purposes; system must facilitate secure storage and deletion",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "System has sufficient storage capacity and resources",
+      "acceptance_criteria": "App stores documents for three years and deletes them successfully",
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a727 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.7,
+      "approval_status": "Pending",
+      "category": [
+        "Regulatory",
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-010",
+      "statement": "The system shall allow customer support staff to view the full Aadhaar number",
+      "source_stakeholder": "Business",
+      "business_justification": "Customer support staff need access to Aadhaar numbers for assistance; system must facilitate secure access",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "Customer support staff are authorized and functional",
+      "acceptance_criteria": "App allows successful viewing of full Aadhaar number by customer support staff",
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a716 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(i) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.7,
+      "approval_status": "Pending",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Privacy",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-011",
+      "statement": "The system shall return the loan decision to the applicant within 10 seconds",
+      "source_stakeholder": "End User",
+      "business_justification": "Users expect fast loan decisions; system must facilitate quick processing",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "System has sufficient processing power and resources",
+      "acceptance_criteria": "App returns loan decision within 10 seconds",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Performance"
+      ]
+    },
+    {
+      "id": "REQ-012",
+      "statement": "The system shall alert the bank's fraud team to suspicious applications",
+      "source_stakeholder": "Business",
+      "business_justification": "Fraud team needs to review suspicious applications; system must facilitate secure alerting",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "Fraud team is available and functional",
+      "acceptance_criteria": "App alerts fraud team successfully to suspicious applications",
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a758 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a74.2 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a72.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.7,
+      "approval_status": "Pending",
+      "category": [
+        "Stakeholder",
+        "Security",
+        "Integration",
+        "Operational"
+      ]
+    }
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a722 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "22",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.6223,
+          "excerpt": "22  The Application software should have capability of being \nintegrated with other Customer Sourcing channels like \nInternet, Mobile(Android+iOS), Tablets and other devices. \nFurther the application should be accessible through other \ndevices like Mobile, internet etc. for Loan Origination / \nAppro"
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a764 (RFP No. 375) [RFP 375]",
+          "clause_id": "64",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.6201,
+          "excerpt": "64 Analytics based personalized/preapproved loan \noffers on home page \nPhase 3 \n\n \n \n \nPage 37 of 205 \n \nSupply, Implementation, and Maintenance of Digital Banking \nPlatform with Omni channel (Mobile App / Web) solution  \n- Tender No. CO:DIT:PUR:2022-23:375 \n65 \nRetail (Illustrative \nlist of journey"
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a78 (RFP No. 375) [RFP 375]",
+          "clause_id": "8",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5933,
+          "excerpt": "8 New customers to be provided the following \nlending journeys for customer onboarding:  \ni. Personal Loan \nii. Pension Loan \nMVP-Phase 1 \n\n \n \n \nPage 27 of 205 \n \nSupply, Implementation, and Maintenance of Digital Banking \nPlatform with Omni channel (Mobile App / Web) solution  \n- Tender No. CO:DIT"
+        }
+      ],
+      "confidence": 0.6223,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a719 (RFP No. 375) [RFP 375]",
+          "clause_id": "19",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.6343,
+          "excerpt": "19 Manage registered devices and app \nsecurity:  \ni. View last login time \nii. Deactivate device, etc.  \niii. View app version \niv. View security tips \nv. compulsory SIM binding \nvi. Register Face ID.  \nvii. Set up and manage fingerprint \naccess (with Finger-print in mobile)  \nviii. Set up/modify se"
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a710 (RFP No. 375) [RFP 375]",
+          "clause_id": "10",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5539,
+          "excerpt": "10 Login Features Login through the following options based on \nthe preference of the customer: \n- 4 digit login pin \n- Alphanumeric Password \n- OTP on registered mobile number \n- Biometrics: Touch id, face id, etc.  \nMVP-Phase 1"
+        }
+      ],
+      "confidence": 0.6343,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [
+        {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "clause_id": "",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "issuer": "Reserve Bank of India",
+          "version": "updated 14 Aug 2025",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "confidence": 0.6434,
+          "excerpt": "Annex I. \niv) any OVD or proof of possession of Aadhaar number under clause (ab) above \nwhere offline verification cannot be carried out, the RE shall carry out \nverification through digital KYC as specified under Annex I. \n57v) KYC Identifier under clause (ac) above, the RE shall retrieve the KYC \n"
+        },
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a75(k) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "5(k)",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.6409,
+          "excerpt": "(k)  \u201ce-KYC data\u201d means full or limited demographic information and/or photograph of \nan Aadhaar number holder. The e -KYC data may contain full or masked Aadhaar \nnumber;"
+        },
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a73(bb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "3(bb)",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.6189,
+          "excerpt": "(bb)  \u201cAadhaar Paperless Offline e -KYC\u201d means a digitally signed document generated \nby the Authority containing last 4 digits of Aadhaar number, demographic data like \nname, address, gender, and date of birth, and photograph of the Aadhaar number \nholder etc.;"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a75(k) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a73(bb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "precedents": [],
+      "confidence": 0.6434,
+      "needs_review": false
+    },
+    "REQ-004": {
+      "citations": [
+        {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a775(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "clause_id": "75(d)",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "issuer": "Reserve Bank of India",
+          "version": "updated 14 Aug 2025",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "confidence": 0.5523,
+          "excerpt": "(d) Banks shall ensure that the stipulated monthly and annual limits on aggregate \nof transactions and balance requirements in such accounts are not breached, \nbefore a transaction is allowed to take place."
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a775(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]"
+      ],
+      "precedents": [],
+      "confidence": 0.5523,
+      "needs_review": false
+    },
+    "REQ-005": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4862,
+      "needs_review": true
+    },
+    "REQ-006": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7185 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "185",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5946,
+          "excerpt": "185  The system should have provision to submit the project \ncompletion reports, stage-wise disbursal of term loan etc., of \na customer with respect to the loan. The workflow is enabled \nupon successful completion of the document.  \n\u2022 Project Completion Certificate  \n\u2022 Stage wise disbursement of ter"
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a747 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "47",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5934,
+          "excerpt": "47 The LOS system should give a facility to define Turn Around \nTime (TAT) for the complete loans process and also for the \nindividual work stages for efficient monitoring"
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a763 (RFP No. 375) [RFP 375]",
+          "clause_id": "63",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5679,
+          "excerpt": "62 Loan application initiation for Retail, \nMSME, Agri through Chat \nPhase 4\n63 View /Track:  \ni. Repayment Schedule \nii. Disbursement Schedule \niii. View credit score- integration \nwith Credit bureaus \niv. Average Monthly Balance \nv. flexi-fixed deposit links \nvi. Lien Details \nvii. Eligibility/EMI"
+        }
+      ],
+      "confidence": 0.5946,
+      "needs_review": true
+    },
+    "REQ-007": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7144 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "144",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.632,
+          "excerpt": "142  The system should have the capability to route the case for \ncommittee approval in case of higher loan amounts.\n143  The system should have the capability to generate Credit \nAppraisal report.\n144  The system should have the capability should provide for \ndefinition of the minimum requirements "
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.21 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.21",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6268,
+          "excerpt": "2.21 The system should have the capability to allow the \napprovals or rejections of the loan based on the \nvalidity of fraud detected."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7164 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "164",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.609,
+          "excerpt": "164  The system should support creation of sanction advice with \nthe following details (but not limited to):  \n- Customer details  \n- Product details  \n- Classification of loan / sector code  \n- Purpose of the sanctioned loan  \n- Terms and conditions of the sanction amount ( rate of \ninterest, PF, i"
+        }
+      ],
+      "confidence": 0.632,
+      "needs_review": true
+    },
+    "REQ-008": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.21 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.21",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6177,
+          "excerpt": "2.21 The system should have the capability to allow the \napprovals or rejections of the loan based on the \nvalidity of fraud detected."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7174 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "174",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5923,
+          "excerpt": "174  In the event that a customer already has an existing loan, \nthe system must have automated capability to settle the \nexisting loan and generate a new loan application, with a \nconsolidated balance of the new and old loan."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a74 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "4",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5895,
+          "excerpt": "3. Option to upload and add/remove and change additional documents relating to the Loan \napplication\n4. Delegated Authority based assessment / approval process (integration) to update the approval  \nwhich will be done by an individual or committee of people"
+        }
+      ],
+      "confidence": 0.6177,
+      "needs_review": true
+    },
+    "REQ-009": {
+      "citations": [
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a727 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "27",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.6362,
+          "excerpt": "27. Duration of storage. \u2014(1) Authentication transaction data shall be retained by the \nAuthority for a period of 6 months. The Authority may prescribe procedure to archive and \nperform analysis, for research purposes, from aggregated and anonymised authentication \ntransaction data in the form of ci"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a727 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a721.7.5.2 (RFP No. 375) [RFP 375]",
+          "clause_id": "21.7.5.2",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5709,
+          "excerpt": "21.7.5. Ensure compliance with data retention requirements\n21.7.5.1. Ensure online data availability for 3 years and archive data after 3 yea rs based \non agreement with Bank\n21.7.5.2. Ensure archived data is available for 7 years from the date of archival and is \nretrieved when required by the bank"
+        }
+      ],
+      "confidence": 0.6362,
+      "needs_review": false
+    },
+    "REQ-010": {
+      "citations": [
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "30(e)",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.7283,
+          "excerpt": "(e) the identity information of the Aadhaar number holders collected during \nauthentication and any other information generated during the authentication process \nis kept confidential, secure and protected against access, use and disclosure not \npermitted under the Act and its regulations;"
+        },
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a716 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "16",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.7128,
+          "excerpt": "(2) No requesting entity shall accept Aadhaar number as a proof of identity of the Aadhaar \nnumber holder, in electronic form by way of authentication, unless it is for a lawful purpose \nwhich is in conformity with the relevant provisions of the Act and only with the informed \nconsent of the Aadhaar"
+        },
+        {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(i) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "clause_id": "(i)",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "issuer": "Reserve Bank of India",
+          "version": "updated 14 Aug 2025",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "confidence": 0.7067,
+          "excerpt": "(a) the Aadhaar number where,\n(i) he is desirous of receiving any benefit or subsidy under any scheme \nnotified under section 7 of the Aadhaar (Targeted Delivery of Financial \nand Other subsidies, Benefits and Services) Act, 2016 (18 of 2016); or"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a716 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(i) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]"
+      ],
+      "precedents": [],
+      "confidence": 0.7283,
+      "needs_review": false
+    },
+    "REQ-011": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a747 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "47",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5504,
+          "excerpt": "47 The LOS system should give a facility to define Turn Around \nTime (TAT) for the complete loans process and also for the \nindividual work stages for efficient monitoring"
+        }
+      ],
+      "confidence": 0.5504,
+      "needs_review": true
+    },
+    "REQ-012": {
+      "citations": [
+        {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a758 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "clause_id": "58",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "issuer": "Reserve Bank of India",
+          "version": "updated 14 Aug 2025",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "confidence": 0.605,
+          "excerpt": "58. Period for presenting payment instruments \nPayment of cheques/drafts/pay orders/banker\u2019s cheques, if they are presented beyond \nthe period of three months from the date of such instruments, shall not be made. \n59. 151Operation of Bank Accounts & Money Mules \nThe instructions on opening of accoun"
+        },
+        {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a74.2 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "clause_id": "4.2",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "issuer": "Reserve Bank of India",
+          "version": "revised 2024",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "confidence": 0.5972,
+          "excerpt": "4.2 Independent confirmation from the third-party service providers including professionals\n4.2.1 Banks place reliance on various third-party service providers as part of pre-sanction appraisal and post-sanction monitoring. Therefore, banks may incorporate necessary terms and conditions in their agr"
+        },
+        {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a72.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "clause_id": "2.1",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "issuer": "Reserve Bank of India",
+          "version": "revised 2024",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "confidence": 0.5942,
+          "excerpt": "CHAPTER II\n2.1 Governance Structure in banks for Fraud Risk Management\n2.1.1 There shall be a Board 3 approved Policy 4 on fraud risk management delineating roles and responsibilities of Board / Board Committees and Senior Management of the bank. The Policy shall also incorporate measures for ensuri"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a758 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a74.2 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a72.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]"
+      ],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.8 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.8",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6066,
+          "excerpt": "2.8 The system shall have capabilities of integrating with \ncentralized databases of home loan frauds to identify \nvarious types of identity, accounts, applications at \nmultiple banks, fake property, seller related frauds, \ntampered documents etc."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.23 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.23",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.605,
+          "excerpt": "2.23 The system shall generate fraud alerts through the \ndashboard. The fraud alerts must have fraud details \nwith appropriate criteria/s detailed and fraud risk \nscores mentioned."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7184 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "184",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5924,
+          "excerpt": "184  Monitoring Alerts:  \nAlerts are to be generated on any default and sent to the \nconcerned head on the status of the account. System should \nhave ability to generate the alerts on loan default, non-\nrenewal of limits, Non - Inspection of securities/ non \nupdation of securities, stock statement d"
+        }
+      ],
+      "confidence": 0.6066,
+      "needs_review": false
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-005",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-006",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-007",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-008",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-009",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-010",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-011",
+        "issues": [
+          {
+            "issue_type": "Infeasibility",
+            "description": "Returning a loan decision within 10 seconds may not be feasible for all loan applications.",
+            "severity": "Medium",
+            "suggestion": "Consider revising the requirement to make it more feasible."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-012",
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "sdlc": null,
+  "conflicts": [
+    {
+      "kind": "conflict",
+      "requirement_ids": [
+        "REQ-006",
+        "REQ-011"
+      ],
+      "similarity": 0.8273,
+      "confirmed": true,
+      "detected_by": [
+        "rule:numeric:duration",
+        "similarity",
+        "llm"
+      ],
+      "explanation": "Different time limits for the same quantity (loan decision response time)",
+      "evidence": [
+        "within 30 seconds",
+        "within 10 seconds"
+      ],
+      "resolution": "Determine the most critical or realistic response time requirement and prioritize accordingly",
+      "severity": "High"
+    },
+    {
+      "kind": "conflict",
+      "requirement_ids": [
+        "REQ-007",
+        "REQ-008"
+      ],
+      "similarity": 0.8227,
+      "confirmed": true,
+      "detected_by": [
+        "rule:numeric:money",
+        "similarity",
+        "llm"
+      ],
+      "explanation": "Different limits for the same quantity",
+      "evidence": [
+        "above 5 lakh",
+        "up to 10 lakh"
+      ],
+      "resolution": "Reconcile the limits to a single value, e.g. above 10 lakh requires approval",
+      "severity": "High"
+    }
+  ],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-AADHAAR-01",
+        "title": "Aadhaar numbers masked or vaulted, never stored in the clear",
+        "family": "identity_data",
+        "status": "gap",
+        "severity": "Critical",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'aadhaar' in REQ-003",
+          "'aadhaar' in REQ-010"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall not store full Aadhaar numbers; it shall mask the first eight digits wherever an Aadhaar number is displayed or retained, and store any Aadhaar number needed for authentication only in an Aadhaar Data Vault.",
+        "reference": "Aadhaar (Authentication and Offline Verification) Regulations 2021, reg. 26",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a726(mb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "26(mb)",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "(mb) Aadhaar numbers collected through physical forms or photocopies of Aadhaar letters \nshall be masked by the requesting entity by redacting the first 8 digits of the Aadhaar \nnumber before storing the physical copies.",
+          "confidence": 0.9233
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-AADHAAR-02",
+        "title": "Identity information from Aadhaar authentication kept confidential and protected",
+        "family": "identity_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'aadhaar' in REQ-003",
+          "'aadhaar' in REQ-010"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep identity information received through Aadhaar authentication confidential, encrypted and accessible only to authorised roles, and use it only for the purpose stated to the Aadhaar number holder.",
+        "reference": "Aadhaar (Authentication and Offline Verification) Regulations 2021, reg. 30",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "30(e)",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "(e) the identity information of the Aadhaar number holders collected during \nauthentication and any other information generated during the authentication process \nis kept confidential, secure and protected against access, use and disclosure not \npermitted under the Act and its regulations;",
+          "confidence": 0.9581
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CSF-01",
+        "title": "Cyber security incidents reported promptly to RBI",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'bank*' in the scenario",
+          "'loan*' in REQ-001",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+        "reference": "RBI Cyber Security Framework in Banks 2016 (RBI/2015-16/418), para 15 and Annex",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "15. It has been decided to collect both summary level information as well as details \non information security incidents including cyber-incidents. Banks are required to \nreport promptly the incidents, in the format given in Annex-3.  \nAn immediate assessment of gaps in preparedness to be reported to RBI",
+          "confidence": 0.818
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-01",
+        "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "consent",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'mobile number' in REQ-002",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+        "reference": "DPDP Act 2023, s. 4 and s. 6",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "4",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "CHAPTER II \nOBLIGATIONS OF DATA FIDUCIARY\n4. Grounds for processing personal data.\u2014(1) A person may process the personal data of a Data \nPrincipal only in accordance with the provisions of this Act and for a lawful purpose,\u2014",
+          "confidence": 0.8082
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-04",
+        "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'mobile number' in REQ-002",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+        "reference": "DPDP Act 2023, s. 8(6)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(b)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) used to make a decision that affects the Data Principal; or \n\n11\n(b) disclosed to another Data Fiduciary,  \nthe Data Fiduciary processing such personal data shall ensure its completeness, accuracy and \nconsistency.  \n(4) A Data Fiduciary shall implement appropriate technical and organisational measures to ensure \neffective observance of the provisions of this Act and the rules made thereunder.  \n(5) A Data Fiduciary shall protect personal data in its possession or under its control, including in \nrespect of any processing undertaken by it or on its behalf by a Data Processor, by taking rea",
+          "confidence": 0.8509
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-FRAUD-01",
+        "title": "Frauds reported to RBI through the fraud monitoring return within 14 days of classification",
+        "family": "fraud",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'fraud*' in the scenario",
+          "'fraud*' in REQ-012"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall generate the fraud monitoring return for each case classified as fraud so that it can be reported to RBI within 14 days of classification.",
+        "reference": "RBI Master Directions on Fraud Risk Management 2024, para 6.3",
+        "source": {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a76.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "clause_id": "6.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-07-15",
+          "version": "revised 2024",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "excerpt": "6.3 Modalities of Reporting Incidents of Fraud to RBI\n6.3.1 Banks shall furnish FMR 29 in individual fraud cases, irrespective of the amount involved, immediately, but not later than 14 days from the date of classification 30 of an incident / account as fraud.",
+          "confidence": 0.8256
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-02",
+        "title": "Notice to the data principal stating what personal data is collected and why",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "notice",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'mobile number' in REQ-002",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+        "reference": "DPDP Act 2023, s. 5",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "5",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "5. Notice .\u2014(1) Every request made to a Data Principal under section 6 for consent shall be \naccompanied or preceded by a notice given by the Data Fiduciary to the Data Principal, informing \nher,\u2014",
+          "confidence": 0.8746
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-GRV-01",
+        "title": "A grievance redressal mechanism for customers",
+        "family": "customer_protection",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "customer_protection",
+        "triggered_by": [
+          "'customer*' in the scenario",
+          "'applicant*' in REQ-002",
+          "'applicant*' in REQ-004"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall let customers raise complaints and disputes, track them to resolution, and show the contact details of the designated grievance redressal officer.",
+        "reference": "RBI PPI Master Directions para 16; Card Directions 2025 para 78; Outsourcing Direction para 7",
+        "source": {
+          "citation": "Master Direction on Outsourcing of Information Technology Services \u00a77 (RBI/2023-24/102) [issued 10 Apr 2023]",
+          "title": "Master Direction on Outsourcing of Information Technology Services",
+          "clause_id": "7",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-10-01",
+          "version": "issued 10 Apr 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12486",
+          "excerpt": "7. Grievance Redressal Mechanism\nREs shall have a robust grievance redressal mechanism that shall not be compromised in any manner on account of outsourcing, i.e., responsibility for redressal of customers\u2019 grievances related to outsourced services shall rest with the RE.\nREs shall have a robust grievance redressal mechanism that shall not be compromised in any manner on account of outsourcing, i.e., responsibility for redressal of customers\u2019 grievances related to outsourced services shall rest with the RE.\nOutsourcing arrangements shall not affect the rights of a customer against the RE, incl",
+          "confidence": 0.7227
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-03",
+        "title": "Customers categorised by money-laundering risk (low / medium / high)",
+        "family": "customer_due_diligence",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'kyc' in the scenario",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall categorise each customer as low, medium or high risk using identity, social and financial status, nature of business and location, and record the reasons for the categorisation without disclosing them to the customer.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 customer acceptance policy / risk management",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a712(c) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "12(c)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(b) 47Broad principles may be laid down by the REs for risk -categorisation of \ncustomers.\n(c) 48Risk categorisation shall be undertaken based on parameters such as \ncustomer\u2019s identity, social/financial status, nature of business activity, and \ninformation about the customer\u2019s business and their location, geographical risk \ncovering customers as well as transactions,  type of products/services offered, \ndelivery channel used for delivery of products/services, types of transaction \nundertaken \u2013 cash, cheque/monetary instruments, wire transfers, forex \ntransactions, etc. While considering custo",
+          "confidence": 0.7231
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-04",
+        "title": "Periodic updation of KYC, more frequently for higher-risk customers",
+        "family": "customer_due_diligence",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "other",
+        "triggered_by": [
+          "'kyc' in the scenario",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall schedule periodic updation of customer KYC according to the customer's risk category and record the date of each updation.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 periodic updation",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7120 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "120",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "be ensured that the information / documents obtained from the customers \nat the time of 121updation/ periodic updation of KYC are promptly updated \nin the records / database of the REs and an intimation, mentioning the \ndate of updation of KYC details, i s provided to the customer.  \niv. In order to ensure customer convenience, REs may consider making \navailable the facility of 122updation/ periodic updation of KYC at any \nbranch, in terms of their internal KYC policy duly approved by the Board \nof Directors of REs o r any committee of the Board to which power has \nbeen delegated. \nv. REs shal",
+          "confidence": 0.7756
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-01",
+        "title": "Customer identification records kept at least five years after the relationship ends",
+        "family": "record_retention",
+        "status": "weak",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'kyc' in the scenario",
+          "'kyc' in REQ-003"
+        ],
+        "satisfied_by": [
+          "REQ-009"
+        ],
+        "method": "terms",
+        "detail": "REQ-009 states 3 years; at least 5 is required",
+        "proposed_requirement": "The system shall retain customer identification and address records for at least five years after the business relationship with the customer has ended.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 record management (preservation of identification records)",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(b) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(b) preserve the records pertaining to the identification of the customers and their \naddresses obtained while opening the account and during the course of \nbusiness relationship, for at least five years after the business relationship is \nended;",
+          "confidence": 0.9035
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-03",
+        "title": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "family": "personal_data",
+        "status": "satisfied",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'mobile number' in REQ-002",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [
+          "REQ-009"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "DPDP Act 2023, s. 8(7)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(a)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) erase personal data, upon the Data Principal withdrawing her consent or as soon as it is \nreasonable to assume that the specified purpose is no longer being served, whichever is earlier; and",
+          "confidence": 0.9068
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-FRAUD-02",
+        "title": "Early warning signals monitored on credit accounts",
+        "family": "fraud",
+        "status": "satisfied",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001",
+          "'loan*' in REQ-006"
+        ],
+        "satisfied_by": [
+          "REQ-012"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Master Directions on Fraud Risk Management 2024 \u2014 early warning signals",
+        "source": {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "clause_id": "3.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-07-15",
+          "version": "revised 2024",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "excerpt": "CHAPTER III\n3. Early Detection of Frauds \u2013 Framework for Early Warning Signals (EWS) and Red Flagging of Accounts (RFA)\n3.1 Governance Structure\n3.1.1 Banks shall have a framework for Early Warning Signals (EWS) and Red Flagging of Accounts (RFA) under the overall Fraud Risk Management Policy approved by the Board. A Red Flagged Account is one where suspicion of fraudulent activity is thrown up by the presence of one or more EWS indicators, alerting / triggering deeper investigation from potential fraud angle and initiating preventive measures by the banks.\n3.1.2 The Risk Management Committee ",
+          "confidence": 0.722
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [
+      {
+        "requirement_id": "REQ-003",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "Annex I. \niv) any OVD or proof of possession of Aadhaar number under clause (ab) above \nwhere offline verification cannot be carried out, the RE shall carry out \nverification through digital KYC as specified under Annex I. \n57v) KYC Identifier under clause (ac) above, the RE shall retrieve the KYC \nrecords online from the CKYCR in accordance with paragraph 56. \nProvided that for a period not beyond such date as may be notified by t he \nGovernment for a class of REs, instead of carrying out digital KYC, the RE \npertaining to such class may obtain a certified copy of the proof of possession of \n",
+          "confidence": 0.6434
+        },
+        "obligation": "carry out verification through digital KYC as specified under Annex I",
+        "obligation_types": [
+          "customer_protection",
+          "security_control"
+        ],
+        "coverage": "not_addressed",
+        "missing": "The requirement must specify the digital KYC process and how it is 'specified under Annex I'",
+        "checkpoint": "",
+        "requires_legal_review": true,
+        "note": ""
+      },
+      {
+        "requirement_id": "REQ-004",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a775(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "75(d)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(d) Banks shall ensure that the stipulated monthly and annual limits on aggregate \nof transactions and balance requirements in such accounts are not breached, \nbefore a transaction is allowed to take place.",
+          "confidence": 0.5523
+        },
+        "obligation": "Banks shall ensure that the stipulated monthly and annual limits on aggregate of transactions and balance requirements in such accounts are not breached",
+        "obligation_types": [
+          "security_control"
+        ],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful"
+      },
+      {
+        "requirement_id": "REQ-009",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a727 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "27",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "27. Duration of storage. \u2014(1) Authentication transaction data shall be retained by the \nAuthority for a period of 6 months. The Authority may prescribe procedure to archive and \nperform analysis, for research purposes, from aggregated and anonymised authentication \ntransaction data in the form of circulars. \n(2) Upon expiry of the period of six months specified in sub-regulation (1), the authentication \ntransaction data shall be deleted except when such authentication transaction data are \nrequired to be maintained by the order of a court not inferior to that of a Judge of a High \nCourt or in ",
+          "confidence": 0.6362
+        },
+        "obligation": "retained by the Authority for a period of 6 months",
+        "obligation_types": [
+          "retention"
+        ],
+        "coverage": "not_addressed",
+        "missing": "The requirement must specify that applicant documents are retained for 6 months, not 3 years.",
+        "checkpoint": "",
+        "requires_legal_review": true,
+        "note": ""
+      },
+      {
+        "requirement_id": "REQ-010",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "30(e)",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "(e) the identity information of the Aadhaar number holders collected during \nauthentication and any other information generated during the authentication process \nis kept confidential, secure and protected against access, use and disclosure not \npermitted under the Act and its regulations;",
+          "confidence": 0.7283
+        },
+        "obligation": "kept confidential, secure and protected against access, use and disclosure not permitted under the Act and its regulations",
+        "obligation_types": [
+          "security_control"
+        ],
+        "coverage": "not_addressed",
+        "missing": "The requirement must specify what access, use, and disclosure are permitted under the Act and its regulations.",
+        "checkpoint": "",
+        "requires_legal_review": true,
+        "note": ""
+      },
+      {
+        "requirement_id": "REQ-012",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a758 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "58",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "58. Period for presenting payment instruments \nPayment of cheques/drafts/pay orders/banker\u2019s cheques, if they are presented beyond \nthe period of three months from the date of such instruments, shall not be made. \n59. 151Operation of Bank Accounts & Money Mules \nThe instructions on opening of accounts and monitoring of transactions shall be strictly \nadhered to, in order to minimise the operations of \u201cMoney Mules\u201d which are used to \nlaunder the proceeds of fraud schemes (e.g., phishing and identity theft) by criminals who \ngain illegal access to deposit accounts by recruiting third parties whi",
+          "confidence": 0.605
+        },
+        "obligation": "Banks shall undertake diligence measures and meticulous monitoring to identify",
+        "obligation_types": [
+          "customer_protection"
+        ],
+        "coverage": "not_addressed",
+        "missing": "The requirement must include diligence measures and meticulous monitoring to identify money mules and prevent laundering of proceeds of fraud schemes.",
+        "checkpoint": "",
+        "requires_legal_review": true,
+        "note": ""
+      }
+    ],
+    "obligations": [
+      {
+        "kind": "retention",
+        "text": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-03"
+      },
+      {
+        "kind": "retention",
+        "text": "Customer identification records kept at least five years after the relationship ends",
+        "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(b) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "origin": "CMP-KYC-01"
+      },
+      {
+        "kind": "retention",
+        "text": "retained by the Authority for a period of 6 months",
+        "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a727 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "origin": "REQ-009"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber security incidents reported promptly to RBI",
+        "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+        "origin": "CMP-CSF-01"
+      },
+      {
+        "kind": "reporting",
+        "text": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-04"
+      },
+      {
+        "kind": "reporting",
+        "text": "Frauds reported to RBI through the fraud monitoring return within 14 days of classification",
+        "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a76.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+        "origin": "CMP-FRAUD-01"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "consent",
+        "text": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-01"
+      },
+      {
+        "kind": "notice",
+        "text": "Notice to the data principal stating what personal data is collected and why",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-02"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Aadhaar numbers masked or vaulted, never stored in the clear (CMP-AADHAAR-01)",
+      "Compliance/legal sign-off needed: Identity information from Aadhaar authentication kept confidential and protected (CMP-AADHAAR-02)",
+      "Compliance/legal sign-off needed: Cyber security incidents reported promptly to RBI (CMP-CSF-01)",
+      "Compliance/legal sign-off needed: Personal data processed only with the data principal's consent (or another lawful ground) (CMP-DPDP-01)",
+      "Compliance/legal sign-off needed: Personal data breaches notified to the Data Protection Board and affected individuals (CMP-DPDP-04)",
+      "Compliance/legal sign-off needed: Frauds reported to RBI through the fraud monitoring return within 14 days of classification (CMP-FRAUD-01)",
+      "Compliance/legal sign-off needed: Audit trails on every application that can access or affect critical or sensitive information (CMP-ITGOV-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)",
+      "Compliance/legal sign-off needed: Customer identification records kept at least five years after the relationship ends (CMP-KYC-01)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "PRIV-MASK-01",
+        "title": "Sensitive identifiers masked on screens, in logs and in reports",
+        "family": "data_protection",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "'mobile number*' in REQ-002",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall mask account, card, PAN and mobile numbers wherever they are displayed, logged or exported, showing only the last four characters.",
+        "reference": "Industry practice; Aadhaar masking is a regulation (see CMP-AADHAAR-01)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-API-01",
+        "title": "Integrations authenticated, encrypted and rate-limited",
+        "family": "integration_security",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'cibil' in the scenario",
+          "'cibil' in REQ-005",
+          "REQ-012 is classified Integration"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+        "reference": "Industry practice (OWASP API Security Top 10)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-AUTH-01",
+        "title": "Strong customer authentication \u2014 a second factor at login and for high-value actions",
+        "family": "authentication",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'log in' in the scenario",
+          "'mobile app' in REQ-001",
+          "'sign in' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall authenticate customers with at least two factors at login, and require step-up authentication for transactions above the organisation-approved risk threshold.",
+        "reference": "RBI Cyber Security Framework 2016 (access control); PPI Directions para 15",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.4 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.4",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.4 Implement centralised authentication and authorisation system or accessing and \nadministering applications, operating systems, databases, network and security \ndevices/systems, point of conn ectivity (local/remote, etc.)  including enforcement of \nstrong password policy, two -factor/multi-factor authentication depending on risk \nassessment and following the principle of least privileges and separation of duties.",
+          "confidence": 0.7107
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-AUTHZ-01",
+        "title": "Role-based access with least privilege for staff and administrators",
+        "family": "authorisation",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'officer*' in the scenario",
+          "'officer*' in REQ-007",
+          "'approv*' in REQ-008"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall grant staff access by role on a least-privilege, need-to-know basis, and enforce maker-checker approval for sensitive operations.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 paras 8.3\u20138.4",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.3 Disallow administrative rights on end -user workstations/PCs/laptops and provide \naccess rights on a need to know basis and for specific duration when it is required \nfollowing an established process.",
+          "confidence": 0.7402
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-01",
+        "title": "Sensitive data encrypted at rest and in transit",
+        "family": "cryptography",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "REQ-002 is classified Privacy",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.1 Provide secure access to the bank\u2019s assets/services from within/outside bank\u2019s \nnetwork by protecting data/information at rest (e.g. using encryption, if supported by \nthe device) and in -transit (e.g. using technologies such as VPN or other secure web \nprotocols, etc.)",
+          "confidence": 0.8077
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "PRIV-MIN-01",
+        "title": "Only the personal data necessary for the stated purpose is collected",
+        "family": "data_protection",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'aadhaar' in the scenario",
+          "REQ-002 is classified Privacy",
+          "'aadhaar' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+        "reference": "DPDP Act 2023, s. 6(1) \u2014 consent limited to data necessary for the purpose",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "6",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "6. Consent .\u2013\u2013(1) The consent given by the Data Principal shall be free, specific, informed, \nunconditional and unambiguous with a clear affirmative action, and shall signify an agreement to the \nprocessing of her personal data for the specified purpose and be limited to su ch personal data as is \nnecessary for such specified purpose. \nIllustration. \n X, an individual, downloads Y, a telemedicine app. Y requests the consent of X for (i) the processing \nof her personal data for making available telemedicine services, and ( ii) accessing her mobile phone \ncontact list, and X signifies her consen",
+          "confidence": 0.7067
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-APPSEC-01",
+        "title": "Input validated and secure coding practices applied",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'mobile app' in the scenario",
+          "'mobile app' in REQ-001",
+          "'upload*' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall validate all input on the server side and be built and tested against the OWASP Application Security Verification Standard.",
+        "reference": "OWASP ASVS (industry practice; not in the knowledge base)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-02",
+        "title": "Cryptographic keys and secrets managed outside the application",
+        "family": "cryptography",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'password*' in the scenario",
+          "'password*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep cryptographic keys and service credentials in a managed key store or HSM, rotate them on a defined schedule, and never embed them in code or configuration files.",
+        "reference": "RBI IT Governance Direction 2023, para 16 (cryptographic controls)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a716 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "16",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "16. Cryptographic controls\nThe key length, algorithms, cipher suites and applicable protocols used in transmission channels, processing of data and authentication purpose shall be strong. REs shall adopt internationally accepted and published standards that are not deprecated/ demonstrated to be insecure/ vulnerable and the configurations involved in implementing such controls shall be compliant with extant laws and regulatory instructions.",
+          "confidence": 0.6656
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'app' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-SESSION-01",
+        "title": "Sessions time out and repeated failed logins lock the account",
+        "family": "authentication",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'log in' in the scenario",
+          "'mobile app' in REQ-001",
+          "'sign in' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall end inactive sessions after a defined timeout and temporarily lock access after repeated failed login attempts.",
+        "reference": "RBI PPI Directions para 15.3 (applied here as general practice)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'app' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": [
+      {
+        "kind": "aadhaar",
+        "label": "Aadhaar number",
+        "sensitivity": "high",
+        "found_in": [
+          "scenario",
+          "REQ-003",
+          "REQ-010"
+        ],
+        "protected_by": []
+      },
+      {
+        "kind": "biometric",
+        "label": "Biometrics / likeness",
+        "sensitivity": "high",
+        "found_in": [
+          "scenario",
+          "REQ-003"
+        ],
+        "protected_by": []
+      },
+      {
+        "kind": "financial",
+        "label": "Financial profile",
+        "sensitivity": "high",
+        "found_in": [
+          "scenario",
+          "REQ-004",
+          "REQ-005"
+        ],
+        "protected_by": []
+      },
+      {
+        "kind": "pan",
+        "label": "PAN",
+        "sensitivity": "high",
+        "found_in": [
+          "scenario",
+          "REQ-003"
+        ],
+        "protected_by": []
+      },
+      {
+        "kind": "contact",
+        "label": "Contact details",
+        "sensitivity": "medium",
+        "found_in": [
+          "scenario",
+          "REQ-002"
+        ],
+        "protected_by": []
+      }
+    ]
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Aadhaar numbers masked or vaulted, never stored in the clear",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a726(mb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-010"
+      ],
+      "likelihood": 4,
+      "impact": 5,
+      "score": 20,
+      "rating": "Critical",
+      "mitigation": "Add the requirement: The system shall not store full Aadhaar numbers; it shall mask the first eight digits wherever an Aadhaar number is displayed or retained, and store any Aadhaar number needed for authentication only in an Aadhaar Data Vault.",
+      "owner": "Compliance officer",
+      "source": "CMP-AADHAAR-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Audit trails on every application that can access or affect critical or sensitive information",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "Cyber security incidents reported promptly to RBI",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+      "owner": "Compliance officer",
+      "source": "CMP-CSF-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Frauds reported to RBI through the fraud monitoring return within 14 days of classification",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a76.3 (RBI/2024-25 Fraud Risk Management) [revised 2024])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-012"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall generate the fraud monitoring return for each case classified as fraud so that it can be reported to RBI within 14 days of classification.",
+      "owner": "Compliance officer",
+      "source": "CMP-FRAUD-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-006",
+      "title": "Identity information from Aadhaar authentication kept confidential and protected",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-010"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep identity information received through Aadhaar authentication confidential, encrypted and accessible only to authorised roles, and use it only for the purpose stated to the Aadhaar number holder.",
+      "owner": "Compliance officer",
+      "source": "CMP-AADHAAR-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-04",
+      "evidence": []
+    },
+    {
+      "id": "RISK-008",
+      "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-009",
+      "title": "Aadhaar number handled without stated protection",
+      "category": "Security",
+      "cause": "Aadhaar number appears in scenario, REQ-003, REQ-010 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Aadhaar number \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-010"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting Aadhaar number (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:aadhaar",
+      "evidence": []
+    },
+    {
+      "id": "RISK-010",
+      "title": "Biometrics / likeness handled without stated protection",
+      "category": "Security",
+      "cause": "Biometrics / likeness appears in scenario, REQ-003 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Biometrics / likeness \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting Biometrics / likeness (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:biometric",
+      "evidence": []
+    },
+    {
+      "id": "RISK-011",
+      "title": "Financial profile handled without stated protection",
+      "category": "Security",
+      "cause": "Financial profile appears in scenario, REQ-004, REQ-005 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Financial profile \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-004",
+        "REQ-005"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting Financial profile (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:financial",
+      "evidence": []
+    },
+    {
+      "id": "RISK-012",
+      "title": "PAN handled without stated protection",
+      "category": "Security",
+      "cause": "PAN appears in scenario, REQ-003 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of PAN \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting PAN (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:pan",
+      "evidence": []
+    },
+    {
+      "id": "RISK-013",
+      "title": "A grievance redressal mechanism for customers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Outsourcing of Information Technology Services \u00a77 (RBI/2023-24/102) [issued 10 Apr 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-004"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall let customers raise complaints and disputes, track them to resolution, and show the contact details of the designated grievance redressal officer.",
+      "owner": "Compliance officer",
+      "source": "CMP-GRV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-014",
+      "title": "Customer identification records kept at least five years after the relationship ends",
+      "category": "Compliance",
+      "cause": "REQ-009 states 3 years; at least 5 is required. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(b) (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "The obligation is only partly met, which an inspection will treat as unmet.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Strengthen the requirement: REQ-009 states 3 years; at least 5 is required",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-015",
+      "title": "Customers categorised by money-laundering risk (low / medium / high)",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a712(c) (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall categorise each customer as low, medium or high risk using identity, social and financial status, nature of business and location, and record the reasons for the categorisation without disclosing them to the customer.",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-016",
+      "title": "Notice to the data principal stating what personal data is collected and why",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-017",
+      "title": "Periodic updation of KYC, more frequently for higher-risk customers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7120 (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall schedule periodic updation of customer KYC according to the customer's risk category and record the date of each updation.",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-04",
+      "evidence": []
+    },
+    {
+      "id": "RISK-018",
+      "title": "Contradictory requirements REQ-006 / REQ-011",
+      "category": "Delivery",
+      "cause": "Different time limits for the same quantity (loan decision response time)",
+      "consequence": "One of the two requirements will be built wrong and reworked.",
+      "linked_requirements": [
+        "REQ-006",
+        "REQ-011"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Determine the most critical or realistic response time requirement and prioritize accordingly",
+      "owner": "Business analyst",
+      "source": "conflict",
+      "evidence": [
+        "within 30 seconds",
+        "within 10 seconds"
+      ]
+    },
+    {
+      "id": "RISK-019",
+      "title": "Contradictory requirements REQ-007 / REQ-008",
+      "category": "Delivery",
+      "cause": "Different limits for the same quantity",
+      "consequence": "One of the two requirements will be built wrong and reworked.",
+      "linked_requirements": [
+        "REQ-007",
+        "REQ-008"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Reconcile the limits to a single value, e.g. above 10 lakh requires approval",
+      "owner": "Business analyst",
+      "source": "conflict",
+      "evidence": [
+        "above 5 lakh",
+        "up to 10 lakh"
+      ]
+    },
+    {
+      "id": "RISK-020",
+      "title": "Small team \u2014 key-person dependency",
+      "category": "Operational",
+      "cause": "The problem statement says: \"The project has three developers and must launch before Diwali, in four months.\"",
+      "consequence": "Losing one person stalls the project.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Pair on critical components, document as you go, and identify a backup for each area.",
+      "owner": "Project manager",
+      "source": "scenario:small_team",
+      "evidence": [
+        "The project has three developers and must launch before Diwali, in four months."
+      ]
+    },
+    {
+      "id": "RISK-021",
+      "title": "Integrations authenticated, encrypted and rate-limited",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice (OWASP API Security Top 10)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-005",
+        "REQ-012"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+      "owner": "Information-security team",
+      "source": "SEC-API-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-022",
+      "title": "Role-based access with least privilege for staff and administrators",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-007",
+        "REQ-008"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall grant staff access by role on a least-privilege, need-to-know basis, and enforce maker-checker approval for sensitive operations.",
+      "owner": "Information-security team",
+      "source": "SEC-AUTHZ-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-023",
+      "title": "Sensitive data encrypted at rest and in transit",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+      "owner": "Information-security team",
+      "source": "SEC-CRYPTO-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-024",
+      "title": "Sensitive identifiers masked on screens, in logs and in reports",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice; Aadhaar masking is a regulation (see CMP-AADHAAR-01)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall mask account, card, PAN and mobile numbers wherever they are displayed, logged or exported, showing only the last four characters.",
+      "owner": "Information-security team",
+      "source": "PRIV-MASK-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-025",
+      "title": "Strong customer authentication \u2014 a second factor at login and for high-value actions",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.4 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall authenticate customers with at least two factors at login, and require step-up authentication for transactions above the organisation-approved risk threshold.",
+      "owner": "Information-security team",
+      "source": "SEC-AUTH-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-026",
+      "title": "High-risk function depends on an external system (REQ-005)",
+      "category": "Technical",
+      "cause": "REQ-005 is high risk and classified Integration: The system shall pull credit scores from CIBIL in real time",
+      "consequence": "An external system's availability, contract or interface change blocks a high-risk function.",
+      "linked_requirements": [
+        "REQ-005"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Agree interface contracts early, stub the dependency for testing, and define fallback behaviour.",
+      "owner": "Software architect",
+      "source": "requirements",
+      "evidence": []
+    },
+    {
+      "id": "RISK-027",
+      "title": "Performance at scale",
+      "category": "Technical",
+      "cause": "The problem statement says: \"Credit scores are pulled from CIBIL in real time.\"",
+      "consequence": "The system misses response or availability targets under real load.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Set measurable targets and load-test against them before go-live.",
+      "owner": "Software architect",
+      "source": "scenario:scale",
+      "evidence": [
+        "Credit scores are pulled from CIBIL in real time."
+      ]
+    },
+    {
+      "id": "RISK-028",
+      "title": "Data storage and deletion",
+      "category": "Business",
+      "cause": "The problem statement says: \"Applicant documents should be kept for three years and then deleted.\"",
+      "consequence": "Non-compliance with data storage and deletion regulations may result in fines and reputational damage.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "Applicant documents should be kept for three years and then deleted."
+      ]
+    },
+    {
+      "id": "RISK-029",
+      "title": "Customer support staff access to Aadhaar numbers",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"Customer support staff must be able to see the full Aadhaar number so they can help applicants.\"",
+      "consequence": "Unauthorized access to Aadhaar numbers may compromise customer data and lead to security incidents.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "Customer support staff must be able to see the full Aadhaar number so they can help applicants."
+      ]
+    },
+    {
+      "id": "RISK-030",
+      "title": "Fixed deadline",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"The project has three developers and must launch before Diwali, in four months.\"",
+      "consequence": "Scope is cut or quality slips to hold the date.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Agree what is in the first release, track it weekly, and protect testing time.",
+      "owner": "Project manager",
+      "source": "scenario:schedule",
+      "evidence": [
+        "The project has three developers and must launch before Diwali, in four months."
+      ]
+    },
+    {
+      "id": "RISK-031",
+      "title": "Loan decision engine accuracy",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"Credit scores are pulled from CIBIL in real time. The app must show a loan decision within 30 seconds of submission. Loans above 5 lakh need approval from a branch credit officer, while loans up to 10 lakh can be approved automatically by the decision engine.\"",
+      "consequence": "Inaccurate loan decisions may lead to financial losses for the bank and reputational damage.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "Credit scores are pulled from CIBIL in real time. The app must show a loan decision within 30 seconds of submission. Loans above 5 lakh need approval from a branch credit officer, while loans up to 10 lakh can be approved automatically by the decision engine."
+      ]
+    },
+    {
+      "id": "RISK-032",
+      "title": "Contact details handled without stated protection",
+      "category": "Security",
+      "cause": "Contact details appears in scenario, REQ-002 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Contact details \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add a requirement protecting Contact details (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:contact",
+      "evidence": []
+    },
+    {
+      "id": "RISK-033",
+      "title": "Cryptographic keys and secrets managed outside the application",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a716 (RBI/2023-24/107) [issued 07 Nov 2023]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall keep cryptographic keys and service credentials in a managed key store or HSM, rotate them on a defined schedule, and never embed them in code or configuration files.",
+      "owner": "Information-security team",
+      "source": "SEC-CRYPTO-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-034",
+      "title": "Input validated and secure coding practices applied",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: OWASP ASVS (industry practice; not in the knowledge base)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall validate all input on the server side and be built and tested against the OWASP Application Security Verification Standard.",
+      "owner": "Information-security team",
+      "source": "SEC-APPSEC-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-035",
+      "title": "Only the personal data necessary for the stated purpose is collected",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+      "owner": "Information-security team",
+      "source": "PRIV-MIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-036",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-037",
+      "title": "Sessions time out and repeated failed logins lock the account",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: RBI PPI Directions para 15.3 (applied here as general practice)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall end inactive sessions after a defined timeout and temporarily lock access after repeated failed login attempts.",
+      "owner": "Information-security team",
+      "source": "SEC-SESSION-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-038",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-039",
+      "title": "Dependence on external services",
+      "category": "Technical",
+      "cause": "The problem statement says: \"Credit scores are pulled from CIBIL in real time.\"",
+      "consequence": "Outages or contract changes outside the bank's control stop the system.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Define fallbacks and timeouts for every external call, and monitor provider SLAs.",
+      "owner": "Software architect",
+      "source": "scenario:external_dependency",
+      "evidence": [
+        "Credit scores are pulled from CIBIL in real time."
+      ]
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "These two requirements disagree: \u201cThe system shall allow loans above 5 lakh to require approval from a branch credit officer\u201d and \u201cThe system shall allow loans up to 10 lakh to be approved automatically by the decision engine\u201d. Which is right, or how should they be reconciled?",
+        "why": "Different limits for the same quantity",
+        "topic": "Consistency",
+        "source": "conflict",
+        "priority": 10,
+        "requirement_ids": [
+          "REQ-007",
+          "REQ-008"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "These two requirements disagree: \u201cThe system shall display a loan decision within 30 seconds of submission\u201d and \u201cThe system shall return the loan decision to the applicant within 10 seconds\u201d. Which is right, or how should they be reconciled?",
+        "why": "Different time limits for the same quantity (loan decision response time)",
+        "topic": "Consistency",
+        "source": "conflict",
+        "priority": 10,
+        "requirement_ids": [
+          "REQ-006",
+          "REQ-011"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Aadhaar numbers masked or vaulted, never stored in the clear (The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a726(mb) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall not store full Aadhaar numbers; it shall mask the first eight digits wherever an Aadhaar number is displayed or retained, and store any Aadhaar number needed for authentication only in an Aadhaar Data V\u2026\u201d?",
+        "why": "CMP-AADHAAR-01: triggered by 'aadhaar' in the scenario, 'aadhaar' in REQ-003",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 15,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "Audit trails on every application that can access or affect critical or sensitive information (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when\u201d?",
+        "why": "CMP-ITGOV-01: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "Cyber security incidents reported promptly to RBI (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines\u201d?",
+        "why": "CMP-CSF-01: triggered by 'bank*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "Frauds reported to RBI through the fraud monitoring return within 14 days of classification (Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a76.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall generate the fraud monitoring return for each case classified as fraud so that it can be reported to RBI within 14 days of classification\u201d?",
+        "why": "CMP-FRAUD-01: triggered by 'fraud*' in the scenario, 'fraud*' in REQ-012",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "Identity information from Aadhaar authentication kept confidential and protected (The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a730(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep identity information received through Aadhaar authentication confidential, encrypted and accessible only to authorised roles, and use it only for the purpose stated to the Aadhaar number holder\u201d?",
+        "why": "CMP-AADHAAR-02: triggered by 'aadhaar' in the scenario, 'aadhaar' in REQ-003",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "Personal data breaches notified to the Data Protection Board and affected individuals (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time\u201d?",
+        "why": "CMP-DPDP-04: triggered by 'aadhaar' in the scenario, 'mobile number' in REQ-002",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "Personal data processed only with the data principal's consent (or another lawful ground) (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given\u201d?",
+        "why": "CMP-DPDP-01: triggered by 'aadhaar' in the scenario, 'mobile number' in REQ-002",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "Customer identification records kept at least five years after the relationship ends: REQ-009 states 3 years; at least 5 is required. Should this be corrected?",
+        "why": "CMP-KYC-01: triggered by 'kyc' in the scenario, 'kyc' in REQ-003",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 25,
+        "requirement_ids": [
+          "REQ-009"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "Aadhaar number is handled (scenario, REQ-003, REQ-010) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected aadhaar data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-003",
+          "REQ-010"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "Biometrics / likeness is handled (scenario, REQ-003) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected biometric data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-003"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "Financial profile is handled (scenario, REQ-004, REQ-005) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected financial data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-004",
+          "REQ-005"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-015",
+        "question": "PAN is handled (scenario, REQ-003) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected pan data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-003"
+        ],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "needs_review": [
+    "\"The system shall display a loan decision within 30 seconds of submission\" contradicts \"The system shall return the loan decision to the applicant within 10 seconds\" \u2014 a stakeholder has to decide which holds.",
+    "\"The system shall allow loans above 5 lakh to require approval from a branch credit officer\" contradicts \"The system shall allow loans up to 10 lakh to be approved automatically by the decision engine\" \u2014 a stakeholder has to decide which holds.",
+    "9 high-severity regulatory obligation(s) have no covering requirement: Aadhaar numbers masked or vaulted, never stored in the clear; Identity information from Aadhaar authentication kept confidential and protected; Cyber security incidents reported promptly to RBI (and 6 more)."
+  ]
+}

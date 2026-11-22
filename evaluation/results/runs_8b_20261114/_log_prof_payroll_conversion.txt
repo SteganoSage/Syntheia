@@ -1,0 +1,284 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  38%|███▊      | 75/199 [00:00<00:00, 730.01it/s]Loading weights:  76%|███████▋  | 152/199 [00:00<00:00, 748.85it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 921.20it/s]
+  classifier     12.0s  roberta_classifier
+  llm             5.7s  llama3.1:8b [cloud]
+  total          17.7s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights:  83%|████████▎ | 86/103 [00:00<00:00, 859.28it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 934.29it/s]
+    ⚠️ llama3.1:8b: bad structured output (attempt 1/3), retrying
+
+4 requirements in 200s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be compatible with the new distributed       │
+│                mini-computer/PC-based networked setup                        │
+│                                                                              │
+│     categories Integration                                                   │
+│    stakeholder IT Team                                                       │
+│      rationale To ensure seamless transition from old mainframe to new       │
+│                networked setup                                               │
+│     acceptance The system runs without errors on the new networked setup     │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall maintain existing payroll functionality      │
+│                without adding new features                                   │
+│                                                                              │
+│     categories Security                                                      │
+│    stakeholder Business Analyst                                              │
+│      rationale To ensure continuity of payroll processing without disrupting │
+│                business operations                                           │
+│     acceptance The system processes payroll data correctly and accurately    │
+│    regulations none claimed, none found (best match 0.46)                    │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall only modify the input and output subsystems  │
+│                for the new environment                                       │
+│                                                                              │
+│     categories Integration                                                   │
+│    stakeholder Development Team                                              │
+│      rationale To minimize changes to existing code and reduce risk of       │
+│                introducing new errors                                        │
+│     acceptance Only the input and output subsystems have been modified       │
+│    regulations none claimed, none found (best match 0.42)                    │
+│    risk / conf Medium · 0.8                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall undergo thorough testing and verification to │
+│                ensure accuracy and reliability                               │
+│                                                                              │
+│     categories Regulatory, Data-management                                   │
+│    stakeholder Quality Assurance Team                                        │
+│      rationale To ensure the system meets the required standards for payroll │
+│                processing                                                    │
+│     acceptance The system passes all testing and verification criteria       │
+│    regulations none claimed, none found (best match 0.54)                    │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  2 passed 2 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Undefined Terminology — The term 'distributed         │
+│                        mini-computer/PC-based networked setup' is not        │
+│                        defined.                                              │
+│                        → Define the term 'distributed                        │
+│                        mini-computer/PC-based networked setup' in the        │
+│                        requirement or provide a reference to a published     │
+│                        source that defines it.                               │
+│  REQ-003    Medium     Undefined Terminology — The term 'input and output    │
+│                        subsystems' is not defined.                           │
+│                        → Define the term 'input and output subsystems' in    │
+│                        the requirement or provide a reference to a           │
+│                        published source that defines it.                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  4 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  10 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   3×4=12  Small team — key-person dependency   Project manager     │
+│                     (Operational)                                            │
+│                     The problem statement says: "The                         │
+│                     schedule allows five months for the                      │
+│                     project, with two people working on                      │
+│                     it."                                                     │
+│  RISK-002   3×4=12  Integrations authenticated,          Information-secur…  │
+│                     encrypted and rate-limited           team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (practice: Industry                              │
+│                     practice (OWASP API Security Top                         │
+│                     10)).                                                    │
+│  RISK-003   3×4=12  Sensitive data encrypted at rest     Information-secur…  │
+│                     and in transit (Security)            team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.1                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-004   3×4=12  High-risk function depends on an     Software architect  │
+│                     external system (REQ-001)                                │
+│                     (Technical)                                              │
+│                     REQ-001 is high risk and classified                      │
+│                     Integration: The system shall be                         │
+│                     compatible with the new distributed                      │
+│                     mini-computer/PC-based networked                         │
+│                     setup                                                    │
+│  RISK-005   3×4=12  Legacy migration — undocumented      Software architect  │
+│                     behaviour and data conversion                            │
+│                     (Technical)                                              │
+│                     The problem statement says: "A                           │
+│                     company is rewriting its payroll                         │
+│                     system to move it from an old                            │
+│                     batch-type mainframe to a                                │
+│                     distributed mini-computer/PC-based                       │
+│                     networked setup."                                        │
+│  RISK-006   3×3=9   Conversion 'as is' may not be        Project manager     │
+│                     feasible (Business)                                      │
+│                     The problem statement says:                              │
+│                     "conversion 'as is.' Only the input                      │
+│                     and output subsystems will be                            │
+│                     altered for the new environment."                        │
+│  RISK-007   3×3=9   Insufficient testing and             Project manager     │
+│                     verification may lead to errors                          │
+│                     (Delivery)                                               │
+│                     The problem statement says:                              │
+│                     "testing and verification will be                        │
+│                     emphasised within the development                        │
+│                     activities."                                             │
+│  RISK-008   3×3=9   Limited resources may lead to        Project manager     │
+│                     project delays (Delivery)                                │
+│                     The problem statement says: "The                         │
+│                     schedule allows five months for the                      │
+│                     project, with two people working on                      │
+│                     it."                                                     │
+│  RISK-009   3×3=9   Security events monitored and        Information-secur…  │
+│                     alerted on (Security)                team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §19.6(b)                              │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-010   3×3=9   Vulnerability management, patching   Information-secur…  │
+│                     and security testing before release  team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §7.1                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────── open questions  12 ─────────────────────────────╮
+│ CQ-001 Integrations authenticated, encrypted and rate-limited. Should the    │
+│ system include: “Every integration with an external system shall be mutually │
+│ authenticated, encrypted in transit, allow-listed and rate-limited, with     │
+│ failures logged”?                                                            │
+│        SEC-API-01 (practice)                                                 │
+│ CQ-002 Sensitive data encrypted at rest and in transit. Should the system    │
+│ include: “The system shall encrypt customer and transaction data at rest and │
+│ in transit using algorithms and key lengths approved under the bank's        │
+│ cryptographic policy”?                                                       │
+│        SEC-CRYPTO-01 (regulation)                                            │
+│ CQ-003 Are there transaction or approval limits — amounts above which extra  │
+│ checks or a senior approval are needed?                                      │
+│        §7 topic not covered: Financial transaction limits                    │
+│ CQ-004 How fast must it respond, how many users or transactions must it      │
+│ handle at peak, and how much downtime is acceptable?                         │
+│        §7 topic not covered: Performance and availability                    │
+│ CQ-005 How should customers and staff sign in, and who is allowed to see,    │
+│ change or approve what?                                                      │
+│        §7 topic not covered: Authentication and authorisation                │
+│ CQ-006 What business outcome is this system meant to achieve, and how will   │
+│ you know it has — a target processing time, volume, cost or conversion rate? │
+│        §7 topic not covered: Business objectives                             │
+│ CQ-007 What should happen when something goes wrong — a check fails, an      │
+│ external service is down, or an application is rejected?                     │
+│        §7 topic not covered: Exceptional conditions                          │
+│ CQ-008 Who will use the system, and what can each kind of user do —          │
+│ customers, branch staff, officers, approvers, administrators?                │
+│        §7 topic not covered: Users and roles                                 │
+│ … and 4 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  V-Shaped                                                                    │
+│                                                                              │
+│  also considered: Incremental, Waterfall, RAD                                │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ V-Shaped ───────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are already well understood                   │
+│             • the full set can be pinned down before build starts            │
+│             • scope is settled and is not expected to change                 │
+│             • stakeholders can specify what they want without seeing it      │
+│             first                                                            │
+│             • technical feasibility is not in doubt                          │
+│             • this is familiar ground for the organisation                   │
+│                                                                              │
+│    buys you Testing planned alongside each development stage                 │
+│               This project will undergo thorough testing and verification to │
+│             ensure accuracy and reliability, as stated in [REQ-004].         │
+│             Test cases written early, from the requirements                  │
+│               The system is being rewritten to move from an old batch-type   │
+│             mainframe to a distributed mini-computer/PC-based networked      │
+│             setup, implying that the full set of requirements can be pinned  │
+│             down before build starts, as stated in [REQ-2].                  │
+│             Defects found at the stage that caused them                      │
+│               The project calls for thorough testing and verification at     │
+│             multiple stages, not just one test phase at the end, as stated   │
+│             in [PTR-6].                                                      │
+│             Every requirement traceable to a test                            │
+│               The system is being extended or modified to maintain existing  │
+│             payroll functionality without adding new features, as stated in  │
+│             [REQ-002].                                                       │
+│                                                                              │
+│    gives up Nothing in this project's profile works against V-Shaped.        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ stable+funding+long-life+system+integration+enhancement+stable+funding+long- │
+│ life+system+integration+enhancement -> V-Shaped                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ stable+funding+long-life+system+integration+enhancement -> V-Shaped          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/prof_payroll_conversion.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • could not establish whether the team is new to this business area — the    │
+│ model gave an answer but could not point at anything in the scenario that    │
+│ says so, so it was left out of the scoring.                                  │
+│ • could not establish whether the team is new to this technology — the model │
+│ gave an answer but could not point at anything in the scenario that says so, │
+│ so it was left out of the scoring.                                           │
+│ • could not establish whether the team is new to the tooling — the model     │
+│ gave an answer but could not point at anything in the scenario that says so, │
+│ so it was left out of the scoring.                                           │
+│ • could not establish whether people will be pulled onto other work during   │
+│ the project — the model gave an answer but could not point at anything in    │
+│ the scenario that says so, so it was left out of the scoring.                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

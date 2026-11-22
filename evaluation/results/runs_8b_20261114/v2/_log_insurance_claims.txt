@@ -1,0 +1,386 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://sent-instruments-attention-woods.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  49%|████▉     | 98/199 [00:00<00:00, 973.96it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1002.10it/s]
+  classifier     14.8s  roberta_classifier
+  llm             5.4s  llama3.1:8b [cloud]
+  total          20.2s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1266.36it/s]
+
+2 requirements in 61s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall provide a claims processing portal for rural │
+│                customers                                                     │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder Government-owned insurance company                            │
+│      rationale Rural customers require a user-friendly and accessible claims │
+│                processing system                                             │
+│     acceptance Portal is accessible and functional on devices with screen    │
+│                widths from 320px to 1920px and internet speeds of 256 kbps   │
+│     UNGROUNDED claims IRDAI — nothing in the knowledge base supports it      │
+│                (best match 0.48)                                             │
+│                needs human review                                            │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall comply with IRDAI regulations for claims     │
+│                processing                                                    │
+│                                                                              │
+│     categories Regulatory                                                    │
+│    stakeholder Compliance Officer                                            │
+│      rationale Non-compliance with IRDAI regulations can result in fines and │
+│                reputational damage                                           │
+│     acceptance Portal meets all IRDAI requirements for claims processing,    │
+│                including data storage and security                           │
+│       grounded 0.63  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                0.57  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §4 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                0.55  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §1.10 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]  │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  1 passed 1 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Undefined Terminology — The term 'user-friendly' is   │
+│                        not measurable.                                       │
+│                        → Replace 'user-friendly' with a measurable           │
+│                        definition, such as 'WCAG 2.1 AA compliant'.          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  7 gap 0 covered ─────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-IRDAI-01     High      Insurer's ICT logs, critical and business data   │
+│                             stored in India                                  │
+│                             IRDAI Information and Cyber Security             │
+│                             Guidelines, 2023 §14                             │
+│                             (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24     │
+│                             Apr 202                                          │
+│                             → The system shall keep its ICT infrastructure   │
+│                             logs and all critical and business data in       │
+│                             India, with logs retained for a rolling 180      │
+│                             days.                                            │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-01     High      Audit trails on every application that can       │
+│                             access or affect critical or sensitive           │
+│                             information                                      │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §15 (RBI/2023-24                       │
+│                             → The system shall keep tamper-evident audit     │
+│                             trails of every access to and change of          │
+│                             customer and transaction data, recording who     │
+│                             acted, what changed and when.                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-03    Medium    System clocks synchronised to NIC/NPL time       │
+│                             servers                                          │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall synchronise all its clocks    │
+│                             to the NIC or NPL NTP servers (or servers        │
+│                             traceable to them), so that log timestamps are   │
+│                             reliable.                                        │
+│  CMP-GRV-01       Medium    A grievance redressal mechanism for customers    │
+│                             Master Direction on Outsourcing of Information   │
+│                             Technology Services §7 (RBI/2023-24/102)         │
+│                             → The system shall let customers raise           │
+│                             complaints and disputes, track them to           │
+│                             resolution, and show the contact details of the  │
+│                             designated grievance redressal officer.          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-002   not_applicable  (obligation not traceable to the clause)          │
+│                            IRDAI Information and Cyber Security Guidelines,  │
+│                            2023 §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023)         │
+│                            [issued 2 · IN                                    │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful (The clause regulates the incorporation  │
+│                            of IRDAI circulars in the operation of Insurance  │
+│                            Companies, whereas the requirement is about       │
+│                            complying with IRDAI regulations for claims       │
+│                            processing.)                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ continuity  Business continuity and disaster recovery for the system         │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §28 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  8 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-AUTH-01      High      Strong customer authentication — a second        │
+│                             factor at login and for high-value actions       │
+│                             Master Direction on Digital Payment Security     │
+│                             Controls §34 (RBI/2020-21/74                     │
+│                             DoS.CO.CSITE.SEC.No.1852/31.01.015/2             │
+│                             → The system shall authenticate customers with   │
+│                             at least two factors at login, and require       │
+│                             step-up authentication for transactions above    │
+│                             the organisation-approved risk threshold.        │
+│                             needs compliance/legal sign-off                  │
+│  SEC-AUTHZ-01     High      Role-based access with least privilege for       │
+│                             staff and administrators                         │
+│                             Cyber Security Framework in Banks §8.3           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall grant staff access by role    │
+│                             on a least-privilege, need-to-know basis, and    │
+│                             enforce maker-checker approval for sensitive     │
+│                             operations.                                      │
+│                             needs compliance/legal sign-off                  │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-SESSION-01   Medium    Sessions time out and repeated failed logins     │
+│                             lock the account                                 │
+│                             Master Direction on Digital Payment Security     │
+│                             Controls §53 (RBI/2020-21/74                     │
+│                             DoS.CO.CSITE.SEC.No.1852/31.01.015/2             │
+│                             → The system shall end inactive sessions after   │
+│                             a defined timeout and temporarily lock access    │
+│                             after repeated failed login attempts.            │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  19 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Audit trails on every application    Compliance officer  │
+│                     that can access or affect critical                       │
+│                     or sensitive information                                 │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §15 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-003   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-004   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-005   4×4=16  Insurer's ICT logs, critical and     Compliance officer  │
+│                     business data stored in India                            │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (IRDAI Information and                       │
+│                     Cyber Security Guidelines, 2023 §14                      │
+│                     (IRDAI/GA&HR/GDL/MISC/88/04/2023) )                      │
+│  RISK-006   4×3=12  A grievance redressal mechanism for  Compliance officer  │
+│                     customers (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Outsourcing of Information                               │
+│                     Technology Services §7                                   │
+│                     (RBI/2023-24/102) )                                      │
+│  RISK-007   4×3=12  System clocks synchronised to        Compliance officer  │
+│                     NIC/NPL time servers (Compliance)                        │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(i) (No.                                     │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-008   3×4=12  Unverified regulation on REQ-001     Compliance officer  │
+│                     (Compliance)                                             │
+│                     REQ-001 names IRDAI, which nothing                       │
+│                     in the knowledge base supports.                          │
+│  RISK-009   3×4=12  Role-based access with least         Information-secur…  │
+│                     privilege for staff and              team                │
+│                     administrators (Security)                                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.3                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+│  RISK-010   3×4=12  Sensitive data encrypted at rest     Information-secur…  │
+│                     and in transit (Security)            team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §8.1                                  │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 9 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Audit trails on every application that can access or affect critical  │
+│ or sensitive information (Master Direction on Information Technology         │
+│ Governance, Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)     │
+│ [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep tamper-evident audit trails of every  │
+│ access to and change of customer and transaction data, recording who acted,  │
+│ what changed and when”?                                                      │
+│        CMP-ITGOV-01: triggered by 'claim*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-002 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'claim*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-003 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'claim*' in the scenario, 'claim*' in     │
+│ REQ-001                                                                      │
+│ CQ-004 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'claim*' in the scenario, 'claim*' in     │
+│ REQ-001                                                                      │
+│ CQ-005 Insurer's ICT logs, critical and business data stored in India (IRDAI │
+│ Information and Cyber Security Guidelines, 2023 §14                          │
+│ (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]). Nothing in the      │
+│ requirements covers this. Should the system include: “The system shall keep  │
+│ its ICT infrastructure logs and all critical and business data in India,     │
+│ with logs retained for a rolling 180 days”?                                  │
+│        CMP-IRDAI-01: triggered by 'insur*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-006 Role-based access with least privilege for staff and administrators.  │
+│ Should the system include: “The system shall grant staff access by role on a │
+│ least-privilege, need-to-know basis, and enforce maker-checker approval for  │
+│ sensitive operations”?                                                       │
+│        SEC-AUTHZ-01 (regulation)                                             │
+│ CQ-007 Sensitive data encrypted at rest and in transit. Should the system    │
+│ include: “The system shall encrypt customer and transaction data at rest and │
+│ in transit using algorithms and key lengths approved under the bank's        │
+│ cryptographic policy”?                                                       │
+│        SEC-CRYPTO-01 (regulation)                                            │
+│ CQ-008 Strong customer authentication — a second factor at login and for     │
+│ high-value actions. Should the system include: “The system shall             │
+│ authenticate customers with at least two factors at login, and require       │
+│ step-up authentication for transactions above the organisation-approved risk │
+│ threshold”?                                                                  │
+│        SEC-AUTH-01 (regulation)                                              │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/v2/insurance_claims.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • "The system shall provide a claims processing portal for rural customers"  │
+│ claims IRDAI applies, but nothing in the knowledge base supports that — the  │
+│ citation is unverified.                                                      │
+│ • 5 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for │
+│ a rolling 180 days within India; Insurer's ICT logs, critical and business   │
+│ data stored in India (and 2 more).                                           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

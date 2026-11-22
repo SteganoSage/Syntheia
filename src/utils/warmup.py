@@ -57,6 +57,22 @@ def warm(verbose: bool = True) -> dict[str, float]:
         if verbose:
             print(f"  classifier   FAILED ({type(e).__name__}: {e})")
 
+    # ── Embedder: the knowledge-base encoder. Loaded inside the first retrieval
+    # otherwise, which put ~10 s of model loading into the timed pipeline on
+    # every one-shot run (14 Nov breakdown: retrieval 13 s, of it ~1 s search).
+    t0 = time.perf_counter()
+    try:
+        from src.rag.embedder import get_model, get_model_name
+
+        get_model()
+        timings["embedder"] = time.perf_counter() - t0
+        if verbose:
+            print(f"  embedder     {timings['embedder']:6.1f}s  "
+                  f"{get_model_name().rsplit('/', 1)[-1]}")
+    except Exception as e:                      # noqa: BLE001 -- warming is best-effort
+        if verbose:
+            print(f"  embedder     FAILED ({type(e).__name__}: {e})")
+
     # ── LLM: an empty prompt loads the model without generating anything ──
     t0 = time.perf_counter()
     try:

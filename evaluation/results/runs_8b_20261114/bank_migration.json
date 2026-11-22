@@ -1,0 +1,1075 @@
+{
+  "scenario": "data/test_cases/bank_migration/scenario_01.txt",
+  "scenario_name": "bank_migration",
+  "scenario_text": "A mid-sized private bank currently runs its core banking system on a legacy COBOL framework. Management has decided to migrate the entire system to a modern Java-based framework. No new functionality is to be added \u2014 the migrated system must replicate the existing features exactly. Testing and validation is required at every stage of the migration to ensure nothing breaks. The project team consists of 2 developers and needs to be completed within 3-4 months.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall be migrated from a COBOL framework to a Java-based framework",
+      "source_stakeholder": "Management",
+      "business_justification": "Legacy COBOL framework is outdated and no longer supported; migration to Java-based framework will improve system maintainability and scalability",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Existing COBOL codebase is accessible and can be migrated",
+      "acceptance_criteria": "All existing COBOL functionality is replicated in the Java-based framework with no loss of functionality",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall undergo thorough testing and validation at every stage of the migration",
+      "source_stakeholder": "Quality Assurance",
+      "business_justification": "Ensures that the migrated system meets the required standards and does not introduce any new defects or issues",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Testing and validation processes are in place and followed",
+      "acceptance_criteria": "All testing and validation stages pass without any critical issues or defects",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "category": [
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall replicate the existing features exactly without any loss of functionality",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Ensures that the migrated system meets the business requirements and does not introduce any new issues or defects",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Existing COBOL functionality is accurately documented and understood",
+      "acceptance_criteria": "All existing COBOL functionality is replicated in the Java-based framework with no loss of functionality",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Availability"
+      ]
+    }
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.412,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5403,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4649,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [
+          {
+            "issue_type": "Incompleteness",
+            "description": "The requirement states that the system shall replicate the existing features exactly without any loss of functionality, but it does not specify what 'existing features' refers to.",
+            "severity": "Low",
+            "suggestion": "Specify what features are being replicated and what is meant by 'existing features'."
+          }
+        ],
+        "passed": false
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "V-Shaped",
+    "ranking": [
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.9091,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-4",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "PTR-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.8182,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-3",
+          "PTR-4",
+          "PTR-5"
+        ],
+        "missed": [
+          "PTR-2",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.6364,
+        "matched": [
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "PTR-1",
+          "PTR-3",
+          "PTR-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.5455,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "PTR-1",
+          "PTR-2",
+          "PTR-4"
+        ],
+        "missed": [
+          "REQ-4",
+          "REQ-5",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.3636,
+        "matched": [
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.2727,
+        "matched": [
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-3",
+          "PTR-4"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.2727,
+        "matched": [
+          "PTR-2",
+          "PTR-3",
+          "PTR-4"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-003"
+        ],
+        "reasoning": "The system shall replicate the existing features exactly without any loss of functionality, implying that the requirements already exist somewhere authoritative and only need transcribing."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall undergo thorough testing and validation at every stage of the migration, implying that the full set of requirements can be pinned down before build starts."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "no",
+        "evidence": [
+          "REQ-001"
+        ],
+        "reasoning": "The system is being migrated from a COBOL framework to a Java-based framework, implying that the requirements are stable and not expected to change often."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "no",
+        "evidence": [
+          "REQ-003"
+        ],
+        "reasoning": "The system shall replicate the existing features exactly, implying that stakeholders do not need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "no",
+        "evidence": [
+          "REQ-001"
+        ],
+        "reasoning": "The system is being migrated from a COBOL framework to a Java-based framework, implying that technical feasibility is not in doubt."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The project is a migration of an existing system to a new framework, not a new product direction."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001"
+        ],
+        "reasoning": "The system must interoperate with the existing COBOL framework and potentially other external systems during the migration process."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The project is a replacement of the existing system, not an enhancement or extension of it."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: Management has decided to migrate the entire system... The project team consists of 2 developers and needs to be completed within 3-4 months."
+        ],
+        "reasoning": "The problem statement mentions a fixed delivery window and an approved scope, implying stable funding."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The system is a core banking platform, which is a long-lived infrastructure."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The project calls for thorough testing and validation at every stage of the migration."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the technology domain."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience with the tools to be used on the project."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the team members being subject to reassignment during the life cycle."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention training being available for the project team if required."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "V-Shaped",
+        "advantages": [
+          {
+            "advantage": "Testing planned alongside each development stage",
+            "relevance": "This project requires thorough testing and validation at every stage of the migration (REQ-002), ensuring that defects are found at the stage that caused them."
+          },
+          {
+            "advantage": "Test cases written early, from the requirements",
+            "relevance": "The project team has a fixed delivery window and an approved scope, implying that the requirements are stable and can be pinned down before build starts (REQ-1)."
+          },
+          {
+            "advantage": "Defects found at the stage that caused them",
+            "relevance": "The project requires formal verification and testing at multiple stages (PTR-6), which aligns with the V-Shaped model's emphasis on finding defects early."
+          },
+          {
+            "advantage": "Every requirement traceable to a test",
+            "relevance": "The project team consists of 2 developers and needs to be completed within 3-4 months, implying that the requirements are well-defined and can be traced to a test (REQ-1)."
+          }
+        ],
+        "gives_up": "V-Shaped assumes an existing system is being extended \u2014 that is not the case here, so that part of its design earns nothing on this project."
+      }
+    ],
+    "summary": "The project's characteristics align with the V-Shaped model, making it the recommended choice. The project's requirements are well-defined, stable, and can be pinned down before build starts, and the project requires thorough testing and validation at every stage of the migration. The project's characteristics include a fixed delivery window, an approved scope, and a long-lived infrastructure, which all support the V-Shaped model. The project's need for formal verification and testing at multiple stages also aligns with the V-Shaped model's emphasis on finding defects early. The only mismatch is that the project is not an enhancement to an existing system, but this is not a critical factor in this case.",
+    "shortcut": "stable requirements + fixed delivery window + long-lived infrastructure -> V-Shaped",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 6,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 0,
+        "total": 4,
+        "assessed": false
+      }
+    },
+    "cross_check_ranking": [
+      "Waterfall",
+      "V-Shaped",
+      "Spiral",
+      "Incremental",
+      "RAD",
+      "Agile",
+      "Prototype"
+    ],
+    "cross_check_reasoning": "The top choice, Waterfall, fits because it is a linear and sequential approach that allows for thorough testing and validation at every stage, which aligns with REQ-002. Additionally, Waterfall's focus on delivering a complete system at the end of the project cycle ensures that the system replicates the existing features exactly without any loss of functionality, aligning with REQ-003.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": false
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-CSF-01",
+        "title": "Cyber security incidents reported promptly to RBI",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'bank*' in the scenario"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+        "reference": "RBI Cyber Security Framework in Banks 2016 (RBI/2015-16/418), para 15 and Annex",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "15. It has been decided to collect both summary level information as well as details \non information security incidents including cyber-incidents. Banks are required to \nreport promptly the incidents, in the format given in Annex-3.  \nAn immediate assessment of gaps in preparedness to be reported to RBI",
+          "confidence": 0.818
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'banking' in the scenario"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'banking' in the scenario"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [],
+    "obligations": [
+      {
+        "kind": "reporting",
+        "text": "Cyber security incidents reported promptly to RBI",
+        "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+        "origin": "CMP-CSF-01"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Cyber security incidents reported promptly to RBI (CMP-CSF-01)",
+      "Compliance/legal sign-off needed: Audit trails on every application that can access or affect critical or sensitive information (CMP-ITGOV-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-API-01",
+        "title": "Integrations authenticated, encrypted and rate-limited",
+        "family": "integration_security",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'core banking' in the scenario",
+          "REQ-001 is classified Integration"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+        "reference": "Industry practice (OWASP API Security Top 10)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": []
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Audit trails on every application that can access or affect critical or sensitive information",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Cyber security incidents reported promptly to RBI",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+      "owner": "Compliance officer",
+      "source": "CMP-CSF-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "Small team \u2014 key-person dependency",
+      "category": "Operational",
+      "cause": "The problem statement says: \"The project team consists of 2 developers and needs to be completed within 3-4 months.\"",
+      "consequence": "Losing one person stalls the project.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Pair on critical components, document as you go, and identify a backup for each area.",
+      "owner": "Project manager",
+      "source": "scenario:small_team",
+      "evidence": [
+        "The project team consists of 2 developers and needs to be completed within 3-4 months."
+      ]
+    },
+    {
+      "id": "RISK-005",
+      "title": "Integrations authenticated, encrypted and rate-limited",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice (OWASP API Security Top 10)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+      "owner": "Information-security team",
+      "source": "SEC-API-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-006",
+      "title": "High-risk function depends on an external system (REQ-001)",
+      "category": "Technical",
+      "cause": "REQ-001 is high risk and classified Integration: The system shall be migrated from a COBOL framework to a Java-based framework",
+      "consequence": "An external system's availability, contract or interface change blocks a high-risk function.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Agree interface contracts early, stub the dependency for testing, and define fallback behaviour.",
+      "owner": "Software architect",
+      "source": "requirements",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Legacy migration \u2014 undocumented behaviour and data conversion",
+      "category": "Technical",
+      "cause": "The problem statement says: \"A mid-sized private bank currently runs its core banking system on a legacy COBOL framework.\"",
+      "consequence": "Behaviour the old system relied on is lost or data is converted wrongly.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Inventory existing behaviour, reconcile migrated data, and run old and new in parallel before cut-over.",
+      "owner": "Software architect",
+      "source": "scenario:legacy",
+      "evidence": [
+        "A mid-sized private bank currently runs its core banking system on a legacy COBOL framework."
+      ]
+    },
+    {
+      "id": "RISK-008",
+      "title": "Java framework compatibility issues",
+      "category": "Business",
+      "cause": "The problem statement says: \"A modern Java-based framework\"",
+      "consequence": "The Java framework may not be compatible with the existing COBOL framework, leading to integration issues and potential system crashes.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "A modern Java-based framework"
+      ]
+    },
+    {
+      "id": "RISK-009",
+      "title": "Insufficient testing resources",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"Testing and validation is required at every stage of the migration to ensure nothing breaks. The project team consists of 2 developers and needs to be completed within 3-4 months. The project team is small and the testing process is time-consuming, which may lead to insufficient testing resources to ensure the migrated system meets the required standards. The project team may not be able to test the system thoroughly within the given timeframe, which could lead to defects and errors in the migrated system.\"",
+      "consequence": "The migrated system may not meet the required standards, leading to defects and errors, which could impact the bank's operations and reputation.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "Testing and validation is required at every stage of the migration to ensure nothing breaks. The project team consists of 2 developers and needs to be completed within 3-4 months. The project team is small and the testing process is time-consuming, which may lead to insufficient testing resources to ensure the migrated system meets the required standards. The project team may not be able to test the system thoroughly within the given timeframe, which could lead to defects and errors in the migrated system."
+      ]
+    },
+    {
+      "id": "RISK-010",
+      "title": "Project timeline and scope creep",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"The project needs to be completed within 3-4 months. No new functionality is to be added \u2014 the migrated system must replicate the existing features exactly.\"",
+      "consequence": "The project timeline is tight, and any changes to the scope or requirements may lead to delays and cost overruns, which could impact the project's overall success.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "The project needs to be completed within 3-4 months. No new functionality is to be added \u2014 the migrated system must replicate the existing features exactly."
+      ]
+    },
+    {
+      "id": "RISK-011",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-012",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Audit trails on every application that can access or affect critical or sensitive information (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when\u201d?",
+        "why": "CMP-ITGOV-01: triggered by 'banking' in the scenario",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'banking' in the scenario",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Cyber security incidents reported promptly to RBI (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines\u201d?",
+        "why": "CMP-CSF-01: triggered by 'bank*' in the scenario",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "Integrations authenticated, encrypted and rate-limited. Should the system include: \u201cEvery integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged\u201d?",
+        "why": "SEC-API-01 (practice)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Are there transaction or approval limits \u2014 amounts above which extra checks or a senior approval are needed?",
+        "why": "\u00a77 topic not covered: Financial transaction limits",
+        "topic": "Financial transaction limits",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "How should customers and staff sign in, and who is allowed to see, change or approve what?",
+        "why": "\u00a77 topic not covered: Authentication and authorisation",
+        "topic": "Authentication and authorisation",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "What business outcome is this system meant to achieve, and how will you know it has \u2014 a target processing time, volume, cost or conversion rate?",
+        "why": "\u00a77 topic not covered: Business objectives",
+        "topic": "Business objectives",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "What information goes in, what comes out, and which business rules decide the outcome \u2014 eligibility, thresholds, calculations, routing?",
+        "why": "\u00a77 topic not covered: Inputs, outputs and business rules",
+        "topic": "Inputs, outputs and business rules",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "What reports, audit trails or regulatory returns must the system produce, and for whom?",
+        "why": "\u00a77 topic not covered: Audit and reporting",
+        "topic": "Audit and reporting",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "What should happen when something goes wrong \u2014 a check fails, an external service is down, or an application is rejected?",
+        "why": "\u00a77 topic not covered: Exceptional conditions",
+        "topic": "Exceptional conditions",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "Which regulations and internal security policies does this system fall under?",
+        "why": "\u00a77 topic not covered: Regulatory and security constraints",
+        "topic": "Regulatory and security constraints",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "Who will use the system, and what can each kind of user do \u2014 customers, branch staff, officers, approvers, administrators?",
+        "why": "\u00a77 topic not covered: Users and roles",
+        "topic": "Users and roles",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "Security events monitored and alerted on. Should the system include: \u201cThe system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity\u201d?",
+        "why": "SEC-MON-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "Vulnerability management, patching and security testing before release. Should the system include: \u201cThe system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy\u201d?",
+        "why": "SEC-VULN-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "needs_review": [
+    "3 high-severity regulatory obligation(s) have no covering requirement: Cyber security incidents reported promptly to RBI; Audit trails on every application that can access or affect critical or sensitive information; Business continuity and disaster recovery for the system.",
+    "could not establish whether the team is new to this business area \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to this technology \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to the tooling \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

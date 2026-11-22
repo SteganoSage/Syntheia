@@ -35,7 +35,14 @@ def get_model():
 
     from sentence_transformers import SentenceTransformer
 
-    _model = SentenceTransformer(name, device="cpu")
+    # From disk first. Loading by hub name otherwise asks Hugging Face for
+    # updates on EVERY run -- a network dependency in a pipeline that claims to
+    # run offline, and the source of the "unauthenticated requests to the HF
+    # Hub" warning. Online only for the very first download.
+    try:
+        _model = SentenceTransformer(name, device="cpu", local_files_only=True)
+    except Exception:                            # noqa: BLE001 -- not cached yet
+        _model = SentenceTransformer(name, device="cpu")
     _model_name = name
     return _model
 

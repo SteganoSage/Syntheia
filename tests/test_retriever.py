@@ -67,6 +67,29 @@ def test_per_document_cap():
         ("a", "1"), ("a", "2"), ("b", "1")]
 
 
+# ── is_available: missing vs broken ────────────────────────────────────
+
+def _failing_stats(*a, **k):
+    raise RuntimeError("Error in compaction")
+
+
+def test_a_missing_index_is_quietly_unavailable(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(retriever.store, "stats", _failing_stats)
+    assert retriever.is_available(tmp_path) is False
+    assert capsys.readouterr().out == ""
+
+
+def test_a_broken_index_says_so(tmp_path, monkeypatch, capsys):
+    (tmp_path / "chroma.sqlite3").write_bytes(b"")
+    monkeypatch.setattr(retriever.store, "stats", _failing_stats)
+    monkeypatch.setattr(retriever, "_REPORTED_BROKEN", set())
+    assert retriever.is_available(tmp_path) is False
+    out = capsys.readouterr().out
+    assert "exists but cannot be read" in out and "Error in compaction" in out
+    retriever.is_available(tmp_path)
+    assert capsys.readouterr().out == "", "said once, not on every call"
+
+
 # ── ground_requirement, search stubbed ─────────────────────────────────
 
 @pytest.fixture

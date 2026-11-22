@@ -1,0 +1,303 @@
+{
+  "summary": {
+    "candidate_recall": 1.0,
+    "unrelated_candidate_rate": 0.0,
+    "verified_labels": false,
+    "judge_accuracy": 0.7777777777777778,
+    "traceable_rate": 1.0,
+    "confusion": {
+      "conflict->overlap": 1,
+      "conflict->conflict": 9,
+      "duplicate->duplicate": 4,
+      "duplicate->overlap": 2,
+      "overlap->unrelated": 1,
+      "overlap->overlap": 1
+    },
+    "reported_conflicts": "10/10",
+    "reported_duplicates": "4/6",
+    "false_reports": 1,
+    "unconfirmed_reports": 2
+  },
+  "rows": [
+    {
+      "id": "P01",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:duration",
+        "similarity"
+      ],
+      "similarity": 0.8287,
+      "judged": "overlap",
+      "traceable": true,
+      "reported": "conflict?"
+    },
+    {
+      "id": "P02",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:money",
+        "similarity"
+      ],
+      "similarity": 0.7493,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P03",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:polarity",
+        "similarity"
+      ],
+      "similarity": 0.7568,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P04",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:duration",
+        "similarity"
+      ],
+      "similarity": 0.6989,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P05",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:percent",
+        "similarity"
+      ],
+      "similarity": 0.8842,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P06",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:duration",
+        "similarity"
+      ],
+      "similarity": 0.7556,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P07",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:money",
+        "similarity"
+      ],
+      "similarity": 0.7847,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P08",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.6452,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P09",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.7876,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P10",
+      "gold": "conflict",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.6515,
+      "judged": "conflict",
+      "traceable": true,
+      "reported": "conflict"
+    },
+    {
+      "id": "P11",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.7892,
+      "judged": "duplicate",
+      "traceable": true,
+      "reported": "duplicate"
+    },
+    {
+      "id": "P12",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.8503,
+      "judged": "duplicate",
+      "traceable": true,
+      "reported": "duplicate"
+    },
+    {
+      "id": "P13",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.8062,
+      "judged": "overlap",
+      "traceable": true,
+      "reported": ""
+    },
+    {
+      "id": "P14",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.8848,
+      "judged": "duplicate",
+      "traceable": true,
+      "reported": "duplicate"
+    },
+    {
+      "id": "P15",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.8686,
+      "judged": "duplicate",
+      "traceable": true,
+      "reported": "duplicate"
+    },
+    {
+      "id": "P16",
+      "gold": "duplicate",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.8025,
+      "judged": "overlap",
+      "traceable": true,
+      "reported": ""
+    },
+    {
+      "id": "P17",
+      "gold": "overlap",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.5107
+    },
+    {
+      "id": "P18",
+      "gold": "overlap",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.3295
+    },
+    {
+      "id": "P19",
+      "gold": "overlap",
+      "candidate": true,
+      "signals": [
+        "rule:numeric:duration",
+        "similarity"
+      ],
+      "similarity": 0.6679,
+      "judged": "unrelated",
+      "traceable": true,
+      "reported": "conflict?"
+    },
+    {
+      "id": "P20",
+      "gold": "overlap",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.3958
+    },
+    {
+      "id": "P21",
+      "gold": "overlap",
+      "candidate": true,
+      "signals": [
+        "similarity"
+      ],
+      "similarity": 0.7337,
+      "judged": "overlap",
+      "traceable": true,
+      "reported": ""
+    },
+    {
+      "id": "P22",
+      "gold": "unrelated",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.196
+    },
+    {
+      "id": "P23",
+      "gold": "unrelated",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.2037
+    },
+    {
+      "id": "P24",
+      "gold": "unrelated",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.3809
+    },
+    {
+      "id": "P25",
+      "gold": "unrelated",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.3819
+    },
+    {
+      "id": "P26",
+      "gold": "unrelated",
+      "candidate": false,
+      "signals": [],
+      "similarity": 0.1708
+    }
+  ]
+}

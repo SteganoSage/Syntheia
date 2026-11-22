@@ -46,6 +46,7 @@ COMMANDS = {
     "/load":      "run a scenario from a file: /load path/to/scenario.txt",
     "/rag":       "grounding on or off: /rag on | off",
     "/sdlc":      "phase 2 on or off: /sdlc on | off",
+    "/analysis":  "conflict/compliance/security/risk on or off: /analysis on | off",
     "/save":      "write the last run as JSON: /save run.json",
     "/why":       "explain one framework answer: /why PTR-2",
     "/detail":    "show or hide the framework working: /detail on | off",
@@ -62,9 +63,10 @@ PT_STYLE = Style.from_dict({
 
 class App:
     def __init__(self, use_rag: bool = True, run_sdlc: bool = True,
-                 classifier: str = "auto"):
+                 classifier: str = "auto", run_analysis: bool = True):
         self.use_rag = use_rag
         self.run_sdlc = run_sdlc
+        self.run_analysis = run_analysis
         self.classifier = classifier
         self.mode_name = DEFAULT_MODE
         self.detail = False
@@ -140,6 +142,9 @@ class App:
         else:
             self.session_obj.use_rag = self.use_rag
             self.session_obj.run_sdlc = self.run_sdlc
+        # Set, not passed: other modes share `start(**kw)` and do not take it.
+        if hasattr(self.session_obj, "run_analysis"):
+            self.session_obj.run_analysis = self.run_analysis
         self.session_obj.detail = self.detail
         self._sync_session()
         return self.session_obj
@@ -150,6 +155,8 @@ class App:
             bits.append("no-rag")
         if not self.run_sdlc:
             bits.append("no-sdlc")
+        if not self.run_analysis:
+            bits.append("no-analysis")
         return HTML(f"<flag>{'  '.join(bits)}</flag>") if bits else HTML("")
 
     # ── commands ───────────────────────────────────────────────────────
@@ -206,6 +213,11 @@ class App:
         elif name == "/sdlc":
             self.run_sdlc = arg != "off"
             console.print(f"[dim]phase 2 {'on' if self.run_sdlc else 'off'}[/]")
+
+        elif name == "/analysis":
+            self.run_analysis = arg != "off"
+            console.print(f"[dim]conflict/compliance/security/risk analysis "
+                          f"{'on' if self.run_analysis else 'off'}[/]")
 
         elif name == "/detail":
             self.detail = arg != "off"

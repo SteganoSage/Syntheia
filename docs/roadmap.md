@@ -74,6 +74,153 @@ get recorded from the cloud tier.
 
 ### Phase B — analysis agents (PS §7, §10, §11)
 
+**Built 14 Nov on branch `phase-b-analysis-agents`.** Five nodes between
+quality and SDLC (`src/pipeline_analysis.py`), off with `--no-analysis`:
+conflicts → compliance → security → risk → clarification. Deterministic first
+(rule packs in `data/compliance/`, `data/security/`, `data/risk/`,
+`data/clarification/`; similarity candidates), LLM only to judge, map and
+revise, and every LLM claim quote-checked in code (`src/utils/evidence.py`).
+188 offline tests; five gates spot-checked by putting their bug back.
+
+Measured so far (no LLM, so tier-independent): every regulatory rule resolves
+to a clause (`notebooks/13_check_rule_packs.py`); conflict candidates reach
+16/16 planted conflicts+duplicates with 0/5 unrelated pairs
+(`notebooks/14_eval_conflicts.py`) — on Claude's own unverified pairs, so
+agreement with a draft, not a result. Similarity cannot separate a conflict
+from a duplicate (both 0.88), so the judge is necessary; measure it on the
+cloud tier with `--judge`.
+
+First real run (14 Nov, `kyc_onboarding`, local 3B, `--no-sdlc`): runs end to
+end, exit 1 as designed. Not accuracy — the 3B — but four behaviours to check
+on the 8B before trusting the LLM half:
+- **All five clause mappings came back `not_addressed`.** A uniform answer is
+  the "constant, not an inference" pattern (problem log 6.5). If the 8B does
+  the same, the mapping prompt needs work.
+- **One "confirmed" conflict looks like an overlap**: two requirements feeding
+  different inputs into one risk score. The quotes were real, so the gate
+  passed it — the gate catches invented quotes, not wrong verdicts.
+- **The three LLM-proposed risks were requirements restated as risks**, again
+  on real quotes. `SYNTHEIA_MAX_LLM_RISKS=0` turns them off.
+- **CMP-KYC-01 reported a gap** although a requirement stores video-KYC
+  sessions for 8 years: the rule does not count a session recording as an
+  identification record. Borderline — decide when verifying the pack.
+- The register had 31 risks, 22 of them one-per-rule-gap. Grouping by family
+  may read better; a design call.
+- Timing: the run's own clock said 143 s for the pipeline (after 100 s
+  warm-up), but file timestamps span ~22 minutes. Not reconciled — time it with
+  `time python main.py ...`.
+
+**8B run, 14 Nov** (cloud tier; all outputs in
+`evaluation/results/runs_8b_20261114/`, run on the 13-document corpus, before
+the six new documents were indexed):
+- Planted defects: both contradictions confirmed with real quotes; 9/9
+  compliance and 5/5 security outcomes as expected; the planted duplicate was
+  lost at extraction (the 8B never extracted the second login sentence).
+- Conflict judge on the 26 pairs: conflicts 10/10, zero false conflicts, quotes
+  100% traceable — but **duplicates 1/6**: the 8B calls them "overlap", which
+  is dropped. One systematic error; a prompt definition or a "similar overlap
+  → possible duplicate" rule should fix it. Measure with `--judge`.
+- Clause mapping still uniformly `not_addressed` on real scenarios. Cause
+  found by reading what it was sent: grounding hands it near-miss clauses
+  (video-KYC storage judged against the KYC *updation-notice* clause), and it
+  never answers `not_applicable`; it also reads "does not say how" as
+  `not_addressed`. Fix: ask applicability as its own step, define "addressed"
+  as committing to the obligation's substance.
+- LLM-proposed risks are real risks on the 8B (the 3B restated requirements).
+- SDLC: 4 pass, 1 tie of two acceptable models, 2 fail (fintech_startup;
+  kyc_onboarding, disputed). Both V-Shaped passes come from the 8B answering
+  PTR-2 (and, on payroll, PTR-3) YES against our draft answers — the same
+  reading the instructor's reasoning supports. Input for the SDLC deepening.
+- Each full run is 165–302 s wall clock including Phase B (KYC 302 s).
+
+**Corpus grown to 19 documents, 14 Nov.** The user supplied Digital Lending
+Directions 2025, DPSC 2021, CERT-In 2022, IRDAI 2023, PML Records Rules 2005
+and the 2018 payment-data circular; manifests read from each document. 11 new
+compliance rules and 2 security controls upgraded to regulation-backed; all 43
+rules resolve to the clause they target (two wrong landings caught by reading
+the excerpts and fixed).
+- **The incremental index build corrupted ChromaDB** ("Error in compaction:
+  Failed to apply logs to the hnsw segment writer"). Rebuilt with `--reset`
+  (4,554 chunks, ~6 min). Broken store backed up first. The retriever used to
+  report a broken store as "no knowledge base indexed" and run ungrounded
+  silently — now it says the store exists but cannot be read.
+- **Retrieval eval dropped: recall@1 91.7% → 75%, recall@5 100% → 96%.** Of
+  the six regressed queries, three are new documents legitimately answering
+  better (PML Rules on suspicious transactions and identity documents; DPSC
+  §33 on card-not-present authentication) — the gold set allows one document
+  per query. Two are real intrusions: IRDAI's generic infosec text outranking
+  banking sources. **Open decision:** filter retrieval by the manifest
+  `applicability` tags (the schema already says it should), and/or let the
+  gold set accept more than one correct source per query, each justified.
+
+**Fixes applied 14 Nov (afternoon), each re-measured:**
+- **Sector filter** (`src/rag/sectors.py`): grounding and scenario context stay
+  inside the scenario's regulatory sector, using the manifest `applicability`
+  tags the schema always intended for this. Conservative — a scenario in both
+  sectors or neither filters nothing. PML Rules and the Aadhaar regulations
+  tagged `general` (they bind insurers too); index rebuilt. Retrieval with the
+  banking filter: recall@1 79% strict / 88% with three justified alternates,
+  recall@5 100%; both IRDAI intrusions gone. The eval now reports strict and
+  alternate scoring side by side (`--sector`, `--out`).
+- **Conflict judge**: duplicate/overlap definitions rewritten (examples checked
+  for zero overlap with the eval set), and a rule-detected clash can no longer
+  be erased by the judge — it is kept as "possible" with the judge's view.
+  Reported to the user: conflicts 10/10, duplicates 4/6 (was 1/6), one
+  unconfirmed false report. The eval now scores the judge AND what is shown.
+- **Clause mapping**: two steps — "does this clause govern the requirement?"
+  first (schema field order forces it), then coverage with "addressed" defined
+  as committing to the obligation's substance.
+
+**Re-measured on the 8B, 14 Nov (`runs_8b_20261114/v2`, `v3`):**
+- Sector filter works end to end: insurance cites IRDAI, never RBI.
+- Two-step mapping first over-corrected to "not_applicable" (15 of 16) — but
+  read clause by clause, 5 of 6 spot-checked verdicts were right: grounding's
+  top citation usually does not govern its requirement. The one wrong verdict
+  (staff seeing full Aadhaar vs the Aadhaar confidentiality clause) is fixed:
+  a requirement that does what a clause forbids is "governed, not addressed".
+- Reading up to 3 citations per requirement found one more governing clause
+  for ~20 extra LLM calls, and planted_defects grew 241 s → 332 s. Low yield:
+  **grounding retrieval is now the bottleneck for citation quality**, not the
+  checker. Unsupported citations now reach the review list.
+- Extraction varies run to run (insurance: 5, 2, 5 requirements) and on the
+  8B again emitted project facts as requirements ("developed within 18
+  months") — problem log 6.1 recurring. Extraction is the only agent still at
+  temperature 0.2, and the scope rule is prompt-only.
+
+**Then fixed (14 Nov, evening):**
+- Extraction now runs at temperature 0, like every other agent.
+- `src/agents/project_facts.py` drops "requirements" that are project facts
+  (delivery timeline, team, budget, methodology, the requirements process) and
+  records each in the run's `dropped` list and a "removed" panel. Narrow by
+  design: over all 62 distinct requirements extracted in today's runs it drops
+  exactly the two project facts and nothing else.
+- Clause-mapping budget 16 → 10 calls, spent breadth-first: every
+  requirement's first clause before anyone's second.
+- Measured on the 8B: insurance extracted identically on two runs; the project
+  fact was dropped and recorded; planted_defects 332 s → 252 s with the same
+  9/9 and 5/5. KYC breakdown: warm-up 27 s, extraction 46 s, quality 26 s,
+  compliance 55 s, everything else ~30 s — 187 s total.
+- **The unexplained timing gaps were system suspend**, not the code: a later
+  run's wall clock spanned 8,037 s while the laptop slept. The pipeline's clock
+  is monotonic and excludes suspend. Keep the machine awake during runs.
+- Every run now saves a timing breakdown (`timing` in the JSON) and prints one
+  line naming the slowest stages.
+- The embedder loads at warm-up and from disk first: retrieval 13 s → 4 s, and
+  no Hugging Face request on every run (a network dependency the offline claim
+  did not allow).
+- A dead LLM endpoint — at start or mid-run — exits 2 ("could not run") with
+  the fallback command, instead of a traceback with exit 1 (which means "needs
+  review"). Other exceptions still raise.
+
+Found while building, not yet fixed:
+- **Chunker mislabels numeric sub-sections.** DPDP s.8(6) cites as "§8(b)":
+  "(6)" is not a recognised heading, so the last lettered label sticks. Every
+  DPDP citation with a numbered sub-section is affected. Fix + re-index.
+- **Card Directions para 65 is unreachable** — unrelated clauses outrank it.
+  Rule CMP-CARD-01 dropped until re-chunking.
+
+Original plan for reference:
+
 - **B1. Conflict & duplicate detection** — embedding similarity proposes pairs,
   the LLM judges only those pairs.
 - **B2. Compliance agent** — per requirement: jurisdiction, control, evidence,

@@ -1,0 +1,434 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  46%|████▌     | 92/199 [00:00<00:00, 916.00it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1006.48it/s]
+  classifier     15.9s  roberta_classifier
+  llm             6.0s  llama3.1:8b [cloud]
+  total          21.9s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1059.62it/s]
+  (5 question(s) would settle this — PTR-4, PTR-6, USER-1, USER-3. Run at a terminal to be asked, or pass them in.)
+
+5 requirements in 149s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be capable of integrating with multiple      │
+│                external data sources for credit risk assessment              │
+│                                                                              │
+│     categories Data-management, Integration                                  │
+│    stakeholder Data Scientist                                                │
+│      rationale Access to diverse data sources is crucial for building        │
+│                accurate credit risk models                                   │
+│     acceptance System can successfully ingest and process data from at least │
+│                three external sources                                        │
+│       grounded 0.56  Master Directions on Fraud Risk Management in           │
+│                Commercial Banks (including RRBs) and AIFIs §3.3 (RBI/2024-25 │
+│                Fraud Risk Management) [revised 2024]                         │
+│                                                                              │
+│    risk / conf Medium · 0.8                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall support multiple machine learning model      │
+│                architectures for credit risk scoring                         │
+│                                                                              │
+│     categories Business, Integration                                         │
+│    stakeholder Data Scientist                                                │
+│      rationale Different models may be more suitable for different data      │
+│                sources or problem domains                                    │
+│     acceptance System can successfully train and deploy at least two         │
+│                different model architectures                                 │
+│    regulations none claimed, none found (best match 0.54)                    │
+│    risk / conf Medium · 0.8                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide a user-friendly interface for data   │
+│                scientists to configure and monitor model performance         │
+│                                                                              │
+│     categories Stakeholder, Functional                                       │
+│    stakeholder Data Scientist                                                │
+│      rationale Easy-to-use interfaces increase productivity and reduce       │
+│                errors                                                        │
+│     acceptance Interface allows for easy configuration of model              │
+│                hyperparameters and monitoring of performance metrics         │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf Low · 0.9                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be capable of generating a proof of concept  │
+│                within a reasonable timeframe (e.g., 3-6 months)              │
+│                                                                              │
+│     categories Business, Performance                                         │
+│    stakeholder Project Manager                                               │
+│      rationale Proof of concept is necessary to demonstrate feasibility and  │
+│                secure funding                                                │
+│     acceptance System generates a functional proof of concept within the     │
+│                specified timeframe                                           │
+│    regulations none claimed, none found (best match 0.47)                    │
+│    risk / conf High · 0.7                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be developed with a modular architecture to  │
+│                facilitate future scalability and maintenance                 │
+│                                                                              │
+│     categories Business                                                      │
+│    stakeholder Technical Lead                                                │
+│      rationale Modular architecture reduces technical debt and makes it      │
+│                easier to add new features                                    │
+│     acceptance System can be easily scaled and maintained without            │
+│                significant rework                                            │
+│    regulations none claimed, none found (best match 0.58)                    │
+│      precedent 0.58  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §37 (RFP │
+│                — Fraud Detection and Prevention System) [current             │
+│                procurement]                                                  │
+│                0.57  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §13 (RFP No. 375) [RFP 375]       │
+│                                                                              │
+│    risk / conf Medium · 0.8                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  2 passed 3 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Undefined Terminology — The term 'credit risk         │
+│                        assessment' is not defined. Please clarify what this  │
+│                        means in the context of this system.                  │
+│                        → Define 'credit risk assessment' in the requirement  │
+│                        or provide a reference to a published source that     │
+│                        defines it.                                           │
+│  REQ-003    Low        Ambiguity — The term 'user-friendly' is not           │
+│                        measurable. Please define what 'user-friendly' means  │
+│                        in the context of this system.                        │
+│                        → Define 'user-friendly' in the requirement or        │
+│                        provide a reference to a published source that        │
+│                        defines it.                                           │
+│  REQ-004    Medium     Ambiguity — The term 'reasonable timeframe' is not    │
+│                        defined. Please define what 'reasonable timeframe'    │
+│                        means in the context of this system.                  │
+│                        → Define 'reasonable timeframe' in the requirement    │
+│                        or provide a reference to a published source that     │
+│                        defines it.                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  3 gap 0 covered ─────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-01     High      Audit trails on every application that can       │
+│                             access or affect critical or sensitive           │
+│                             information                                      │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §15 (RBI/2023-24                       │
+│                             → The system shall keep tamper-evident audit     │
+│                             trails of every access to and change of          │
+│                             customer and transaction data, recording who     │
+│                             acted, what changed and when.                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-001   not_addressed   The EWS system shall be comprehensive and         │
+│                            designed to include both the quantitative and     │
+│                            qualitative indicators to make the framework      │
+│                            robust and effective.                             │
+│                            Master Directions on Fraud Risk Management in     │
+│                            Commercial Banks (including RRBs) and AIFIs §3.3  │
+│                            (RBI/ · IN                                        │
+│                            → The requirement must specify that the system    │
+│                            includes both quantitative and qualitative        │
+│                            indicators for credit risk assessment.            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ audit       The EWS system shall be comprehensive and designed to include    │
+│ both the quantitative and qualitative indicators to make the framework       │
+│ robust and effective.                                                        │
+│             Master Directions on Fraud Risk Management in Commercial Banks   │
+│ (including RRBs) and AIFIs §3.3 (RBI/                                        │
+│ continuity  Business continuity and disaster recovery for the system         │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §28 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  3 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  11 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Audit trails on every application    Compliance officer  │
+│                     that can access or affect critical                       │
+│                     or sensitive information                                 │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §15 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-003   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-004   4×3=12  Requirements expected to change      Product owner       │
+│                     (Business)                                               │
+│                     The problem statement says: "An                          │
+│                     NBFC wants to build an AI-based                          │
+│                     credit risk scoring engine but                           │
+│                     they're not sure exactly what data                       │
+│                     sources to use or what the model                         │
+│                     architecture should look like."                          │
+│  RISK-005   3×4=12  Integrations authenticated,          Information-secur…  │
+│                     encrypted and rate-limited           team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (practice: Industry                              │
+│                     practice (OWASP API Security Top                         │
+│                     10)).                                                    │
+│  RISK-006   4×3=12  Team new to the technology           Software architect  │
+│                     (Technical)                                              │
+│                     The problem statement says:                              │
+│                     "There's significant technical risk                      │
+│                     — they've never built ML systems                         │
+│                     before."                                                 │
+│  RISK-007   3×3=9   Data quality and availability        Project manager     │
+│                     (Business)                                               │
+│                     The problem statement says: "data                        │
+│                     sources to use or what the model                         │
+│                     architecture should look like,                           │
+│                     significant technical risk —                             │
+│                     they've never built ML systems                           │
+│                     before, initial results, proof of                        │
+│                     concept first before committing to                       │
+│                     full development"                                        │
+│  RISK-008   3×3=9   Lack of expertise and resources      Project manager     │
+│                     (Delivery)                                               │
+│                     The problem statement says:                              │
+│                     "significant technical risk —                            │
+│                     they've never built ML systems                           │
+│                     before, Team new to the technology"                      │
+│  RISK-009   3×3=9   Technical debt and scalability       Project manager     │
+│                     (Delivery)                                               │
+│                     The problem statement says:                              │
+│                     "significant technical risk —                            │
+│                     they've never built ML systems                           │
+│                     before, proof of concept first                           │
+│                     before committing to full                                │
+│                     development"                                             │
+│  RISK-010   3×3=9   Security events monitored and        Information-secur…  │
+│                     alerted on (Security)                team                │
+│                     No requirement provides this                             │
+│                     control (regulation: Cyber Security                      │
+│                     Framework in Banks §19.6(b)                              │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)]).                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 1 more (in --json)
+╭───────────────────────────── open questions  14 ─────────────────────────────╮
+│ CQ-001 Audit trails on every application that can access or affect critical  │
+│ or sensitive information (Master Direction on Information Technology         │
+│ Governance, Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)     │
+│ [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep tamper-evident audit trails of every  │
+│ access to and change of customer and transaction data, recording who acted,  │
+│ what changed and when”?                                                      │
+│        CMP-ITGOV-01: triggered by 'credit*' in the scenario, 'credit*' in    │
+│ REQ-001                                                                      │
+│ CQ-002 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'credit*' in the scenario, 'credit*' in    │
+│ REQ-001                                                                      │
+│ CQ-003 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'nbfc*' in the scenario                      │
+│ CQ-004 Integrations authenticated, encrypted and rate-limited. Should the    │
+│ system include: “Every integration with an external system shall be mutually │
+│ authenticated, encrypted in transit, allow-listed and rate-limited, with     │
+│ failures logged”?                                                            │
+│        SEC-API-01 (practice)                                                 │
+│ CQ-005 Are there transaction or approval limits — amounts above which extra  │
+│ checks or a senior approval are needed?                                      │
+│        §7 topic not covered: Financial transaction limits                    │
+│ CQ-006 How is this done today, and what in the current process must stay the │
+│ same?                                                                        │
+│        §7 topic not covered: Existing workflow                               │
+│ CQ-007 How should customers and staff sign in, and who is allowed to see,    │
+│ change or approve what?                                                      │
+│        §7 topic not covered: Authentication and authorisation                │
+│ CQ-008 What reports, audit trails or regulatory returns must the system      │
+│ produce, and for whom?                                                       │
+│        §7 topic not covered: Audit and reporting                             │
+│ … and 6 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  TIED  Prototype and Spiral                                                  │
+│  the evidence does not separate these two. More about the project would.     │
+│                                                                              │
+│  also considered: Agile, RAD                                                 │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Prototype ──────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are not yet well understood                   │
+│             • the full set cannot be pinned down before build starts         │
+│             • scope is expected to keep changing as work goes on             │
+│             • stakeholders need to see something working before they can say │
+│             what they want                                                   │
+│             • technical feasibility itself is in doubt and has to be proven  │
+│             • the system has to interoperate with systems outside itself     │
+│                                                                              │
+│    buys you A working model quickly                                          │
+│               This property buys the project a rapid proof of concept, which │
+│             is required to demonstrate capability and clarify requirements   │
+│             (REQ-004).                                                       │
+│             Requirements clarified by seeing them run                        │
+│               This property buys the project early feedback from             │
+│             stakeholders, who need to see something working before they can  │
+│             say what they want (REQ-003).                                    │
+│             Technical risk investigated before committing                    │
+│               This property buys the project a chance to investigate         │
+│             technical risk before committing to a full implementation, which │
+│             is necessary given the high degree of technical uncertainty      │
+│             (REQ-1).                                                         │
+│             Early feedback from real users                                   │
+│               This property buys the project early feedback from real users, │
+│             which is necessary given the high degree of technical            │
+│             uncertainty and the need to demonstrate capability (REQ-2).      │
+│                                                                              │
+│    gives up Prototype assumes this takes the organisation somewhere it has   │
+│             not been before, and that the team already knows this technology │
+│             — neither is true here, so that part of its design earns nothing │
+│             on this project.                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Spiral ─────────────────────────────────────────────────────────────────────╮
+│        fits —                                                                │
+│    buys you Requirements are well understood before starting                 │
+│               This property buys the project a chance to clarify             │
+│             requirements before starting, which is necessary given the high  │
+│             degree of technical uncertainty (REQ-1).                         │
+│             Requirements are stable throughout the cycle                     │
+│               This property buys the project a stable set of requirements,   │
+│             which is necessary given the high degree of technical            │
+│             uncertainty (REQ-3).                                             │
+│             A working model is not required                                  │
+│               This property buys the project a chance to focus on            │
+│             requirements and design without the need for a working model,    │
+│             which is not required for this project (REQ-4).                  │
+│                                                                              │
+│    gives up The project gives up on early feedback from real users, which is │
+│             necessary given the high degree of technical uncertainty and the │
+│             need to demonstrate capability (USER-1).                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Waterfall ──────────────────────────────────────────────────────────────────╮
+│        fits —                                                                │
+│    buys you Requirements are well understood before starting                 │
+│               This property buys the project a chance to clarify             │
+│             requirements before starting, which is necessary given the high  │
+│             degree of technical uncertainty (REQ-1).                         │
+│             Requirements are stable throughout the cycle                     │
+│               This property buys the project a stable set of requirements,   │
+│             which is necessary given the high degree of technical            │
+│             uncertainty (REQ-3).                                             │
+│             A working model is not required                                  │
+│               This property buys the project a chance to focus on            │
+│             requirements and design without the need for a working model,    │
+│             which is not required for this project (REQ-4).                  │
+│                                                                              │
+│    gives up The project gives up on early feedback from real users, which is │
+│             necessary given the high degree of technical uncertainty and the │
+│             need to demonstrate capability (USER-1).                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ The recommended model is Prototype, which is tied with Spiral on the         │
+│ framework. The tiebreaker question is TEAM-2, which Prototype assumes the    │
+│ opposite of. If answered, it would break the tie in favor of Spiral.         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ High technical uncertainty + proof of concept required + user-friendly       │
+│ interface -> Prototype                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/credit_risk.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • 3 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber security incidents reported promptly to RBI; Audit trails on every     │
+│ application that can access or affect critical or sensitive information;     │
+│ Business continuity and disaster recovery for the system.                    │
+│ • the framework does not separate Prototype = Spiral; the reported           │
+│ recommendation is first by name, not by fit                                  │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

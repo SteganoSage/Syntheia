@@ -5,6 +5,7 @@ jurisdiction: IN
 effective_date: 2021-11-09
 version: updated 15 Dec 2025
 applicability:
+- general  # Aadhaar authentication rules bind any requesting entity, whatever its sector (added 14 Nov)
 - kyc_onboarding
 - lending
 - payments

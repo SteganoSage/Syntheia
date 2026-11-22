@@ -484,4 +484,7 @@ def print_run(state: dict, elapsed: float | None = None,
     print_requirements(state.get("requirements", []),
                        state.get("grounding", {}), elapsed)
     print_quality(state.get("quality_report"))
+    from src.cli.render_analysis import print_analysis
+
+    print_analysis(state)
     print_sdlc(state.get("sdlc"), detail=detail)

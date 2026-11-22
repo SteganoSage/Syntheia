@@ -1,0 +1,978 @@
+{
+  "scenario": "data/test_cases/prof_payroll_conversion/scenario_01.txt",
+  "scenario_name": "prof_payroll_conversion",
+  "scenario_text": "A company is rewriting its payroll system to move it from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup. No new functionality will be added. The statement of work calls for a conversion \"as is.\" Only the input and output subsystems will be altered for the new environment. Since it is a payroll application, testing and verification will be emphasised within the development activities. The schedule allows five months for the project, with two people working on it.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall be compatible with the new distributed mini-computer/PC-based networked setup",
+      "source_stakeholder": "IT Team",
+      "business_justification": "To ensure seamless transition from old mainframe to new networked setup",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "The new networked setup will be properly configured and maintained",
+      "acceptance_criteria": "The system runs without errors on the new networked setup",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall maintain existing payroll functionality without adding new features",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "To ensure continuity of payroll processing without disrupting business operations",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "The existing payroll functionality is well-documented and understood",
+      "acceptance_criteria": "The system processes payroll data correctly and accurately",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "category": [
+        "Security"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall only modify the input and output subsystems for the new environment",
+      "source_stakeholder": "Development Team",
+      "business_justification": "To minimize changes to existing code and reduce risk of introducing new errors",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "The input and output subsystems are well-defined and separable from the rest of the system",
+      "acceptance_criteria": "Only the input and output subsystems have been modified",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "category": [
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall undergo thorough testing and verification to ensure accuracy and reliability",
+      "source_stakeholder": "Quality Assurance Team",
+      "business_justification": "To ensure the system meets the required standards for payroll processing",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "A comprehensive testing plan has been developed and executed",
+      "acceptance_criteria": "The system passes all testing and verification criteria",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Regulatory",
+        "Data-management"
+      ]
+    }
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4862,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4564,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4197,
+      "needs_review": true
+    },
+    "REQ-004": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5422,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'distributed mini-computer/PC-based networked setup' is not defined.",
+            "severity": "Medium",
+            "suggestion": "Define the term 'distributed mini-computer/PC-based networked setup' in the requirement or provide a reference to a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'input and output subsystems' is not defined.",
+            "severity": "Medium",
+            "suggestion": "Define the term 'input and output subsystems' in the requirement or provide a reference to a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "V-Shaped",
+    "ranking": [
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 1.0,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-4",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [],
+        "is_derived": false
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.7273,
+        "matched": [
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "PTR-1",
+          "PTR-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.7273,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-4",
+          "PTR-5"
+        ],
+        "missed": [
+          "PTR-2",
+          "PTR-3",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.6364,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-4"
+        ],
+        "missed": [
+          "REQ-4",
+          "REQ-5",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.3636,
+        "matched": [
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-4"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.2727,
+        "matched": [
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-3",
+          "PTR-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.1818,
+        "matched": [
+          "PTR-2",
+          "PTR-4"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system is being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, implying that the requirements already exist somewhere authoritative and only need transcribing."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system is being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, and the schedule allows five months for the project, with two people working on it, implying that the full set of requirements can be pinned down before build starts."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "no",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system is being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, and the statement of work calls for a conversion 'as is', implying that the scope is fixed and will not change often in the cycle."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "no",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The requirements are being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, and testing and verification will be emphasised within the development activities, implying that stakeholders do not need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "no",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system is being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, and the statement of work calls for a conversion 'as is', implying that technical feasibility is not in doubt."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The project is a conversion of an existing payroll system to a new environment, not a new product direction."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-003"
+        ],
+        "reasoning": "The system must interoperate with the new distributed mini-computer/PC-based networked setup."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system is being extended or modified to maintain existing payroll functionality without adding new features."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: The schedule allows five months for the project, with two people working on it."
+        ],
+        "reasoning": "The problem statement mentions a fixed delivery window, implying stable funding."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: A company is rewriting its payroll system..."
+        ],
+        "reasoning": "A payroll system is considered infrastructure, implying a long life in the organization."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "yes",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The project calls for thorough testing and verification at multiple stages, not just one test phase at the end."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the technology domain."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience with the tools to be used on the project."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team members being subject to reassignment during the life cycle."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention training being available for the project team if required."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "V-Shaped",
+        "advantages": [
+          {
+            "advantage": "Testing planned alongside each development stage",
+            "relevance": "This project will undergo thorough testing and verification to ensure accuracy and reliability, as stated in [REQ-004]."
+          },
+          {
+            "advantage": "Test cases written early, from the requirements",
+            "relevance": "The system is being rewritten to move from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup, implying that the full set of requirements can be pinned down before build starts, as stated in [REQ-2]."
+          },
+          {
+            "advantage": "Defects found at the stage that caused them",
+            "relevance": "The project calls for thorough testing and verification at multiple stages, not just one test phase at the end, as stated in [PTR-6]."
+          },
+          {
+            "advantage": "Every requirement traceable to a test",
+            "relevance": "The system is being extended or modified to maintain existing payroll functionality without adding new features, as stated in [REQ-002]."
+          }
+        ],
+        "gives_up": "Nothing in this project's profile works against V-Shaped."
+      }
+    ],
+    "summary": "stable+funding+long-life+system+integration+enhancement+stable+funding+long-life+system+integration+enhancement -> V-Shaped",
+    "shortcut": "stable+funding+long-life+system+integration+enhancement -> V-Shaped",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 6,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 0,
+        "total": 4,
+        "assessed": false
+      }
+    },
+    "cross_check_ranking": [
+      "Agile",
+      "Incremental",
+      "RAD",
+      "Spiral",
+      "Prototype",
+      "V-Shaped",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "Agile fits because it allows for iterative development, flexibility, and continuous improvement, which is suitable for high-priority requirements with high risk levels, such as compatibility with a new networked setup and thorough testing and verification. Incremental also fits because it allows for phased development, which is suitable for high-priority requirements with high risk levels, such as maintaining existing payroll functionality and modifying input and output subsystems.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": false
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [],
+    "mappings": [],
+    "obligations": [],
+    "checkpoints": []
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-API-01",
+        "title": "Integrations authenticated, encrypted and rate-limited",
+        "family": "integration_security",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "REQ-001 is classified Integration",
+          "REQ-003 is classified Integration"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+        "reference": "Industry practice (OWASP API Security Top 10)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-01",
+        "title": "Sensitive data encrypted at rest and in transit",
+        "family": "cryptography",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "REQ-002 is classified Security"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.1 Provide secure access to the bank\u2019s assets/services from within/outside bank\u2019s \nnetwork by protecting data/information at rest (e.g. using encryption, if supported by \nthe device) and in -transit (e.g. using technologies such as VPN or other secure web \nprotocols, etc.)",
+          "confidence": 0.8077
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": []
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Small team \u2014 key-person dependency",
+      "category": "Operational",
+      "cause": "The problem statement says: \"The schedule allows five months for the project, with two people working on it.\"",
+      "consequence": "Losing one person stalls the project.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Pair on critical components, document as you go, and identify a backup for each area.",
+      "owner": "Project manager",
+      "source": "scenario:small_team",
+      "evidence": [
+        "The schedule allows five months for the project, with two people working on it."
+      ]
+    },
+    {
+      "id": "RISK-002",
+      "title": "Integrations authenticated, encrypted and rate-limited",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice (OWASP API Security Top 10)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+      "owner": "Information-security team",
+      "source": "SEC-API-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Sensitive data encrypted at rest and in transit",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+      "owner": "Information-security team",
+      "source": "SEC-CRYPTO-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "High-risk function depends on an external system (REQ-001)",
+      "category": "Technical",
+      "cause": "REQ-001 is high risk and classified Integration: The system shall be compatible with the new distributed mini-computer/PC-based networked setup",
+      "consequence": "An external system's availability, contract or interface change blocks a high-risk function.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Agree interface contracts early, stub the dependency for testing, and define fallback behaviour.",
+      "owner": "Software architect",
+      "source": "requirements",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Legacy migration \u2014 undocumented behaviour and data conversion",
+      "category": "Technical",
+      "cause": "The problem statement says: \"A company is rewriting its payroll system to move it from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup.\"",
+      "consequence": "Behaviour the old system relied on is lost or data is converted wrongly.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Inventory existing behaviour, reconcile migrated data, and run old and new in parallel before cut-over.",
+      "owner": "Software architect",
+      "source": "scenario:legacy",
+      "evidence": [
+        "A company is rewriting its payroll system to move it from an old batch-type mainframe to a distributed mini-computer/PC-based networked setup."
+      ]
+    },
+    {
+      "id": "RISK-006",
+      "title": "Conversion 'as is' may not be feasible",
+      "category": "Business",
+      "cause": "The problem statement says: \"conversion 'as is.' Only the input and output subsystems will be altered for the new environment.\"",
+      "consequence": "The project may not meet the business requirements, or may require significant rework.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "conversion 'as is.' Only the input and output subsystems will be altered for the new environment."
+      ]
+    },
+    {
+      "id": "RISK-007",
+      "title": "Insufficient testing and verification may lead to errors",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"testing and verification will be emphasised within the development activities.\"",
+      "consequence": "The payroll system may not function correctly, leading to errors and potential financial losses.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "testing and verification will be emphasised within the development activities."
+      ]
+    },
+    {
+      "id": "RISK-008",
+      "title": "Limited resources may lead to project delays",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"The schedule allows five months for the project, with two people working on it.\"",
+      "consequence": "The project may take longer than expected to complete, or may require additional resources to meet the deadline.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "The schedule allows five months for the project, with two people working on it."
+      ]
+    },
+    {
+      "id": "RISK-009",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-010",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Integrations authenticated, encrypted and rate-limited. Should the system include: \u201cEvery integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged\u201d?",
+        "why": "SEC-API-01 (practice)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Sensitive data encrypted at rest and in transit. Should the system include: \u201cThe system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy\u201d?",
+        "why": "SEC-CRYPTO-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Are there transaction or approval limits \u2014 amounts above which extra checks or a senior approval are needed?",
+        "why": "\u00a77 topic not covered: Financial transaction limits",
+        "topic": "Financial transaction limits",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "How fast must it respond, how many users or transactions must it handle at peak, and how much downtime is acceptable?",
+        "why": "\u00a77 topic not covered: Performance and availability",
+        "topic": "Performance and availability",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "How should customers and staff sign in, and who is allowed to see, change or approve what?",
+        "why": "\u00a77 topic not covered: Authentication and authorisation",
+        "topic": "Authentication and authorisation",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "What business outcome is this system meant to achieve, and how will you know it has \u2014 a target processing time, volume, cost or conversion rate?",
+        "why": "\u00a77 topic not covered: Business objectives",
+        "topic": "Business objectives",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "What should happen when something goes wrong \u2014 a check fails, an external service is down, or an application is rejected?",
+        "why": "\u00a77 topic not covered: Exceptional conditions",
+        "topic": "Exceptional conditions",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "Who will use the system, and what can each kind of user do \u2014 customers, branch staff, officers, approvers, administrators?",
+        "why": "\u00a77 topic not covered: Users and roles",
+        "topic": "Users and roles",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "About \u201cThe system shall be compatible with the new distributed mini-computer/PC-based networked setup\u201d: The term 'distributed mini-computer/PC-based networked setup' is not defined. (For example: Define the term 'distributed mini-computer/PC-based networked setup' in the requirement or provide a reference to a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-001"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "About \u201cThe system shall only modify the input and output subsystems for the new environment\u201d: The term 'input and output subsystems' is not defined. (For example: Define the term 'input and output subsystems' in the requirement or provide a reference to a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-003"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "Security events monitored and alerted on. Should the system include: \u201cThe system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity\u201d?",
+        "why": "SEC-MON-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "Vulnerability management, patching and security testing before release. Should the system include: \u201cThe system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy\u201d?",
+        "why": "SEC-VULN-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 55,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "needs_review": [
+    "could not establish whether the team is new to this business area \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to this technology \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to the tooling \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether people will be pulled onto other work during the project \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

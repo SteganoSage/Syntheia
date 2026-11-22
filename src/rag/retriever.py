@@ -66,11 +66,28 @@ MAX_PER_DOC = int(os.getenv("SYNTHEIA_MAX_PER_DOC", "2"))
 REGULATORY_TYPES = {"regulation", "standard"}
 
 
+_REPORTED_BROKEN: set[str] = set()
+
+
 def is_available(persist_dir: Path | None = None) -> bool:
-    """Is there an index with anything in it? Gate RAG on this, never assume."""
+    """Is there an index with anything in it? Gate RAG on this, never assume.
+
+    Missing and broken are different answers to this question and must not look
+    alike. A missing index is a fresh checkout: run ungrounded, as before. A
+    store that EXISTS but errors (14 Nov: a ChromaDB compaction failure on an
+    incremental build) used to return False too -- so the run printed "no
+    knowledge base indexed" and went ungrounded, with the real error swallowed.
+    Still False, so the run degrades rather than dies, but now it says why.
+    """
     try:
         return store.stats(persist_dir)["chunks"] > 0
-    except Exception:                            # noqa: BLE001
+    except Exception as e:                       # noqa: BLE001
+        target = Path(persist_dir or store.DEFAULT_DIR)
+        if (target / "chroma.sqlite3").exists() and str(target) not in _REPORTED_BROKEN:
+            _REPORTED_BROKEN.add(str(target))
+            print(f"  !! the knowledge base at {target} exists but cannot be read "
+                  f"({type(e).__name__}: {str(e)[:160]}). Running UNGROUNDED. "
+                  f"Rebuild it: python -m notebooks.09_build_knowledge_base --reset")
         return False
 
 
@@ -191,10 +208,26 @@ def _query_all(text: str, k: int, where: dict | None = None,
     return sorted(hits, key=lambda h: -h["score"])
 
 
+def _sector_filtered(text: str, k: int, sectors: set[str] | None,
+                     persist_dir, extra_dirs, where: dict | None = None) -> list[dict]:
+    """`_query_all`, restricted to documents in the scenario's sector.
+
+    Fetches deeper when filtering: the IRDAI guidelines alone are 1,262 chunks,
+    and on a banking question several of the top hits can be theirs. Filtering
+    the usual depth would starve the result rather than replace what was cut.
+    """
+    from src.rag.sectors import in_sector
+
+    if not sectors:
+        return _query_all(text, k, where, persist_dir, extra_dirs)
+    return in_sector(_query_all(text, k * 3, where, persist_dir, extra_dirs), sectors)
+
+
 def retrieve_context(scenario: str, k: int | None = None,
                      applicability: str | None = None,
                      persist_dir: Path | None = None,
-                     extra_dirs: list[Path] | None = None) -> list[dict]:
+                     extra_dirs: list[Path] | None = None,
+                     sectors: set[str] | None = None) -> list[dict]:
     """Evidence for the extraction prompt.
 
     k defaults to 4 because of the local context budget, not because 4 is
@@ -205,7 +238,8 @@ def retrieve_context(scenario: str, k: int | None = None,
     """
     want = k or CONTEXT_K
     where = {"applicability": {"$contains": applicability}} if applicability else None
-    hits = _query_all(scenario, want * OVERFETCH, where, persist_dir, extra_dirs)
+    hits = _sector_filtered(scenario, want * OVERFETCH, sectors, persist_dir,
+                            extra_dirs, where)
     hits = _dedupe(hits, max_per_doc=MAX_PER_DOC)[:want]
     if hits and hits[0]["score"] < MIN_CONTEXT_RELEVANCE:
         return []
@@ -215,7 +249,8 @@ def retrieve_context(scenario: str, k: int | None = None,
 def ground_requirement(statement: str, k: int | None = None,
                        min_confidence: float | None = None,
                        persist_dir: Path | None = None,
-                       extra_dirs: list[Path] | None = None) -> dict:
+                       extra_dirs: list[Path] | None = None,
+                       sectors: set[str] | None = None) -> dict:
     """Citations for one requirement. No LLM call -- embedding lookup only.
 
     Returns citations above the confidence floor, plus `needs_review` when
@@ -224,8 +259,10 @@ def ground_requirement(statement: str, k: int | None = None,
     """
     want = k or GROUND_K
     floor = MIN_CONFIDENCE if min_confidence is None else min_confidence
-    hits = _dedupe(_query_all(statement, want * OVERFETCH, None,
-                              persist_dir, extra_dirs))
+    # Sector comes from the SCENARIO, passed in by the pipeline: a requirement
+    # statement ("the system shall assign user IDs") rarely names its sector.
+    hits = _dedupe(_sector_filtered(statement, want * OVERFETCH, sectors,
+                                    persist_dir, extra_dirs))
 
     def as_citation(h: dict) -> dict:
         m = h["metadata"]

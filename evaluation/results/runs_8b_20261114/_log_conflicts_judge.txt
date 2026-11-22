@@ -1,0 +1,44 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights:  75%|███████▍  | 77/103 [00:00<00:00, 759.88it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 913.99it/s]
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://wan-rates-wings-dryer.trycloudflare.com
+id    gold         sim  cand  judged     signals
+P01   conflict    0.83  yes   conflict   rule:numeric:duration, similarity
+P02   conflict    0.75  yes   conflict   rule:numeric:money, similarity
+P03   conflict    0.76  yes   conflict   rule:polarity, similarity
+P04   conflict    0.70  yes   conflict   rule:numeric:duration, similarity
+P05   conflict    0.88  yes   conflict   rule:numeric:percent, similarity
+P06   conflict    0.76  yes   conflict   rule:numeric:duration, similarity
+P07   conflict    0.78  yes   conflict   rule:numeric:money, similarity
+P08   conflict    0.65  yes   conflict   similarity
+P09   conflict    0.79  yes   conflict   similarity
+P10   conflict    0.65  yes   conflict   similarity
+P11   duplicate   0.79  yes   overlap    similarity
+P12   duplicate   0.85  yes   overlap    similarity
+P13   duplicate   0.81  yes   overlap    similarity
+P14   duplicate   0.88  yes   overlap    similarity
+P15   duplicate   0.87  yes   duplicate  similarity
+P16   duplicate   0.80  yes   overlap    similarity
+P17   overlap     0.51  -                
+P18   overlap     0.33  -                
+P19   overlap     0.67  yes   overlap    rule:numeric:duration, similarity
+P20   overlap     0.40  -                
+P21   overlap     0.73  yes   overlap    similarity
+P22   unrelated   0.20  -                
+P23   unrelated   0.20  -                
+P24   unrelated   0.38  -                
+P25   unrelated   0.38  -                
+P26   unrelated   0.17  -                
+
+candidate recall (conflict+duplicate): 100% (16/16)
+unrelated pairs sent to the judge:     0%
+
+judge accuracy on candidates: 72%   traceable quotes: 100%
+confusion (rows gold, cols judged):
+             conflict duplicate   overlap unrelated
+  conflict         10         0         0         0
+  duplicate         0         1         5         0
+  overlap           0         0         2         0
+  unrelated         0         0         0         0
+
+NOTE: labels are unverified -- this is agreement with a draft.
+wrote evaluation/results/runs_8b_20261114/conflicts_judge.json

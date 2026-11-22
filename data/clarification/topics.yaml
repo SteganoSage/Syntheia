@@ -1,0 +1,109 @@
+# What a requirement-gathering conversation must cover — PS §7, verbatim list.
+#
+# "The interaction agent should conduct adaptive interviews rather than use a
+# fixed questionnaire. It should ask questions about: ..." — the thirteen topics
+# below. A topic counts as covered when the scenario or any requirement
+# mentions one of its terms, or a requirement carries one of its categories.
+# An uncovered topic becomes a question, phrased for a stakeholder, not a form.
+#
+# Terms use the rule-pack syntax (src/utils/evidence.py).
+# STATUS: drafted by Claude 14 Nov 2026, unverified.
+
+version: "0.1"
+
+topics:
+  - id: objectives
+    label: Business objectives
+    terms: [objective*, goal*, aim*, reduce*, increase*, improve*, so that, in order to, kpi*, target*]
+    categories: [Business]
+    question: >-
+      What business outcome is this system meant to achieve, and how will you know it
+      has — a target processing time, volume, cost or conversion rate?
+
+  - id: users_roles
+    label: Users and roles
+    terms: [user*, officer*, staff, admin*, agent*, role*, underwriter*, branch, operator*, customer*]
+    categories: [Stakeholder]
+    question: >-
+      Who will use the system, and what can each kind of user do — customers, branch
+      staff, officers, approvers, administrators?
+
+  - id: existing_workflow
+    label: Existing workflow
+    terms: [current*, existing, manual*, legacy, today, presently, replac*, paper*]
+    question: >-
+      How is this done today, and what in the current process must stay the same?
+
+  - id: io_rules
+    label: Inputs, outputs and business rules
+    terms: [eligib*, criteria, calculat*, threshold*, business rule*, input*, output*, workflow*, decision*]
+    categories: [Functional]
+    question: >-
+      What information goes in, what comes out, and which business rules decide the
+      outcome — eligibility, thresholds, calculations, routing?
+
+  - id: exceptions
+    label: Exceptional conditions
+    terms: [fail*, error*, exception*, reject*, timeout*, unavailab*, retry, fallback, manual review, escalat*]
+    question: >-
+      What should happen when something goes wrong — a check fails, an external service
+      is down, or an application is rejected?
+
+  - id: data_retention
+    label: Data collection and retention
+    terms: [retain*, retention, delet*, eras*, archiv*, purg*]
+    categories: [Data-management]
+    question: >-
+      What personal and transaction data will be collected, and how long must each kind
+      be kept before it is deleted?
+
+  - id: authn_authz
+    label: Authentication and authorisation
+    terms: [login, log in, sign in, authenticat*, otp, password*, access control*, role based, permission*, authoris*, authoriz*]
+    question: >-
+      How should customers and staff sign in, and who is allowed to see, change or
+      approve what?
+
+  - id: txn_limits
+    label: Financial transaction limits
+    terms: [limit*, threshold*, maximum, minimum, lakh*, crore*, inr, cap on, ceiling]
+    question: >-
+      Are there transaction or approval limits — amounts above which extra checks or a
+      senior approval are needed?
+
+  - id: audit_reporting
+    label: Audit and reporting
+    terms: [audit*, report*, dashboard*, mis, statement*, regulatory return*]
+    categories: [Audit/Reporting]
+    question: >-
+      What reports, audit trails or regulatory returns must the system produce, and
+      for whom?
+
+  - id: performance_availability
+    label: Performance and availability
+    terms: [second*, response time, latency, concurren*, uptime, availab*, 24x7, peak, throughput, real time]
+    categories: [Performance, Availability]
+    question: >-
+      How fast must it respond, how many users or transactions must it handle at peak,
+      and how much downtime is acceptable?
+
+  - id: integration
+    label: Integration with existing systems
+    terms: [integrat*, api*, interface*, core banking, nsdl, cibil, uidai, npci, bureau*, gateway*, existing system*]
+    categories: [Integration]
+    question: >-
+      Which existing systems or external services must it connect to — core banking,
+      credit bureaus, payment networks, identity services?
+
+  - id: regulatory_security
+    label: Regulatory and security constraints
+    terms: [rbi, regulat*, complian*, guideline*, direction*, dpdp, kyc, aml, pci, encrypt*, secur*]
+    categories: [Regulatory, Security]
+    question: >-
+      Which regulations and internal security policies does this system fall under?
+
+  - id: schedule_budget
+    label: Schedule and budget
+    terms: [month*, week*, deadline*, budget*, fund*, cost*, schedule*, timeline*, quarter*]
+    question: >-
+      What is the expected schedule and budget, and is either of them fixed?

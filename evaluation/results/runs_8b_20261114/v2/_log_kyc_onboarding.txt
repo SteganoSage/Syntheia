@@ -1,0 +1,582 @@
+🦙 LLM Provider: Ollama [cloud] llama3.1:8b @ https://sent-instruments-attention-woods.trycloudflare.com
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  46%|████▌     | 91/199 [00:00<00:00, 903.99it/s]Loading weights:  91%|█████████▏| 182/199 [00:00<00:00, 894.15it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 930.91it/s]
+  classifier     16.1s  roberta_classifier
+  llm             5.4s  llama3.1:8b [cloud]
+  total          21.5s
+
+Grounding:  retrieval-augmented
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1049.84it/s]
+
+7 requirements in 135s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall support both video KYC and document-based    │
+│                KYC flows                                                     │
+│                                                                              │
+│     categories Functional, Regulatory, Integration                           │
+│    stakeholder Business Analyst                                              │
+│      rationale Support multiple KYC methods to accommodate different         │
+│                customer preferences and requirements                         │
+│     acceptance Both video KYC and document-based KYC flows are fully         │
+│                functional and integrated                                     │
+│       grounded 0.65  Prevention of Money-laundering (Maintenance of Records) │
+│                Rules, 2005 (G.S.R. 444(E)) [consolidated text, as amended]   │
+│                0.64  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 §147(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]       │
+│                0.62  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]               │
+│                                                                              │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall allow customers to upload PAN card and       │
+│                Aadhaar for identity verification                             │
+│                                                                              │
+│     categories Functional, Security, Privacy, Regulatory, Usability          │
+│    stakeholder End User                                                      │
+│      rationale Customers must provide identity documents for verification    │
+│     acceptance Customers can upload PAN card and Aadhaar documents           │
+│                successfully                                                  │
+│       grounded 0.66  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §26(k) (No. 2 of 2021                       │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                0.66  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §30(g) (No. 2 of 2021                       │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                0.65  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §26(f) (No. 2 of 2021                       │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                                                                              │
+│      precedent 0.69  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §2.3     │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall validate PAN details against the NSDL        │
+│                database in real-time                                         │
+│                                                                              │
+│     categories Functional, Regulatory, Integration                           │
+│    stakeholder Compliance Officer                                            │
+│      rationale Validate PAN details to ensure accuracy and prevent identity  │
+│                theft                                                         │
+│     acceptance PAN details are validated correctly against NSDL database     │
+│    regulations none claimed, none found (best match 0.48)                    │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall record and store video KYC sessions for a    │
+│                minimum of 8 years                                            │
+│                                                                              │
+│     categories Regulatory, Data-management                                   │
+│    stakeholder Compliance Officer                                            │
+│      rationale Comply with RBI's KYC master direction                        │
+│     acceptance Video KYC sessions are recorded and stored for a minimum of 8 │
+│                years                                                         │
+│       grounded 0.58  Prevention of Money-laundering (Maintenance of Records) │
+│                Rules, 2005 §6(b) (G.S.R. 444(E)) [consolidated text, as      │
+│                amended]                                                      │
+│                0.57  Prevention of Money-laundering (Maintenance of Records) │
+│                Rules, 2005 §6(d) (G.S.R. 444(E)) [consolidated text, as      │
+│                amended]                                                      │
+│                0.57  Prevention of Money-laundering (Maintenance of Records) │
+│                Rules, 2005 §6(c) (G.S.R. 444(E)) [consolidated text, as      │
+│                amended]                                                      │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  High priority ─────────────────────────────────────────────────────╮
+│                The system shall assign a risk score to each customer based   │
+│                on their profile, income declaration, and PEP screening       │
+│                results                                                       │
+│                                                                              │
+│     categories Business, Functional                                          │
+│    stakeholder Risk Management Team                                          │
+│      rationale Assign risk scores to customers to determine their risk level │
+│     acceptance Risk scores are assigned correctly based on customer data     │
+│       grounded 0.66  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 §126(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]       │
+│                0.58  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 §12(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]        │
+│                0.58  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 §12(d) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]        │
+│                                                                              │
+│      precedent 0.68  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §2.40    │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                0.68  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §2.28    │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-006  High priority ─────────────────────────────────────────────────────╮
+│                The system shall escalate high-risk customers to a compliance │
+│                officer for enhanced due diligence before account activation  │
+│                                                                              │
+│     categories Stakeholder, Functional, Regulatory                           │
+│    stakeholder Compliance Officer                                            │
+│      rationale Ensure enhanced due diligence for high-risk customers         │
+│     acceptance High-risk customers are escalated correctly to compliance     │
+│                officers                                                      │
+│       grounded 0.57  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]               │
+│                0.57  Master Direction — Know Your Customer (KYC) Direction,  │
+│                2016 §126 (RBI/DBR/2015-16/18) [updated 14 Aug 2025]          │
+│                0.57  Prevention of Money-laundering (Maintenance of Records) │
+│                Rules, 2005 §6(iii) (G.S.R. 444(E)) [consolidated text, as    │
+│                amended]                                                      │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-007  High priority ─────────────────────────────────────────────────────╮
+│                The system shall complete the onboarding process within 15    │
+│                minutes for low-risk customers on a stable internet           │
+│                connection                                                    │
+│                                                                              │
+│     categories Functional, Performance, Usability                            │
+│    stakeholder End User                                                      │
+│      rationale Ensure a smooth and efficient onboarding experience for       │
+│                customers                                                     │
+│     acceptance Onboarding process is completed within 15 minutes for         │
+│                low-risk customers                                            │
+│    regulations none claimed, none found (best match 0.51)                    │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  5 passed 2 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-006    Low        Undefined Terminology — The term 'high-risk           │
+│                        customers' is not defined in this requirement.        │
+│                        However, it is a standard term in the industry and    │
+│                        can be looked up in a published source.               │
+│                        → Add a definition for 'high-risk customers' in the   │
+│                        requirement or reference a published source where it  │
+│                        is defined.                                           │
+│  REQ-007    Low        Undefined Terminology — The term 'low-risk            │
+│                        customers' is not defined in this requirement.        │
+│                        However, it is a standard term in the industry and    │
+│                        can be looked up in a published source.               │
+│                        → Add a definition for 'low-risk customers' in the    │
+│                        requirement or reference a published source where it  │
+│                        is defined.                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  16 gap 2 covered ────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-AADHAAR-01   Critical  Aadhaar numbers masked or vaulted, never stored  │
+│                             in the clear                                     │
+│                             The Aadhaar (Authentication and Offline          │
+│                             Verification) Regulations, 2021 §26(mb) (No. 2   │
+│                             of 2021 (K-11020/240/20                          │
+│                             → The system shall not store full Aadhaar        │
+│                             numbers; it shall mask the first eight digits    │
+│                             wherever an Aadhaar number is displayed or       │
+│                             retained, and store any Aadhaar number needed    │
+│                             for authentication only in an Aadhaar Data       │
+│                             Vault.                                           │
+│                             needs compliance/legal sign-off                  │
+│  CMP-AADHAAR-02   High      Identity information from Aadhaar                │
+│                             authentication kept confidential and protected   │
+│                             The Aadhaar (Authentication and Offline          │
+│                             Verification) Regulations, 2021 §30(e) (No. 2    │
+│                             of 2021 (K-11020/240/202                         │
+│                             → The system shall keep identity information     │
+│                             received through Aadhaar authentication          │
+│                             confidential, encrypted and accessible only to   │
+│                             authorised roles, and use it only for the        │
+│                             purpose stated to the Aadhaar number holder.     │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-01      High      Personal data processed only with the data       │
+│                             principal's consent (or another lawful ground)   │
+│                             Digital Personal Data Protection Act, 2023 §4    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall obtain and record the         │
+│                             customer's consent for each specified purpose    │
+│                             before processing their personal data, and       │
+│                             allow the consent to be withdrawn as easily as   │
+│                             it was given.                                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-04      High      Personal data breaches notified to the Data      │
+│                             Protection Board and affected individuals        │
+│                             Digital Personal Data Protection Act, 2023       │
+│                             §8(b) (Act No. 22 of 2023)                       │
+│                             → The system shall support detection of          │
+│                             personal data breaches and notification of each  │
+│                             breach to the Data Protection Board and every    │
+│                             affected customer in the prescribed form and     │
+│                             time.                                            │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-01     High      Audit trails on every application that can       │
+│                             access or affect critical or sensitive           │
+│                             information                                      │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §15 (RBI/2023-24                       │
+│                             → The system shall keep tamper-evident audit     │
+│                             trails of every access to and change of          │
+│                             customer and transaction data, recording who     │
+│                             acted, what changed and when.                    │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 8 more (in --json)
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-002   not_applicable  (obligation not traceable to the clause)          │
+│                            The Aadhaar (Authentication and Offline           │
+│                            Verification) Regulations, 2021 §26(k) (No. 2 of  │
+│                            2021 (K-110 · IN                                  │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful (The clause regulates the integration    │
+│                            of Aadhaar authentication systems, not the        │
+│                            uploading of PAN card and Aadhaar documents for   │
+│                            identity verification.)                           │
+│  REQ-004   addressed       shall be responsible for storing, safeguarding    │
+│                            and retrieving the KYC records                    │
+│                            Prevention of Money-laundering (Maintenance of    │
+│                            Records) Rules, 2005 §6(b) (G.S.R. 444(E))        │
+│                            [consolida · IN                                   │
+│  REQ-006   not_applicable  (obligation not traceable to the clause)          │
+│                            Master Direction — Know Your Customer (KYC)       │
+│                            Direction, 2016 (RBI/DBR/2015-16/18) [updated 14  │
+│                            Aug 202 · IN                                      │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful (The clause regulates the process of     │
+│                            obtaining information from individuals for CDD,   │
+│                            whereas the requirement is about escalating       │
+│                            high-risk customers to compliance officers for    │
+│                            enhanced due diligence.)                          │
+│  REQ-001   not_applicable  (obligation not traceable to the clause)          │
+│                            Prevention of Money-laundering (Maintenance of    │
+│                            Records) Rules, 2005 (G.S.R. 444(E))              │
+│                            [consolidated te · IN                             │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful (The clause regulates the digital KYC    │
+│                            process, including authentication and access      │
+│                            control, whereas the requirement is about         │
+│                            supporting both video KYC and document-based KYC  │
+│                            flows.)                                           │
+│  REQ-005   not_applicable  (obligation not traceable to the clause)          │
+│                            Master Direction — Know Your Customer (KYC)       │
+│                            Direction, 2016 §126(a) (RBI/DBR/2015-16/18)      │
+│                            [updated 14 · IN                                  │
+│                            the retrieved clause does not appear to govern    │
+│                            this requirement — the grounding citation is      │
+│                            doubtful (The clause regulates the                │
+│                            implementation of risk management systems to      │
+│                            determine PEPs, whereas the requirement           │
+│                            describes assigning a risk score based on         │
+│                            customer data.)                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ retention   Personal data erased when consent is withdrawn or the purpose is │
+│ served — unless law requires retention                                       │
+│             Digital Personal Data Protection Act, 2023 §8(a) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ retention   Customer identification records kept at least five years after   │
+│ the relationship ends                                                        │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(b) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ retention   shall be responsible for storing, safeguarding and retrieving    │
+│ the KYC records                                                              │
+│             Prevention of Money-laundering (Maintenance of Records) Rules,   │
+│ 2005 §6(b) (G.S.R. 444(E)) [consolida                                        │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ reporting   Personal data breaches notified to the Data Protection Board and │
+│ affected individuals                                                         │
+│             Digital Personal Data Protection Act, 2023 §8(b) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── sensitive data ───────────────────────────────╮
+│  data                      found in                    protected by          │
+│  Aadhaar number            scenario, REQ-002           nothing               │
+│  Biometrics / likeness     scenario, REQ-001, REQ-004  nothing               │
+│  Financial profile         scenario, REQ-005           nothing               │
+│  PAN                       scenario, REQ-002, REQ-003  nothing               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  8 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  PRIV-MASK-01     High      Sensitive identifiers masked on screens, in      │
+│                             logs and in reports  (practice, not regulation)  │
+│                             Industry practice; Aadhaar masking is a          │
+│                             regulation (see CMP-AADHAAR-01)                  │
+│                             → The system shall mask account, card, PAN and   │
+│                             mobile numbers wherever they are displayed,      │
+│                             logged or exported, showing only the last four   │
+│                             characters.                                      │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-AUTHZ-01     High      Role-based access with least privilege for       │
+│                             staff and administrators                         │
+│                             Cyber Security Framework in Banks §8.3           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall grant staff access by role    │
+│                             on a least-privilege, need-to-know basis, and    │
+│                             enforce maker-checker approval for sensitive     │
+│                             operations.                                      │
+│                             needs compliance/legal sign-off                  │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  34 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×5=20  Aadhaar numbers masked or vaulted,   Compliance officer  │
+│                     never stored in the clear                                │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (The Aadhaar                                 │
+│                     (Authentication and Offline                              │
+│                     Verification) Regulations, 2021                          │
+│                     §26(mb) (No. 2 of 2021                                   │
+│                     (K-11020/240/2021/Auth/UIDAI)) )                         │
+│  RISK-002   4×4=16  Audit trails on every application    Compliance officer  │
+│                     that can access or affect critical                       │
+│                     or sensitive information                                 │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §15 (RBI/2023-24/107) )                        │
+│  RISK-003   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-004   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-005   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-006   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-007   4×4=16  Identity information from Aadhaar    Compliance officer  │
+│                     authentication kept confidential                         │
+│                     and protected (Compliance)                               │
+│                     No requirement covers this                               │
+│                     obligation. (The Aadhaar                                 │
+│                     (Authentication and Offline                              │
+│                     Verification) Regulations, 2021                          │
+│                     §30(e) (No. 2 of 2021                                    │
+│                     (K-11020/240/2021/Auth/UIDAI)) )                         │
+│  RISK-008   4×4=16  Payment system data stored only in   Compliance officer  │
+│                     India (Compliance)                                       │
+│                     No requirement covers this                               │
+│                     obligation. (Storage of Payment                          │
+│                     System Data §2 (RBI/2017-18/153                          │
+│                     DPSS.CO.OD                                               │
+│                     No.2785/06.08.005/2017-2018) )                           │
+│  RISK-009   4×4=16  Personal data breaches notified to   Compliance officer  │
+│                     the Data Protection Board and                            │
+│                     affected individuals (Compliance)                        │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §8(b) (Act No.                      │
+│                     22 of 2023) )                                            │
+│  RISK-010   4×4=16  Personal data processed only with    Compliance officer  │
+│                     the data principal's consent (or                         │
+│                     another lawful ground) (Compliance)                      │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §4 (Act No. 22                      │
+│                     of 2023) )                                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 24 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Aadhaar numbers masked or vaulted, never stored in the clear (The     │
+│ Aadhaar (Authentication and Offline Verification) Regulations, 2021 §26(mb)  │
+│ (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]).        │
+│ Nothing in the requirements covers this. Should the system include: “The     │
+│ system shall not store full Aadhaar numbers; it shall mask the first eight   │
+│ digits wherever an Aadhaar number is displayed or retained, and store any    │
+│ Aadhaar number needed for authentication only in an Aadhaar Data V…”?        │
+│        CMP-AADHAAR-01: triggered by 'aadhaar' in the scenario, 'aadhaar' in  │
+│ REQ-002                                                                      │
+│ CQ-002 Audit trails on every application that can access or affect critical  │
+│ or sensitive information (Master Direction on Information Technology         │
+│ Governance, Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)     │
+│ [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep tamper-evident audit trails of every  │
+│ access to and change of customer and transaction data, recording who acted,  │
+│ what changed and when”?                                                      │
+│        CMP-ITGOV-01: triggered by 'account*' in the scenario, 'kyc' in       │
+│ REQ-001                                                                      │
+│ CQ-003 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'account*' in the scenario, 'kyc' in       │
+│ REQ-001                                                                      │
+│ CQ-004 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'account*' in the scenario, 'kyc' in      │
+│ REQ-001                                                                      │
+│ CQ-005 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'bank*' in the scenario, 'kyc' in REQ-001    │
+│ CQ-006 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'account*' in the scenario, 'kyc' in      │
+│ REQ-001                                                                      │
+│ CQ-007 Identity information from Aadhaar authentication kept confidential    │
+│ and protected (The Aadhaar (Authentication and Offline Verification)         │
+│ Regulations, 2021 §30(e) (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI))       │
+│ [updated 15 Dec 2025]). Nothing in the requirements covers this. Should the  │
+│ system include: “The system shall keep identity information received through │
+│ Aadhaar authentication confidential, encrypted and accessible only to        │
+│ authorised roles, and use it only for the purpose stated to the Aadhaar      │
+│ number holder”?                                                              │
+│        CMP-AADHAAR-02: triggered by 'aadhaar' in the scenario, 'aadhaar' in  │
+│ REQ-002                                                                      │
+│ CQ-008 Payment system data stored only in India (Storage of Payment System   │
+│ Data §2 (RBI/2017-18/153 DPSS.CO.OD No.2785/06.08.005/2017-2018) [issued 06  │
+│ Apr 2018; compliance due 15 Oct 2018]). Nothing in the requirements covers   │
+│ this. Should the system include: “The system shall store the full end-to-end │
+│ data of every payment transaction only in systems located in India”?         │
+│        CMP-PAY-01: triggered by 'card*' in the scenario, 'card*' in REQ-002  │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/runs_8b_20261114/v2/kyc_onboarding.json
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • 11 high-severity regulatory obligation(s) have no covering requirement:    │
+│ Aadhaar numbers masked or vaulted, never stored in the clear; Identity       │
+│ information from Aadhaar authentication kept confidential and protected;     │
+│ Cyber incidents reported to CERT-In within 6 hours (and 8 more).             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

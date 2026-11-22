@@ -1,0 +1,1235 @@
+{
+  "scenario": "data/test_cases/fintech_startup/scenario_01.txt",
+  "scenario_name": "fintech_startup",
+  "scenario_text": "A fintech startup wants to launch a personal loan app for young professionals. They want quick disbursal, maybe under 10 minutes. The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback. Requirements will definitely change as they learn what users want.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall disburse loans within 10 minutes of approval",
+      "source_stakeholder": "Business Owner",
+      "business_justification": "Quick disbursal increases customer satisfaction and reduces loan application abandonment rates",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Loan approval process is automated and does not require manual intervention",
+      "acceptance_criteria": "Loan disbursal occurs within 10 minutes of approval, as measured by system logs",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "category": [
+        "Functional",
+        "Performance"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall support iterative development and deployment",
+      "source_stakeholder": "Development Team",
+      "business_justification": "Requirements will change as we learn from user feedback; iterative development enables rapid adaptation",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "Development team has experience with agile methodologies",
+      "acceptance_criteria": "New features are deployed to production within 1 week of development completion, as measured by version control system",
+      "applicable_regulations": [],
+      "risk_level": "Low",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "category": [
+        "Business",
+        "Operational"
+      ]
+    }
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7185 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "185",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5721,
+          "excerpt": "185  The system should have provision to submit the project \ncompletion reports, stage-wise disbursal of term loan etc., of \na customer with respect to the loan. The workflow is enabled \nupon successful completion of the document.  \n\u2022 Project Completion Certificate  \n\u2022 Stage wise disbursement of ter"
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7164 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "164",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5652,
+          "excerpt": "164  The system should support creation of sanction advice with \nthe following details (but not limited to):  \n- Customer details  \n- Product details  \n- Classification of loan / sector code  \n- Purpose of the sanctioned loan  \n- Terms and conditions of the sanction amount ( rate of \ninterest, PF, i"
+        }
+      ],
+      "confidence": 0.5721,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5267,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [
+          {
+            "issue_type": "Infeasibility",
+            "description": "The requirement states that the system shall disburse loans within 10 minutes of approval, but the assumption states that the loan approval process is automated and does not require manual intervention. This implies that the system may not be able to disburse loans within 10 minutes if the approval process takes longer than 10 minutes.",
+            "severity": "Medium",
+            "suggestion": "Clarify the assumption to state that the loan approval process takes less than 10 minutes, or adjust the requirement to account for potential delays in the approval process."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "Prototype",
+    "ranking": [
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.7692,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "USER-2",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-5",
+          "PTR-2",
+          "USER-1"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.6154,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3",
+          "USER-1",
+          "USER-2"
+        ],
+        "missed": [
+          "REQ-5",
+          "PTR-2",
+          "PTR-5",
+          "PTR-6",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.4615,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-1",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "USER-1",
+          "USER-2"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.3846,
+        "matched": [
+          "REQ-1",
+          "REQ-5",
+          "PTR-1",
+          "USER-1",
+          "USER-2"
+        ],
+        "missed": [
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.3846,
+        "matched": [
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-6",
+          "USER-1"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-1",
+          "PTR-5",
+          "USER-2",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.3077,
+        "matched": [
+          "REQ-4",
+          "PTR-5",
+          "PTR-6",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "USER-1",
+          "USER-2"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.1538,
+        "matched": [
+          "REQ-5",
+          "USER-1"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "USER-2",
+          "USER-4"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall support iterative development and deployment implies that the requirements are not yet well defined and will change as the product team learns from user feedback."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "no",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall support iterative development and deployment implies that the requirements will not be fully defined before build starts."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall support iterative development and deployment implies that the requirements will change often in the cycle as the product team learns from user feedback."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall support iterative development and deployment implies that stakeholders need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "no",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The system shall support iterative development and deployment implies that technical feasibility is not in doubt, but rather the product team wants to learn from user feedback and iterate accordingly."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002"
+        ],
+        "reasoning": "The project is launching a new personal loan app for young professionals, which implies a new product direction for the organization."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no mention of the system interoping with external systems or services."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "The project is launching a new personal loan app, which is not an extension or modification of an existing system."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed no, nothing traceable to the problem statement): The problem statement mentions that requirements will definitely change as they learn what users want, implying that funding is not approved or committed."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "The project is launching an MVP for a fintech startup, which is a proof of concept that may not proceed, implying a short life cycle."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no mention of formal verification and testing at multiple stages of development."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience in the technology domain."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The statement does not mention the team's experience with the tools to be used on the project."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the team members being subject to reassignment during the life cycle."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention training being available for the project team if required."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "yes",
+        "evidence": [
+          "then iterate based on user feedback"
+        ],
+        "reasoning": "The statement implies that user feedback is necessary for iteration, suggesting that user availability is limited or hard to get."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "yes",
+        "evidence": [
+          "Requirements will definitely change as they learn what users want"
+        ],
+        "reasoning": "The statement implies that the team will learn from the users, suggesting that the users are not experienced in specifying software."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention the user representatives' expertise in the problem domain."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "yes",
+        "evidence": [
+          "then iterate based on user feedback"
+        ],
+        "reasoning": "The statement implies that user feedback is necessary for iteration, suggesting that the users are involved throughout the life cycle."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "Prototype",
+        "advantages": [
+          {
+            "advantage": "A working model quickly",
+            "relevance": "This project needs to disburse loans within 10 minutes of approval (REQ-001), and a working model quickly will help achieve this goal."
+          },
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The system shall support iterative development and deployment (REQ-002), and a working model will help clarify the requirements as they change."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The system shall disburse loans within 10 minutes of approval (REQ-001), and investigating technical risk before committing will ensure this requirement is met."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The system shall support iterative development and deployment (REQ-002), and early feedback from real users will help the team learn from user feedback and iterate accordingly."
+          }
+        ],
+        "gives_up": "Prototype assumes technical feasibility itself is in doubt and has to be proven, and that the system has to interoperate with systems outside itself \u2014 neither is true here, so that part of its design earns nothing on this project."
+      },
+      {
+        "model": "Waterfall",
+        "advantages": [
+          {
+            "advantage": "Well-defined requirements",
+            "relevance": "The system shall disburse loans within 10 minutes of approval (REQ-001), and well-defined requirements will ensure this requirement is met."
+          },
+          {
+            "advantage": "Long-term planning",
+            "relevance": "The project is expected to have a long life in the organization (PTR-5), and long-term planning will ensure the system meets the organization's needs."
+          },
+          {
+            "advantage": "Formal verification and testing",
+            "relevance": "The project requires formal verification and testing at multiple stages (PTR-6), and Waterfall's emphasis on planning and documentation will ensure this requirement is met."
+          }
+        ],
+        "gives_up": "The project's iterative development and deployment requirements (REQ-002) and lack of well-defined requirements make it unsuitable for a Prototype model."
+      },
+      {
+        "model": "Agile",
+        "advantages": [
+          {
+            "advantage": "Flexibility and adaptability",
+            "relevance": "The system shall support iterative development and deployment (REQ-002), and Agile's emphasis on flexibility and adaptability will ensure the system meets the changing requirements."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The system shall support iterative development and deployment (REQ-002), and early feedback from real users will help the team learn from user feedback and iterate accordingly."
+          },
+          {
+            "advantage": "Collaboration and communication",
+            "relevance": "The users want to be involved in all phases of the life cycle (USER-4), and Agile's emphasis on collaboration and communication will ensure the users' needs are met."
+          }
+        ],
+        "gives_up": "The project's short life cycle (PTR-5) and lack of formal verification and testing (PTR-6) make it unsuitable for a Waterfall model."
+      }
+    ],
+    "summary": "The recommended model is Prototype, which fits the project's needs with a score of 77% (10/13).",
+    "shortcut": "High risk, iterative development, user feedback -> Prototype",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 5,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 3,
+        "total": 4,
+        "assessed": true
+      }
+    },
+    "cross_check_ranking": [
+      "Agile",
+      "Incremental",
+      "RAD",
+      "Spiral",
+      "Prototype",
+      "V-Shaped",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "Agile fits because it supports iterative development and deployment, which aligns with REQ-002. Incremental also fits because it allows for phased development and deployment, which can help meet the high priority requirement of disburse loans within 10 minutes of approval in REQ-001.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": true
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-CSF-01",
+        "title": "Cyber security incidents reported promptly to RBI",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+        "reference": "RBI Cyber Security Framework in Banks 2016 (RBI/2015-16/418), para 15 and Annex",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "15. It has been decided to collect both summary level information as well as details \non information security incidents including cyber-incidents. Banks are required to \nreport promptly the incidents, in the format given in Annex-3.  \nAn immediate assessment of gaps in preparedness to be reported to RBI",
+          "confidence": 0.818
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-02",
+        "title": "Transaction records kept at least five years from the date of transaction",
+        "family": "record_retention",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'disburs*' in the scenario",
+          "'disburs*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 record management (maintenance of transaction records)",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "(a)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(a) maintain all necessary records of transactions between the RE and the \ncustomer, both domestic and international, for at least five years from the date \nof transaction;",
+          "confidence": 0.888
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-FRAUD-02",
+        "title": "Early warning signals monitored on credit accounts",
+        "family": "fraud",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'loan*' in the scenario",
+          "'loan*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall monitor credit accounts against early warning signals and flag accounts showing them for review under the bank's fraud risk framework.",
+        "reference": "RBI Master Directions on Fraud Risk Management 2024 \u2014 early warning signals",
+        "source": {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "clause_id": "3.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-07-15",
+          "version": "revised 2024",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "excerpt": "CHAPTER III\n3. Early Detection of Frauds \u2013 Framework for Early Warning Signals (EWS) and Red Flagging of Accounts (RFA)\n3.1 Governance Structure\n3.1.1 Banks shall have a framework for Early Warning Signals (EWS) and Red Flagging of Accounts (RFA) under the overall Fraud Risk Management Policy approved by the Board. A Red Flagged Account is one where suspicion of fraudulent activity is thrown up by the presence of one or more EWS indicators, alerting / triggering deeper investigation from potential fraud angle and initiating preventive measures by the banks.\n3.1.2 The Risk Management Committee ",
+          "confidence": 0.722
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [],
+    "obligations": [
+      {
+        "kind": "retention",
+        "text": "Transaction records kept at least five years from the date of transaction",
+        "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "origin": "CMP-KYC-02"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber security incidents reported promptly to RBI",
+        "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+        "origin": "CMP-CSF-01"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Cyber security incidents reported promptly to RBI (CMP-CSF-01)",
+      "Compliance/legal sign-off needed: Audit trails on every application that can access or affect critical or sensitive information (CMP-ITGOV-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)",
+      "Compliance/legal sign-off needed: Transaction records kept at least five years from the date of transaction (CMP-KYC-02)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-AUTHZ-01",
+        "title": "Role-based access with least privilege for staff and administrators",
+        "family": "authorisation",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'approv*' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall grant staff access by role on a least-privilege, need-to-know basis, and enforce maker-checker approval for sensitive operations.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 paras 8.3\u20138.4",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.3 Disallow administrative rights on end -user workstations/PCs/laptops and provide \naccess rights on a need to know basis and for specific duration when it is required \nfollowing an established process.",
+          "confidence": 0.7402
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'app' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'app' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": []
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Audit trails on every application that can access or affect critical or sensitive information",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Cyber security incidents reported promptly to RBI",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+      "owner": "Compliance officer",
+      "source": "CMP-CSF-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "Transaction records kept at least five years from the date of transaction",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Requirements expected to change",
+      "category": "Business",
+      "cause": "The problem statement says: \"The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback.\"",
+      "consequence": "Work built early is discarded as the scope moves.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Deliver in short increments and keep the backlog prioritised with the product owner.",
+      "owner": "Product owner",
+      "source": "scenario:volatility",
+      "evidence": [
+        "The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback."
+      ]
+    },
+    {
+      "id": "RISK-006",
+      "title": "Early warning signals monitored on credit accounts",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.1 (RBI/2024-25 Fraud Risk Management) [revised 2024])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall monitor credit accounts against early warning signals and flag accounts showing them for review under the bank's fraud risk framework.",
+      "owner": "Compliance officer",
+      "source": "CMP-FRAUD-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Small team \u2014 key-person dependency",
+      "category": "Operational",
+      "cause": "The problem statement says: \"The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback.\"",
+      "consequence": "Losing one person stalls the project.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Pair on critical components, document as you go, and identify a backup for each area.",
+      "owner": "Project manager",
+      "source": "scenario:small_team",
+      "evidence": [
+        "The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback."
+      ]
+    },
+    {
+      "id": "RISK-008",
+      "title": "Role-based access with least privilege for staff and administrators",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall grant staff access by role on a least-privilege, need-to-know basis, and enforce maker-checker approval for sensitive operations.",
+      "owner": "Information-security team",
+      "source": "SEC-AUTHZ-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-009",
+      "title": "Insufficient User Feedback",
+      "category": "Business",
+      "cause": "The problem statement says: \"user feedback\"",
+      "consequence": "The product may not meet user needs, leading to low adoption and revenue",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "user feedback"
+      ]
+    },
+    {
+      "id": "RISK-010",
+      "title": "Fixed deadline",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback.\"",
+      "consequence": "Scope is cut or quality slips to hold the date.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Agree what is in the first release, track it weekly, and protect testing time.",
+      "owner": "Project manager",
+      "source": "scenario:schedule",
+      "evidence": [
+        "The product team is small \u2014 3 people \u2014 and the CEO wants to launch an MVP in 2 months, then iterate based on user feedback."
+      ]
+    },
+    {
+      "id": "RISK-011",
+      "title": "Technical Debt",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"iterate based on user feedback\"",
+      "consequence": "The MVP may not be stable or scalable, requiring costly rework",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "iterate based on user feedback"
+      ]
+    },
+    {
+      "id": "RISK-012",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-013",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Audit trails on every application that can access or affect critical or sensitive information (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when\u201d?",
+        "why": "CMP-ITGOV-01: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Cyber security incidents reported promptly to RBI (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines\u201d?",
+        "why": "CMP-CSF-01: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "Transaction records kept at least five years from the date of transaction (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall retain records of all transactions with the customer for at least five years from the date of the transaction\u201d?",
+        "why": "CMP-KYC-02: triggered by 'disburs*' in the scenario, 'disburs*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Role-based access with least privilege for staff and administrators. Should the system include: \u201cThe system shall grant staff access by role on a least-privilege, need-to-know basis, and enforce maker-checker approval for sensitive operations\u201d?",
+        "why": "SEC-AUTHZ-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "Are there transaction or approval limits \u2014 amounts above which extra checks or a senior approval are needed?",
+        "why": "\u00a77 topic not covered: Financial transaction limits",
+        "topic": "Financial transaction limits",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "How is this done today, and what in the current process must stay the same?",
+        "why": "\u00a77 topic not covered: Existing workflow",
+        "topic": "Existing workflow",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "How should customers and staff sign in, and who is allowed to see, change or approve what?",
+        "why": "\u00a77 topic not covered: Authentication and authorisation",
+        "topic": "Authentication and authorisation",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "What personal and transaction data will be collected, and how long must each kind be kept before it is deleted?",
+        "why": "\u00a77 topic not covered: Data collection and retention",
+        "topic": "Data collection and retention",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "What reports, audit trails or regulatory returns must the system produce, and for whom?",
+        "why": "\u00a77 topic not covered: Audit and reporting",
+        "topic": "Audit and reporting",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "What should happen when something goes wrong \u2014 a check fails, an external service is down, or an application is rejected?",
+        "why": "\u00a77 topic not covered: Exceptional conditions",
+        "topic": "Exceptional conditions",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "Which existing systems or external services must it connect to \u2014 core banking, credit bureaus, payment networks, identity services?",
+        "why": "\u00a77 topic not covered: Integration with existing systems",
+        "topic": "Integration with existing systems",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "Which regulations and internal security policies does this system fall under?",
+        "why": "\u00a77 topic not covered: Regulatory and security constraints",
+        "topic": "Regulatory and security constraints",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "About \u201cThe system shall disburse loans within 10 minutes of approval\u201d: The requirement states that the system shall disburse loans within 10 minutes of approval, but the assumption states that the loan approval process is automated and does not require manual intervention. This implies that the system may not be able to disburse loans within 10 minutes if the approval process takes longer than 10 minutes. (For example: Clarify the assumption to state that the loan approval process takes less than 10 minutes, or adjust the requirement to account for potential delays in the approval process.)",
+        "why": "Infeasibility (Medium)",
+        "topic": "Infeasibility",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-001"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-015",
+        "question": "Early warning signals monitored on credit accounts (Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.1 (RBI/2024-25 Fraud Risk Management) [revised 2024]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall monitor credit accounts against early warning signals and flag accounts showing them for review under the bank's fraud risk framework\u201d?",
+        "why": "CMP-FRAUD-02: triggered by 'loan*' in the scenario, 'loan*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 50,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "needs_review": [
+    "4 high-severity regulatory obligation(s) have no covering requirement: Cyber security incidents reported promptly to RBI; Audit trails on every application that can access or affect critical or sensitive information; Business continuity and disaster recovery for the system (and 1 more).",
+    "could not establish whether funding is settled for the life of the project \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to this business area \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to this technology \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring.",
+    "could not establish whether the team is new to the tooling \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

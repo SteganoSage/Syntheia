@@ -164,6 +164,27 @@ documents:
 # Checked 14 Sep 2026 and NOT ingestable. Recorded rather than deleted: a
 # source that failed verification is evidence about the corpus, and someone
 # will otherwise re-find and re-try these.
+# ── Downloaded by hand ───────────────────────────────────────────────────
+# Obtained manually on 14 Nov 2026 because the issuing sites block automated
+# fetches. The fetch script does not read this block -- these must be placed in
+# data/knowledge_base/regulations/ by hand. Each has a sidecar manifest with
+# metadata read from the document itself. Source URLs were not verified, so
+# none is recorded here.
+manual:
+  - file: regulations/36NT8C402BE7C2A349E0BFFF3C526668CD7A.pdf
+    title: "Reserve Bank of India (Digital Lending) Directions, 2025"
+  - file: regulations/MD7493544C24B5FC47D0AB12798C61CDB56F.pdf
+    title: "Master Direction on Digital Payment Security Controls"
+  - file: regulations/CERT-In_Directions_70B_28.04.2022.pdf
+    title: "CERT-In Directions under section 70B(6) of the IT Act, 2000"
+  - file: regulations/IRDAI_Information_and_Cyber_Security_Guidelines_2023_April242023.pdf
+    title: "IRDAI Information and Cyber Security Guidelines, 2023"
+    note: "the PDF attachment the `unavailable:` entry below asked for"
+  - file: regulations/PMLA_2005.pdf
+    title: "Prevention of Money-laundering (Maintenance of Records) Rules, 2005"
+  - file: regulations/RBI_Circular_dated_06.04.2018_-_Storage_of_Payment_System_Data.pdf
+    title: "Storage of Payment System Data (RBI circular, 06 Apr 2018)"
+
 unavailable:
   - title: "IRDAI Information and Cyber Security Guidelines, 2023"
     url: https://irdai.gov.in/document-detail?documentId=3314780

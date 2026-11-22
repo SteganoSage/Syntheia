@@ -1,0 +1,42 @@
+{
+  "summary": {
+    "queries": 24,
+    "k": 5,
+    "recall_at_1": 0.75,
+    "recall_at_5": 0.958,
+    "mrr": 0.847,
+    "mean_top_score": 0.664,
+    "chunks": 4554,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "sector_filter": null,
+    "with_alternates": {
+      "recall_at_1": 0.833,
+      "recall_at_5": 1.0,
+      "mrr": 0.917,
+      "alternates": 3
+    }
+  },
+  "misses": [
+    {
+      "query": "What identity documents must be collected when opening an account?",
+      "expected": "kyc",
+      "got": [
+        {
+          "doc": "PMLA_2005.pdf",
+          "clause": "6(c)",
+          "score": 0.6993
+        },
+        {
+          "doc": "IRDAI_Information_and_Cyber_Security_Guidelines_2023_April242023.pdf",
+          "clause": "3",
+          "score": 0.6197
+        },
+        {
+          "doc": "IRDAI_Information_and_Cyber_Security_Guidelines_2023_April242023.pdf",
+          "clause": "1",
+          "score": 0.604
+        }
+      ]
+    }
+  ]
+}

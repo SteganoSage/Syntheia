@@ -39,6 +39,12 @@ from pathlib import Path
 
 DEFAULT_SCENARIO = Path("data/test_cases/loan_processing/scenario_01.txt")
 
+# For the wall-clock breakdown saved with every run. On 14 Nov a run's own
+# pipeline clock read 197 s while the process took 591 s, and nothing recorded
+# where the rest went; with startup, warm-up and per-stage times in the JSON,
+# a recurrence shows itself.
+_T_START = time.perf_counter()
+
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
@@ -93,6 +99,10 @@ def build_parser() -> argparse.ArgumentParser:
     stages.add_argument("--no-sdlc", action="store_true",
                         help="stop after Phase 1 -- faster when iterating on "
                              "extraction")
+    stages.add_argument("--no-analysis", action="store_true",
+                        help="skip conflict, compliance, security, risk and "
+                             "clarification analysis -- reproduces the pre-Phase-B "
+                             "pipeline exactly")
     stages.add_argument("--classifier", default="auto",
                         choices=["auto", "bert", "few_shot", "zero_shot"],
                         help="auto uses the fine-tuned model when one is "
@@ -157,6 +167,36 @@ def needs_review(state: dict) -> list[str]:
             f"\"{req.statement}\" claims {named} applies, but nothing in the "
             f"knowledge base supports that — the citation is unverified.")
 
+    # Phase B. A contradiction the judge confirmed with quotes from both
+    # statements: one of the two will be built wrong unless someone decides.
+    for c in state.get("conflicts") or []:
+        if c.kind == "conflict" and c.confirmed:
+            a, b = (by_req.get(i) for i in c.requirement_ids[:2])
+            if a and b:
+                reasons.append(f"\"{a.statement}\" contradicts \"{b.statement}\" — "
+                               f"a stakeholder has to decide which holds.")
+    # Regulatory obligations nothing covers. One line, not one per gap: on a
+    # real scenario there are several, and a review notice that lists twelve
+    # items is one nobody reads -- the compliance panel has the detail.
+    comp = state.get("compliance")
+    if comp:
+        serious = [g for g in comp.gaps
+                   if g.basis == "regulation" and g.severity in ("Critical", "High")]
+        if serious:
+            names = "; ".join(g.title for g in serious[:3])
+            more = f" (and {len(serious) - 3} more)" if len(serious) > 3 else ""
+            reasons.append(f"{len(serious)} high-severity regulatory obligation(s) "
+                           f"have no covering requirement: {names}{more}.")
+        # Citations the compliance agent read and found not to govern their
+        # requirement -- §6's "unsupported output", now detected rather than
+        # assumed. One line: the clause-mapping panel has the detail.
+        doubtful = [m for m in comp.doubtful if by_req.get(m.requirement_id)]
+        if doubtful:
+            names = "; ".join(f"\"{by_req[m.requirement_id].statement}\"" for m in doubtful[:2])
+            more = f" (and {len(doubtful) - 2} more)" if len(doubtful) > 2 else ""
+            reasons.append(f"{len(doubtful)} requirement(s) cite a regulation that, on "
+                           f"reading, does not govern them: {names}{more}.")
+
     report = state.get("quality_report")
     if report:
         critical = [f"{r.requirement_id}/{i.issue_type}"
@@ -194,6 +234,61 @@ def needs_review(state: dict) -> list[str]:
     return reasons
 
 
+_FALLBACK = ("If this is the cloud tier: restart the Colab notebook and re-copy the "
+             "tunnel URL, or drop to the local model with\n"
+             "    unset OLLAMA_HOST OLLAMA_MODEL OLLAMA_NUM_CTX")
+
+_CONNECTION_SIGNS = ("Max retries exceeded", "Connection refused",
+                     "Failed to establish a new connection", "Read timed out",
+                     "RemoteDisconnected", "Connection aborted")
+
+
+def _endpoint_failure(e: BaseException) -> bool:
+    """Did this run die because the LLM endpoint went away?
+
+    Walks the exception chain: the connection error is usually wrapped twice
+    (requests -> call_structured's RuntimeError -> LangGraph's task error).
+    Only connection failures count -- any other exception is a bug and must
+    surface as one, not be dressed up as a dead tunnel.
+    """
+    seen = 0
+    while e is not None and seen < 10:
+        if any(sign in str(e) for sign in _CONNECTION_SIGNS):
+            return True
+        try:
+            import requests
+
+            if isinstance(e, (requests.exceptions.ConnectionError,
+                              requests.exceptions.Timeout)):
+                return True
+        except ImportError:
+            pass
+        e, seen = (e.__cause__ or e.__context__), seen + 1
+    return False
+
+
+def _run_timed(pipeline, initial: dict) -> tuple[dict, dict]:
+    """Run the graph stage by stage, timing each. Same final state as invoke().
+
+    Every state key is overwritten, never reduced, so merging the per-node
+    updates in order reproduces exactly what invoke() returns -- the
+    interactive app has always run the graph this way.
+    """
+    state, times = dict(initial), {}
+    last = time.perf_counter()
+    for chunk in pipeline.stream(initial, stream_mode="updates"):
+        for node, update in chunk.items():
+            now = time.perf_counter()
+            times[node] = round(times.get(node, 0.0) + now - last, 1)
+            last = now
+            state.update(update or {})
+    return state, times
+
+
+def _dump(model):
+    return model.model_dump() if model is not None else None
+
+
 def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> None:
     import json
 
@@ -206,10 +301,22 @@ def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> 
         "scenario_name": src.parent.name if src else "<stdin>",
         "scenario_text": text,
         "requirements": [r.model_dump() for r in state.get("requirements", [])],
+        # Statements extraction produced that were removed as project facts.
+        "dropped": state.get("dropped", []),
+        # Which regulatory sector(s) grounding was confined to -- without it, a
+        # saved run cannot show why a regulator was or was not cited.
+        "sectors": state.get("sectors", []),
         "grounding": state.get("grounding", {}),
         "quality_report": (state["quality_report"].model_dump()
                            if state.get("quality_report") else None),
         "sdlc": rec.model_dump() if rec else None,
+        # Phase B. Absent keys (an older run, or --no-analysis) come out empty.
+        "conflicts": [c.model_dump() for c in state.get("conflicts") or []],
+        "compliance": _dump(state.get("compliance")),
+        "security": _dump(state.get("security")),
+        "risk_register": [r.model_dump() for r in state.get("risk_register") or []],
+        "clarifications": _dump(state.get("clarifications")),
+        "timing": state.get("timing"),
         "needs_review": needs_review(state),
     }, indent=2, default=str), encoding="utf-8")
 
@@ -227,13 +334,20 @@ def main(argv: list[str] | None = None) -> int:
         from src.cli.app import App
 
         return App(use_rag=not args.no_rag, run_sdlc=not args.no_sdlc,
-                   classifier=args.classifier).run()
+                   classifier=args.classifier,
+                   run_analysis=not args.no_analysis).run()
 
     text = read_scenario(scenario_arg)
 
-    from src.agents.classification import resolve_model_dir
-    from src.graph import build_pipeline
-    from src.utils.warmup import warm
+    try:
+        from src.agents.classification import resolve_model_dir
+        from src.graph import build_pipeline
+        from src.utils.warmup import warm
+    except RuntimeError as e:
+        # src.utils.llm resolves the provider on import and refuses -- with the
+        # fix spelled out -- when OLLAMA_HOST names an endpoint that does not
+        # answer. That is "could not run" (2), not "needs review" (1).
+        _die(str(e))
 
     if not args.quiet:
         model_dir = resolve_model_dir()
@@ -248,7 +362,19 @@ def main(argv: list[str] | None = None) -> int:
     # process this is ~96% of a run's wall-clock (Day 13 measurement) and it is
     # one-off, not per-request -- charging it to startup is the difference
     # between a 10-minute demo and a 1-minute one.
-    warm()
+    t_warm = time.perf_counter()
+    warm_times = warm()
+
+    # Fail fast. The endpoint can die between import and warm-up (a Colab
+    # session ending mid-start, 14 Nov); without this the run spent 40 s on
+    # retrieval and then died inside extraction with a traceback.
+    from src.utils.llm import PROVIDER
+
+    if PROVIDER == "ollama" and "llm" not in warm_times:
+        from src.utils.llm_ollama import get_host
+
+        _die(f"the LLM at {get_host()} could not be loaded (see the warm-up line "
+             f"above).\n  {_FALLBACK}")
 
     if not args.quiet:
         print(f"Grounding:  {'OFF (--no-rag)' if args.no_rag else 'retrieval-augmented'}")
@@ -270,7 +396,7 @@ def main(argv: list[str] | None = None) -> int:
 
     t0 = time.perf_counter()
     try:
-        state = build_pipeline().invoke({
+        initial = {
             "text": text,
             "requirements": [],
             "quality_report": None,
@@ -289,13 +415,27 @@ def main(argv: list[str] | None = None) -> int:
             "interactive": (sys.stdin.isatty()
                             and not args.quiet and not args.no_interview),
             "extra_dirs": extra_dirs,
-        })
+            "run_analysis": not args.no_analysis,
+        }
+        state, node_times = _run_timed(build_pipeline(), initial)
+    except Exception as e:                      # noqa: BLE001 -- re-raised unless it is the endpoint
+        if not _endpoint_failure(e):
+            raise
+        from src.utils.llm_ollama import get_host
+
+        _die(f"the LLM at {get_host()} stopped answering mid-run.\n  {_FALLBACK}")
     finally:
         # The temporary store goes even if the run fails. Leaving it behind
         # would accumulate a ChromaDB directory per crashed run.
         if session:
             session.cleanup()
     elapsed = time.perf_counter() - t0
+    state["timing"] = {
+        "startup_s": round(t_warm - _T_START, 1),
+        "warmup_s": round(sum(warm_times.values()), 1),
+        "pipeline_s": round(elapsed, 1),
+        "stages_s": node_times,
+    }
 
     if not args.quiet:
         from src.cli import render
@@ -306,6 +446,11 @@ def main(argv: list[str] | None = None) -> int:
         write_json(args.json, scenario_arg, text, state)
         if not args.quiet:
             print(f"Wrote {args.json}")
+
+    if not args.quiet:
+        slow = sorted(node_times.items(), key=lambda kv: -kv[1])[:4]
+        print("time: " + " · ".join(f"{n} {t:.0f}s" for n, t in slow)
+              + f"  (pipeline {elapsed:.0f}s, warm-up {sum(warm_times.values()):.0f}s)")
 
     reasons = needs_review(state)
     if not args.quiet:

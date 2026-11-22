@@ -124,8 +124,68 @@ BY_NODE = {st["node"]: st for st in STAGES}
 MILESTONES = {
     "classification": "requirements",
     "quality": "quality",
+    "clarification": "analysis",
     "sdlc": "sdlc",
 }
+
+
+# Phase B stages, inserted between quality and sdlc. Kept as one block so the
+# insertion point is the only line of the existing table that changed.
+def _analysis_stages() -> list[dict]:
+    def n(key):
+        return lambda s: len(s.get(key) or [])
+
+    def comp(s):
+        c = s.get("compliance")
+        return f"{len(c.gaps)} gaps, {len(c.mappings)} clauses mapped" if c else "skipped"
+
+    def sec(s):
+        c = s.get("security")
+        if not c:
+            return "skipped"
+        bare = sum(1 for d in c.data_inventory if not d.protected)
+        return f"{len(c.gaps)} controls missing, {bare} data classes unprotected"
+
+    def clar(s):
+        c = s.get("clarifications")
+        if not c:
+            return "skipped"
+        return (f"{len(c.open)} open" + (f", {len(c.changes)} changes" if c.changes else ""))
+
+    return [
+        dict(node="conflicts", label="checking requirements against each other",
+             summary=lambda s: f"{n('conflicts')(s)} found",
+             chatter=["comparing every requirement with every other one",
+                      "looking for two things that cannot both be true",
+                      "spotting the same requirement in a different hat",
+                      "asking the judge, one pair at a time"]),
+        dict(node="compliance", label="mapping obligations",
+             summary=comp,
+             chatter=["reading the clause, not just the title",
+                      "checking what the regulator actually requires",
+                      "finding obligations nobody wrote down",
+                      "five years means five years"]),
+        dict(node="security", label="checking security & privacy controls",
+             summary=sec,
+             chatter=["counting the Aadhaar numbers",
+                      "who can see what, exactly",
+                      "is that encrypted? it should be encrypted"]),
+        dict(node="risk", label="building the risk register",
+             summary=lambda s: f"{n('risk_register')(s)} risks",
+             chatter=["likelihood times impact, carry the one",
+                      "imagining everything that could go wrong",
+                      "assigning owners who will love this"]),
+        dict(node="clarification", label="deciding what to ask",
+             summary=clar,
+             chatter=["turning findings into questions",
+                      "contradictions first, always",
+                      "writing it so a human can answer it"]),
+    ]
+
+
+_q = next(i for i, st in enumerate(STAGES) if st["node"] == "quality")
+STAGES[_q + 1:_q + 1] = _analysis_stages()
+BY_NODE = {st["node"]: st for st in STAGES}
 
 
 def _passages(s) -> str:
@@ -305,9 +365,11 @@ class _Progress:
 
 class ScenarioSession:
     def __init__(self, use_rag: bool = True, run_sdlc: bool = True,
-                 classifier: str = "auto", interactive: bool = True):
+                 classifier: str = "auto", interactive: bool = True,
+                 run_analysis: bool = True):
         self.use_rag = use_rag
         self.run_sdlc = run_sdlc
+        self.run_analysis = run_analysis
         self.classifier = classifier
         # Off for one-shot and scripted runs: a batch loop or a --json eval
         # must never stop for input it will never get.
@@ -327,6 +389,8 @@ class ScenarioSession:
             skipped |= {"retrieval", "grounding"}
         if not self.run_sdlc:
             skipped.add("sdlc")
+        if not self.run_analysis:
+            skipped |= {"conflicts", "compliance", "security", "risk", "clarification"}
 
         order = [st["node"] for st in STAGES if st["node"] not in skipped]
         prog = _Progress(order, skipped)
@@ -340,6 +404,7 @@ class ScenarioSession:
             # rather than one that is immediately superseded.
             "interactive": self.interactive,
             "extra_dirs": self.extra_dirs,
+            "run_analysis": self.run_analysis,
         }
 
         live = Live(prog, console=console, refresh_per_second=8, transient=True)
@@ -399,5 +464,9 @@ class ScenarioSession:
                                       state.get("grounding", {}), elapsed)
         elif what == "quality":
             render.print_quality(state.get("quality_report"))
+        elif what == "analysis":
+            from src.cli.render_analysis import print_analysis
+
+            print_analysis(state)
         elif what == "sdlc":
             render.print_sdlc(state.get("sdlc"), detail=self.detail)
