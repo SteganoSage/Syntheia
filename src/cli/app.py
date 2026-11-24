@@ -48,6 +48,7 @@ COMMANDS = {
     "/sdlc":      "phase 2 on or off: /sdlc on | off",
     "/analysis":  "conflict/compliance/security/risk on or off: /analysis on | off",
     "/save":      "write the last run as JSON: /save run.json",
+    "/export":    "write the SRS (Word + Markdown) for the last run: /export out/ [iso29148]",
     "/why":       "explain one framework answer: /why PTR-2",
     "/detail":    "show or hide the framework working: /detail on | off",
     "/clear":     "clear the screen",
@@ -252,6 +253,25 @@ class App:
                 write_json(Path(arg), None, self.last_state.get("text", ""),
                            self.last_state)
                 console.print(f"[{C_OK}]wrote {arg}[/]")
+
+        elif name == "/export":
+            if not self.last_state or not self.last_state.get("requirements"):
+                console.print(f"[{C_BAD}]nothing to export yet — run a scenario first[/]")
+            elif not arg:
+                console.print(f"[{C_BAD}]usage: /export out_dir [ieee830 | iso29148 | both][/]")
+            else:
+                from main import run_payload
+                from src.generators.srs import generate_srs
+
+                layout = parts[2] if len(parts) > 2 else "ieee830"
+                if layout not in ("ieee830", "iso29148", "both"):
+                    console.print(f"[{C_BAD}]layout must be ieee830, iso29148 or both[/]")
+                else:
+                    payload = run_payload(None, self.last_state.get("text", ""),
+                                          self.last_state)
+                    paths = generate_srs(payload, Path(arg), layout=layout, verbose=False)
+                    for path in paths.values():
+                        console.print(f"[{C_OK}]wrote {path}[/]")
 
         elif name == "/why":
             self._why(arg)

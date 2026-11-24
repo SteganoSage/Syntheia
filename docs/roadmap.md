@@ -237,6 +237,67 @@ Original plan for reference:
 
 ### Phase C — artefacts (PS §12, §15)
 
+**SRS built 22 Nov on branch `phase-c-artefacts`** (`src/generators/srs/`).
+The default layout follows **the course's IEEE 830-1998 slides exactly**: 1.1
+Purpose (with intended audience), 1.2 Scope (what the system will *and will
+not* do), 1.3–1.5; 2.1 Product perspective (business case, operational concept,
+the five interface kinds, memory / operations / site adaptation), 2.2–2.5; 3.1
+External interfaces (an inputs/outputs table), 3.2 Functions (use-case
+specifications), 3.3 Performance, 3.4 Logical database (entities and
+relationships), 3.5 Design constraints, 3.6 Software system quality
+attributes; appendices; index. **3.7 Object-oriented models is omitted** — the
+user's decision, 22 Nov; no UML is generated. ISO/IEC/IEEE 29148:2018 remains
+available with `--srs-layout iso29148`.
+
+    python main.py scenario.txt --export out/                  # run + SRS
+    python -m src.generators.export run.json --out out/ --layout both
+    /export out/ [iso29148|both]                               # interactive app
+
+**More requirements, from three origins**, each labelled on its block:
+
+| origin | where from | typical count |
+|---|---|---|
+| Stated | extraction from the scenario | 5–7 |
+| Implied | the elaboration node (after extraction): what such a system needs that the scenario leaves unsaid; gated against project facts and near-duplicates, confidence capped at 0.75, max 12 | 5–12 |
+| Proposed | every compliance/security gap or weak finding becomes a requirement, citing its clause and marked for sign-off | 10–25 |
+
+The KYC fixture (which predates elaboration) gives 7 stated + 21 proposed = 28.
+SDLC scoring sees **stated requirements only** — the implied ones are our
+inference, and letting them vote would make the recommendation depend on how
+much the elaboration agent wrote. Quality analysis runs in batches of 8, since
+20+ requirements overran the 2,048-token output cap.
+
+- Every requirement stated once, in the section its **type** puts it —
+  functional (3.2, under its use case), external interface (3.1),
+  non-functional (3.3, 3.4, 3.6), design constraint (3.5) — with 14
+  attributes: type, origin, priority, rationale, source, acceptance criteria,
+  verification method, dependencies, assumptions, risk, regulatory basis,
+  classification, quality findings, status. A type × origin count table opens
+  section 3.
+- Every section the outline names is present; an empty one says so.
+- A compliance gap appears once: as a Proposed requirement in section 3, as
+  "Proposed as REQ-0nn" in the compliance matrix, and as "confirm REQ-0nn" in
+  the open issues — not re-asked as a question.
+- LLM writes the narrative, use cases (two calls: list, then flows per use
+  case), data model and interface table. All gated in code: quotes must be in
+  the scenario; actors, entities and counterparts must be named in the
+  scenario or requirements (every distinctive word, not one); a use-case name
+  must rest on its own requirements or it is renamed from them; requirements
+  the model leaves out get use cases of their own. `--no-llm` gives a
+  complete deterministic document.
+- Checked on the local 3B (22 Nov): the gates caught an invented "Submit loan
+  application" use case on a KYC platform, requirement sources offered as
+  actors, a "Business Owner" user class grounded on one shared word, and
+  alternative flows copied from the prompt's examples. Each is now a test.
+
+Still to do in Phase C: a definitive sample from a fresh 8B run with
+elaboration and SDLC (blocked 22 Nov: the network was resetting
+`*.trycloudflare.com` tunnels; switching networks fixed it), user stories with
+acceptance criteria (§12), the project-specific SDLC workflow (§15), and
+standalone spreadsheets for the RTM / risk register / compliance matrix.
+
+Original plan:
+
 - **C1.** SRS (ISO/IEC/IEEE 29148:2018 structure, which supersedes IEEE 830),
   user stories with acceptance criteria, use cases.
 - **C2.** RTM, compliance-control matrix, threat & risk register, assumptions

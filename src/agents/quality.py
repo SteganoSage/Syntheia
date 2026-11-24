@@ -321,12 +321,26 @@ def filter_issues(report: QualityReport,
     return report
 
 
-def analyse_requirements(requirements: list[Requirement]) -> QualityReport:
-    """Run quality analysis on a batch of requirements.
+# Requirements reviewed per LLM call. One call for everything was fine at the
+# 5-7 requirements extraction used to produce; with implied requirements a
+# scenario reaches 20+, and a report for that many runs past the 2,048-token
+# output cap mid-JSON. Cross-requirement defects no longer depend on sharing a
+# call: the conflict agent compares every pair.
+QUALITY_BATCH = 8
 
-    All requirements are sent in a single LLM call so that cross-requirement
-    issues (inconsistency, duplication, conflicts) can be detected.
-    """
+
+def analyse_requirements(requirements: list[Requirement]) -> QualityReport:
+    """Quality-check requirements, in batches of QUALITY_BATCH."""
+    if len(requirements) <= QUALITY_BATCH:
+        return _analyse_batch(requirements)
+    results = []
+    for i in range(0, len(requirements), QUALITY_BATCH):
+        results += _analyse_batch(requirements[i:i + QUALITY_BATCH]).result_list
+    return QualityReport(result_list=results)
+
+
+def _analyse_batch(requirements: list[Requirement]) -> QualityReport:
+    """Run quality analysis on one batch of requirements."""
     # Show the agent the WHOLE requirement, not just the statement.
     #
     # Until Day 15 this sent id, priority, stakeholder and statement only. The

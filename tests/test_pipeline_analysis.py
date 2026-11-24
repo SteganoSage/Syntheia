@@ -26,7 +26,7 @@ def test_analysis_sits_between_quality_and_sdlc():
     from src.graph import build_pipeline
 
     assert _chain(build_pipeline().get_graph()) == [
-        "retrieval", "extraction", "grounding", "classification", "quality",
+        "retrieval", "extraction", "elaboration", "grounding", "classification", "quality",
         "conflicts", "compliance", "security", "risk", "clarification",
         "sdlc", "__end__"]
 

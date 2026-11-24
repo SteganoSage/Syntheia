@@ -72,6 +72,13 @@ class ExtractedRequirement(BaseModel):
 
 # A requirement as the pipeline carries it: extraction plus classification.
 class Requirement(ExtractedRequirement):
+    # Where the requirement came from, so every one can be defended:
+    #   stated      extracted from what the stakeholder wrote
+    #   implied     derived by the elaboration agent: what a system of this kind
+    #               needs that the scenario implies but does not say
+    #   regulatory  proposed from an applicable obligation nothing else covered
+    # Not on ExtractedRequirement: the LLM never sets it, the pipeline does.
+    origin: Literal["stated", "implied", "regulatory"] = "stated"
     category: list[str] = Field(
         default_factory=list,
         description=(

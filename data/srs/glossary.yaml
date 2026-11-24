@@ -1,0 +1,95 @@
+# Glossary for SRS section 1.3 (IEEE 830) / 1.4 and 5.2 (ISO/IEC/IEEE 29148).
+#
+# An SRS includes only the entries whose term occurs in that document (scenario,
+# requirements, citations), so the section never pads itself with terms the
+# reader will not meet. Any other acronym found in the text is listed as
+# "to be defined" rather than guessed at -- an invented expansion in a
+# Definitions section is worse than an admitted gap.
+#
+# kind: acronym | term. Written by Claude, 14 Nov 2026; unverified.
+
+entries:
+  # ── Regulators, bodies and registries ──────────────────────────────────
+  - {term: RBI, kind: acronym, definition: "Reserve Bank of India — India's central bank and the regulator of banks, NBFCs and payment systems."}
+  - {term: IRDAI, kind: acronym, definition: "Insurance Regulatory and Development Authority of India — the insurance regulator."}
+  - {term: SEBI, kind: acronym, definition: "Securities and Exchange Board of India — the securities market regulator."}
+  - {term: UIDAI, kind: acronym, definition: "Unique Identification Authority of India — issuer of Aadhaar and operator of Aadhaar authentication."}
+  - {term: NPCI, kind: acronym, definition: "National Payments Corporation of India — operator of UPI, IMPS, RuPay and other retail payment systems."}
+  - {term: NSDL, kind: acronym, definition: "National Securities Depository Limited — among other services, operates PAN verification for the Income Tax Department."}
+  - {term: CIBIL, kind: acronym, definition: "TransUnion CIBIL — an Indian credit information company (credit bureau)."}
+  - {term: CERT-In, kind: acronym, definition: "Indian Computer Emergency Response Team — the national agency for cyber-security incident response."}
+  - {term: FIU-IND, kind: acronym, definition: "Financial Intelligence Unit – India — receives suspicious and cash transaction reports under the PML Act."}
+  - {term: CKYCR, kind: acronym, definition: "Central KYC Records Registry — the central repository of customer KYC records."}
+  - {term: CERSAI, kind: acronym, definition: "Central Registry of Securitisation Asset Reconstruction and Security Interest of India — operator of the CKYCR."}
+  - {term: NIC, kind: acronym, definition: "National Informatics Centre — operator of the reference NTP time servers named by CERT-In."}
+
+  # ── Identity and KYC ──────────────────────────────────────────────────
+  - {term: KYC, kind: acronym, definition: "Know Your Customer — the process of identifying and verifying a customer as required by the RBI KYC Master Direction."}
+  - {term: eKYC, kind: acronym, definition: "Electronic KYC — identity verification using Aadhaar-based authentication."}
+  - {term: V-CIP, kind: acronym, definition: "Video-based Customer Identification Process — remote KYC through a live video interaction."}
+  - {term: CDD, kind: acronym, definition: "Customer Due Diligence — identifying and verifying a customer and the purpose of the relationship."}
+  - {term: EDD, kind: acronym, definition: "Enhanced Due Diligence — additional scrutiny applied to higher-risk customers."}
+  - {term: PEP, kind: acronym, definition: "Politically Exposed Person — an individual entrusted with a prominent public function, subject to enhanced due diligence."}
+  - {term: OVD, kind: acronym, definition: "Officially Valid Document — an identity or address document accepted for KYC (e.g. passport, driving licence, Aadhaar)."}
+  - {term: PAN, kind: acronym, definition: "Permanent Account Number — the ten-character taxpayer identifier issued by the Income Tax Department."}
+  - {term: Aadhaar, kind: term, definition: "The twelve-digit unique identity number issued by UIDAI to residents of India."}
+  - {term: AML, kind: acronym, definition: "Anti-Money Laundering."}
+  - {term: PML, kind: acronym, definition: "Prevention of Money-laundering — the PML Act, 2002 and its Maintenance of Records Rules, 2005."}
+  - {term: STR, kind: acronym, definition: "Suspicious Transaction Report — filed with FIU-IND under the PML Rules."}
+  - {term: CTR, kind: acronym, definition: "Cash Transaction Report — filed with FIU-IND for cash transactions above the prescribed threshold."}
+
+  # ── Lending and payments ──────────────────────────────────────────────
+  - {term: NBFC, kind: acronym, definition: "Non-Banking Financial Company — a company regulated by RBI that lends but does not hold a banking licence."}
+  - {term: KFS, kind: acronym, definition: "Key Facts Statement — the standardised loan disclosure RBI requires before a loan contract is executed."}
+  - {term: APR, kind: acronym, definition: "Annual Percentage Rate — the all-inclusive annual cost of credit."}
+  - {term: EMI, kind: acronym, definition: "Equated Monthly Instalment."}
+  - {term: LSP, kind: acronym, definition: "Lending Service Provider — an agent of a regulated lender in the digital lending value chain."}
+  - {term: DLA, kind: acronym, definition: "Digital Lending App — a mobile or web application through which digital loans are offered."}
+  - {term: UPI, kind: acronym, definition: "Unified Payments Interface — NPCI's real-time account-to-account payment system."}
+  - {term: IMPS, kind: acronym, definition: "Immediate Payment Service — NPCI's real-time interbank funds transfer system."}
+  - {term: NEFT, kind: acronym, definition: "National Electronic Funds Transfer — RBI's batch-settled funds transfer system."}
+  - {term: RTGS, kind: acronym, definition: "Real Time Gross Settlement — RBI's high-value real-time funds transfer system."}
+  - {term: PPI, kind: acronym, definition: "Prepaid Payment Instrument — a wallet or card that stores value paid in advance."}
+  - {term: PCI DSS, kind: acronym, definition: "Payment Card Industry Data Security Standard."}
+  - {term: QR, kind: acronym, definition: "Quick Response code — a two-dimensional barcode used here to initiate payments."}
+  - {term: T+1, kind: term, definition: "Settlement on the business day after the transaction date."}
+  - {term: MIS, kind: acronym, definition: "Management Information System — periodic management reports."}
+
+  # ── Data protection and security ──────────────────────────────────────
+  - {term: DPDP, kind: acronym, definition: "Digital Personal Data Protection Act, 2023 — India's personal data protection law."}
+  - {term: Data Principal, kind: term, definition: "Under the DPDP Act, the individual to whom personal data relates."}
+  - {term: Data Fiduciary, kind: term, definition: "Under the DPDP Act, the person who determines the purpose and means of processing personal data."}
+  - {term: PII, kind: acronym, definition: "Personally Identifiable Information."}
+  - {term: MFA, kind: acronym, definition: "Multi-Factor Authentication — authentication using two or more independent factors."}
+  - {term: OTP, kind: acronym, definition: "One-Time Password."}
+  - {term: TLS, kind: acronym, definition: "Transport Layer Security — the protocol that encrypts data in transit."}
+  - {term: AES, kind: acronym, definition: "Advanced Encryption Standard — a symmetric encryption algorithm."}
+  - {term: HSM, kind: acronym, definition: "Hardware Security Module — tamper-resistant hardware for managing cryptographic keys."}
+  - {term: RBAC, kind: acronym, definition: "Role-Based Access Control."}
+  - {term: SOC, kind: acronym, definition: "Security Operations Centre."}
+  - {term: SIEM, kind: acronym, definition: "Security Information and Event Management."}
+  - {term: VAPT, kind: acronym, definition: "Vulnerability Assessment and Penetration Testing."}
+  - {term: NTP, kind: acronym, definition: "Network Time Protocol — used to synchronise system clocks."}
+  - {term: OWASP, kind: acronym, definition: "Open Worldwide Application Security Project."}
+
+  # ── Engineering and operations ─────────────────────────────────────────
+  - {term: API, kind: acronym, definition: "Application Programming Interface."}
+  - {term: SLA, kind: acronym, definition: "Service Level Agreement."}
+  - {term: DR, kind: acronym, definition: "Disaster Recovery."}
+  - {term: BCP, kind: acronym, definition: "Business Continuity Plan."}
+  - {term: RTO, kind: acronym, definition: "Recovery Time Objective — the maximum acceptable time to restore service after a disruption."}
+  - {term: RPO, kind: acronym, definition: "Recovery Point Objective — the maximum acceptable data loss, measured in time."}
+  - {term: ICT, kind: acronym, definition: "Information and Communication Technology."}
+  - {term: MVP, kind: acronym, definition: "Minimum Viable Product."}
+  - {term: COBOL, kind: acronym, definition: "Common Business-Oriented Language — a legacy programming language common in core banking."}
+  - {term: ML, kind: acronym, definition: "Machine Learning."}
+  - {term: AI, kind: acronym, definition: "Artificial Intelligence."}
+  - {term: RFP, kind: acronym, definition: "Request for Proposal."}
+  - {term: CBS, kind: acronym, definition: "Core Banking Solution."}
+
+  # ── Document conventions ──────────────────────────────────────────────
+  - {term: SRS, kind: acronym, definition: "Software Requirements Specification — this document."}
+  - {term: SDLC, kind: acronym, definition: "Software Development Life Cycle."}
+  - {term: RTM, kind: acronym, definition: "Requirements Traceability Matrix."}
+  - {term: TBD, kind: acronym, definition: "To Be Determined — information not yet available; listed in the open-issues appendix."}
+  - {term: shall, kind: term, definition: "Denotes a mandatory requirement. Every requirement in section 3 is stated with \"shall\"."}

@@ -73,6 +73,13 @@ def build_parser() -> argparse.ArgumentParser:
     out.add_argument("--json", type=Path, default=None, metavar="PATH",
                      help="also write the run as JSON (read by "
                           "notebooks/11_eval_sdlc.py --runs)")
+    out.add_argument("--export", type=Path, default=None, metavar="DIR",
+                     help="also write the Software Requirements Specification "
+                          "(.docx and .md) to DIR")
+    out.add_argument("--srs-layout", choices=["ieee830", "iso29148", "both"],
+                     default="ieee830",
+                     help="SRS structure: IEEE Std 830-1998 (default) or "
+                          "ISO/IEC/IEEE 29148:2018")
     out.add_argument("--detail", action="store_true",
                      help="also print the framework working -- every score, "
                           "answer and coverage figure. Off by default: it is "
@@ -99,6 +106,9 @@ def build_parser() -> argparse.ArgumentParser:
     stages.add_argument("--no-sdlc", action="store_true",
                         help="stop after Phase 1 -- faster when iterating on "
                              "extraction")
+    stages.add_argument("--no-elaborate", action="store_true",
+                        help="extract only what the scenario states; skip the "
+                             "implied requirements a system of this kind needs")
     stages.add_argument("--no-analysis", action="store_true",
                         help="skip conflict, compliance, security, risk and "
                              "clarification analysis -- reproduces the pre-Phase-B "
@@ -289,13 +299,13 @@ def _dump(model):
     return model.model_dump() if model is not None else None
 
 
-def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> None:
+def run_payload(scenario_arg: str | None, text: str, state: dict) -> dict:
+    """The run as plain data -- what --json writes and what the SRS is built from."""
     import json
 
     rec = state.get("sdlc")
-    path.parent.mkdir(parents=True, exist_ok=True)
     src = Path(scenario_arg) if scenario_arg and scenario_arg != "-" else None
-    path.write_text(json.dumps({
+    payload = {
         "scenario": str(src) if src else "<stdin>",
         # The eval harness keys on this to find the matching expected.yaml.
         "scenario_name": src.parent.name if src else "<stdin>",
@@ -303,6 +313,8 @@ def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> 
         "requirements": [r.model_dump() for r in state.get("requirements", [])],
         # Statements extraction produced that were removed as project facts.
         "dropped": state.get("dropped", []),
+        # Implied-requirement candidates the elaboration gate rejected, and why.
+        "implied_rejected": state.get("implied_rejected", []),
         # Which regulatory sector(s) grounding was confined to -- without it, a
         # saved run cannot show why a regulator was or was not cited.
         "sectors": state.get("sectors", []),
@@ -318,7 +330,18 @@ def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> 
         "clarifications": _dump(state.get("clarifications")),
         "timing": state.get("timing"),
         "needs_review": needs_review(state),
-    }, indent=2, default=str), encoding="utf-8")
+    }
+    # Round-trip through JSON so the payload is exactly what a saved run
+    # contains: exporting from a live run and from its saved file must agree.
+    return json.loads(json.dumps(payload, default=str))
+
+
+def write_json(path: Path, scenario_arg: str | None, text: str, state: dict) -> None:
+    import json
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(run_payload(scenario_arg, text, state), indent=2),
+                    encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -416,6 +439,7 @@ def main(argv: list[str] | None = None) -> int:
                             and not args.quiet and not args.no_interview),
             "extra_dirs": extra_dirs,
             "run_analysis": not args.no_analysis,
+            "run_elaboration": not args.no_elaborate,
         }
         state, node_times = _run_timed(build_pipeline(), initial)
     except Exception as e:                      # noqa: BLE001 -- re-raised unless it is the endpoint
@@ -446,6 +470,15 @@ def main(argv: list[str] | None = None) -> int:
         write_json(args.json, scenario_arg, text, state)
         if not args.quiet:
             print(f"Wrote {args.json}")
+
+    if args.export:
+        if not state.get("requirements"):
+            print("syntheia: no requirements, so no SRS was written", file=sys.stderr)
+        else:
+            from src.generators.srs import generate_srs
+
+            generate_srs(run_payload(scenario_arg, text, state), args.export,
+                         layout=args.srs_layout, verbose=not args.quiet)
 
     if not args.quiet:
         slow = sorted(node_times.items(), key=lambda kv: -kv[1])[:4]

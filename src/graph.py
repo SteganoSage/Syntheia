@@ -1,6 +1,6 @@
 """LangGraph pipeline wiring.
 
-Pipeline: retrieval → extraction → grounding → classification → quality
+Pipeline: retrieval → extraction → elaboration → grounding → classification → quality
           → conflicts → compliance → security → risk → clarification   (Phase B)
           → sdlc → END
 
@@ -49,6 +49,9 @@ class PipelineState(TypedDict):
     extra_dirs: list
     # Extracted statements removed as project facts, not system requirements.
     dropped: list
+    # Elaboration: implied requirements on/off, and candidates it rejected.
+    run_elaboration: bool
+    implied_rejected: list
     # Regulatory sector(s) the scenario is in ("banking", "insurance"), set by the
     # retrieval node and used to keep grounding inside that sector.
     sectors: list
@@ -113,6 +116,29 @@ def extraction_node(state: PipelineState) -> dict:
         print("  !! extraction produced NO requirements -- the rest of this run "
               "is not meaningful. Check the model and the scenario.")
     return {"requirements": result.requirements, "dropped": result.dropped}
+
+
+def elaboration_node(state: PipelineState) -> dict:
+    """Add the requirements the scenario implies but does not state (origin: implied).
+
+    Runs before grounding and classification so implied requirements are cited,
+    classified and quality-checked exactly like stated ones. Never fatal: a
+    failure leaves the stated requirements as they were.
+    """
+    reqs = state["requirements"]
+    if not state.get("run_elaboration", True) or not reqs:
+        return {"implied_rejected": []}
+    from src.agents.elaboration import elaborate
+    from src.pipeline_analysis import _sim
+
+    try:
+        implied, rejected = elaborate(state["text"], reqs, _sim(),
+                                      context=state.get("context") or None)
+    except Exception as e:                       # noqa: BLE001
+        print(f"  !! elaboration failed ({type(e).__name__}: {e}) — "
+              f"continuing with the stated requirements")
+        return {"implied_rejected": []}
+    return {"requirements": reqs + implied, "implied_rejected": rejected}
 
 
 def grounding_node(state: PipelineState) -> dict:
@@ -213,21 +239,27 @@ def sdlc_node(state: PipelineState) -> dict:
         # a wrong tty test for a whole session and looked exactly like "there
         # was nothing to ask" -- which is the one thing it must never look like.
         ask = _report_skipped_interview
-    return {"sdlc": recommend_sdlc(state["requirements"],
-                                   scenario=state["text"], ask_user=ask)}
+    # Stated requirements only. The SDLC questions ask how well the
+    # stakeholder's requirements are understood and how stable they are; the
+    # implied ones are our inference, and letting them vote would make the
+    # recommendation depend on how much the elaboration agent wrote.
+    stated = [r for r in state["requirements"] if r.origin == "stated"] or state["requirements"]
+    return {"sdlc": recommend_sdlc(stated, scenario=state["text"], ask_user=ask)}
 
 
 def build_pipeline():
     graph = StateGraph(PipelineState)
     graph.add_node("retrieval", retrieval_node)
     graph.add_node("extraction", extraction_node)
+    graph.add_node("elaboration", elaboration_node)
     graph.add_node("grounding", grounding_node)
     graph.add_node("classification", classification_node)
     graph.add_node("quality", quality_node)
     graph.add_node("sdlc", sdlc_node)
     graph.set_entry_point("retrieval")
     graph.add_edge("retrieval", "extraction")
-    graph.add_edge("extraction", "grounding")
+    graph.add_edge("extraction", "elaboration")
+    graph.add_edge("elaboration", "grounding")
     graph.add_edge("grounding", "classification")
     graph.add_edge("classification", "quality")
     # quality → conflicts → compliance → security → risk → clarification → sdlc

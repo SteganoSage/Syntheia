@@ -183,6 +183,14 @@ def _analysis_stages() -> list[dict]:
     ]
 
 
+_e = next(i for i, st in enumerate(STAGES) if st["node"] == "extraction")
+STAGES.insert(_e + 1, dict(
+    node="elaboration", label="adding implied requirements",
+    summary=lambda s: f"{sum(1 for r in s.get('requirements') or [] if r.origin == 'implied')} implied",
+    chatter=["thinking like a business analyst in the first workshop",
+             "what happens when NSDL is down?",
+             "someone will want to track their application",
+             "not repeating what you already said"]))
 _q = next(i for i, st in enumerate(STAGES) if st["node"] == "quality")
 STAGES[_q + 1:_q + 1] = _analysis_stages()
 BY_NODE = {st["node"]: st for st in STAGES}
@@ -405,6 +413,7 @@ class ScenarioSession:
             "interactive": self.interactive,
             "extra_dirs": self.extra_dirs,
             "run_analysis": self.run_analysis,
+            "run_elaboration": True,
         }
 
         live = Live(prog, console=console, refresh_per_second=8, transient=True)
