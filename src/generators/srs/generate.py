@@ -11,11 +11,18 @@ from src.generators.srs.md_render import render_markdown
 from src.generators.srs.narrative import fallback_narrative, write_narrative
 
 
+# What --srs-format / --format accept. Markdown is the default: it is what gets
+# read while the content is still changing, and Word is only worth opening
+# once it settles.
+FORMATS = {"md": ("md",), "docx": ("docx",), "both": ("docx", "md")}
+
+
 def generate_srs(run: dict, out_dir, layout: str = "ieee830", use_llm: bool = True,
-                 formats=("docx", "md"), sim=None, verbose: bool = True) -> dict[str, Path]:
+                 formats=("md",), sim=None, verbose: bool = True) -> dict[str, Path]:
     """Write the SRS for a run. Returns {format: path}.
 
-    `layout` is "ieee830", "iso29148" or "both".
+    `layout` is "ieee830", "iso29148" or "both". `formats` holds "md" and/or
+    "docx".
 
     `use_llm` controls only the prose: narrative, use-case flows, data model and
     interface table. Everything else is deterministic. With it off the document

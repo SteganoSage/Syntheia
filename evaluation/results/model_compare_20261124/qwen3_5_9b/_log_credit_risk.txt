@@ -1,0 +1,803 @@
+🦙 LLM Provider: Ollama [cloud] qwen3.5:9b @ https://unashamed-prodigal-march.ngrok-free.dev
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  48%|████▊     | 96/199 [00:00<00:00, 956.21it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1024.44it/s]
+  classifier     12.1s  roberta_classifier
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1140.80it/s]
+  embedder        3.5s  all-MiniLM-L6-v2
+  llm            18.0s  qwen3.5:9b [cloud]
+  total          33.6s
+
+Grounding:  retrieval-augmented
+  (5 question(s) would settle this — PTR-4, TEAM-3, USER-1, USER-3. Run at a terminal to be asked, or pass them in.)
+
+15 requirements in 303s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall ingest and normalize data from multiple      │
+│                internal and external sources (e.g., transaction history,     │
+│                credit bureau reports, alternative data) to prepare features  │
+│                for the AI model.                                             │
+│                                                                              │
+│     categories Regulatory, Data-management, Integration, Audit/Reporting     │
+│    stakeholder Data Engineering Team                                         │
+│      rationale AI models require high-quality, structured input data;        │
+│                without defined ingestion capabilities, the model cannot be   │
+│                trained or validated.                                         │
+│     acceptance System successfully connects to at least three distinct data  │
+│                sources and outputs a unified feature dataset with no null    │
+│                values in critical fields.                                    │
+│     UNGROUNDED claims RBI Master Direction on IT Framework — nothing in the  │
+│                knowledge base supports it (best match 0.58)                  │
+│                needs human review                                            │
+│      precedent 0.58  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §2.15    │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall implement a modular machine learning         │
+│                pipeline that allows swapping of different algorithmic models │
+│                (e.g., Logistic Regression, XGBoost, Neural Networks) without │
+│                code refactoring.                                             │
+│                                                                              │
+│     categories Business, Integration                                         │
+│    stakeholder Technical Lead                                                │
+│      rationale Since the NBFC has never built ML systems and faces technical │
+│                uncertainty, a modular architecture is essential for          │
+│                experimentation and Proof of Concept (PoC) validation.        │
+│     acceptance System allows loading and training two different pre-trained  │
+│                models on the same dataset with a single configuration        │
+│                change.                                                       │
+│    regulations none claimed, none found (best match 0.35)                    │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall generate a comprehensive model performance   │
+│                report including accuracy, precision, recall, F1-score, and   │
+│                confusion matrix for the PoC phase.                           │
+│                                                                              │
+│     categories Business, Stakeholder, Audit/Reporting                        │
+│    stakeholder Compliance Officer                                            │
+│      rationale Regulatory bodies require transparency in credit decisioning; │
+│                even for a PoC, demonstrating model efficacy is necessary to  │
+│                justify further investment.                                   │
+│     acceptance Upon completion of model training, the system automatically   │
+│                generates a PDF/JSON report containing all specified metrics  │
+│                within 5 minutes.                                             │
+│     UNGROUNDED claims RBI Guidelines on Credit Risk Management — nothing in  │
+│                the knowledge base supports it (best match 0.44)              │
+│                needs human review                                            │
+│    risk / conf High · 0.92                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall provide an explainability interface that     │
+│                highlights the top features influencing the credit score for  │
+│                a specific applicant.                                         │
+│                                                                              │
+│     categories Business, Stakeholder, Functional, Usability                  │
+│    stakeholder Business Analyst                                              │
+│      rationale Regulatory compliance (e.g., RBI's IT Framework) mandates     │
+│                that credit decisions must be explainable to applicants and   │
+│                auditors; 'black box' models are non-compliant.               │
+│     acceptance For a given input record, the system displays a list of top 5 │
+│                features contributing to the score with their direction of    │
+│                impact (positive/negative) and contribution percentage.       │
+│     UNGROUNDED claims RBI Master Direction on IT Framework — nothing in the  │
+│                knowledge base supports it (best match 0.62)                  │
+│                needs human review                                            │
+│      precedent 0.62  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §140 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.59  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §122 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  High priority ─────────────────────────────────────────────────────╮
+│                The system shall log all model inputs, outputs, and           │
+│                hyperparameters in an immutable audit trail for regulatory    │
+│                review.                                                       │
+│                                                                              │
+│     categories Data-management, Audit/Reporting                              │
+│    stakeholder Compliance Officer                                            │
+│      rationale Financial regulations require traceability of credit          │
+│                decisions to prevent fraud and ensure accountability during   │
+│                audits.                                                       │
+│     acceptance Every prediction request generates a unique log entry         │
+│                containing timestamp, input features, model version,          │
+│                predicted score, and explanation data that cannot be altered. │
+│       grounded 0.57  Master Direction on Information Technology Governance,  │
+│                Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)  │
+│                [issued 07 Nov 2023]                                          │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-006  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow the configuration of a 'PoC Mode' flag │
+│                that restricts the model to evaluation-only operations        │
+│                without affecting live production credit decisions.           │
+│                                                                              │
+│     categories Business, Stakeholder, Operational                            │
+│    stakeholder Security Team                                                 │
+│      rationale To mitigate technical and business risk, the PoC must be      │
+│                isolated from live transactions to prevent accidental         │
+│                deployment of unvalidated models.                             │
+│     acceptance When 'PoC Mode' is enabled, the system processes requests but │
+│                does not update any customer status or trigger payment        │
+│                workflows.                                                    │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf Medium · 0.85                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-007  High priority ─────────────────────────────────────────────────────╮
+│                The system shall handle data privacy by anonymizing or        │
+│                masking personally identifiable information (PII) in logs and │
+│                model training datasets.                                      │
+│                                                                              │
+│     categories Security, Privacy, Regulatory                                 │
+│    stakeholder Data Privacy Officer                                          │
+│      rationale Handling customer financial data requires strict adherence to │
+│                data protection laws to avoid legal penalties and             │
+│                reputational damage.                                          │
+│     acceptance System logs and training datasets do not contain raw names,   │
+│                PAN numbers, or full addresses; only hashed or masked         │
+│                versions are stored.                                          │
+│     UNGROUNDED claims DPDP Act (India), RBI Master Direction on IT Framework │
+│                — nothing in the knowledge base supports it (best match 0.57) │
+│                needs human review                                            │
+│      precedent 0.57  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §17.23 (RFP No. 375) [RFP 375]    │
+│                                                                              │
+│    risk / conf High · 0.93                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-008  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide a dashboard displaying real-time     │
+│                metrics on data ingestion rates, feature engineering latency, │
+│                and model inference time to assist stakeholders in evaluating │
+│                technical feasibility.                                        │
+│                                                                              │
+│     categories Business, Stakeholder, Operational                            │
+│    stakeholder —                                                             │
+│      rationale The scenario mentions significant technical risk and          │
+│                uncertain budget depending on initial results; therefore, the │
+│                team needs quantitative visibility into system performance to │
+│                decide whether to proceed with full development or pivot.     │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.54)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-009  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow administrators to define thresholds    │
+│                for data quality checks (e.g., missing value limits, outlier  │
+│                detection) and automatically flag records that fail these     │
+│                checks before they enter the training pipeline.               │
+│                                                                              │
+│     categories Business, Stakeholder, Security, Regulatory                   │
+│    stakeholder —                                                             │
+│      rationale Since the NBFC has never built ML systems before, they lack   │
+│                internal expertise to handle dirty data; automated gating     │
+│                prevents garbage-in-garbage-out scenarios during the PoC.     │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.52)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-010  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support a 'dry-run' simulation mode where    │
+│                the model processes a batch of historical data without        │
+│                persisting results or updating any state, allowing users to   │
+│                test new configurations safely.                               │
+│                                                                              │
+│     categories Operational                                                   │
+│    stakeholder —                                                             │
+│      rationale Given the PoC nature and fear of affecting live production,   │
+│                users need a safe environment to experiment with different    │
+│                model architectures and hyperparameters without side effects. │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.42)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-011  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall generate an automated alert notification     │
+│                when external data sources become unavailable or return       │
+│                errors exceeding a defined threshold (e.g., 5 consecutive     │
+│                failures), including the specific source and error code.      │
+│                                                                              │
+│     categories Availability, Integration, Operational                        │
+│    stakeholder —                                                             │
+│      rationale External data sources are critical for credit scoring;        │
+│                without availability monitoring, the PoC could stall          │
+│                unexpectedly, wasting budget and time.                        │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.55)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-012  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow users to export model artifacts        │
+│                (trained weights, feature schemas, preprocessing steps) in a  │
+│                standardized format for external review or migration to a     │
+│                production environment.                                       │
+│                                                                              │
+│     categories Stakeholder                                                   │
+│    stakeholder —                                                             │
+│      rationale Stakeholders need to demonstrate the PoC results to investors │
+│                or internal boards; exportability ensures that if the PoC     │
+│                succeeds, the assets can be easily transferred without        │
+│                rebuilding from scratch.                                      │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.50)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-013  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide a configuration interface for        │
+│                setting resource limits (CPU/memory) per model instance to    │
+│                prevent a single heavy neural network experiment from         │
+│                exhausting server resources during the PoC.                   │
+│                                                                              │
+│     categories Business, Operational                                         │
+│    stakeholder —                                                             │
+│      rationale Budget is uncertain and infrastructure may be shared; without │
+│                resource capping, a failed or long-running experiment could   │
+│                crash the environment needed for other tasks.                 │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.48)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-014  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow users to annotate specific data        │
+│                samples as 'misclassified' or 'edge cases' and store these    │
+│                annotations alongside the original input for later retraining │
+│                or analysis.                                                  │
+│                                                                              │
+│     categories Data-management                                               │
+│    stakeholder —                                                             │
+│      rationale Since the team is new to ML, they will likely encounter       │
+│                unexpected model behaviors; a feedback loop for annotating    │
+│                errors helps them understand model limitations before         │
+│                committing to production.                                     │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.48)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-015  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall enforce role-based access control (RBAC)     │
+│                distinguishing between 'Data Scientists' who can modify       │
+│                models and 'Auditors' who can only view immutable logs and    │
+│                reports.                                                      │
+│                                                                              │
+│     categories Security, Regulatory                                          │
+│    stakeholder —                                                             │
+│      rationale Even in a PoC, security boundaries must exist to prevent      │
+│                accidental modification of audit trails or unauthorized       │
+│                access to sensitive credit data by non-technical              │
+│                stakeholders.                                                 │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.62)                    │
+│      precedent 0.62  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §1.6     │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                0.57  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §1.5     │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  0 passed 8 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-008    Medium     Missing Source — The requirement lacks a stakeholder  │
+│                        identifier. The 'stakeholder' field is explicitly     │
+│                        set to 'Not specified', violating the rule that       │
+│                        every requirement must have an identified source.     │
+│                        → Update the 'stakeholder' field to identify the      │
+│                        specific team or role (e.g., 'Technical Lead' or      │
+│                        'Product Owner') responsible for defining this        │
+│                        dashboard.                                            │
+│  REQ-008    Medium     Ambiguity — The term 'real-time' is vague and         │
+│                        unmeasurable. It does not specify a latency           │
+│                        threshold (e.g., < 1 second, < 5 seconds).            │
+│                        → Replace 'real-time' with a specific metric, such    │
+│                        as 'updates within 2 seconds of data arrival'.        │
+│  REQ-008    Low        Lack of Testability — The phrase 'assist              │
+│                        stakeholders in evaluating technical feasibility' is  │
+│                        subjective and cannot be objectively verified by a    │
+│                        test case.                                            │
+│                        → Remove the subjective outcome clause or link it to  │
+│                        a measurable acceptance criterion (e.g., 'dashboard   │
+│                        refreshes every 5 seconds').                          │
+│  REQ-009    Medium     Ambiguity — The requirement uses vague terms like     │
+│                        'missing value limits' and 'outlier detection'        │
+│                        without defining the specific metrics or thresholds   │
+│                        to be used. The phrase 'automatically flag records'   │
+│                        lacks a measurable definition for what constitutes a  │
+│                        'flag' (e.g., status field change, email              │
+│                        notification).                                        │
+│                        → Specify the exact data quality rules (e.g., 'null   │
+│                        count > 50%' or 'z-score > 3') and define the output  │
+│                        action (e.g., 'set record status to INVALID').        │
+│  REQ-009    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for defining these thresholds.            │
+│  REQ-010    Medium     Ambiguity — The term 'dry-run' simulation mode is     │
+│                        not defined. The requirement states 'without          │
+│                        persisting results or updating any state' but does    │
+│                        not specify which database tables, logs, or           │
+│                        temporary files are excluded from persistence.        │
+│                        → Explicitly list the components that must remain     │
+│                        transient (e.g., 'do not write to model_registry      │
+│                        table', 'do not commit to feature_store').            │
+│  REQ-010    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+│  REQ-011    Medium     Ambiguity — The requirement mentions 'defined         │
+│                        threshold' but does not specify the value or logic    │
+│                        for that threshold in the statement itself, relying   │
+│                        on an external definition. While '5 consecutive       │
+│                        failures' is given as an example, it is not mandated  │
+│                        as the rule.                                          │
+│                        → Clarify if '5 consecutive failures' is the          │
+│                        mandatory default or if the system must allow         │
+│                        configuration of this value.                          │
+│  REQ-011    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+│  REQ-012    Medium     Ambiguity — The term 'standardized format' is vague   │
+│                        and unmeasurable. It does not specify which standard  │
+│                        (e.g., ONNX, PMML, JSON Schema) or version must be    │
+│                        used.                                                 │
+│                        → Specify the exact export format and schema version  │
+│                        required (e.g., 'export weights as ONNX opset 15').   │
+│  REQ-012    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+│  REQ-013    Medium     Ambiguity — The requirement states 'CPU/memory' but   │
+│                        does not define the unit of measurement (e.g.,        │
+│                        percentage of total, absolute cores/GB) or the        │
+│                        mechanism for enforcement (soft limit vs hard kill).  │
+│                        → Define the resource units and enforcement strategy  │
+│                        (e.g., 'limit to 80% of allocated CPU cores').        │
+│  REQ-013    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+│  REQ-014    Medium     Ambiguity — The terms 'misclassified' and 'edge       │
+│                        cases' are subjective without a defined algorithmic   │
+│                        or human-in-the-loop criteria for what qualifies as   │
+│                        such.                                                 │
+│                        → Define the criteria for annotation (e.g., 'user     │
+│                        selects samples where predicted probability < 0.5     │
+│                        but ground truth differs').                           │
+│  REQ-014    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+│  REQ-015    High       Missing security/compliance — The requirement         │
+│                        mentions 'sensitive credit data' but fails to         │
+│                        specify encryption standards, access logging          │
+│                        requirements, or compliance frameworks (e.g.,         │
+│                        PCI-DSS) that must be applied to the RBAC             │
+│                        implementation.                                       │
+│                        → Add a clause requiring encryption at rest and in    │
+│                        transit for sensitive data accessed by these roles,   │
+│                        and adherence to relevant financial regulations.      │
+│  REQ-015    Low        Missing Source — The stakeholder field is empty.      │
+│                        → Identify the specific stakeholder or department     │
+│                        responsible for this capability.                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  11 gap 2 covered ────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-01      High      Personal data processed only with the data       │
+│                             principal's consent (or another lawful ground)   │
+│                             Digital Personal Data Protection Act, 2023 §4    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall obtain and record the         │
+│                             customer's consent for each specified purpose    │
+│                             before processing their personal data, and       │
+│                             allow the consent to be withdrawn as easily as   │
+│                             it was given.                                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-04      High      Personal data breaches notified to the Data      │
+│                             Protection Board and affected individuals        │
+│                             Digital Personal Data Protection Act, 2023       │
+│                             §8(b) (Act No. 22 of 2023)                       │
+│                             → The system shall support detection of          │
+│                             personal data breaches and notification of each  │
+│                             breach to the Data Protection Board and every    │
+│                             affected customer in the prescribed form and     │
+│                             time.                                            │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-KYC-02       High      Transaction records kept at least five years     │
+│                             from the date of transaction                     │
+│                             Master Direction — Know Your Customer (KYC)      │
+│                             Direction, 2016 §(a) (RBI/DBR/2015-16/18)        │
+│                             → The system shall retain records of all         │
+│                             transactions with the customer for at least      │
+│                             five years from the date of the transaction.     │
+│                             needs compliance/legal sign-off                  │
+│  CMP-PML-01       High      Suspicious and large cash transactions recorded  │
+│                             and reported (STR/CTR)                           │
+│                             Prevention of Money-laundering (Maintenance of   │
+│                             Records) Rules, 2005 §3 (G.S.R. 444(E))          │
+│                             [consolidated text, as                           │
+│                             → The system shall flag suspicious transactions  │
+│                             and cash transactions above the prescribed       │
+│                             threshold, keep their records, and produce       │
+│                             suspicious- and cash-transaction reports for     │
+│                             the Financial Intelligence Unit.                 │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 3 more (in --json)
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-005   addressed       Every IT application which can access or affect   │
+│                            critical or sensitive information, shall have     │
+│                            necessary audit and system logging capability     │
+│                            and should provide audit trails. The audit        │
+│                            trails shall satisfy a RE's business              │
+│                            requirements apart from regulatory and legal      │
+│                            requirements. The audit trails must be detailed   │
+│                            enough to facilitate the conduct of audit, serve  │
+│                            as forensic evidence when required and assist in  │
+│                            dispute resolution, including for                 │
+│                            non-repudiation purposes.                         │
+│                            Master Direction on Information Technology        │
+│                            Governance, Risk, Controls and Assurance          │
+│                            Practices §15 (R · IN                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ retention   Personal data erased when consent is withdrawn or the purpose is │
+│ served — unless law requires retention                                       │
+│             Digital Personal Data Protection Act, 2023 §8(a) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ retention   Transaction records kept at least five years from the date of    │
+│ transaction                                                                  │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(a) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ reporting   Personal data breaches notified to the Data Protection Board and │
+│ affected individuals                                                         │
+│             Digital Personal Data Protection Act, 2023 §8(b) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ reporting   Suspicious and large cash transactions recorded and reported     │
+│ (STR/CTR)                                                                    │
+│             Prevention of Money-laundering (Maintenance of Records) Rules,   │
+│ 2005 §3 (G.S.R. 444(E)) [consolidated                                        │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── sensitive data ───────────────────────────────╮
+│  data                      found in  protected by                            │
+│  Financial profile         REQ-004   REQ-007                                 │
+│  PAN                       REQ-007   REQ-007                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  6 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  28 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-003   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-004   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-005   4×4=16  Personal data breaches notified to   Compliance officer  │
+│                     the Data Protection Board and                            │
+│                     affected individuals (Compliance)                        │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §8(b) (Act No.                      │
+│                     22 of 2023) )                                            │
+│  RISK-006   4×4=16  Personal data processed only with    Compliance officer  │
+│                     the data principal's consent (or                         │
+│                     another lawful ground) (Compliance)                      │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §4 (Act No. 22                      │
+│                     of 2023) )                                               │
+│  RISK-007   4×4=16  Suspicious and large cash            Compliance officer  │
+│                     transactions recorded and reported                       │
+│                     (STR/CTR) (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Prevention of                               │
+│                     Money-laundering (Maintenance of                         │
+│                     Records) Rules, 2005 §3 (G.S.R.                          │
+│                     444(E)) )                                                │
+│  RISK-008   4×4=16  Transaction records kept at least    Compliance officer  │
+│                     five years from the date of                              │
+│                     transaction (Compliance)                                 │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction —                          │
+│                     Know Your Customer (KYC) Direction,                      │
+│                     2016 §(a) (RBI/DBR/2015-16/18) )                         │
+│  RISK-009   4×3=12  Requirements expected to change      Product owner       │
+│                     (Business)                                               │
+│                     The problem statement says: "An                          │
+│                     NBFC wants to build an AI-based                          │
+│                     credit risk scoring engine but                           │
+│                     they're not sure exactly what data                       │
+│                     sources to use or what the model                         │
+│                     architecture should look like."                          │
+│  RISK-010   4×3=12  A grievance redressal mechanism for  Compliance officer  │
+│                     customers (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Outsourcing of Information                               │
+│                     Technology Services §7                                   │
+│                     (RBI/2023-24/102) )                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 18 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'credit*' in the scenario, 'transaction*'  │
+│ in REQ-001                                                                   │
+│ CQ-002 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'credit*' in the scenario, 'transaction*' │
+│ in REQ-001                                                                   │
+│ CQ-003 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'nbfc*' in the scenario                      │
+│ CQ-004 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'credit*' in the scenario, 'transaction*' │
+│ in REQ-001                                                                   │
+│ CQ-005 Personal data breaches notified to the Data Protection Board and      │
+│ affected individuals (Digital Personal Data Protection Act, 2023 §8(b) (Act  │
+│ No. 22 of 2023) [as enacted]). Nothing in the requirements covers this.      │
+│ Should the system include: “The system shall support detection of personal   │
+│ data breaches and notification of each breach to the Data Protection Board   │
+│ and every affected customer in the prescribed form and time”?                │
+│        CMP-DPDP-04: triggered by 'credit score*' in REQ-004, 'pii' in        │
+│ REQ-007                                                                      │
+│ CQ-006 Personal data processed only with the data principal's consent (or    │
+│ another lawful ground) (Digital Personal Data Protection Act, 2023 §4 (Act   │
+│ No. 22 of 2023) [as enacted]). Nothing in the requirements covers this.      │
+│ Should the system include: “The system shall obtain and record the           │
+│ customer's consent for each specified purpose before processing their        │
+│ personal data, and allow the consent to be withdrawn as easily as it was     │
+│ given”?                                                                      │
+│        CMP-DPDP-01: triggered by 'credit score*' in REQ-004, 'pii' in        │
+│ REQ-007                                                                      │
+│ CQ-007 Suspicious and large cash transactions recorded and reported          │
+│ (STR/CTR) (Prevention of Money-laundering (Maintenance of Records) Rules,    │
+│ 2005 §3 (G.S.R. 444(E)) [consolidated text, as amended]). Nothing in the     │
+│ requirements covers this. Should the system include: “The system shall flag  │
+│ suspicious transactions and cash transactions above the prescribed           │
+│ threshold, keep their records, and produce suspicious- and cash-transaction  │
+│ reports for the Financial Intelligence Unit”?                                │
+│        CMP-PML-01: triggered by 'transaction*' in REQ-001                    │
+│ CQ-008 Transaction records kept at least five years from the date of         │
+│ transaction (Master Direction — Know Your Customer (KYC) Direction, 2016     │
+│ §(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the             │
+│ requirements covers this. Should the system include: “The system shall       │
+│ retain records of all transactions with the customer for at least five years │
+│ from the date of the transaction”?                                           │
+│        CMP-KYC-02: triggered by 'transaction*' in REQ-001                    │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  Spiral                                                                      │
+│                                                                              │
+│  also considered: Prototype, Agile, Incremental                              │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen V-Shaped        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Spiral ─────────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are not yet well understood                   │
+│             • the full set cannot be pinned down before build starts         │
+│             • scope is expected to keep changing as work goes on             │
+│             • stakeholders need to see something working before they can say │
+│             what they want                                                   │
+│             • technical feasibility itself is in doubt and has to be proven  │
+│             • this takes the organisation somewhere it has not been before   │
+│                                                                              │
+│    buys you Risk assessed and addressed every cycle                          │
+│               This allows the team to validate feasibility against high-risk │
+│             regulatory constraints like 'RBI Master Direction on IT          │
+│             Framework' before committing resources.                          │
+│             Expensive commitments deferred until risk drops                  │
+│               Full-scale development of the credit scoring engine is         │
+│             postponed until the PoC phase confirms viability under uncertain │
+│             funding conditions.                                              │
+│             Prototyping and planning combined                                │
+│               The iterative cycle supports generating 'comprehensive model   │
+│             performance reports' for stakeholders before finalizing the      │
+│             modular ML pipeline architecture.                                │
+│             Natural stopping points if funding changes                       │
+│               The project can halt after the PoC phase if budget uncertainty │
+│             prevents proceeding to full production deployment.               │
+│                                                                              │
+│    gives up Spiral assumes the product will be running for years — that is   │
+│             not the case here, so that part of its design earns nothing on   │
+│             this project.                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Spiral is recommended because it accommodates high uncertainty in            │
+│ requirements and funding while allowing iterative risk assessment for        │
+│ regulatory compliance and technical feasibility.                             │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ uncertain data sources + uncertain model architecture + PoC scope -> Spiral  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/model_compare_20261124/qwen3_5_9b/credit_risk.json
+time: sdlc 86s · extraction 76s · quality 74s · elaboration 33s  (pipeline 303s, warm-up 34s)
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • "The system shall ingest and normalize data from multiple internal and     │
+│ external sources (e.g., transaction history, credit bureau reports,          │
+│ alternative data) to prepare features for the AI model." claims RBI Master   │
+│ Direction on IT Framework applies, but nothing in the knowledge base         │
+│ supports that — the citation is unverified.                                  │
+│ • "The system shall generate a comprehensive model performance report        │
+│ including accuracy, precision, recall, F1-score, and confusion matrix for    │
+│ the PoC phase." claims RBI Guidelines on Credit Risk Management applies, but │
+│ nothing in the knowledge base supports that — the citation is unverified.    │
+│ • "The system shall provide an explainability interface that highlights the  │
+│ top features influencing the credit score for a specific applicant." claims  │
+│ RBI Master Direction on IT Framework applies, but nothing in the knowledge   │
+│ base supports that — the citation is unverified.                             │
+│ • "The system shall handle data privacy by anonymizing or masking personally │
+│ identifiable information (PII) in logs and model training datasets." claims  │
+│ DPDP Act (India), RBI Master Direction on IT Framework applies, but nothing  │
+│ in the knowledge base supports that — the citation is unverified.            │
+│ • 8 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for │
+│ a rolling 180 days within India; Cyber security incidents reported promptly  │
+│ to RBI (and 5 more).                                                         │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

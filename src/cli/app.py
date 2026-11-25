@@ -4,10 +4,9 @@ Line-based rather than full-screen, deliberately. A run emits a long report
 worth scrolling back through, and a full-screen TUI would trap it in a pane.
 This is the same shape as the agent CLIs it is modelled on.
 
-Input is `prompt_toolkit`: multi-line by default (Enter inserts a newline,
-**Esc-Enter or Alt-Enter submits**), because a problem scenario is a paragraph
-and losing it to a stray Enter is infuriating. Slash commands complete on Tab
-and submit on Enter alone, since those are always one line.
+Input is `prompt_toolkit`, multi-line: **Enter sends; Alt-Enter (or Ctrl-J)
+inserts a newline**, and a pasted paragraph keeps its own newlines. Slash
+commands complete on Tab.
 
 Everything expensive happens once at startup -- the classifier load and the LLM
 pin are ~96% of a cold run's wall-clock (Day 13), so an interactive session pays
@@ -17,6 +16,7 @@ it a single time instead of per scenario.
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 # Before prompt_toolkit or anything that pulls in transformers: the progress
@@ -48,7 +48,7 @@ COMMANDS = {
     "/sdlc":      "phase 2 on or off: /sdlc on | off",
     "/analysis":  "conflict/compliance/security/risk on or off: /analysis on | off",
     "/save":      "write the last run as JSON: /save run.json",
-    "/export":    "write the SRS (Word + Markdown) for the last run: /export out/ [iso29148]",
+    "/export":    "write the SRS (Markdown) for the last run: /export out/ [iso29148] [word]",
     "/why":       "explain one framework answer: /why PTR-2",
     "/detail":    "show or hide the framework working: /detail on | off",
     "/clear":     "clear the screen",
@@ -64,11 +64,18 @@ PT_STYLE = Style.from_dict({
 
 class App:
     def __init__(self, use_rag: bool = True, run_sdlc: bool = True,
-                 classifier: str = "auto", run_analysis: bool = True):
+                 classifier: str = "auto", run_analysis: bool = True,
+                 export_dir: Path | None = None, srs_layout: str = "ieee830",
+                 srs_formats: tuple[str, ...] = ("md",)):
         self.use_rag = use_rag
         self.run_sdlc = run_sdlc
         self.run_analysis = run_analysis
         self.classifier = classifier
+        # `main.py --export DIR`: every scenario's SRS is written as soon as its
+        # run finishes, each into its own numbered folder under DIR.
+        self.export_dir = Path(export_dir).expanduser() if export_dir else None
+        self.srs_layout = srs_layout
+        self.srs_formats = srs_formats
         self.mode_name = DEFAULT_MODE
         self.detail = False
         # Attached for the whole session, not one run: you attach a regulation
@@ -158,7 +165,40 @@ class App:
             bits.append("no-sdlc")
         if not self.run_analysis:
             bits.append("no-analysis")
+        if self.export_dir:
+            bits.append("auto-export")
         return HTML(f"<flag>{'  '.join(bits)}</flag>") if bits else HTML("")
+
+    def _write_srs(self, folder: Path, layout: str, formats: tuple[str, ...]) -> None:
+        from main import run_payload
+        from src.generators.srs import generate_srs
+
+        payload = run_payload(None, self.last_state.get("text", ""), self.last_state)
+        paths = generate_srs(payload, folder, layout=layout, verbose=False, formats=formats)
+        for path in paths.values():
+            console.print(f"[{C_OK}]wrote {path}[/]")
+
+    def _auto_export(self) -> None:
+        """SRS plus run JSON for the run just finished, in DIR/NN-<first words>."""
+        from main import write_json
+
+        if not (self.export_dir and self.last_state and self.last_state.get("requirements")):
+            return
+        text = self.last_state.get("text", "")
+        slug = "-".join(re.findall(r"[a-z0-9]+", text.lower())[:5])[:40].strip("-") or "scenario"
+        taken = [int(m.group(1)) for p in self.export_dir.glob("[0-9][0-9]*-*")
+                 if (m := re.match(r"(\d+)-", p.name))]
+        folder = self.export_dir / f"{max(taken, default=0) + 1:02d}-{slug}"
+        try:
+            with console.status("writing the SRS (narrative, use cases, data model, interfaces)…"):
+                self._write_srs(folder, self.srs_layout, self.srs_formats)
+            write_json(folder / "run.json", None, text, self.last_state)
+            console.print(f"[{C_OK}]wrote {folder / 'run.json'}[/]")
+        except Exception as e:                               # noqa: BLE001
+            # The analysis already on screen is the valuable part; a failed
+            # export must not take the session down with it.
+            console.print(f"[{C_BAD}]SRS export failed: {type(e).__name__}: {e}[/] "
+                          f"[dim]— /export {folder} retries it[/]")
 
     # ── commands ───────────────────────────────────────────────────────
 
@@ -258,20 +298,18 @@ class App:
             if not self.last_state or not self.last_state.get("requirements"):
                 console.print(f"[{C_BAD}]nothing to export yet — run a scenario first[/]")
             elif not arg:
-                console.print(f"[{C_BAD}]usage: /export out_dir [ieee830 | iso29148 | both][/]")
+                console.print(f"[{C_BAD}]usage: /export out_dir [ieee830 | iso29148 | both] [word][/]")
             else:
-                from main import run_payload
-                from src.generators.srs import generate_srs
-
-                layout = parts[2] if len(parts) > 2 else "ieee830"
-                if layout not in ("ieee830", "iso29148", "both"):
-                    console.print(f"[{C_BAD}]layout must be ieee830, iso29148 or both[/]")
+                # "word" adds the .docx alongside the Markdown; order is free.
+                opts = parts[2:]
+                word = "word" in opts
+                rest = [o for o in opts if o != "word"]
+                layout = rest[0] if rest else "ieee830"
+                if layout not in ("ieee830", "iso29148", "both") or len(rest) > 1:
+                    console.print(f"[{C_BAD}]usage: /export out_dir [ieee830 | iso29148 | both] [word][/]")
                 else:
-                    payload = run_payload(None, self.last_state.get("text", ""),
-                                          self.last_state)
-                    paths = generate_srs(payload, Path(arg), layout=layout, verbose=False)
-                    for path in paths.values():
-                        console.print(f"[{C_OK}]wrote {path}[/]")
+                    self._write_srs(Path(arg).expanduser(), layout,
+                                    ("docx", "md") if word else ("md",))
 
         elif name == "/why":
             self._why(arg)
@@ -396,8 +434,11 @@ class App:
             self.last_state = self._ensure_session().handle(text)
         except ModeUnavailable as e:
             console.print(f"[{C_BAD}]{e}[/]")
+            return
         except KeyboardInterrupt:
             console.print(f"\n[{C_DIM}]interrupted[/]")
+            return
+        self._auto_export()
 
     def run(self) -> int:
         from src.utils.warmup import warm
@@ -405,6 +446,9 @@ class App:
         console.print()
         render.banner(self._provider(), self._classifier_label(),
                       "on" if self.use_rag else "OFF (--no-rag)", self.mode_name)
+        if self.export_dir:
+            console.print(f"[{C_DIM}]SRS auto-export on: each scenario is written to "
+                          f"{self.export_dir}/NN-…/ ({' + '.join(self.srs_formats)})[/]")
         warm()
 
         while True:

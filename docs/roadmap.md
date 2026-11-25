@@ -249,9 +249,13 @@ attributes; appendices; index. **3.7 Object-oriented models is omitted** — the
 user's decision, 22 Nov; no UML is generated. ISO/IEC/IEEE 29148:2018 remains
 available with `--srs-layout iso29148`.
 
-    python main.py scenario.txt --export out/                  # run + SRS
-    python -m src.generators.export run.json --out out/ --layout both
-    /export out/ [iso29148|both]                               # interactive app
+    python main.py scenario.txt --export out/                  # run + SRS (Markdown)
+    python main.py scenario.txt --export out/ --srs-format both   # + Word
+    python -m src.generators.export run.json --out out/ --layout both [--format both]
+    /export out/ [iso29148|both] [word]                        # interactive app
+
+Markdown is the default format while the content is still changing; Word is
+one flag away for the copy that goes to the professor.
 
 **More requirements, from three origins**, each labelled on its block:
 

@@ -1,0 +1,40 @@
+
+  FAIL  bank_migration     want V-Shaped           got Waterfall
+         answers: 19/20 match  (0 wrong, 1 missed, 0 unsupported)
+           PTR-4    want yes         got not_stated  Is the funding for the project expected to be 
+
+  PASS  credit_risk        want Spiral/Prototype   got Spiral
+         answers: 15/20 match  (2 wrong, 1 missed, 2 unsupported)
+           PTR-1    want yes         got no          Does the project identify a new product direct
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-4    want no          got not_stated  Is the funding for the project expected to be 
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  FAIL  fintech_startup    want Agile/RAD          got Prototype
+         answers: 16/20 match  (2 wrong, 0 missed, 2 unsupported)
+           REQ-5    want yes         got no          Is a proof of concept required to demonstrate 
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+
+  FAIL  insurance_claims   want Waterfall          got V-Shaped
+         answers: 17/20 match  (1 wrong, 1 missed, 1 unsupported)
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-4    want yes         got not_stated  Is the funding for the project expected to be 
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  FAIL  kyc_onboarding     want Agile/Spiral       got V-Shaped
+         answers: 18/20 match  (1 wrong, 0 missed, 1 unsupported)
+           PTR-1    want yes         got no          Does the project identify a new product direct
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  Totals over 5 runs:
+     85 correct
+      6 answered wrongly        (inference quality)
+      3 missed                  (scenario says it, model abstained)
+      6 unsupported             (answered from nothing)
+     49 questions the scenarios actually answer
+
+  NOTE: expected answers are unverified for bank_migration, credit_risk, fintech_startup, insurance_claims, kyc_onboarding, prof_payroll_conversion, prof_wristwatch.
+  Recommendation-level results above are real; answer-level results are a comparison against a draft.

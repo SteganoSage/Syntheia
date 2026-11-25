@@ -1,0 +1,2754 @@
+{
+  "scenario": "data/test_cases/insurance_claims/scenario_01.txt",
+  "scenario_name": "insurance_claims",
+  "scenario_text": "A government-owned insurance company needs a claims processing portal for rural customers. All requirements have already been documented in a 200-page RFP. The portal must comply with IRDAI regulations. The team has 15 developers, funding is approved for 18 months, and the requirements will not change once signed off.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall provide a claims processing portal accessible via web browsers on standard devices.",
+      "source_stakeholder": "End User",
+      "business_justification": "Rural customers often rely on mobile data and basic smartphones; accessibility ensures inclusivity and operational reach.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have access to the internet and a compatible web browser.",
+      "acceptance_criteria": "The portal loads successfully on devices with screen resolutions from 320px to 1920px using standard browsers (Chrome, Firefox, Safari).",
+      "applicable_regulations": [
+        "IRDAI Guidelines"
+      ],
+      "risk_level": "High",
+      "confidence_score": 0.95,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall collect and validate claimant identity information in accordance with IRDAI regulations.",
+      "source_stakeholder": "Compliance Officer",
+      "business_justification": "Identity verification is mandatory to prevent fraud, ensure accurate beneficiary identification, and meet regulatory KYC norms.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Valid identity documents (Aadhaar, PAN, etc.) are available for verification via government APIs.",
+      "acceptance_criteria": "The system rejects incomplete or invalid identity data and logs the rejection reason; it successfully validates a sample valid ID against a mock API.",
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a717 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "risk_level": "High",
+      "confidence_score": 0.98,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Functional",
+        "Regulatory"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall securely store and process sensitive claimant data in compliance with data protection standards.",
+      "source_stakeholder": "Security Team",
+      "business_justification": "Insurance claims contain highly sensitive personal and financial data; secure storage prevents breaches and legal liability.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "The system integrates with existing encryption standards (e.g., AES-256) and access control mechanisms.",
+      "acceptance_criteria": "Data at rest is encrypted; data in transit uses TLS 1.2 or higher; unauthorized access attempts are logged and blocked.",
+      "applicable_regulations": [
+        "IRDAI Guidelines",
+        "DPDP Act"
+      ],
+      "risk_level": "High",
+      "confidence_score": 0.96,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Privacy",
+        "Regulatory",
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall generate an audit trail for all claim processing activities.",
+      "source_stakeholder": "Compliance Officer",
+      "business_justification": "Regulatory audits require a complete, immutable record of who did what and when during the claims lifecycle.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "The system has access to a secure logging infrastructure with timestamp synchronization.",
+      "acceptance_criteria": "Every user action (view, edit, submit) generates a log entry containing user ID, timestamp, IP address, and action type; logs are immutable.",
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.94,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Regulatory",
+        "Audit/Reporting"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "statement": "The system shall calculate and display claim settlement amounts based on predefined policy rules.",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Accurate calculation ensures fair compensation to customers and prevents financial loss or overpayment for the insurer.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Policy rules are defined in a configurable format within the system.",
+      "acceptance_criteria": "Given a specific claim scenario (e.g., theft of insured item), the system calculates the payout matching the policy terms exactly.",
+      "applicable_regulations": [
+        "IRDAI Guidelines"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.92,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Business",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "statement": "The system shall provide a status tracking feature for claimants to view the progress of their submitted claims.",
+      "source_stakeholder": "End User",
+      "business_justification": "Transparency builds trust; rural customers need visibility into long processing cycles without repeated calls.",
+      "priority": "Medium",
+      "dependencies": [
+        "REQ-001"
+      ],
+      "assumptions": "The system can query the current state of a claim from the database.",
+      "acceptance_criteria": "A user enters a claim reference number and sees the current status (e.g., 'Under Review', 'Approved') with an estimated timeline.",
+      "applicable_regulations": [],
+      "risk_level": "Low",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "statement": "The system shall support multiple regional languages for the user interface.",
+      "source_stakeholder": "End User",
+      "business_justification": "Rural India is linguistically diverse; supporting local languages reduces barriers to entry and improves adoption among non-English speakers.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "Translation resources for the required regional languages are available or can be integrated.",
+      "acceptance_criteria": "The user interface allows switching between English and at least three major regional languages (e.g., Hindi, Tamil, Bengali) without data loss.",
+      "applicable_regulations": [],
+      "risk_level": "Low",
+      "confidence_score": 0.88,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "statement": "The system shall handle low-bandwidth network conditions gracefully.",
+      "source_stakeholder": "End User",
+      "business_justification": "Rural connectivity is often unstable; the system must function or provide clear error messages even on slow connections.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "The network environment includes intermittent connectivity typical of rural areas.",
+      "acceptance_criteria": "The portal loads core features on a connection with <1 Mbps; forms allow data entry and save locally before syncing when connectivity is restored.",
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a77 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.85,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Availability"
+      ]
+    },
+    {
+      "id": "REQ-009",
+      "statement": "The system shall prevent unauthorized access to claim data through role-based access control (RBAC).",
+      "source_stakeholder": "Security Team",
+      "business_justification": "Only authorized personnel (claims adjusters, managers) should view sensitive details; this prevents internal fraud and privacy violations.",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "User roles and permissions are defined in the system configuration.",
+      "acceptance_criteria": "A user assigned to 'Claims Adjuster' can view claim details but cannot access financial audit logs; a 'Viewer' role can only see status, not documents.",
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a74 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a71 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "risk_level": "High",
+      "confidence_score": 0.96,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Security",
+        "Privacy",
+        "Regulatory"
+      ]
+    },
+    {
+      "id": "REQ-010",
+      "statement": "The system shall generate regulatory reports required by IRDAI for claims processing.",
+      "source_stakeholder": "Compliance Officer",
+      "business_justification": "Government-owned entities must submit periodic reports to the regulator; automated generation ensures accuracy and timeliness.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "The report formats are defined in the RFP or regulatory guidelines.",
+      "acceptance_criteria": "The system generates a PDF/CSV report matching the IRDAI template format within 5 minutes of triggering the export function.",
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.93,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Stakeholder",
+        "Regulatory",
+        "Audit/Reporting"
+      ]
+    },
+    {
+      "id": "REQ-011",
+      "statement": "The system shall allow claimants to upload supporting documents (e.g., medical reports, police FIRs) via a file picker that supports common formats and provides immediate feedback on file size limits.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies a claims processing workflow; without explicit requirements for document ingestion, the system cannot validate claims. This addresses the gap in 'user actions' regarding evidence submission.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-012",
+      "statement": "The system shall display a clear status message and estimated timeline to the claimant when an external validation service (e.g., identity verification API) times out or returns an error.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'exception handling' for unavailable external services. Rural customers need visibility into delays caused by network issues or third-party failures rather than a silent failure.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-013",
+      "statement": "The system shall provide an option for claimants to download their current claim status and attached documents as a PDF file for offline review.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'usability' for rural customers who may have intermittent connectivity. If the portal is inaccessible due to low bandwidth or outages, users must be able to retain their data locally.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-014",
+      "statement": "The system shall allow administrators to configure thresholds for automatic rejection of claims that exceed specific monetary limits without manual review.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'administration' needs. The scenario mentions predefined policy rules; operational teams need the ability to tune these rules or set auto-rejection triggers based on fraud patterns or budget constraints.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Business",
+        "Stakeholder",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-015",
+      "statement": "The system shall notify claimants via SMS or email when their claim status changes from 'Under Review' to 'Approved' or 'Rejected'.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'notifications' and 'user actions'. Status tracking (REQ-006) is passive; active notification ensures rural customers, who may not check the portal frequently, are informed of critical outcomes.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-016",
+      "statement": "The system shall support a 'draft' state for claim submissions that allows users to save incomplete information and resume editing later without losing data.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'user actions' and 'corrections'. Users in low-bandwidth environments may need to pause and resume filling out forms. This prevents data loss if the connection drops during submission.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-017",
+      "statement": "The system shall display a loading indicator or progress bar during long-running operations such as claim calculation or document upload.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'usability' and 'low-bandwidth' conditions. Users need visual feedback to know the system is processing their request, especially when network latency is high.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-018",
+      "statement": "The system shall provide an administrative dashboard showing real-time counts of claims in each status (e.g., Pending, Approved, Rejected) to monitor workload distribution.",
+      "source_stakeholder": "",
+      "business_justification": "Addresses 'monitoring' and 'operations'. With 15 developers and a fixed timeline, operations teams need visibility into processing bottlenecks to ensure the 18-month schedule is met.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Audit/Reporting"
+      ]
+    }
+  ],
+  "dropped": [],
+  "implied_rejected": [],
+  "sectors": [
+    "insurance"
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.478,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a717 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "17",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.6669,
+          "excerpt": "17. Obligations relating to use of identity information by requesting entity. \u2014(1) A \nrequesting entity shall ensure that:"
+        },
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "21",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.5975,
+          "excerpt": "(4) The applicant shall furnish such information and clarification to the satisfaction of the \nAuthority, within the time as may be specified in this regard by the Authority. \n(5) While considering the application, the information furnished by the applicant and its \neligibility, the Authority may ve"
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "2",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5969,
+          "excerpt": "2. Information assets (including sensitive personal information) and \nrelated system access shall be part of the identification process."
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a717 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "precedents": [],
+      "confidence": 0.6669,
+      "needs_review": false
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": true,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "3",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.6557,
+          "excerpt": "3. Data protection tools like data loss prevention, digital rights \nmanagement etc. shall be implemented to prevent unauthorized \ndisclosure of sensitive data."
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "2",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.6523,
+          "excerpt": "2. Personal data of customers/employees shall be securely stored, in \nmanual or electronic form, and in accordance with the IT Act."
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73.5.5 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "3.5.5",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.6322,
+          "excerpt": "4. Personal data of customers/employees shall be used for the \npurpose for which it has been collected.\n5. Access to the sensitive data shall be provided strictly on the basis \nof need to know.\n6. Backup of sensitive data on a removable storage media shall be kept \nin safe and secure environment.\n3."
+        }
+      ],
+      "confidence": 0.6557,
+      "needs_review": true
+    },
+    "REQ-004": {
+      "citations": [
+        {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "clause_id": "21",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "issuer": "Unique Identification Authority of India",
+          "version": "updated 15 Dec 2025",
+          "doc_type": "regulation",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "confidence": 0.5763,
+          "excerpt": "21. Audit of requesting entities, Authentication Service Agencies and Offline \nVerification Seeking Entities. \u2014(1) The Authority may undertake audit of the operations, \ninfrastructure, systems and procedures, of requesting entities, including their Sub -AUAs and \nSub-KUAs, Authentication Service Age"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]"
+      ],
+      "precedents": [],
+      "confidence": 0.5763,
+      "needs_review": false
+    },
+    "REQ-005": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4198,
+      "needs_review": true
+    },
+    "REQ-006": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4839,
+      "needs_review": true
+    },
+    "REQ-007": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4103,
+      "needs_review": true
+    },
+    "REQ-008": {
+      "citations": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a77 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "7",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.557,
+          "excerpt": "7. Secondary Network Connectivity and IT infrastructure shall \nbe provisioned and tested for the critical applications and \nservices."
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a77 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "precedents": [],
+      "confidence": 0.557,
+      "needs_review": false
+    },
+    "REQ-009": {
+      "citations": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a74 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "4",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5702,
+          "excerpt": "4. Appropriate access controls on least privileges roles shall be part \nof application and access control design. \n3.3.\n3 \nDetection"
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a71 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "1",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5588,
+          "excerpt": "2.3. Access control\n1 PURPOSE To provide a set of practices for access to Organization\u2019s \ninformation and information systems (Operating Systems, \nApplications, Databases, Network Equipment and others). \nAccess controls pertaining to Organization\u2019s information and \ninformation systems shall be based"
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "2",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5539,
+          "excerpt": "2. Access to Organization applications / data: As defined in \nthe \u2018Security Polic ies: Access control\u2019, access to all \nOrganizationapplication and/or data will be based on two-\nfactor authentication."
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a74 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a71 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "precedents": [],
+      "confidence": 0.5702,
+      "needs_review": false
+    },
+    "REQ-010": {
+      "citations": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "2",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5938,
+          "excerpt": "2. Guidelines issued by IRDAI circulars shall be incorporated in \nthe operation of Insurance Company \n\n   \n  Page 141 of 175"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "precedents": [],
+      "confidence": 0.5938,
+      "needs_review": false
+    },
+    "REQ-011": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4191,
+      "needs_review": true
+    },
+    "REQ-012": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5284,
+      "needs_review": true
+    },
+    "REQ-013": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4484,
+      "needs_review": true
+    },
+    "REQ-014": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4979,
+      "needs_review": true
+    },
+    "REQ-015": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4989,
+      "needs_review": true
+    },
+    "REQ-016": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4876,
+      "needs_review": true
+    },
+    "REQ-017": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4259,
+      "needs_review": true
+    },
+    "REQ-018": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4605,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-005",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-006",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-007",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-008",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-011",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The requirement uses the vague term 'immediate feedback' without defining a measurable threshold (e.g., < 2 seconds).",
+            "severity": "Medium",
+            "suggestion": "Replace 'immediate feedback' with a specific latency metric, such as 'feedback displayed within 1 second of upload initiation'."
+          },
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'common formats' is undefined and unmeasurable.",
+            "severity": "Medium",
+            "suggestion": "List specific supported file extensions (e.g., PDF, JPG, PNG) and specify a maximum file size limit in bytes."
+          },
+          {
+            "issue_type": "Lack of Testability",
+            "description": "The phrase 'provides immediate feedback' cannot be objectively verified without a defined time metric.",
+            "severity": "Medium",
+            "suggestion": "Define the acceptable response time for the UI to display the feedback message."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-012",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The requirement states 'clear status message' but does not define what constitutes 'clear' (e.g., specific wording, tone, or visual indicators).",
+            "severity": "Medium",
+            "suggestion": "Specify the exact text or pattern for the error message (e.g., 'External service unavailable. Please try again later.') and any required UI state."
+          },
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'estimated timeline' is vague; it does not specify how the estimate is calculated or its accuracy bounds.",
+            "severity": "Medium",
+            "suggestion": "Define the logic for the estimated timeline (e.g., 'Estimated time: 2-4 hours based on current queue') or reference a specific calculation formula."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-013",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The requirement mentions 'offline review' but does not specify the technical mechanism for offline storage (e.g., local cache, download to device) or how the system handles the transition from online to offline.",
+            "severity": "Medium",
+            "suggestion": "Clarify that the PDF is generated and downloaded to the user's local device before connectivity loss occurs, or specify the caching strategy."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-014",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'specific monetary limits' is not defined; it does not specify if these are global, per-user, or configurable ranges.",
+            "severity": "Medium",
+            "suggestion": "Clarify that administrators can configure a threshold value (e.g., 'Amount > 5000') and define the data type for this configuration."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-015",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The requirement states 'notify claimants' but does not specify the delivery method priority, retry logic, or what happens if both SMS and email fail.",
+            "severity": "Medium",
+            "suggestion": "Define the notification strategy (e.g., 'Send SMS first; if failed after 2 attempts, send Email') to ensure reliability."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-016",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'without losing data' is vague; it does not specify the recovery point objective (RPO) or what constitutes a 'loss' (e.g., partial save vs. full rollback).",
+            "severity": "Medium",
+            "suggestion": "Specify that the system shall automatically save every 30 seconds of input and retain the draft for at least 24 hours upon logout."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-017",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'long-running operations' is vague and unmeasurable. The requirement does not define the threshold (e.g., >5 seconds) that triggers the loading indicator.",
+            "severity": "Medium",
+            "suggestion": "Define a specific time threshold for what constitutes a 'long-running operation' (e.g., 'operations exceeding 3 seconds') to ensure consistent behavior."
+          },
+          {
+            "issue_type": "Missing Source",
+            "description": "The stakeholder field is empty ('Not specified').",
+            "severity": "Low",
+            "suggestion": "Identify and record the specific stakeholder (e.g., Product Owner, UX Lead) who owns this requirement."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-018",
+        "issues": [
+          {
+            "issue_type": "Missing Source",
+            "description": "The stakeholder field is empty ('Not specified').",
+            "severity": "Low",
+            "suggestion": "Identify and record the specific stakeholder (e.g., Operations Manager, Product Owner) who owns this requirement."
+          }
+        ],
+        "passed": false
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "Spiral",
+    "ranking": [
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.8,
+        "matched": [
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "PTR-1"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.8,
+        "matched": [
+          "PTR-1",
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "PTR-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.6,
+        "matched": [
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "PTR-1",
+          "PTR-3"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.6,
+        "matched": [
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "PTR-1",
+          "PTR-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.6,
+        "matched": [
+          "PTR-1",
+          "PTR-3",
+          "PTR-5"
+        ],
+        "missed": [
+          "PTR-2",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.4,
+        "matched": [
+          "PTR-2",
+          "PTR-3"
+        ],
+        "missed": [
+          "PTR-1",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.4,
+        "matched": [
+          "PTR-1",
+          "PTR-2"
+        ],
+        "missed": [
+          "PTR-3",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [
+      "Spiral",
+      "V-Shaped"
+    ],
+    "criteria": [
+      {
+        "question_id": "PTR-1",
+        "answer": "no",
+        "evidence": [
+          "Original problem statement: A government-owned insurance company needs a claims processing portal... The portal must comply with IRDAI regulations."
+        ],
+        "reasoning": "The project builds a new channel (portal) for an existing business line (insurance claims) rather than entering a new product or market direction."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-002: The system shall collect and validate claimant identity information in accordance with IRDAI regulations... assumes: Valid identity documents (Aadhaar, PAN, etc.) are available for verification via government APIs."
+        ],
+        "reasoning": "The project must interoperate with external government APIs (Aadhaar, UIDAI) to verify identities."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [
+          "Original problem statement: A government-owned insurance company needs a claims processing portal..."
+        ],
+        "reasoning": "The project is building a new portal from scratch for rural customers, not extending or modifying an existing system."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The problem statement explicitly states funding is approved, implying stable funding throughout the lifecycle."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: A government-owned insurance company needs a claims processing portal... The portal must comply with IRDAI regulations."
+        ],
+        "reasoning": "As a core regulatory compliance system for an insurance company, this is infrastructure intended to be run for years."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: ...the requirements will not change once signed off."
+        ],
+        "reasoning": "The explicit commitment that requirements will not change implies a mature, regulated environment requiring formal verification and testing at multiple stages to ensure compliance before deployment."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions team size and funding but does not state whether the team has prior experience in the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions team size and funding but does not state whether the team has prior experience with the technology domain."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions team size and funding but does not state whether the team is familiar with the specific tools to be used."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions team size and funding but does not state whether team members are subject to reassignment."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions team size and funding but does not state whether training is available for the project team."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text mentions the target customers are rural but does not state anything about the availability or time constraints of user representatives."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text does not mention whether the user representatives have prior experience with system definition."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text identifies users as rural customers but does not explicitly state if they are experts in the problem domain (claims processing)."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The text describes the need for a portal but does not mention user involvement in all phases or feedback loops."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "Spiral",
+        "advantages": [
+          {
+            "advantage": "Risk assessed and addressed every cycle",
+            "relevance": "Enables iterative validation of high-risk regulatory compliance features like REQ-002 (Aadhaar verification) and REQ-003 (data protection) against IRDAI Guidelines before full deployment."
+          },
+          {
+            "advantage": "Expensive commitments deferred until risk drops",
+            "relevance": "Allows the project to defer costly integrations with government APIs mentioned in REQ-002 assumptions until identity verification workflows are stabilized."
+          },
+          {
+            "advantage": "Prototyping and planning combined",
+            "relevance": "Supports the development of a new claims portal (REQ-001) for rural users where low-bandwidth constraints from REQ-008 require early usability prototyping."
+          },
+          {
+            "advantage": "Natural stopping points if funding changes",
+            "relevance": "Provides defined milestones to pause development if the stable funding assumption linked to REQ-004 audit trail infrastructure is compromised."
+          }
+        ],
+        "gives_up": "Spiral assumes this takes the organisation somewhere it has not been before \u2014 that is not the case here, so that part of its design earns nothing on this project."
+      },
+      {
+        "model": "V-Shaped",
+        "advantages": [
+          {
+            "advantage": "Risk assessed and addressed every cycle",
+            "relevance": "Provides structured phases to validate complex regulatory reporting requirements like REQ-010 against IRDAI Information and Cyber Security Guidelines."
+          },
+          {
+            "advantage": "Expensive commitments deferred until risk drops",
+            "relevance": "Defers the implementation of role-based access control (REQ-009) until security architecture is fully defined to prevent unauthorized data access."
+          },
+          {
+            "advantage": "Prototyping and planning combined",
+            "relevance": "Combines detailed upfront planning for policy rule calculations (REQ-005) with prototyping of the user interface for regional languages (REQ-007)."
+          },
+          {
+            "advantage": "Natural stopping points if funding changes",
+            "relevance": "Offers clear phase gates to halt development if the assumption regarding stable funding throughout the lifecycle is violated."
+          }
+        ],
+        "gives_up": "PTR-1: The project does not identify a new product direction for the organization, as it extends an existing insurance business line rather than entering a new market."
+      }
+    ],
+    "summary": "Spiral and V-Shaped are tied with identical scores of 80% (4/5 matches). The tie-breaker would be PTR-1: 'Does the project identify a new product direction for the organization?' Since the answer is NO, both frameworks assume the opposite (that it IS a new product direction), causing the mismatch for both. Given the high regulatory risk and need for integration, either model fits equally well based on the provided criteria.",
+    "shortcut": "Government-owned insurance portal + IRDAI compliance + Rural low-bandwidth support -> Spiral",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 5,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 0,
+        "total": 4,
+        "assessed": false
+      }
+    },
+    "cross_check_ranking": [
+      "V-Shaped",
+      "Spiral",
+      "Incremental",
+      "Agile",
+      "RAD",
+      "Prototype",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "The V-Shaped model is most suitable because the requirements emphasize strict adherence to IRDAI regulations, high security risks, and comprehensive audit trails that demand rigorous verification and validation phases aligned with a linear lifecycle. The Spiral model ranks second as it effectively balances the need for iterative risk analysis with the critical requirement of managing high-risk regulatory compliance and data protection standards throughout the development process.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": true
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-CERTIN-01",
+        "title": "Cyber incidents reported to CERT-In within 6 hours",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'claim*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (ii)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "Page 6 of 8 \n\nxx. Attacks or malicious/ suspicious activities affecting systems/ \nservers/software/ applications related to Artificial Intelligence and Machine \nLearning \nThe incidents can be reported to CERT -In via email (incident@cert -in.org.in), \nPhone (1800-11-4949) and Fax (1800-11-6969). The details regarding methods and \nformats of reporting cyber security incidents is also published on the website of \nCERT-In www.cert-in.org.in and will be updated from time to time. \n*****\n\nPage 7 of 8",
+          "confidence": 0.751
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-02",
+        "title": "ICT system logs kept for a rolling 180 days within India",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'claim*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (iv)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(iv)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(iv) All service providers, int ermediaries, data centres , body corporate and \nGovernment organisations shall mandatorily enable logs of all their ICT \nsystems and maintain them securely for a rolling period of 180 days  and \nthe same shall be maintained within the Indian jurisdiction . These should \nbe provided to CERT -In along with reporting of any incident or when \nordered / directed by CERT-In.",
+          "confidence": 0.9044
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-01",
+        "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "consent",
+        "triggered_by": [
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+        "reference": "DPDP Act 2023, s. 4 and s. 6",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "4",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "CHAPTER II \nOBLIGATIONS OF DATA FIDUCIARY\n4. Grounds for processing personal data.\u2014(1) A person may process the personal data of a Data \nPrincipal only in accordance with the provisions of this Act and for a lawful purpose,\u2014",
+          "confidence": 0.8082
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-04",
+        "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+        "reference": "DPDP Act 2023, s. 8(6)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(b)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) used to make a decision that affects the Data Principal; or \n\n11\n(b) disclosed to another Data Fiduciary,  \nthe Data Fiduciary processing such personal data shall ensure its completeness, accuracy and \nconsistency.  \n(4) A Data Fiduciary shall implement appropriate technical and organisational measures to ensure \neffective observance of the provisions of this Act and the rules made thereunder.  \n(5) A Data Fiduciary shall protect personal data in its possession or under its control, including in \nrespect of any processing undertaken by it or on its behalf by a Data Processor, by taking rea",
+          "confidence": 0.8509
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-IRDAI-01",
+        "title": "Insurer's ICT logs, critical and business data stored in India",
+        "family": "data_localisation",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'insur*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep its ICT infrastructure logs and all critical and business data in India, with logs retained for a rolling 180 days.",
+        "reference": "IRDAI Information and Cyber Security Guidelines 2023 (logging; audit questionnaire items 145-146)",
+        "source": {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a714 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "clause_id": "14",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-04-24",
+          "version": "issued 24 Apr 2023",
+          "url": "",
+          "excerpt": "13. ICT infrastructure logs shall be maintained as per \nregulatory guidelines\n14. ICT infrastructure logs shall be maintained for a rolling \nperiod of 180 days and within the Indian jurisdiction as \nper directions issued by Cert-In from time to time.",
+          "confidence": 0.9539
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'claim*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-02",
+        "title": "Transaction records kept at least five years from the date of transaction",
+        "family": "record_retention",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'settlement*' in REQ-005"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 record management (maintenance of transaction records)",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "(a)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(a) maintain all necessary records of transactions between the RE and the \ncustomer, both domestic and international, for at least five years from the date \nof transaction;",
+          "confidence": 0.888
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-PAY-01",
+        "title": "Payment system data stored only in India",
+        "family": "data_localisation",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'settlement*' in REQ-005"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall store the full end-to-end data of every payment transaction only in systems located in India.",
+        "reference": "RBI circular RBI/2017-18/153, Storage of Payment System Data (06 Apr 2018)",
+        "source": {
+          "citation": "Storage of Payment System Data \u00a72 (RBI/2017-18/153 DPSS.CO.OD No.2785/06.08.005/2017-2018) [issued 06 Apr 2018; compliance due 15 Oct 2018]",
+          "title": "Storage of Payment System Data",
+          "clause_id": "2",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2018-04-06",
+          "version": "issued 06 Apr 2018; compliance due 15 Oct 2018",
+          "url": "",
+          "excerpt": "2. It is observed that not all system providers  store the payments data in India. In order to ensure \nbetter monitoring, it is  important to have unfettered supervisory access to data stored with these \nsystem providers as also with their service providers / intermediaries/ third party vendors and other \nentities in the payment ecosystem. It has, therefore, been decided that: \ni. All system providers shall ensure that the entire data relating to payment systems operated \nby them are stored in a system only in India. This data should include the full end- to-end \ntransaction details / informat",
+          "confidence": 0.7369
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-03",
+        "title": "System clocks synchronised to NIC/NPL time servers",
+        "family": "audit",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'claim*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (i)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(i)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(i) All service provider s, intermediaries, data centre s, body corporate and \nGovernment organisation s shall connect to the Network Time Protocol \n(NTP) Server of National Informatics Centre (NIC) or National Physical \nLaboratory (NPL) or with NTP servers traceable to these NTP servers, for \nsynchronisation of all their ICT systems clocks.  Entities having ICT \ninfrastructure spanning multiple geographies may also use accurate and \nstandard time source other than NPL and NIC, however it is to be ensured \nthat their time source shall not deviate from NPL and NIC.",
+          "confidence": 0.8649
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-02",
+        "title": "Notice to the data principal stating what personal data is collected and why",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "notice",
+        "triggered_by": [
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+        "reference": "DPDP Act 2023, s. 5",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "5",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "5. Notice .\u2014(1) Every request made to a Data Principal under section 6 for consent shall be \naccompanied or preceded by a notice given by the Data Fiduciary to the Data Principal, informing \nher,\u2014",
+          "confidence": 0.8746
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-03",
+        "title": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall erase a customer's personal data when consent is withdrawn or the purpose is no longer served, except where retention is required by law (such as the five-year KYC record retention), and record the basis for any retention.",
+        "reference": "DPDP Act 2023, s. 8(7)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(a)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) erase personal data, upon the Data Principal withdrawing her consent or as soon as it is \nreasonable to assume that the specified purpose is no longer being served, whichever is earlier; and",
+          "confidence": 0.9068
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-GRV-01",
+        "title": "A grievance redressal mechanism for customers",
+        "family": "customer_protection",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "customer_protection",
+        "triggered_by": [
+          "'customer*' in the scenario"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall let customers raise complaints and disputes, track them to resolution, and show the contact details of the designated grievance redressal officer.",
+        "reference": "RBI PPI Master Directions para 16; Card Directions 2025 para 78; Outsourcing Direction para 7",
+        "source": {
+          "citation": "Master Direction on Outsourcing of Information Technology Services \u00a77 (RBI/2023-24/102) [issued 10 Apr 2023]",
+          "title": "Master Direction on Outsourcing of Information Technology Services",
+          "clause_id": "7",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-10-01",
+          "version": "issued 10 Apr 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12486",
+          "excerpt": "7. Grievance Redressal Mechanism\nREs shall have a robust grievance redressal mechanism that shall not be compromised in any manner on account of outsourcing, i.e., responsibility for redressal of customers\u2019 grievances related to outsourced services shall rest with the RE.\nREs shall have a robust grievance redressal mechanism that shall not be compromised in any manner on account of outsourcing, i.e., responsibility for redressal of customers\u2019 grievances related to outsourced services shall rest with the RE.\nOutsourcing arrangements shall not affect the rights of a customer against the RE, incl",
+          "confidence": 0.7227
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'claim*' in the scenario",
+          "'claim*' in REQ-001",
+          "'claim*' in REQ-002"
+        ],
+        "satisfied_by": [
+          "REQ-003",
+          "REQ-004",
+          "REQ-009"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [
+      {
+        "requirement_id": "REQ-002",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a717 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "17",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "17. Obligations relating to use of identity information by requesting entity. \u2014(1) A \nrequesting entity shall ensure that:",
+          "confidence": 0.6669
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 3 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause regulates obligations for a 'requesting entity' regarding the use of Aadhaar identity information, whereas the requirement concerns collecting and validating general claimant identity data under IRDAI regulations without specific reference to Aadhaar or the requesting entity framework.)",
+        "candidates_checked": 3
+      },
+      {
+        "requirement_id": "REQ-009",
+        "source": {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a74 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "clause_id": "4",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-04-24",
+          "version": "issued 24 Apr 2023",
+          "url": "",
+          "excerpt": "4. Appropriate access controls on least privileges roles shall be part \nof application and access control design. \n3.3.\n3 \nDetection",
+          "confidence": 0.5702
+        },
+        "obligation": "Appropriate access controls on least privileges roles shall be part of application and access control design.",
+        "obligation_types": [
+          "security_control"
+        ],
+        "coverage": "addressed",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": true,
+        "note": "",
+        "candidates_checked": 1
+      },
+      {
+        "requirement_id": "REQ-004",
+        "source": {
+          "citation": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021 \u00a721 (No. 2 of 2021 (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]",
+          "title": "The Aadhaar (Authentication and Offline Verification) Regulations, 2021",
+          "clause_id": "21",
+          "issuer": "Unique Identification Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-11-09",
+          "version": "updated 15 Dec 2025",
+          "url": "https://uidai.gov.in/images/The_Aadhaar_Authentication_and_Offline_Verifications_Regulations_2021-_Clean_copy-30122025.pdf",
+          "excerpt": "21. Audit of requesting entities, Authentication Service Agencies and Offline \nVerification Seeking Entities. \u2014(1) The Authority may undertake audit of the operations, \ninfrastructure, systems and procedures, of requesting entities, including their Sub -AUAs and \nSub-KUAs, Authentication Service Agencies and Offline Verification Seeking Entities, either \nby itself or through audit agencies appointed by it, to ensure that such entities are acting in \ncompliance with the Act, rules, regulations, policies, procedures, guidelines issued by the \nAuthority. \n(2) The Authority may conduct audits of t",
+          "confidence": 0.5763
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause regulates audits conducted by the regulatory Authority on entities, whereas the requirement mandates internal logging of user actions for claim processing.)",
+        "candidates_checked": 1
+      },
+      {
+        "requirement_id": "REQ-010",
+        "source": {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "clause_id": "2",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-04-24",
+          "version": "issued 24 Apr 2023",
+          "url": "",
+          "excerpt": "2. Guidelines issued by IRDAI circulars shall be incorporated in \nthe operation of Insurance Company \n\n   \n  Page 141 of 175",
+          "confidence": 0.5938
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause mandates the general incorporation of IRDAI guidelines into operations, whereas the requirement specifically addresses the technical generation and formatting of regulatory reports for claims processing.)",
+        "candidates_checked": 1
+      },
+      {
+        "requirement_id": "REQ-008",
+        "source": {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a77 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "clause_id": "7",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-04-24",
+          "version": "issued 24 Apr 2023",
+          "url": "",
+          "excerpt": "7. Secondary Network Connectivity and IT infrastructure shall \nbe provisioned and tested for the critical applications and \nservices.",
+          "confidence": 0.557
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause mandates provisioning and testing of secondary network connectivity for critical applications, whereas the requirement addresses graceful handling of low-bandwidth conditions on a primary connection.)",
+        "candidates_checked": 1
+      }
+    ],
+    "obligations": [
+      {
+        "kind": "retention",
+        "text": "ICT system logs kept for a rolling 180 days within India",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-02"
+      },
+      {
+        "kind": "retention",
+        "text": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-03"
+      },
+      {
+        "kind": "retention",
+        "text": "Transaction records kept at least five years from the date of transaction",
+        "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "origin": "CMP-KYC-02"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber incidents reported to CERT-In within 6 hours",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-01"
+      },
+      {
+        "kind": "reporting",
+        "text": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-04"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "consent",
+        "text": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-01"
+      },
+      {
+        "kind": "notice",
+        "text": "Notice to the data principal stating what personal data is collected and why",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-02"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Cyber incidents reported to CERT-In within 6 hours (CMP-CERTIN-01)",
+      "Compliance/legal sign-off needed: ICT system logs kept for a rolling 180 days within India (CMP-CERTIN-02)",
+      "Compliance/legal sign-off needed: Personal data processed only with the data principal's consent (or another lawful ground) (CMP-DPDP-01)",
+      "Compliance/legal sign-off needed: Personal data breaches notified to the Data Protection Board and affected individuals (CMP-DPDP-04)",
+      "Compliance/legal sign-off needed: Insurer's ICT logs, critical and business data stored in India (CMP-IRDAI-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)",
+      "Compliance/legal sign-off needed: Transaction records kept at least five years from the date of transaction (CMP-KYC-02)",
+      "Compliance/legal sign-off needed: Payment system data stored only in India (CMP-PAY-01)",
+      "Compliance/legal sign-off needed: Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention (CMP-DPDP-03)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-API-01",
+        "title": "Integrations authenticated, encrypted and rate-limited",
+        "family": "integration_security",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'api*' in REQ-012"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+        "reference": "Industry practice (OWASP API Security Top 10)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-AUTH-01",
+        "title": "Strong customer authentication \u2014 a second factor at login and for high-value actions",
+        "family": "authentication",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'portal' in the scenario",
+          "'portal' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall authenticate customers with at least two factors at login, and require step-up authentication for transactions above the organisation-approved risk threshold.",
+        "reference": "RBI Master Direction on Digital Payment Security Controls 2021, para 33",
+        "source": {
+          "citation": "Master Direction on Digital Payment Security Controls \u00a734 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]",
+          "title": "Master Direction on Digital Payment Security Controls",
+          "clause_id": "34",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-08-18",
+          "version": "issued 18 Feb 2021; in force six months from publication",
+          "url": "",
+          "excerpt": "34. REs may also adopt adaptive authentication to select the right authentication factors \ndepending on risk assessment, user risk profile and behaviour.  Properly designed \nand implemented multi -factor authentication methods are more reliable and \nstronger fraud deterrents and are more difficult to compromise. The key objectives \nof multi-factor authentication are to protect the confidentiality of payment data as \nwell as enhance confidence in digital payment  by combating various cyber -attack \nmechanisms like phishing, keylogging, spyware/ malware and other internet-based \nfrauds targeted ",
+          "confidence": 0.7598
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "PRIV-MIN-01",
+        "title": "Only the personal data necessary for the stated purpose is collected",
+        "family": "data_protection",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'document*' in the scenario",
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+        "reference": "DPDP Act 2023, s. 6(1) \u2014 consent limited to data necessary for the purpose",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "6",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "6. Consent .\u2013\u2013(1) The consent given by the Data Principal shall be free, specific, informed, \nunconditional and unambiguous with a clear affirmative action, and shall signify an agreement to the \nprocessing of her personal data for the specified purpose and be limited to su ch personal data as is \nnecessary for such specified purpose. \nIllustration. \n X, an individual, downloads Y, a telemedicine app. Y requests the consent of X for (i) the processing \nof her personal data for making available telemedicine services, and ( ii) accessing her mobile phone \ncontact list, and X signifies her consen",
+          "confidence": 0.7067
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-APPSEC-01",
+        "title": "Input validated and secure coding practices applied",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'portal' in the scenario",
+          "'portal' in REQ-001",
+          "'form*' in REQ-011"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall validate all input on the server side and be built and tested against the OWASP Application Security Verification Standard.",
+        "reference": "OWASP ASVS (industry practice; not in the knowledge base)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'portal' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-SESSION-01",
+        "title": "Sessions time out and repeated failed logins lock the account",
+        "family": "authentication",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'portal' in the scenario",
+          "'portal' in REQ-001"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall end inactive sessions after a defined timeout and temporarily lock access after repeated failed login attempts.",
+        "reference": "RBI Digital Payment Security Controls 2021, para 52 (and para 62 for mobile re-authentication)",
+        "source": {
+          "citation": "Master Direction on Digital Payment Security Controls \u00a753 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]",
+          "title": "Master Direction on Digital Payment Security Controls",
+          "clause_id": "53",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-08-18",
+          "version": "issued 18 Feb 2021; in force six months from publication",
+          "url": "",
+          "excerpt": "52. An online session shall be automatically terminated after a fixed period of inactivity.\n53. Secure delivery of password for login purpose shall be ensured. The password \ngenerated and dispatched by the RE should be valid for a limited period from the \ndate of its creation. If the password is generated and dispatched by the RE, then , \nthe user shall be compulsorily required to change the password, on the first login.",
+          "confidence": 0.652
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'portal' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-AUTHZ-01",
+        "title": "Role-based access with least privilege for staff and administrators",
+        "family": "authorisation",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'approv*' in the scenario",
+          "'role*' in REQ-009",
+          "'admin*' in REQ-014"
+        ],
+        "satisfied_by": [
+          "REQ-009"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 paras 8.3\u20138.4",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.3 Disallow administrative rights on end -user workstations/PCs/laptops and provide \naccess rights on a need to know basis and for specific duration when it is required \nfollowing an established process.",
+          "confidence": 0.7402
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-01",
+        "title": "Sensitive data encrypted at rest and in transit",
+        "family": "cryptography",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'document*' in the scenario",
+          "REQ-003 is classified Privacy",
+          "REQ-009 is classified Privacy"
+        ],
+        "satisfied_by": [
+          "REQ-003"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.1 Provide secure access to the bank\u2019s assets/services from within/outside bank\u2019s \nnetwork by protecting data/information at rest (e.g. using encryption, if supported by \nthe device) and in -transit (e.g. using technologies such as VPN or other secure web \nprotocols, etc.)",
+          "confidence": 0.8077
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": [
+      {
+        "kind": "health",
+        "label": "Health data",
+        "sensitivity": "high",
+        "found_in": [
+          "REQ-011"
+        ],
+        "protected_by": []
+      },
+      {
+        "kind": "device",
+        "label": "Device / network identifiers",
+        "sensitivity": "medium",
+        "found_in": [
+          "REQ-004"
+        ],
+        "protected_by": []
+      }
+    ]
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Cyber incidents reported to CERT-In within 6 hours",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "ICT system logs kept for a rolling 180 days within India",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "Insurer's ICT logs, critical and business data stored in India",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (IRDAI Information and Cyber Security Guidelines, 2023 \u00a714 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep its ICT infrastructure logs and all critical and business data in India, with logs retained for a rolling 180 days.",
+      "owner": "Compliance officer",
+      "source": "CMP-IRDAI-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Payment system data stored only in India",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Storage of Payment System Data \u00a72 (RBI/2017-18/153 DPSS.CO.OD No.2785/06.08.005/2017-2018) [issued 06 Apr 2018; compliance due 15 Oct 2018])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-005"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall store the full end-to-end data of every payment transaction only in systems located in India.",
+      "owner": "Compliance officer",
+      "source": "CMP-PAY-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-006",
+      "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-04",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-008",
+      "title": "Transaction records kept at least five years from the date of transaction",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-005"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-009",
+      "title": "Health data handled without stated protection",
+      "category": "Security",
+      "cause": "Health data appears in REQ-011 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Health data \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-011"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting Health data (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:health",
+      "evidence": []
+    },
+    {
+      "id": "RISK-010",
+      "title": "A grievance redressal mechanism for customers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Outsourcing of Information Technology Services \u00a77 (RBI/2023-24/102) [issued 10 Apr 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall let customers raise complaints and disputes, track them to resolution, and show the contact details of the designated grievance redressal officer.",
+      "owner": "Compliance officer",
+      "source": "CMP-GRV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-011",
+      "title": "Notice to the data principal stating what personal data is collected and why",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-012",
+      "title": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall erase a customer's personal data when consent is withdrawn or the purpose is no longer served, except where retention is required by law (such as the five-year KYC record retention), and record the basis for any retention.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-013",
+      "title": "System clocks synchronised to NIC/NPL time servers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-014",
+      "title": "Unverified regulation on REQ-001",
+      "category": "Compliance",
+      "cause": "REQ-001 names IRDAI Guidelines, which nothing in the knowledge base supports.",
+      "consequence": "The design rests on a regulation nobody has checked applies, or exists in that form.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Have compliance confirm the named regulation and its applicable clause.",
+      "owner": "Compliance officer",
+      "source": "grounding",
+      "evidence": []
+    },
+    {
+      "id": "RISK-015",
+      "title": "Unverified regulation on REQ-003",
+      "category": "Compliance",
+      "cause": "REQ-003 names IRDAI Guidelines, DPDP Act, which nothing in the knowledge base supports.",
+      "consequence": "The design rests on a regulation nobody has checked applies, or exists in that form.",
+      "linked_requirements": [
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Have compliance confirm the named regulation and its applicable clause.",
+      "owner": "Compliance officer",
+      "source": "grounding",
+      "evidence": []
+    },
+    {
+      "id": "RISK-016",
+      "title": "Unverified regulation on REQ-005",
+      "category": "Compliance",
+      "cause": "REQ-005 names IRDAI Guidelines, which nothing in the knowledge base supports.",
+      "consequence": "The design rests on a regulation nobody has checked applies, or exists in that form.",
+      "linked_requirements": [
+        "REQ-005"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Have compliance confirm the named regulation and its applicable clause.",
+      "owner": "Compliance officer",
+      "source": "grounding",
+      "evidence": []
+    },
+    {
+      "id": "RISK-017",
+      "title": "Integrations authenticated, encrypted and rate-limited",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice (OWASP API Security Top 10)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-012"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+      "owner": "Information-security team",
+      "source": "SEC-API-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-018",
+      "title": "Strong customer authentication \u2014 a second factor at login and for high-value actions",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Master Direction on Digital Payment Security Controls \u00a734 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall authenticate customers with at least two factors at login, and require step-up authentication for transactions above the organisation-approved risk threshold.",
+      "owner": "Information-security team",
+      "source": "SEC-AUTH-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-019",
+      "title": "Resource capacity risk for complex rural deployment",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"A government-owned insurance company needs a claims processing portal for rural customers. The team has 15 developers\"",
+      "consequence": "The project may fail because the fixed team size of 15 developers might be insufficient to handle the specific complexities of deploying and supporting a system for 'rural customers' within the approved 18-month timeframe.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "A government-owned insurance company needs a claims processing portal for rural customers. The team has 15 developers"
+      ]
+    },
+    {
+      "id": "RISK-020",
+      "title": "Scope creep risk from rigid requirement freeze",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"requirements will not change once signed off\"",
+      "consequence": "The project may fail because unforeseen issues discovered during development or testing cannot be addressed by modifying requirements, forcing a hard stop or costly rework that exceeds the 18-month timeline.",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "requirements will not change once signed off"
+      ]
+    },
+    {
+      "id": "RISK-021",
+      "title": "Device / network identifiers handled without stated protection",
+      "category": "Security",
+      "cause": "Device / network identifiers appears in REQ-004 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Device / network identifiers \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-004"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add a requirement protecting Device / network identifiers (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:device",
+      "evidence": []
+    },
+    {
+      "id": "RISK-022",
+      "title": "Input validated and secure coding practices applied",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: OWASP ASVS (industry practice; not in the knowledge base)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-011"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall validate all input on the server side and be built and tested against the OWASP Application Security Verification Standard.",
+      "owner": "Information-security team",
+      "source": "SEC-APPSEC-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-023",
+      "title": "Only the personal data necessary for the stated purpose is collected",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-003",
+        "REQ-009"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+      "owner": "Information-security team",
+      "source": "PRIV-MIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-024",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-025",
+      "title": "Sessions time out and repeated failed logins lock the account",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Master Direction on Digital Payment Security Controls \u00a753 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall end inactive sessions after a defined timeout and temporarily lock access after repeated failed login attempts.",
+      "owner": "Information-security team",
+      "source": "SEC-SESSION-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-026",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'claim*' in the scenario, 'claim*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Cyber incidents reported to CERT-In within 6 hours (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator\u201d?",
+        "why": "CMP-CERTIN-01: triggered by 'claim*' in the scenario, 'claim*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "ICT system logs kept for a rolling 180 days within India (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request\u201d?",
+        "why": "CMP-CERTIN-02: triggered by 'claim*' in the scenario, 'claim*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "Insurer's ICT logs, critical and business data stored in India (IRDAI Information and Cyber Security Guidelines, 2023 \u00a714 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep its ICT infrastructure logs and all critical and business data in India, with logs retained for a rolling 180 days\u201d?",
+        "why": "CMP-IRDAI-01: triggered by 'insur*' in the scenario, 'claim*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Payment system data stored only in India (Storage of Payment System Data \u00a72 (RBI/2017-18/153 DPSS.CO.OD No.2785/06.08.005/2017-2018) [issued 06 Apr 2018; compliance due 15 Oct 2018]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall store the full end-to-end data of every payment transaction only in systems located in India\u201d?",
+        "why": "CMP-PAY-01: triggered by 'settlement*' in REQ-005",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "Personal data breaches notified to the Data Protection Board and affected individuals (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time\u201d?",
+        "why": "CMP-DPDP-04: triggered by REQ-003 is classified Privacy, REQ-009 is classified Privacy",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "Personal data processed only with the data principal's consent (or another lawful ground) (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given\u201d?",
+        "why": "CMP-DPDP-01: triggered by REQ-003 is classified Privacy, REQ-009 is classified Privacy",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "Transaction records kept at least five years from the date of transaction (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall retain records of all transactions with the customer for at least five years from the date of the transaction\u201d?",
+        "why": "CMP-KYC-02: triggered by 'settlement*' in REQ-005",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "Health data is handled (REQ-011) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected health data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-011"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "Integrations authenticated, encrypted and rate-limited. Should the system include: \u201cEvery integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged\u201d?",
+        "why": "SEC-API-01 (practice)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "Strong customer authentication \u2014 a second factor at login and for high-value actions. Should the system include: \u201cThe system shall authenticate customers with at least two factors at login, and require step-up authentication for transactions above the organisation-approved risk threshold\u201d?",
+        "why": "SEC-AUTH-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "About \u201cThe system shall allow administrators to configure thresholds for automatic rejection of claims that exceed specific monetary limits withou\u2026\u201d: The term 'specific monetary limits' is not defined; it does not specify if these are global, per-user, or configurable ranges. (For example: Clarify that administrators can configure a threshold value (e.g., 'Amount > 5000') and define the data type for this configuration.)",
+        "why": "Ambiguity (Medium)",
+        "topic": "Ambiguity",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-014"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "About \u201cThe system shall allow claimants to upload supporting documents (e.g., medical reports, police FIRs) via a file picker that supports common\u2026\u201d: The requirement uses the vague term 'immediate feedback' without defining a measurable threshold (e.g., < 2 seconds). (For example: Replace 'immediate feedback' with a specific latency metric, such as 'feedback displayed within 1 second of upload initiation'.)",
+        "why": "Ambiguity (Medium)",
+        "topic": "Ambiguity",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-011"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "About \u201cThe system shall display a clear status message and estimated timeline to the claimant when an external validation service (e.g., identity \u2026\u201d: The requirement states 'clear status message' but does not define what constitutes 'clear' (e.g., specific wording, tone, or visual indicators). (For example: Specify the exact text or pattern for the error message (e.g., 'External service unavailable. Please try again later.') and any required UI state.)",
+        "why": "Ambiguity (Medium)",
+        "topic": "Ambiguity",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-012"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-015",
+        "question": "About \u201cThe system shall display a loading indicator or progress bar during long-running operations such as claim calculation or document upload\u201d: The term 'long-running operations' is vague and unmeasurable. The requirement does not define the threshold (e.g., >5 seconds) that triggers the loading indicator. (For example: Define a specific time threshold for what constitutes a 'long-running operation' (e.g., 'operations exceeding 3 seconds') to ensure consistent behavior.)",
+        "why": "Ambiguity (Medium)",
+        "topic": "Ambiguity",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-017"
+        ],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "timing": {
+    "startup_s": 1.9,
+    "warmup_s": 46.0,
+    "pipeline_s": 415.0,
+    "stages_s": {
+      "retrieval": 2.8,
+      "extraction": 105.8,
+      "elaboration": 32.6,
+      "grounding": 3.2,
+      "classification": 1.4,
+      "quality": 69.5,
+      "conflicts": 48.3,
+      "compliance": 41.9,
+      "security": 3.0,
+      "risk": 13.5,
+      "clarification": 0.1,
+      "sdlc": 92.8
+    }
+  },
+  "needs_review": [
+    "\"The system shall provide a claims processing portal accessible via web browsers on standard devices.\" claims IRDAI Guidelines applies, but nothing in the knowledge base supports that \u2014 the citation is unverified.",
+    "\"The system shall securely store and process sensitive claimant data in compliance with data protection standards.\" claims IRDAI Guidelines, DPDP Act applies, but nothing in the knowledge base supports that \u2014 the citation is unverified.",
+    "\"The system shall calculate and display claim settlement amounts based on predefined policy rules.\" claims IRDAI Guidelines applies, but nothing in the knowledge base supports that \u2014 the citation is unverified.",
+    "8 high-severity regulatory obligation(s) have no covering requirement: Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for a rolling 180 days within India; Personal data processed only with the data principal's consent (or another lawful ground) (and 5 more).",
+    "4 requirement(s) cite a regulation that, on reading, does not govern them: \"The system shall collect and validate claimant identity information in accordance with IRDAI regulations.\"; \"The system shall generate an audit trail for all claim processing activities.\" (and 2 more).",
+    "the framework does not separate Spiral = V-Shaped; the reported recommendation is first by name, not by fit",
+    "could not establish whether funding is settled for the life of the project \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

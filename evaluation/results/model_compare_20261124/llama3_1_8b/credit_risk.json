@@ -1,0 +1,2055 @@
+{
+  "scenario": "data/test_cases/credit_risk/scenario_01.txt",
+  "scenario_name": "credit_risk",
+  "scenario_text": "An NBFC wants to build an AI-based credit risk scoring engine but they're not sure exactly what data sources to use or what the model architecture should look like. There's significant technical risk \u2014 they've never built ML systems before. Budget is uncertain and depends on initial results. They want to build a proof of concept first before committing to full development.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall be capable of integrating with multiple external data sources for credit risk assessment",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Access to diverse data sources is crucial for accurate credit risk scoring; initial data sources may not be sufficient",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Data sources are available and can be integrated via APIs or data dumps",
+      "acceptance_criteria": "System can successfully ingest and process data from at least three external sources",
+      "applicable_regulations": [
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.8,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Data-management",
+        "Integration"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall be able to handle and process large datasets for training and testing the credit risk model",
+      "source_stakeholder": "Data Scientist",
+      "business_justification": "Accurate credit risk scoring requires processing of extensive datasets; system must be scalable",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Data storage and processing infrastructure is available and sufficient",
+      "acceptance_criteria": "System can process and analyze datasets of at least 1 million records without significant performance degradation",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall be capable of training and deploying multiple machine learning models for credit risk assessment",
+      "source_stakeholder": "Data Scientist",
+      "business_justification": "Multiple models may be required to account for different credit risk scenarios; system must be able to adapt",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Data scientists have expertise in ML model development and deployment",
+      "acceptance_criteria": "System can successfully train and deploy at least two different ML models with comparable performance",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.7,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Stakeholder"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall provide a proof of concept (POC) for the credit risk scoring engine before committing to full development",
+      "source_stakeholder": "Project Manager",
+      "business_justification": "POC will help mitigate technical risk and ensure feasibility of the project",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "POC will be successful and provide valuable insights for full development",
+      "acceptance_criteria": "POC demonstrates feasibility of the system and provides a clear roadmap for full development",
+      "applicable_regulations": [],
+      "risk_level": "High",
+      "confidence_score": 0.85,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Business",
+        "Stakeholder"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "statement": "The system shall be developed with a flexible architecture to accommodate changing requirements and data sources",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Requirements and data sources may change over time; system must be adaptable",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Requirements and data sources will change over time",
+      "acceptance_criteria": "System can be easily modified to accommodate changes in requirements and data sources",
+      "applicable_regulations": [
+        "Master Direction on Digital Payment Security Controls \u00a719 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "statement": "The system shall track and display the status of each data source integration attempt, including successes and failures, for auditing and troubleshooting purposes.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies significant technical risk and uncertainty in data source selection, suggesting the need for visibility into integration attempts.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system logs all data source integration attempts, and the status of each attempt is displayed in a dashboard for the development team.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Audit/Reporting",
+        "Operational"
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "statement": "The system shall allow administrators to configure and manage user roles and permissions for accessing and modifying the credit risk model and data sources.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies a need for flexibility and adaptability in the system architecture, suggesting the need for role-based access control.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system has a role-based access control system, and administrators can configure user roles and permissions through a web interface.",
+      "applicable_regulations": [
+        "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a73(a) (RBI/2023-24/107) [issued 07 Nov 2023]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Security"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "statement": "The system shall be able to handle a minimum of 10,000 data points per hour, with an average response time of less than 2 seconds for model predictions.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario mentions handling large datasets, implying a need for scalability and performance.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system can handle a minimum of 10,000 data points per hour, and the average response time for model predictions is less than 2 seconds.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Performance",
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-009",
+      "statement": "The system shall provide a user-friendly interface for data source configuration and model training, with clear instructions and error messages.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies a need for usability and accessibility, particularly for non-technical stakeholders.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system has a user-friendly interface for data source configuration and model training, with clear instructions and error messages.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-010",
+      "statement": "The system shall store all data sources and model outputs in a secure and auditable manner, with version control and change tracking.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies a need for data management and governance, particularly given the sensitive nature of credit risk data.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system stores all data sources and model outputs in a secure and auditable manner, with version control and change tracking.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Security",
+        "Regulatory",
+        "Data-management"
+      ]
+    },
+    {
+      "id": "REQ-011",
+      "statement": "The system shall provide a dashboard for monitoring model performance and data source integration status, with real-time updates and alerts.",
+      "source_stakeholder": "",
+      "business_justification": "The scenario implies a need for visibility and monitoring, particularly given the technical risk and uncertainty in data source selection.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system provides a dashboard for monitoring model performance and data source integration status, with real-time updates and alerts.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Operational"
+      ]
+    }
+  ],
+  "dropped": [],
+  "implied_rejected": [
+    {
+      "statement": "The system shall notify the development team and stakeholders of any failed model training or deployment attempts, including the reason for failure.",
+      "reason": "project fact (team and staffing)"
+    }
+  ],
+  "sectors": [
+    "banking"
+  ],
+  "grounding": {
+    "REQ-001": {
+      "citations": [
+        {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "clause_id": "3.3",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "issuer": "Reserve Bank of India",
+          "version": "revised 2024",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "confidence": 0.5592,
+          "excerpt": "3.3 EWS / RFA Framework for Credit Facilities / Loan Accounts\n3.3.1 Development of EWS System: The EWS system shall be comprehensive and designed to include both the quantitative and qualitative indicators to make the framework robust and effective. The broad indicators which the EWS system may illu"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]"
+      ],
+      "precedents": [],
+      "confidence": 0.5592,
+      "needs_review": false
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7140 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "140",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5597,
+          "excerpt": "140  The system should aid credit decision making based on the \nproposal evaluation analysis and credit risk rating. It should \nfacilitate users/ reviewers in understanding assessments \nthrough electronic case files."
+        }
+      ],
+      "confidence": 0.5597,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5098,
+      "needs_review": true
+    },
+    "REQ-004": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7140 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "140",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.6142,
+          "excerpt": "140  The system should aid credit decision making based on the \nproposal evaluation analysis and credit risk rating. It should \nfacilitate users/ reviewers in understanding assessments \nthrough electronic case files."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.29 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.29",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.5505,
+          "excerpt": "2.29 The system should be flexible enough to allow \ninclusion of new risk attributes in a scorecard as \nand when required and support customer / agency / \nseller / builder level risk rating."
+        }
+      ],
+      "confidence": 0.6142,
+      "needs_review": true
+    },
+    "REQ-005": {
+      "citations": [
+        {
+          "citation": "Master Direction on Digital Payment Security Controls \u00a719 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]",
+          "clause_id": "19",
+          "title": "Master Direction on Digital Payment Security Controls",
+          "issuer": "Reserve Bank of India",
+          "version": "issued 18 Feb 2021; in force six months from publication",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5522,
+          "excerpt": "19. REs shall implement multi- tier application architecture, segregating application, \ndatabase and presentation layer in the digital payment products and services."
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Direction on Digital Payment Security Controls \u00a719 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]"
+      ],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a737 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "37",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.5914,
+          "excerpt": "37 The system architecture must be scalable and shall support \nincreasing number of users and concurrent processing    \n38 \nThe System software and required hardware for supporting the \nrequired present/future volume to be mentioned as part of the \nSoftware\u2019s System Infrastructure Requirement. Vendo"
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a725 (RFP No. 375) [RFP 375]",
+          "clause_id": "25",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5902,
+          "excerpt": "25 The platform should be able to Extract, Transform and \nLoad data from the source systems. The proposed platform \nshould be Big Data ready"
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a715 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "15",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5543,
+          "excerpt": "11 The system must support 24-hours x 7 days\u2019 x 12 months non-\nstop continuous processing.\n12  System should have single database structure across different \nmodules of the system.\n13  All the aspects of security wrt Customer Data  should be taken \ncare of in the system\n14  The Software should allow"
+        }
+      ],
+      "confidence": 0.5914,
+      "needs_review": false
+    },
+    "REQ-006": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a747 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "47",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5752,
+          "excerpt": "46  MIS should be available through system like branch wise \nexposure, industry wise exposure etc.\n47  System should provide comprehensive audit trail report on all \nactions performed on the system including modification of \ndata."
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a723 (RFP No. 375) [RFP 375]",
+          "clause_id": "23",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5579,
+          "excerpt": "18. Data and Analytics ................................ ................................ .......................... 60\n19. Monitoring and Audit ................................ ................................ ...................... 61\n20. In Built Document Management Module........................."
+        }
+      ],
+      "confidence": 0.5752,
+      "needs_review": true
+    },
+    "REQ-007": {
+      "citations": [
+        {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a73(a) (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "clause_id": "3(a)",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "issuer": "Reserve Bank of India",
+          "version": "issued 07 Nov 2023",
+          "doc_type": "regulation",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "confidence": 0.5712,
+          "excerpt": "Information Assets include information system, data, hardware and software.\n\u2018Information System\u2019 - Set of applications, services, information technology assets or other information-handling components, which includes the operating environment and networks.\n\u2018Information System\u2019 - Set of applications,"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a73(a) (RBI/2023-24/107) [issued 07 Nov 2023]"
+      ],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a71.3 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "1.3",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.66,
+          "excerpt": "1.3 The system shall support System Administrator \ncapability of mapping and managing user and role \nwise access mechanism at various stages of Loan \njourney."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a71.6 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "1.6",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6571,
+          "excerpt": "1.6 The system shall support user roles of Compliance \nand Audit/Risk Team with the Read-only access to \nall the details and system logs for regular compliance \nand audit checks."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a78 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "8",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.6429,
+          "excerpt": "6  The LOS system should allow administrators to manage various \ngroups, users,  roles  etc.\n7  System should have facility to Admin users to define and \nconfigure various workflow steps for each process.\n8   System should have the capability to interface with other \nExternal systems, Credit Scoring"
+        }
+      ],
+      "confidence": 0.66,
+      "needs_review": false
+    },
+    "REQ-008": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.3959,
+      "needs_review": true
+    },
+    "REQ-009": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a7104 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "104",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5572,
+          "excerpt": "104  System should support Qualitative Data Extraction (QDE), \nDynamic Data Extraction (DDE) and checking of the data for \nany corrections extensively so as to ensure integrity of data."
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a71 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "1",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5563,
+          "excerpt": "1. IT functionality of the application \nalong with description of source of \ndata to be captured, processed \nand end result /output to be \nprovided for end users."
+        }
+      ],
+      "confidence": 0.5572,
+      "needs_review": true
+    },
+    "REQ-010": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.15 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.15",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6599,
+          "excerpt": "2.13 The system should store transactional / alert / reports \ndata securely in a centralized data repository.\n2.14 The system should have ability to cleanse and \nnormalize data to remove inconsistencies and errors.\n2.15 The system should have the ability to transform data \ninto a unified format for "
+        },
+        {
+          "citation": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial) \u00a773 (Final RFP for LOS_03092021_V3.0) [V3.0]",
+          "clause_id": "73",
+          "title": "Request for Proposal \u2014 Supply and Implementation of Loan Origination System (MSME/CRE/Commercial)",
+          "issuer": "State Bank of India (UK) Ltd",
+          "version": "V3.0",
+          "doc_type": "tender",
+          "url": "https://sbiuk.statebank/documents/274771/0/Final%2BRFP%2Bfor%2BLOS_03092021_V3.0.pdf/a4c1ed24-7c46-6583-f1a6-6ec9599f64b6?t=1630696312845",
+          "confidence": 0.5708,
+          "excerpt": "71  The system should provide ability to Record all user \nactivities with audit trail.\n72  System should provide Referencing feature on the basis of \ndefined rules.\n73  System should have controlled interface with \nexternal/internal web links/ data sources/ reference \nsources for data verification/ "
+        }
+      ],
+      "confidence": 0.6599,
+      "needs_review": true
+    },
+    "REQ-011": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a719.1 (RFP No. 375) [RFP 375]",
+          "clause_id": "19.1",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.6505,
+          "excerpt": "19. Monitoring and Audit\n19.1 The proposed solution should provide out of the box and configurable analytics dashboards to \nvisualize monitoring data, including logins, drop offs, technical issues, sessions experiencing \nlatency etc."
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a732.12 (RFP No. 375) [RFP 375]",
+          "clause_id": "32.12",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5982,
+          "excerpt": "32.12 Monitoring and Management of Digital Banking solution including infrastructure deployed. \nProvide the dashboard for Real -time monitoring of performance o f the Digital Banking \nplatform."
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a718.6 (RFP No. 375) [RFP 375]",
+          "clause_id": "18.6",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5813,
+          "excerpt": "18.6 Implement integration of analytics with it s business rules and decision  engine to trigger  \nactions in real time/near real time"
+        }
+      ],
+      "confidence": 0.6505,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'credit risk assessment' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'credit risk assessment' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'credit risk model' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'credit risk model' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'machine learning models' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'machine learning models' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'proof of concept' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'proof of concept' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-005",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'flexible architecture' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'flexible architecture' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-006",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'data source integration attempt' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'data source integration attempt' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-007",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'role-based access control system' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'role-based access control system' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-008",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'data points' is not defined. Please provide a clear definition or reference to a published source.",
+            "severity": "Medium",
+            "suggestion": "Define 'data points' or reference a published source that defines it."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-009",
+        "issues": [
+          {
+            "issue_type": "Ambiguity",
+            "description": "The term 'user-friendly' is not measurable.",
+            "severity": "Medium",
+            "suggestion": "Replace 'user-friendly' with a measurable definition, such as 'WCAG 2.1 AA compliant'."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-010",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-011",
+        "issues": [],
+        "passed": true
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "Prototype",
+    "ranking": [
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.8462,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1"
+        ],
+        "missed": [
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.8462,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "TEAM-1",
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "missed": [
+          "PTR-5",
+          "PTR-6"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.5385,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2"
+        ],
+        "missed": [
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1",
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.3846,
+        "matched": [
+          "REQ-4",
+          "REQ-5",
+          "PTR-2",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "PTR-1",
+          "PTR-3",
+          "TEAM-1",
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.3077,
+        "matched": [
+          "REQ-1",
+          "PTR-1",
+          "PTR-2",
+          "TEAM-2"
+        ],
+        "missed": [
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1",
+          "TEAM-3"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.3077,
+        "matched": [
+          "PTR-3",
+          "PTR-6",
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-5",
+          "TEAM-1"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.2308,
+        "matched": [
+          "PTR-2",
+          "TEAM-2",
+          "TEAM-3"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-3",
+          "REQ-4",
+          "REQ-5",
+          "PTR-1",
+          "PTR-3",
+          "PTR-5",
+          "PTR-6",
+          "TEAM-1"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [
+      "Prototype",
+      "Spiral"
+    ],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The requirement for a proof of concept implies that the requirements are not yet well understood."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "no",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The requirement for a proof of concept implies that the full set of requirements cannot be pinned down before build starts."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "yes",
+        "evidence": [
+          "REQ-005"
+        ],
+        "reasoning": "The requirement for a flexible architecture to accommodate changing requirements implies that the requirements will change often."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "yes",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The requirement for a proof of concept implies that stakeholders need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "yes",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The requirement for a proof of concept explicitly states that it is required to demonstrate capability."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-004"
+        ],
+        "reasoning": "The project involves building a new AI-based credit risk scoring engine, which is a new product direction for the organization."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The system must integrate with multiple external data sources and handle large datasets, indicating interoperability with systems outside itself."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that the project involves extending or modifying an existing system."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed no, nothing traceable to the problem statement): The problem statement mentions that budget is uncertain and depends on initial results, indicating that funding is not approved or committed."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "The project involves building a proof of concept, which may not proceed, indicating that the product is not expected to have a long life in the organization."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that the project calls for verification at each stage of development, rather than one test phase at the end."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "yes",
+        "evidence": [
+          "never built ML systems before"
+        ],
+        "reasoning": "The statement says they've never built ML systems before, which implies a lack of experience in the problem domain."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "yes",
+        "evidence": [
+          "never built ML systems before"
+        ],
+        "reasoning": "The statement explicitly states that they've never built ML systems before, indicating a lack of experience in the technology domain."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "yes",
+        "evidence": [
+          "never built ML systems before"
+        ],
+        "reasoning": "The statement implies that the team is unfamiliar with ML systems, which suggests they are new to the tools to be used on the project."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention anything about team members being subject to reassignment during the life cycle."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The statement does not mention anything about training being available for the project team if required."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user community at all."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "Prototype",
+        "advantages": [
+          {
+            "advantage": "A working model quickly",
+            "relevance": "This project requires a proof of concept to demonstrate capability, as stated in REQ-004, which implies that a working model is needed quickly to validate the concept."
+          },
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The project involves building a new AI-based credit risk scoring engine, which is a new product direction for the organization, as stated in PTR-1, and requires a proof of concept to clarify the requirements."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The project involves integrating with multiple external data sources and handling large datasets, as stated in REQ-1 and REQ-2, which implies that technical risk needs to be investigated before committing to full development."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The project requires a proof of concept to demonstrate capability, as stated in REQ-004, which implies that early feedback from real users is necessary to validate the concept."
+          }
+        ],
+        "gives_up": "Prototype assumes the team already knows this technology, and that the team already knows the tooling \u2014 neither is true here, so that part of its design earns nothing on this project."
+      },
+      {
+        "model": "Spiral",
+        "advantages": [
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The project involves building a new AI-based credit risk scoring engine, which is a new product direction for the organization, as stated in PTR-1, and requires a proof of concept to clarify the requirements."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The project involves integrating with multiple external data sources and handling large datasets, as stated in REQ-1 and REQ-2, which implies that technical risk needs to be investigated before committing to full development."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The project requires a proof of concept to demonstrate capability, as stated in REQ-004, which implies that early feedback from real users is necessary to validate the concept."
+          }
+        ],
+        "gives_up": "The project team has never built ML systems before, as stated in TEAM-1, TEAM-2, and TEAM-3, which implies that they are new to the tools to be used on the project, but Spiral assumes the opposite."
+      },
+      {
+        "model": "Waterfall",
+        "advantages": [
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The project involves building a new AI-based credit risk scoring engine, which is a new product direction for the organization, as stated in PTR-1, and requires a proof of concept to clarify the requirements."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The project involves integrating with multiple external data sources and handling large datasets, as stated in REQ-1 and REQ-2, which implies that technical risk needs to be investigated before committing to full development."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The project requires a proof of concept to demonstrate capability, as stated in REQ-004, which implies that early feedback from real users is necessary to validate the concept."
+          }
+        ],
+        "gives_up": "The project team has never built ML systems before, as stated in TEAM-1, TEAM-2, and TEAM-3, which implies that they are new to the tools to be used on the project, but Waterfall assumes the opposite."
+      }
+    ],
+    "summary": "The recommended model is Prototype, which has a score of 85% (11/13). Spiral and Waterfall are tied on the framework, with identical scores, but Prototype is the recommended model.",
+    "shortcut": "New product direction + System integration + No long life + No formal verification + Team new to problem domain -> Prototype",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 5,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 3,
+        "total": 5,
+        "assessed": true
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 0,
+        "total": 4,
+        "assessed": false
+      }
+    },
+    "cross_check_ranking": [
+      "Agile",
+      "Spiral",
+      "Incremental",
+      "RAD",
+      "Prototype",
+      "V-Shaped",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "Agile fits because it allows for iterative development, flexibility in responding to changing requirements, and continuous improvement. The Spiral model is also suitable because it incorporates risk management and iterative development, which aligns with the high-priority requirements for flexibility and adaptability.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": true
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-CERTIN-01",
+        "title": "Cyber incidents reported to CERT-In within 6 hours",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'credit*' in the scenario",
+          "'credit*' in REQ-001",
+          "'credit*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (ii)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "Page 6 of 8 \n\nxx. Attacks or malicious/ suspicious activities affecting systems/ \nservers/software/ applications related to Artificial Intelligence and Machine \nLearning \nThe incidents can be reported to CERT -In via email (incident@cert -in.org.in), \nPhone (1800-11-4949) and Fax (1800-11-6969). The details regarding methods and \nformats of reporting cyber security incidents is also published on the website of \nCERT-In www.cert-in.org.in and will be updated from time to time. \n*****\n\nPage 7 of 8",
+          "confidence": 0.751
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-02",
+        "title": "ICT system logs kept for a rolling 180 days within India",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'credit*' in the scenario",
+          "'credit*' in REQ-001",
+          "'credit*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (iv)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(iv)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(iv) All service providers, int ermediaries, data centres , body corporate and \nGovernment organisations shall mandatorily enable logs of all their ICT \nsystems and maintain them securely for a rolling period of 180 days  and \nthe same shall be maintained within the Indian jurisdiction . These should \nbe provided to CERT -In along with reporting of any incident or when \nordered / directed by CERT-In.",
+          "confidence": 0.9044
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CSF-01",
+        "title": "Cyber security incidents reported promptly to RBI",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'nbfc*' in the scenario"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+        "reference": "RBI Cyber Security Framework in Banks 2016 (RBI/2015-16/418), para 15 and Annex",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "15. It has been decided to collect both summary level information as well as details \non information security incidents including cyber-incidents. Banks are required to \nreport promptly the incidents, in the format given in Annex-3.  \nAn immediate assessment of gaps in preparedness to be reported to RBI",
+          "confidence": 0.818
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'credit*' in the scenario",
+          "'credit*' in REQ-001",
+          "'credit*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-03",
+        "title": "System clocks synchronised to NIC/NPL time servers",
+        "family": "audit",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'credit*' in the scenario",
+          "'credit*' in REQ-001",
+          "'credit*' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (i)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(i)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(i) All service provider s, intermediaries, data centre s, body corporate and \nGovernment organisation s shall connect to the Network Time Protocol \n(NTP) Server of National Informatics Centre (NIC) or National Physical \nLaboratory (NPL) or with NTP servers traceable to these NTP servers, for \nsynchronisation of all their ICT systems clocks.  Entities having ICT \ninfrastructure spanning multiple geographies may also use accurate and \nstandard time source other than NPL and NIC, however it is to be ensured \nthat their time source shall not deviate from NPL and NIC.",
+          "confidence": 0.8649
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'credit*' in the scenario",
+          "'credit*' in REQ-001",
+          "'credit*' in REQ-002"
+        ],
+        "satisfied_by": [
+          "REQ-010"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [
+      {
+        "requirement_id": "REQ-001",
+        "source": {
+          "citation": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs \u00a73.3 (RBI/2024-25 Fraud Risk Management) [revised 2024]",
+          "title": "Master Directions on Fraud Risk Management in Commercial Banks (including RRBs) and AIFIs",
+          "clause_id": "3.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-07-15",
+          "version": "revised 2024",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12702",
+          "excerpt": "3.3 EWS / RFA Framework for Credit Facilities / Loan Accounts\n3.3.1 Development of EWS System: The EWS system shall be comprehensive and designed to include both the quantitative and qualitative indicators to make the framework robust and effective. The broad indicators which the EWS system may illustratively capture could be based on the transactional data of accounts, financial performance of borrowers, market intelligence, conduct of the borrowers, etc.\n3.3.2 Data Analytics and Market Intelligence (MI) Unit: Banks shall set up a dedicated Data Analytics and MI Unit keeping in view their siz",
+          "confidence": 0.5592
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause regulates the development of an Early Warning System (EWS) for credit facilities and loan accounts, which is not what the requirement describes.)",
+        "candidates_checked": 1
+      },
+      {
+        "requirement_id": "REQ-005",
+        "source": {
+          "citation": "Master Direction on Digital Payment Security Controls \u00a719 (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21) [issued 18 Feb 2021; in force six months from publication]",
+          "title": "Master Direction on Digital Payment Security Controls",
+          "clause_id": "19",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2021-08-18",
+          "version": "issued 18 Feb 2021; in force six months from publication",
+          "url": "",
+          "excerpt": "19. REs shall implement multi- tier application architecture, segregating application, \ndatabase and presentation layer in the digital payment products and services.",
+          "confidence": 0.5522
+        },
+        "obligation": "REs shall implement multi-tier application architecture, segregating application, database and presentation layer in the digital payment products and services.",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause requires a multi-tier application architecture, whereas the requirement is about a flexible architecture.)",
+        "candidates_checked": 1
+      },
+      {
+        "requirement_id": "REQ-007",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a73(a) (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "3(a)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Information Assets include information system, data, hardware and software.\n\u2018Information System\u2019 - Set of applications, services, information technology assets or other information-handling components, which includes the operating environment and networks.\n\u2018Information System\u2019 - Set of applications, services, information technology assets or other information-handling components, which includes the operating environment and networks.\n\u2018IT Risk 6 \u2019 - The business risk associated with the use, ownership, operation, involvement, influence and adoption of IT within an enterprise.\n\u2018IT Risk 6 \u2019 - The",
+          "confidence": 0.5712
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause defines terms related to IT governance and risk, but does not regulate the configuration and management of user roles and permissions.)",
+        "candidates_checked": 1
+      }
+    ],
+    "obligations": [
+      {
+        "kind": "retention",
+        "text": "ICT system logs kept for a rolling 180 days within India",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-02"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber incidents reported to CERT-In within 6 hours",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-01"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber security incidents reported promptly to RBI",
+        "citation": "Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+        "origin": "CMP-CSF-01"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Cyber incidents reported to CERT-In within 6 hours (CMP-CERTIN-01)",
+      "Compliance/legal sign-off needed: ICT system logs kept for a rolling 180 days within India (CMP-CERTIN-02)",
+      "Compliance/legal sign-off needed: Cyber security incidents reported promptly to RBI (CMP-CSF-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "SEC-API-01",
+        "title": "Integrations authenticated, encrypted and rate-limited",
+        "family": "integration_security",
+        "status": "gap",
+        "severity": "High",
+        "basis": "practice",
+        "obligation": "",
+        "triggered_by": [
+          "'integrat*' in REQ-001",
+          "'integrat*' in REQ-006",
+          "'integrat*' in REQ-011"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+        "reference": "Industry practice (OWASP API Security Top 10)",
+        "source": null,
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-01",
+        "title": "Sensitive data encrypted at rest and in transit",
+        "family": "cryptography",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "REQ-007 is classified Security",
+          "REQ-010 is classified Security"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.1 Provide secure access to the bank\u2019s assets/services from within/outside bank\u2019s \nnetwork by protecting data/information at rest (e.g. using encryption, if supported by \nthe device) and in -transit (e.g. using technologies such as VPN or other secure web \nprotocols, etc.)",
+          "confidence": 0.8077
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in REQ-001",
+          "'system' in REQ-002",
+          "'system' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in REQ-001",
+          "'system' in REQ-002",
+          "'system' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-AUTHZ-01",
+        "title": "Role-based access with least privilege for staff and administrators",
+        "family": "authorisation",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'admin*' in REQ-007"
+        ],
+        "satisfied_by": [
+          "REQ-007"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 paras 8.3\u20138.4",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.3 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.3",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.3 Disallow administrative rights on end -user workstations/PCs/laptops and provide \naccess rights on a need to know basis and for specific duration when it is required \nfollowing an established process.",
+          "confidence": 0.7402
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": []
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Cyber incidents reported to CERT-In within 6 hours",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Cyber security incidents reported promptly to RBI",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines.",
+      "owner": "Compliance officer",
+      "source": "CMP-CSF-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "ICT system logs kept for a rolling 180 days within India",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Requirements expected to change",
+      "category": "Business",
+      "cause": "The problem statement says: \"An NBFC wants to build an AI-based credit risk scoring engine but they're not sure exactly what data sources to use or what the model architecture should look like.\"",
+      "consequence": "Work built early is discarded as the scope moves.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Deliver in short increments and keep the backlog prioritised with the product owner.",
+      "owner": "Product owner",
+      "source": "scenario:volatility",
+      "evidence": [
+        "An NBFC wants to build an AI-based credit risk scoring engine but they're not sure exactly what data sources to use or what the model architecture should look like."
+      ]
+    },
+    {
+      "id": "RISK-006",
+      "title": "System clocks synchronised to NIC/NPL time servers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Integrations authenticated, encrypted and rate-limited",
+      "category": "Security",
+      "cause": "No requirement provides this control (practice: Industry practice (OWASP API Security Top 10)).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-006",
+        "REQ-011"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: Every integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged.",
+      "owner": "Information-security team",
+      "source": "SEC-API-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-008",
+      "title": "Sensitive data encrypted at rest and in transit",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-007",
+        "REQ-010"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy.",
+      "owner": "Information-security team",
+      "source": "SEC-CRYPTO-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-009",
+      "title": "Team new to the technology",
+      "category": "Technical",
+      "cause": "The problem statement says: \"There's significant technical risk \u2014 they've never built ML systems before.\"",
+      "consequence": "Estimates are wrong and design mistakes are found late.",
+      "linked_requirements": [],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Spike the riskiest technical question first and bring in experienced review.",
+      "owner": "Software architect",
+      "source": "scenario:new_technology",
+      "evidence": [
+        "There's significant technical risk \u2014 they've never built ML systems before."
+      ]
+    },
+    {
+      "id": "RISK-010",
+      "title": "Uncertainty in data sources",
+      "category": "Business",
+      "cause": "The problem statement says: \"what data sources to use or what the model architecture should look like\"",
+      "consequence": "Inaccurate or incomplete data, leading to poor model performance",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "what data sources to use or what the model architecture should look like"
+      ]
+    },
+    {
+      "id": "RISK-011",
+      "title": "Technical debt from proof of concept",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"build a proof of concept first before committing to full development\"",
+      "consequence": "Technical debt and maintenance issues from a hastily built proof of concept",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "build a proof of concept first before committing to full development"
+      ]
+    },
+    {
+      "id": "RISK-012",
+      "title": "Uncertainty in budget",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"Budget is uncertain and depends on initial results\"",
+      "consequence": "Project delays or cancellations due to budget constraints",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "Budget is uncertain and depends on initial results"
+      ]
+    },
+    {
+      "id": "RISK-013",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-014",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'credit*' in the scenario, 'credit*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Cyber incidents reported to CERT-In within 6 hours (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator\u201d?",
+        "why": "CMP-CERTIN-01: triggered by 'credit*' in the scenario, 'credit*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Cyber security incidents reported promptly to RBI (Cyber Security Framework in Banks \u00a715 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall detect and log cyber security incidents and support reporting them to RBI (and CERT-In) within the mandated timelines\u201d?",
+        "why": "CMP-CSF-01: triggered by 'nbfc*' in the scenario",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "ICT system logs kept for a rolling 180 days within India (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request\u201d?",
+        "why": "CMP-CERTIN-02: triggered by 'credit*' in the scenario, 'credit*' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Integrations authenticated, encrypted and rate-limited. Should the system include: \u201cEvery integration with an external system shall be mutually authenticated, encrypted in transit, allow-listed and rate-limited, with failures logged\u201d?",
+        "why": "SEC-API-01 (practice)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "Sensitive data encrypted at rest and in transit. Should the system include: \u201cThe system shall encrypt customer and transaction data at rest and in transit using algorithms and key lengths approved under the bank's cryptographic policy\u201d?",
+        "why": "SEC-CRYPTO-01 (regulation)",
+        "topic": "Regulatory and security constraints",
+        "source": "security",
+        "priority": 35,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "How is this done today, and what in the current process must stay the same?",
+        "why": "\u00a77 topic not covered: Existing workflow",
+        "topic": "Existing workflow",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "About \u201cThe system shall allow administrators to configure and manage user roles and permissions for accessing and modifying the credit risk model \u2026\u201d: The term 'role-based access control system' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'role-based access control system' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-007"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "About \u201cThe system shall be able to handle a minimum of 10,000 data points per hour, with an average response time of less than 2 seconds for model\u2026\u201d: The term 'data points' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'data points' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-008"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "About \u201cThe system shall be able to handle and process large datasets for training and testing the credit risk model\u201d: The term 'credit risk model' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'credit risk model' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-002"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "About \u201cThe system shall be capable of integrating with multiple external data sources for credit risk assessment\u201d: The term 'credit risk assessment' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'credit risk assessment' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-001"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "About \u201cThe system shall be capable of training and deploying multiple machine learning models for credit risk assessment\u201d: The term 'machine learning models' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'machine learning models' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-003"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "About \u201cThe system shall be developed with a flexible architecture to accommodate changing requirements and data sources\u201d: The term 'flexible architecture' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'flexible architecture' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-005"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "About \u201cThe system shall provide a proof of concept (POC) for the credit risk scoring engine before committing to full development\u201d: The term 'proof of concept' is not defined. Please provide a clear definition or reference to a published source. (For example: Define 'proof of concept' or reference a published source that defines it.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-004"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-015",
+        "question": "About \u201cThe system shall provide a user-friendly interface for data source configuration and model training, with clear instructions and error mess\u2026\u201d: The term 'user-friendly' is not measurable. (For example: Replace 'user-friendly' with a measurable definition, such as 'WCAG 2.1 AA compliant'.)",
+        "why": "Ambiguity (Medium)",
+        "topic": "Ambiguity",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-009"
+        ],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 0
+  },
+  "timing": {
+    "startup_s": 1.9,
+    "warmup_s": 25.0,
+    "pipeline_s": 229.3,
+    "stages_s": {
+      "retrieval": 3.0,
+      "extraction": 37.4,
+      "elaboration": 28.1,
+      "grounding": 1.8,
+      "classification": 1.5,
+      "quality": 37.1,
+      "conflicts": 21.9,
+      "compliance": 13.6,
+      "security": 1.5,
+      "risk": 7.3,
+      "clarification": 0.1,
+      "sdlc": 76.0
+    }
+  },
+  "needs_review": [
+    "4 high-severity regulatory obligation(s) have no covering requirement: Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for a rolling 180 days within India; Cyber security incidents reported promptly to RBI (and 1 more).",
+    "3 requirement(s) cite a regulation that, on reading, does not govern them: \"The system shall be capable of integrating with multiple external data sources for credit risk assessment\"; \"The system shall be developed with a flexible architecture to accommodate changing requirements and data sources\" (and 1 more).",
+    "the framework does not separate Prototype = Spiral; the reported recommendation is first by name, not by fit",
+    "could not establish whether funding is settled for the life of the project \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}

@@ -1,0 +1,46 @@
+
+  PASS  bank_migration     want V-Shaped           got V-Shaped
+         answers: 18/20 match  (1 wrong, 1 missed, 0 unsupported)
+           PTR-3    want no          got yes         Is the project an enhancement to an existing s
+           PTR-4    want yes         got not_stated  Is the funding for the project expected to be 
+
+  TIE   credit_risk        want Spiral/Prototype   got Prototype = Spiral
+         answers: 14/20 match  (1 wrong, 1 missed, 4 unsupported)
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-4    want no          got not_stated  Is the funding for the project expected to be 
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+           TEAM-1   want not_stated  got yes         Are the majority of team members new to the pr
+           TEAM-3   want not_stated  got yes         Are the majority of team members new to the to
+
+  FAIL  fintech_startup    want Agile/RAD          got Prototype
+         answers: 16/20 match  (0 wrong, 0 missed, 4 unsupported)
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+           USER-1   want not_stated  got yes         Will the availability of the user representati
+           USER-2   want not_stated  got yes         Are the user representatives new to system def
+
+  PASS  insurance_claims   want Waterfall          got Waterfall
+         answers: 17/20 match  (1 wrong, 0 missed, 2 unsupported)
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+           USER-4   want not_stated  got yes         Do the users want to be involved in all phases
+
+  FAIL  kyc_onboarding     want Agile/Spiral       got Prototype
+         answers: 14/20 match  (3 wrong, 0 missed, 3 unsupported)
+           REQ-1    want yes         got no          Are the requirements easily defined and/or wel
+           REQ-2    want yes         got no          Can the requirements be defined early in the c
+           REQ-4    want no          got yes         Is there a need to demonstrate the requirement
+           PTR-4    want not_stated  got yes         Is the funding for the project expected to be 
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+           USER-4   want not_stated  got yes         Do the users want to be involved in all phases
+
+  Totals over 5 runs:
+     79 correct
+      6 answered wrongly        (inference quality)
+      2 missed                  (scenario says it, model abstained)
+     13 unsupported             (answered from nothing)
+     49 questions the scenarios actually answer
+
+  NOTE: expected answers are unverified for bank_migration, credit_risk, fintech_startup, insurance_claims, kyc_onboarding, prof_payroll_conversion, prof_wristwatch.
+  Recommendation-level results above are real; answer-level results are a comparison against a draft.

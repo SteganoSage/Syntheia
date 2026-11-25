@@ -1,0 +1,894 @@
+🦙 LLM Provider: Ollama [cloud] qwen3.5:9b @ https://unashamed-prodigal-march.ngrok-free.dev
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  43%|████▎     | 85/199 [00:00<00:00, 846.81it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1076.75it/s]
+  classifier     12.6s  roberta_classifier
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1184.70it/s]
+  embedder        3.6s  all-MiniLM-L6-v2
+  llm            29.8s  qwen3.5:9b [cloud]
+  total          46.0s
+
+Grounding:  retrieval-augmented
+  (15 question(s) would settle this — PTR-4, REQ-1, REQ-2, REQ-3. Run at a terminal to be asked, or pass them in.)
+
+18 requirements in 415s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall provide a claims processing portal           │
+│                accessible via web browsers on standard devices.              │
+│                                                                              │
+│     categories Usability                                                     │
+│    stakeholder End User                                                      │
+│      rationale Rural customers often rely on mobile data and basic           │
+│                smartphones; accessibility ensures inclusivity and            │
+│                operational reach.                                            │
+│     acceptance The portal loads successfully on devices with screen          │
+│                resolutions from 320px to 1920px using standard browsers      │
+│                (Chrome, Firefox, Safari).                                    │
+│     UNGROUNDED claims IRDAI Guidelines — nothing in the knowledge base       │
+│                supports it (best match 0.48)                                 │
+│                needs human review                                            │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall collect and validate claimant identity       │
+│                information in accordance with IRDAI regulations.             │
+│                                                                              │
+│     categories Functional, Regulatory                                        │
+│    stakeholder Compliance Officer                                            │
+│      rationale Identity verification is mandatory to prevent fraud, ensure   │
+│                accurate beneficiary identification, and meet regulatory KYC  │
+│                norms.                                                        │
+│     acceptance The system rejects incomplete or invalid identity data and    │
+│                logs the rejection reason; it successfully validates a sample │
+│                valid ID against a mock API.                                  │
+│       grounded 0.67  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §17 (No. 2 of 2021                          │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                0.60  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §21 (No. 2 of 2021                          │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                0.60  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                                                                              │
+│    risk / conf High · 0.98                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall securely store and process sensitive         │
+│                claimant data in compliance with data protection standards.   │
+│                                                                              │
+│     categories Privacy, Regulatory, Data-management                          │
+│    stakeholder Security Team                                                 │
+│      rationale Insurance claims contain highly sensitive personal and        │
+│                financial data; secure storage prevents breaches and legal    │
+│                liability.                                                    │
+│     acceptance Data at rest is encrypted; data in transit uses TLS 1.2 or    │
+│                higher; unauthorized access attempts are logged and blocked.  │
+│     UNGROUNDED claims IRDAI Guidelines, DPDP Act — nothing in the knowledge  │
+│                base supports it (best match 0.66)                            │
+│                needs human review                                            │
+│      precedent 0.66  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §3 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                0.65  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                                                                              │
+│    risk / conf High · 0.96                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall generate an audit trail for all claim        │
+│                processing activities.                                        │
+│                                                                              │
+│     categories Regulatory, Audit/Reporting                                   │
+│    stakeholder Compliance Officer                                            │
+│      rationale Regulatory audits require a complete, immutable record of who │
+│                did what and when during the claims lifecycle.                │
+│     acceptance Every user action (view, edit, submit) generates a log entry  │
+│                containing user ID, timestamp, IP address, and action type;   │
+│                logs are immutable.                                           │
+│       grounded 0.58  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §21 (No. 2 of 2021                          │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                                                                              │
+│    risk / conf Medium · 0.94                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  High priority ─────────────────────────────────────────────────────╮
+│                The system shall calculate and display claim settlement       │
+│                amounts based on predefined policy rules.                     │
+│                                                                              │
+│     categories Business, Functional                                          │
+│    stakeholder Business Analyst                                              │
+│      rationale Accurate calculation ensures fair compensation to customers   │
+│                and prevents financial loss or overpayment for the insurer.   │
+│     acceptance Given a specific claim scenario (e.g., theft of insured       │
+│                item), the system calculates the payout matching the policy   │
+│                terms exactly.                                                │
+│     UNGROUNDED claims IRDAI Guidelines — nothing in the knowledge base       │
+│                supports it (best match 0.42)                                 │
+│                needs human review                                            │
+│    risk / conf Medium · 0.92                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-006  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide a status tracking feature for        │
+│                claimants to view the progress of their submitted claims.     │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder End User                                                      │
+│      rationale Transparency builds trust; rural customers need visibility    │
+│                into long processing cycles without repeated calls.           │
+│     acceptance A user enters a claim reference number and sees the current   │
+│                status (e.g., 'Under Review', 'Approved') with an estimated   │
+│                timeline.                                                     │
+│    regulations none claimed, none found (best match 0.48)                    │
+│    risk / conf Low · 0.9                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-007  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support multiple regional languages for the  │
+│                user interface.                                               │
+│                                                                              │
+│     categories Usability                                                     │
+│    stakeholder End User                                                      │
+│      rationale Rural India is linguistically diverse; supporting local       │
+│                languages reduces barriers to entry and improves adoption     │
+│                among non-English speakers.                                   │
+│     acceptance The user interface allows switching between English and at    │
+│                least three major regional languages (e.g., Hindi, Tamil,     │
+│                Bengali) without data loss.                                   │
+│    regulations none claimed, none found (best match 0.41)                    │
+│    risk / conf Low · 0.88                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-008  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall handle low-bandwidth network conditions      │
+│                gracefully.                                                   │
+│                                                                              │
+│     categories Availability                                                  │
+│    stakeholder End User                                                      │
+│      rationale Rural connectivity is often unstable; the system must         │
+│                function or provide clear error messages even on slow         │
+│                connections.                                                  │
+│     acceptance The portal loads core features on a connection with <1 Mbps;  │
+│                forms allow data entry and save locally before syncing when   │
+│                connectivity is restored.                                     │
+│       grounded 0.56  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §7 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                                                                              │
+│    risk / conf Medium · 0.85                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-009  High priority ─────────────────────────────────────────────────────╮
+│                The system shall prevent unauthorized access to claim data    │
+│                through role-based access control (RBAC).                     │
+│                                                                              │
+│     categories Security, Privacy, Regulatory                                 │
+│    stakeholder Security Team                                                 │
+│      rationale Only authorized personnel (claims adjusters, managers) should │
+│                view sensitive details; this prevents internal fraud and      │
+│                privacy violations.                                           │
+│     acceptance A user assigned to 'Claims Adjuster' can view claim details   │
+│                but cannot access financial audit logs; a 'Viewer' role can   │
+│                only see status, not documents.                               │
+│       grounded 0.57  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §4 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                0.56  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §1 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                0.55  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                                                                              │
+│    risk / conf High · 0.96                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-010  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall generate regulatory reports required by      │
+│                IRDAI for claims processing.                                  │
+│                                                                              │
+│     categories Stakeholder, Regulatory, Audit/Reporting                      │
+│    stakeholder Compliance Officer                                            │
+│      rationale Government-owned entities must submit periodic reports to the │
+│                regulator; automated generation ensures accuracy and          │
+│                timeliness.                                                   │
+│     acceptance The system generates a PDF/CSV report matching the IRDAI      │
+│                template format within 5 minutes of triggering the export     │
+│                function.                                                     │
+│       grounded 0.59  IRDAI Information and Cyber Security Guidelines, 2023   │
+│                §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]     │
+│                                                                              │
+│    risk / conf Medium · 0.93                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-011  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow claimants to upload supporting         │
+│                documents (e.g., medical reports, police FIRs) via a file     │
+│                picker that supports common formats and provides immediate    │
+│                feedback on file size limits.                                 │
+│                                                                              │
+│     categories Functional, Usability                                         │
+│    stakeholder —                                                             │
+│      rationale The scenario implies a claims processing workflow; without    │
+│                explicit requirements for document ingestion, the system      │
+│                cannot validate claims. This addresses the gap in 'user       │
+│                actions' regarding evidence submission.                       │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.42)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-012  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall display a clear status message and estimated │
+│                timeline to the claimant when an external validation service  │
+│                (e.g., identity verification API) times out or returns an     │
+│                error.                                                        │
+│                                                                              │
+│     categories Stakeholder, Functional, Integration                          │
+│    stakeholder —                                                             │
+│      rationale Addresses 'exception handling' for unavailable external       │
+│                services. Rural customers need visibility into delays caused  │
+│                by network issues or third-party failures rather than a       │
+│                silent failure.                                               │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.53)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-013  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide an option for claimants to download  │
+│                their current claim status and attached documents as a PDF    │
+│                file for offline review.                                      │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder —                                                             │
+│      rationale Addresses 'usability' for rural customers who may have        │
+│                intermittent connectivity. If the portal is inaccessible due  │
+│                to low bandwidth or outages, users must be able to retain     │
+│                their data locally.                                           │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.45)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-014  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow administrators to configure thresholds │
+│                for automatic rejection of claims that exceed specific        │
+│                monetary limits without manual review.                        │
+│                                                                              │
+│     categories Business, Stakeholder, Functional                             │
+│    stakeholder —                                                             │
+│      rationale Addresses 'administration' needs. The scenario mentions       │
+│                predefined policy rules; operational teams need the ability   │
+│                to tune these rules or set auto-rejection triggers based on   │
+│                fraud patterns or budget constraints.                         │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.50)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-015  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall notify claimants via SMS or email when their │
+│                claim status changes from 'Under Review' to 'Approved' or     │
+│                'Rejected'.                                                   │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder —                                                             │
+│      rationale Addresses 'notifications' and 'user actions'. Status tracking │
+│                (REQ-006) is passive; active notification ensures rural       │
+│                customers, who may not check the portal frequently, are       │
+│                informed of critical outcomes.                                │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.50)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-016  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support a 'draft' state for claim            │
+│                submissions that allows users to save incomplete information  │
+│                and resume editing later without losing data.                 │
+│                                                                              │
+│     categories Functional                                                    │
+│    stakeholder —                                                             │
+│      rationale Addresses 'user actions' and 'corrections'. Users in          │
+│                low-bandwidth environments may need to pause and resume       │
+│                filling out forms. This prevents data loss if the connection  │
+│                drops during submission.                                      │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-017  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall display a loading indicator or progress bar  │
+│                during long-running operations such as claim calculation or   │
+│                document upload.                                              │
+│                                                                              │
+│     categories Functional, Usability                                         │
+│    stakeholder —                                                             │
+│      rationale Addresses 'usability' and 'low-bandwidth' conditions. Users   │
+│                need visual feedback to know the system is processing their   │
+│                request, especially when network latency is high.             │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.43)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-018  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide an administrative dashboard showing  │
+│                real-time counts of claims in each status (e.g., Pending,     │
+│                Approved, Rejected) to monitor workload distribution.         │
+│                                                                              │
+│     categories Stakeholder, Functional, Audit/Reporting                      │
+│    stakeholder —                                                             │
+│      rationale Addresses 'monitoring' and 'operations'. With 15 developers   │
+│                and a fixed timeline, operations teams need visibility into   │
+│                processing bottlenecks to ensure the 18-month schedule is     │
+│                met.                                                          │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.46)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  8 passed 8 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-011    Medium     Ambiguity — The requirement uses the vague term       │
+│                        'immediate feedback' without defining a measurable    │
+│                        threshold (e.g., < 2 seconds).                        │
+│                        → Replace 'immediate feedback' with a specific        │
+│                        latency metric, such as 'feedback displayed within 1  │
+│                        second of upload initiation'.                         │
+│  REQ-011    Medium     Ambiguity — The term 'common formats' is undefined    │
+│                        and unmeasurable.                                     │
+│                        → List specific supported file extensions (e.g.,      │
+│                        PDF, JPG, PNG) and specify a maximum file size limit  │
+│                        in bytes.                                             │
+│  REQ-011    Medium     Lack of Testability — The phrase 'provides immediate  │
+│                        feedback' cannot be objectively verified without a    │
+│                        defined time metric.                                  │
+│                        → Define the acceptable response time for the UI to   │
+│                        display the feedback message.                         │
+│  REQ-012    Medium     Ambiguity — The requirement states 'clear status      │
+│                        message' but does not define what constitutes         │
+│                        'clear' (e.g., specific wording, tone, or visual      │
+│                        indicators).                                          │
+│                        → Specify the exact text or pattern for the error     │
+│                        message (e.g., 'External service unavailable. Please  │
+│                        try again later.') and any required UI state.         │
+│  REQ-012    Medium     Ambiguity — The term 'estimated timeline' is vague;   │
+│                        it does not specify how the estimate is calculated    │
+│                        or its accuracy bounds.                               │
+│                        → Define the logic for the estimated timeline (e.g.,  │
+│                        'Estimated time: 2-4 hours based on current queue')   │
+│                        or reference a specific calculation formula.          │
+│  REQ-013    Medium     Ambiguity — The requirement mentions 'offline         │
+│                        review' but does not specify the technical mechanism  │
+│                        for offline storage (e.g., local cache, download to   │
+│                        device) or how the system handles the transition      │
+│                        from online to offline.                               │
+│                        → Clarify that the PDF is generated and downloaded    │
+│                        to the user's local device before connectivity loss   │
+│                        occurs, or specify the caching strategy.              │
+│  REQ-014    Medium     Ambiguity — The term 'specific monetary limits' is    │
+│                        not defined; it does not specify if these are         │
+│                        global, per-user, or configurable ranges.             │
+│                        → Clarify that administrators can configure a         │
+│                        threshold value (e.g., 'Amount > 5000') and define    │
+│                        the data type for this configuration.                 │
+│  REQ-015    Medium     Ambiguity — The requirement states 'notify            │
+│                        claimants' but does not specify the delivery method   │
+│                        priority, retry logic, or what happens if both SMS    │
+│                        and email fail.                                       │
+│                        → Define the notification strategy (e.g., 'Send SMS   │
+│                        first; if failed after 2 attempts, send Email') to    │
+│                        ensure reliability.                                   │
+│  REQ-016    Medium     Ambiguity — The term 'without losing data' is vague;  │
+│                        it does not specify the recovery point objective      │
+│                        (RPO) or what constitutes a 'loss' (e.g., partial     │
+│                        save vs. full rollback).                              │
+│                        → Specify that the system shall automatically save    │
+│                        every 30 seconds of input and retain the draft for    │
+│                        at least 24 hours upon logout.                        │
+│  REQ-017    Medium     Ambiguity — The term 'long-running operations' is     │
+│                        vague and unmeasurable. The requirement does not      │
+│                        define the threshold (e.g., >5 seconds) that          │
+│                        triggers the loading indicator.                       │
+│                        → Define a specific time threshold for what           │
+│                        constitutes a 'long-running operation' (e.g.,         │
+│                        'operations exceeding 3 seconds') to ensure           │
+│                        consistent behavior.                                  │
+│  REQ-017    Low        Missing Source — The stakeholder field is empty       │
+│                        ('Not specified').                                    │
+│                        → Identify and record the specific stakeholder        │
+│                        (e.g., Product Owner, UX Lead) who owns this          │
+│                        requirement.                                          │
+│  REQ-018    Low        Missing Source — The stakeholder field is empty       │
+│                        ('Not specified').                                    │
+│                        → Identify and record the specific stakeholder        │
+│                        (e.g., Operations Manager, Product Owner) who owns    │
+│                        this requirement.                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  12 gap 1 covered ────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-01      High      Personal data processed only with the data       │
+│                             principal's consent (or another lawful ground)   │
+│                             Digital Personal Data Protection Act, 2023 §4    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall obtain and record the         │
+│                             customer's consent for each specified purpose    │
+│                             before processing their personal data, and       │
+│                             allow the consent to be withdrawn as easily as   │
+│                             it was given.                                    │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DPDP-04      High      Personal data breaches notified to the Data      │
+│                             Protection Board and affected individuals        │
+│                             Digital Personal Data Protection Act, 2023       │
+│                             §8(b) (Act No. 22 of 2023)                       │
+│                             → The system shall support detection of          │
+│                             personal data breaches and notification of each  │
+│                             breach to the Data Protection Board and every    │
+│                             affected customer in the prescribed form and     │
+│                             time.                                            │
+│                             needs compliance/legal sign-off                  │
+│  CMP-IRDAI-01     High      Insurer's ICT logs, critical and business data   │
+│                             stored in India                                  │
+│                             IRDAI Information and Cyber Security             │
+│                             Guidelines, 2023 §14                             │
+│                             (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24     │
+│                             Apr 202                                          │
+│                             → The system shall keep its ICT infrastructure   │
+│                             logs and all critical and business data in       │
+│                             India, with logs retained for a rolling 180      │
+│                             days.                                            │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-KYC-02       High      Transaction records kept at least five years     │
+│                             from the date of transaction                     │
+│                             Master Direction — Know Your Customer (KYC)      │
+│                             Direction, 2016 §(a) (RBI/DBR/2015-16/18)        │
+│                             → The system shall retain records of all         │
+│                             transactions with the customer for at least      │
+│                             five years from the date of the transaction.     │
+│                             needs compliance/legal sign-off                  │
+│  CMP-PAY-01       High      Payment system data stored only in India         │
+│                             Storage of Payment System Data §2                │
+│                             (RBI/2017-18/153 DPSS.CO.OD                      │
+│                             No.2785/06.08.005/2017-2018) [issued 06 Apr      │
+│                             2018                                             │
+│                             → The system shall store the full end-to-end     │
+│                             data of every payment transaction only in        │
+│                             systems located in India.                        │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 4 more (in --json)
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-002   not_applicable  (obligation not traceable to the clause)          │
+│                            The Aadhaar (Authentication and Offline           │
+│                            Verification) Regulations, 2021 §17 (No. 2 of     │
+│                            2021 (K-11020/ · IN · 3 clauses read              │
+│                            none of the 3 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            regulates obligations for a 'requesting entity'   │
+│                            regarding the use of Aadhaar identity             │
+│                            information, whereas the requirement concerns     │
+│                            collecting and validating general claimant        │
+│                            identity data under IRDAI regulations without     │
+│                            specific reference to Aadhaar or the requesting   │
+│                            entity framework.)                                │
+│  REQ-009   addressed       Appropriate access controls on least privileges   │
+│                            roles shall be part of application and access     │
+│                            control design.                                   │
+│                            IRDAI Information and Cyber Security Guidelines,  │
+│                            2023 §4 (IRDAI/GA&HR/GDL/MISC/88/04/2023)         │
+│                            [issued 2 · IN                                    │
+│  REQ-004   not_applicable  (obligation not traceable to the clause)          │
+│                            The Aadhaar (Authentication and Offline           │
+│                            Verification) Regulations, 2021 §21 (No. 2 of     │
+│                            2021 (K-11020/ · IN                               │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            regulates audits conducted by the regulatory      │
+│                            Authority on entities, whereas the requirement    │
+│                            mandates internal logging of user actions for     │
+│                            claim processing.)                                │
+│  REQ-010   not_applicable  (obligation not traceable to the clause)          │
+│                            IRDAI Information and Cyber Security Guidelines,  │
+│                            2023 §2 (IRDAI/GA&HR/GDL/MISC/88/04/2023)         │
+│                            [issued 2 · IN                                    │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            mandates the general incorporation of IRDAI       │
+│                            guidelines into operations, whereas the           │
+│                            requirement specifically addresses the technical  │
+│                            generation and formatting of regulatory reports   │
+│                            for claims processing.)                           │
+│  REQ-008   not_applicable  (obligation not traceable to the clause)          │
+│                            IRDAI Information and Cyber Security Guidelines,  │
+│                            2023 §7 (IRDAI/GA&HR/GDL/MISC/88/04/2023)         │
+│                            [issued 2 · IN                                    │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            mandates provisioning and testing of secondary    │
+│                            network connectivity for critical applications,   │
+│                            whereas the requirement addresses graceful        │
+│                            handling of low-bandwidth conditions on a         │
+│                            primary connection.)                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ retention   Personal data erased when consent is withdrawn or the purpose is │
+│ served — unless law requires retention                                       │
+│             Digital Personal Data Protection Act, 2023 §8(a) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ retention   Transaction records kept at least five years from the date of    │
+│ transaction                                                                  │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(a) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Personal data breaches notified to the Data Protection Board and │
+│ affected individuals                                                         │
+│             Digital Personal Data Protection Act, 2023 §8(b) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ consent     Personal data processed only with the data principal's consent   │
+│ (or another lawful ground)                                                   │
+│             Digital Personal Data Protection Act, 2023 §4 (Act No. 22 of     │
+│ 2023) [as enacted]                                                           │
+│ notice      Notice to the data principal stating what personal data is       │
+│ collected and why                                                            │
+│             Digital Personal Data Protection Act, 2023 §5 (Act No. 22 of     │
+│ 2023) [as enacted]                                                           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── sensitive data ───────────────────────────────╮
+│  data                      found in  protected by                            │
+│  Health data               REQ-011   nothing                                 │
+│  Device / network          REQ-004   nothing                                 │
+│  identifiers                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  7 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-AUTH-01      High      Strong customer authentication — a second        │
+│                             factor at login and for high-value actions       │
+│                             Master Direction on Digital Payment Security     │
+│                             Controls §34 (RBI/2020-21/74                     │
+│                             DoS.CO.CSITE.SEC.No.1852/31.01.015/2             │
+│                             → The system shall authenticate customers with   │
+│                             at least two factors at login, and require       │
+│                             step-up authentication for transactions above    │
+│                             the organisation-approved risk threshold.        │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-SESSION-01   Medium    Sessions time out and repeated failed logins     │
+│                             lock the account                                 │
+│                             Master Direction on Digital Payment Security     │
+│                             Controls §53 (RBI/2020-21/74                     │
+│                             DoS.CO.CSITE.SEC.No.1852/31.01.015/2             │
+│                             → The system shall end inactive sessions after   │
+│                             a defined timeout and temporarily lock access    │
+│                             after repeated failed login attempts.            │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  26 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-003   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-004   4×4=16  Insurer's ICT logs, critical and     Compliance officer  │
+│                     business data stored in India                            │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (IRDAI Information and                       │
+│                     Cyber Security Guidelines, 2023 §14                      │
+│                     (IRDAI/GA&HR/GDL/MISC/88/04/2023) )                      │
+│  RISK-005   4×4=16  Payment system data stored only in   Compliance officer  │
+│                     India (Compliance)                                       │
+│                     No requirement covers this                               │
+│                     obligation. (Storage of Payment                          │
+│                     System Data §2 (RBI/2017-18/153                          │
+│                     DPSS.CO.OD                                               │
+│                     No.2785/06.08.005/2017-2018) )                           │
+│  RISK-006   4×4=16  Personal data breaches notified to   Compliance officer  │
+│                     the Data Protection Board and                            │
+│                     affected individuals (Compliance)                        │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §8(b) (Act No.                      │
+│                     22 of 2023) )                                            │
+│  RISK-007   4×4=16  Personal data processed only with    Compliance officer  │
+│                     the data principal's consent (or                         │
+│                     another lawful ground) (Compliance)                      │
+│                     No requirement covers this                               │
+│                     obligation. (Digital Personal Data                       │
+│                     Protection Act, 2023 §4 (Act No. 22                      │
+│                     of 2023) )                                               │
+│  RISK-008   4×4=16  Transaction records kept at least    Compliance officer  │
+│                     five years from the date of                              │
+│                     transaction (Compliance)                                 │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction —                          │
+│                     Know Your Customer (KYC) Direction,                      │
+│                     2016 §(a) (RBI/DBR/2015-16/18) )                         │
+│  RISK-009   3×5=15  Health data handled without stated   Information-secur…  │
+│                     protection (Security)                team                │
+│                     Health data appears in REQ-011 and                       │
+│                     no requirement encrypts, masks or                        │
+│                     restricts it.                                            │
+│  RISK-010   4×3=12  A grievance redressal mechanism for  Compliance officer  │
+│                     customers (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Outsourcing of Information                               │
+│                     Technology Services §7                                   │
+│                     (RBI/2023-24/102) )                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 16 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'claim*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-002 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'claim*' in the scenario, 'claim*' in     │
+│ REQ-001                                                                      │
+│ CQ-003 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'claim*' in the scenario, 'claim*' in     │
+│ REQ-001                                                                      │
+│ CQ-004 Insurer's ICT logs, critical and business data stored in India (IRDAI │
+│ Information and Cyber Security Guidelines, 2023 §14                          │
+│ (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]). Nothing in the      │
+│ requirements covers this. Should the system include: “The system shall keep  │
+│ its ICT infrastructure logs and all critical and business data in India,     │
+│ with logs retained for a rolling 180 days”?                                  │
+│        CMP-IRDAI-01: triggered by 'insur*' in the scenario, 'claim*' in      │
+│ REQ-001                                                                      │
+│ CQ-005 Payment system data stored only in India (Storage of Payment System   │
+│ Data §2 (RBI/2017-18/153 DPSS.CO.OD No.2785/06.08.005/2017-2018) [issued 06  │
+│ Apr 2018; compliance due 15 Oct 2018]). Nothing in the requirements covers   │
+│ this. Should the system include: “The system shall store the full end-to-end │
+│ data of every payment transaction only in systems located in India”?         │
+│        CMP-PAY-01: triggered by 'settlement*' in REQ-005                     │
+│ CQ-006 Personal data breaches notified to the Data Protection Board and      │
+│ affected individuals (Digital Personal Data Protection Act, 2023 §8(b) (Act  │
+│ No. 22 of 2023) [as enacted]). Nothing in the requirements covers this.      │
+│ Should the system include: “The system shall support detection of personal   │
+│ data breaches and notification of each breach to the Data Protection Board   │
+│ and every affected customer in the prescribed form and time”?                │
+│        CMP-DPDP-04: triggered by REQ-003 is classified Privacy, REQ-009 is   │
+│ classified Privacy                                                           │
+│ CQ-007 Personal data processed only with the data principal's consent (or    │
+│ another lawful ground) (Digital Personal Data Protection Act, 2023 §4 (Act   │
+│ No. 22 of 2023) [as enacted]). Nothing in the requirements covers this.      │
+│ Should the system include: “The system shall obtain and record the           │
+│ customer's consent for each specified purpose before processing their        │
+│ personal data, and allow the consent to be withdrawn as easily as it was     │
+│ given”?                                                                      │
+│        CMP-DPDP-01: triggered by REQ-003 is classified Privacy, REQ-009 is   │
+│ classified Privacy                                                           │
+│ CQ-008 Transaction records kept at least five years from the date of         │
+│ transaction (Master Direction — Know Your Customer (KYC) Direction, 2016     │
+│ §(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the             │
+│ requirements covers this. Should the system include: “The system shall       │
+│ retain records of all transactions with the customer for at least five years │
+│ from the date of the transaction”?                                           │
+│        CMP-KYC-02: triggered by 'settlement*' in REQ-005                     │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  TIED  Spiral and V-Shaped                                                   │
+│  the evidence does not separate these two. More about the project would.     │
+│                                                                              │
+│  also considered: Agile, Incremental                                         │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen V-Shaped        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Spiral ─────────────────────────────────────────────────────────────────────╮
+│        fits • the system has to interoperate with systems outside itself     │
+│             • this is not an extension of an existing system                 │
+│             • the product will be running for years                          │
+│             • verification is required at every stage, not once at the end   │
+│                                                                              │
+│    buys you Risk assessed and addressed every cycle                          │
+│               Enables iterative validation of high-risk regulatory           │
+│             compliance features like REQ-002 (Aadhaar verification) and      │
+│             REQ-003 (data protection) against IRDAI Guidelines before full   │
+│             deployment.                                                      │
+│             Expensive commitments deferred until risk drops                  │
+│               Allows the project to defer costly integrations with           │
+│             government APIs mentioned in REQ-002 assumptions until identity  │
+│             verification workflows are stabilized.                           │
+│             Prototyping and planning combined                                │
+│               Supports the development of a new claims portal (REQ-001) for  │
+│             rural users where low-bandwidth constraints from REQ-008 require │
+│             early usability prototyping.                                     │
+│             Natural stopping points if funding changes                       │
+│               Provides defined milestones to pause development if the stable │
+│             funding assumption linked to REQ-004 audit trail infrastructure  │
+│             is compromised.                                                  │
+│                                                                              │
+│    gives up Spiral assumes this takes the organisation somewhere it has not  │
+│             been before — that is not the case here, so that part of its     │
+│             design earns nothing on this project.                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ V-Shaped ───────────────────────────────────────────────────────────────────╮
+│        fits • The project requires system integration with external          │
+│             government APIs (PTR-2 MATCH).                                   │
+│             • The project is building a new portal from scratch rather than  │
+│             enhancing an existing system (PTR-3 MATCH).                      │
+│             • The product is expected to have a long life in the             │
+│             organization as core regulatory infrastructure (PTR-5 MATCH).    │
+│             • The project requires formal verification and testing at        │
+│             multiple stages due to strict IRDAI regulations (PTR-6 MATCH).   │
+│                                                                              │
+│    buys you Risk assessed and addressed every cycle                          │
+│               Provides structured phases to validate complex regulatory      │
+│             reporting requirements like REQ-010 against IRDAI Information    │
+│             and Cyber Security Guidelines.                                   │
+│             Expensive commitments deferred until risk drops                  │
+│               Defers the implementation of role-based access control         │
+│             (REQ-009) until security architecture is fully defined to        │
+│             prevent unauthorized data access.                                │
+│             Prototyping and planning combined                                │
+│               Combines detailed upfront planning for policy rule             │
+│             calculations (REQ-005) with prototyping of the user interface    │
+│             for regional languages (REQ-007).                                │
+│             Natural stopping points if funding changes                       │
+│               Offers clear phase gates to halt development if the assumption │
+│             regarding stable funding throughout the lifecycle is violated.   │
+│                                                                              │
+│    gives up PTR-1: The project does not identify a new product direction for │
+│             the organization, as it extends an existing insurance business   │
+│             line rather than entering a new market.                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Spiral and V-Shaped are tied with identical scores of 80% (4/5 matches). The │
+│ tie-breaker would be PTR-1: 'Does the project identify a new product         │
+│ direction for the organization?' Since the answer is NO, both frameworks     │
+│ assume the opposite (that it IS a new product direction), causing the        │
+│ mismatch for both. Given the high regulatory risk and need for integration,  │
+│ either model fits equally well based on the provided criteria.               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ Government-owned insurance portal + IRDAI compliance + Rural low-bandwidth   │
+│ support -> Spiral                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/model_compare_20261124/qwen3_5_9b/insurance_claims.json
+time: extraction 106s · sdlc 93s · quality 70s · conflicts 48s  (pipeline 415s, warm-up 46s)
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • "The system shall provide a claims processing portal accessible via web    │
+│ browsers on standard devices." claims IRDAI Guidelines applies, but nothing  │
+│ in the knowledge base supports that — the citation is unverified.            │
+│ • "The system shall securely store and process sensitive claimant data in    │
+│ compliance with data protection standards." claims IRDAI Guidelines, DPDP    │
+│ Act applies, but nothing in the knowledge base supports that — the citation  │
+│ is unverified.                                                               │
+│ • "The system shall calculate and display claim settlement amounts based on  │
+│ predefined policy rules." claims IRDAI Guidelines applies, but nothing in    │
+│ the knowledge base supports that — the citation is unverified.               │
+│ • 8 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for │
+│ a rolling 180 days within India; Personal data processed only with the data  │
+│ principal's consent (or another lawful ground) (and 5 more).                 │
+│ • 4 requirement(s) cite a regulation that, on reading, does not govern them: │
+│ "The system shall collect and validate claimant identity information in      │
+│ accordance with IRDAI regulations."; "The system shall generate an audit     │
+│ trail for all claim processing activities." (and 2 more).                    │
+│ • the framework does not separate Spiral = V-Shaped; the reported            │
+│ recommendation is first by name, not by fit                                  │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

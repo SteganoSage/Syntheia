@@ -1,0 +1,745 @@
+🦙 LLM Provider: Ollama [cloud] qwen3.5:9b @ https://unashamed-prodigal-march.ngrok-free.dev
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  48%|████▊     | 95/199 [00:00<00:00, 934.61it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1032.84it/s]
+  classifier     12.2s  roberta_classifier
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 3009.37it/s]
+  embedder        3.4s  all-MiniLM-L6-v2
+  llm            21.4s  qwen3.5:9b [cloud]
+  total          37.1s
+
+Grounding:  retrieval-augmented
+  (14 question(s) would settle this — REQ-1, REQ-2, REQ-3, REQ-4. Run at a terminal to be asked, or pass them in.)
+
+12 requirements in 304s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall replicate all existing functional features   │
+│                of the legacy COBOL core banking system in the new Java-based │
+│                framework without adding new functionality.                   │
+│                                                                              │
+│     categories Data-management                                               │
+│    stakeholder Business Analyst                                              │
+│      rationale To ensure business continuity and maintain operational parity │
+│                during migration, preventing any disruption to daily banking  │
+│                operations or loss of existing capabilities.                  │
+│     acceptance Functional testing confirms that every transaction type,      │
+│                report, and user interface element from the legacy system     │
+│                produces identical results in the new system.                 │
+│    regulations none claimed, none found (best match 0.59)                    │
+│      precedent 0.59  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §13.16 (RFP No. 375) [RFP 375]    │
+│                0.58  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §5.3 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.95                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall execute automated regression tests at every  │
+│                stage of the migration process to verify that no existing     │
+│                functionality is broken.                                      │
+│                                                                              │
+│     categories Integration, Operational                                      │
+│    stakeholder Quality Assurance Team                                        │
+│      rationale To detect and prevent data corruption, logic errors, or       │
+│                feature regressions immediately after code translation or     │
+│                module integration.                                           │
+│     acceptance Test execution logs show 100% pass rate for regression suites │
+│                at each migration milestone with zero critical defects.       │
+│    regulations none claimed, none found (best match 0.60)                    │
+│      precedent 0.60  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §28 (RFP No. 375) [RFP 375]       │
+│                                                                              │
+│    risk / conf High · 0.92                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  High priority ─────────────────────────────────────────────────────╮
+│                The system shall maintain data integrity and consistency      │
+│                throughout the migration process to ensure no data loss or    │
+│                corruption occurs.                                            │
+│                                                                              │
+│     categories Regulatory, Data-management                                   │
+│    stakeholder Data Governance Officer                                       │
+│      rationale Financial institutions cannot tolerate data loss; accurate    │
+│                migration is critical for regulatory compliance and customer  │
+│                trust.                                                        │
+│     acceptance Post-migration reconciliation reports confirm that record     │
+│                counts, checksums, and field-level values match exactly       │
+│                between legacy and new systems.                               │
+│       grounded 0.64  Master Direction on Information Technology Governance,  │
+│                Risk, Controls and Assurance Practices §14 (RBI/2023-24/107)  │
+│                [issued 07 Nov 2023]                                          │
+│                                                                              │
+│    risk / conf High · 0.94                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support a phased or parallel migration       │
+│                strategy to minimize downtime during the transition from      │
+│                COBOL to Java.                                                │
+│                                                                              │
+│     categories Availability                                                  │
+│    stakeholder IT Operations Manager                                         │
+│      rationale To allow for safe cutover and rollback if issues arise,       │
+│                ensuring minimal impact on customer transactions.             │
+│     acceptance System availability remains above 99.9% during migration      │
+│                windows, and rollback procedures are successfully tested.     │
+│    regulations none claimed, none found (best match 0.42)                    │
+│    risk / conf Medium · 0.88                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide detailed audit logs for all data     │
+│                transformations and migration activities to support forensic  │
+│                analysis and compliance.                                      │
+│                                                                              │
+│     categories Security, Regulatory, Audit/Reporting                         │
+│    stakeholder Compliance Officer                                            │
+│      rationale Regulatory bodies require traceability of data movements      │
+│                during major system changes to ensure accountability and      │
+│                detect unauthorized modifications.                            │
+│     acceptance Audit logs record every data row migrated, transformation     │
+│                rule applied, and error encountered with timestamps and user  │
+│                IDs.                                                          │
+│       grounded 0.70  Cyber Security Framework in Banks §16.3                 │
+│                (RBI/2015-16/418) [2016 framework (partly superseded by the   │
+│                2023 IT directions)]                                          │
+│                0.64  Master Direction on Information Technology Governance,  │
+│                Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)  │
+│                [issued 07 Nov 2023]                                          │
+│                0.56  Cyber Security Framework in Banks §24.3                 │
+│                (RBI/2015-16/418) [2016 framework (partly superseded by the   │
+│                2023 IT directions)]                                          │
+│                                                                              │
+│      precedent 0.60  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §47 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.57  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §73 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf Medium · 0.9                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-006  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall display a real-time status indicator on the  │
+│                user interface showing whether the legacy COBOL service or    │
+│                the new Java service is currently active for each transaction │
+│                type.                                                         │
+│                                                                              │
+│     categories Functional, Usability, Integration                            │
+│    stakeholder —                                                             │
+│      rationale With only 2 developers and a tight 3-4 month schedule, the    │
+│                team cannot manually verify every switch-over; users need     │
+│                immediate visual feedback to know if they are interacting     │
+│                with the old system (during failover) or the new one.         │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.43)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-007  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall automatically retry failed data              │
+│                synchronization jobs between the legacy and new systems up to │
+│                three times before escalating the error to an operations      │
+│                dashboard.                                                    │
+│                                                                              │
+│     categories Integration, Operational                                      │
+│    stakeholder —                                                             │
+│      rationale Network timeouts or temporary database locks are common       │
+│                during migration; automatic retries prevent unnecessary       │
+│                manual intervention for transient failures while ensuring     │
+│                eventual consistency.                                         │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.50)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-008  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow administrators to configure specific   │
+│                thresholds for data volume and transaction speed that trigger │
+│                an alert when the new Java framework performance deviates     │
+│                from the legacy baseline.                                     │
+│                                                                              │
+│     categories Business, Stakeholder, Operational                            │
+│    stakeholder —                                                             │
+│      rationale Since the goal is exact replication, the system must detect   │
+│                performance regressions immediately so the team can adjust    │
+│                resources or rollback before customer impact exceeds          │
+│                acceptable limits.                                            │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.53)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-009  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide a 'dry-run' mode that simulates data │
+│                migration and transformation logic without actually writing   │
+│                to the production database, allowing validation of complex    │
+│                COBOL business rules.                                         │
+│                                                                              │
+│     categories Integration                                                   │
+│    stakeholder —                                                             │
+│      rationale Given the constraint of 'no new functionality,' the team must │
+│                rigorously validate that the Java code interprets legacy      │
+│                COBOL logic correctly before committing any data changes.     │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.49)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-010  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall generate a daily reconciliation report       │
+│                comparing transaction counts and balances between the legacy  │
+│                COBOL system and the new Java system for all accounts         │
+│                processed in the previous 24 hours.                           │
+│                                                                              │
+│     categories Audit/Reporting                                               │
+│    stakeholder —                                                             │
+│      rationale Continuous validation is required at every stage; automated   │
+│                daily reports provide the necessary evidence to stakeholders  │
+│                that data integrity (REQ-003) is being maintained throughout  │
+│                the phased migration.                                         │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.55)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-011  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall archive all raw transaction logs and         │
+│                transformation records from the legacy COBOL system in a      │
+│                read-only format immediately after successful processing to   │
+│                preserve historical data for forensic analysis.               │
+│                                                                              │
+│     categories Regulatory, Data-management                                   │
+│    stakeholder —                                                             │
+│      rationale Even if functionality is replicated exactly, the underlying   │
+│                storage technology changes; archiving ensures that original   │
+│                COBOL data remains accessible for audit trails without        │
+│                cluttering the new Java database.                             │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.55)                    │
+│      precedent 0.55  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §2.15    │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-012  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall enforce a role-based access control (RBAC)   │
+│                model where only developers and designated migration leads    │
+│                can trigger rollback procedures or modify migration           │
+│                configuration parameters.                                     │
+│                                                                              │
+│     categories Stakeholder, Security, Operational                            │
+│    stakeholder —                                                             │
+│      rationale With a small team of 2 developers working under high          │
+│                pressure, strict segregation of duties is essential to        │
+│                prevent accidental data corruption during the critical        │
+│                migration window.                                             │
+│     acceptance —                                                             │
+│    regulations none claimed, none found (best match 0.52)                    │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  0 passed 7 flagged ─────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-006    Medium     Missing Source — The stakeholder field is empty       │
+│                        ('Not specified'). Requirements must identify the     │
+│                        source of the requirement.                            │
+│                        → Identify and record the specific stakeholder        │
+│                        (e.g., 'Product Owner' or 'UX Lead') responsible for  │
+│                        this UI requirement.                                  │
+│  REQ-006    Medium     Ambiguity — The term 'real-time' is vague without a   │
+│                        defined latency threshold.                            │
+│                        → Define 'real-time' with a specific metric, e.g.,    │
+│                        'status updates shall appear within 200ms of the      │
+│                        backend state change.'.                               │
+│  REQ-006    High       Infeasibility — The requirement assumes the system    │
+│                        can distinguish between 'legacy COBOL service' and    │
+│                        'new Java service' active states for 'each            │
+│                        transaction type' during a migration where features   │
+│                        are being replicated. If REQ-001 is met (identical    │
+│                        results), the services are functionally identical,    │
+│                        making the distinction of 'which one is active'       │
+│                        potentially logically inconsistent unless referring   │
+│                        to infrastructure routing which is not defined.       │
+│                        → Clarify if this refers to a specific routing flag   │
+│                        or if the UI should simply indicate 'System Under     │
+│                        Maintenance' vs 'Normal Operation'. The current       │
+│                        phrasing implies a capability that contradicts the    │
+│                        goal of functional parity.                            │
+│  REQ-007    Medium     Missing Source — The stakeholder field is empty       │
+│                        ('Not specified').                                    │
+│                        → Identify the specific stakeholder (e.g., 'DevOps    │
+│                        Lead' or 'Data Engineer').                            │
+│  REQ-007    Medium     Ambiguity — The term 'escalate' is vague regarding    │
+│                        the action taken.                                     │
+│                        → Define what 'escalating the error to an operations  │
+│                        dashboard' entails (e.g., 'create a high-priority     │
+│                        ticket', 'send a webhook notification', or 'change    │
+│                        status to ERROR').                                    │
+│  REQ-008    Medium     Missing Source — The stakeholder field is empty       │
+│                        ('Not specified').                                    │
+│                        → Identify the specific stakeholder (e.g.,            │
+│                        'Performance Engineer' or 'SRE').                     │
+│  REQ-008    Medium     Ambiguity — The term 'performance deviates from the   │
+│                        legacy baseline' is unmeasurable without defining     │
+│                        how the baseline is calculated or stored.             │
+│                        → Specify if the baseline is a static value, a        │
+│                        moving average, or a specific percentage threshold    │
+│                        (e.g., 'response time > 1.2x legacy baseline').       │
+│  REQ-009    Medium     Ambiguity — The term 'dry-run' mode is used without   │
+│                        a concrete definition of what constitutes a           │
+│                        successful simulation versus a failure, making the    │
+│                        acceptance criteria vague.                            │
+│                        → Define specific exit codes or log markers that      │
+│                        indicate a successful dry-run simulation versus an    │
+│                        error state.                                          │
+│  REQ-009    Low        Missing Source — The stakeholder field is 'Not        │
+│                        specified'.                                           │
+│                        → Identify and record the specific stakeholder or     │
+│                        business unit requesting this feature.                │
+│  REQ-010    Medium     Ambiguity — The term 'daily' is vague regarding the   │
+│                        exact execution time window (e.g., 00:00 UTC, end of  │
+│                        business day) and the definition of 'previous 24      │
+│                        hours' for batch processing.                          │
+│                        → Specify the exact timestamp or cron schedule        │
+│                        (e.g., 'at 01:00 UTC daily') and define the precise   │
+│                        start/end boundaries for the 'previous 24 hours'      │
+│                        calculation.                                          │
+│  REQ-010    Low        Missing Source — The stakeholder field is 'Not        │
+│                        specified'.                                           │
+│                        → Identify and record the specific stakeholder or     │
+│                        business unit requesting this feature.                │
+│  REQ-011    Medium     Ambiguity — The term 'immediately' is not             │
+│                        measurable; it does not specify a latency threshold   │
+│                        (e.g., within 5 minutes, within 1 hour).              │
+│                        → Replace 'immediately' with a specific time-bound    │
+│                        metric (e.g., 'within 5 minutes of successful         │
+│                        processing').                                         │
+│  REQ-012    Low        Missing Source — The stakeholder field is 'Not        │
+│                        specified'.                                           │
+│                        → Identify and record the specific stakeholder or     │
+│                        business unit requesting this feature.                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────── consistency ─────────────────────────────────╮
+│ no contradictions or duplicates found                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  7 gap 1 covered ─────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-ITGOV-02     High      Business continuity and disaster recovery for    │
+│                             the system                                       │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §28 (RBI/2023-24                       │
+│                             → The system shall have a disaster recovery      │
+│                             arrangement with defined recovery time and       │
+│                             recovery point objectives, tested periodically   │
+│                             under the bank's business continuity plan.       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-PML-01       High      Suspicious and large cash transactions recorded  │
+│                             and reported (STR/CTR)                           │
+│                             Prevention of Money-laundering (Maintenance of   │
+│                             Records) Rules, 2005 §3 (G.S.R. 444(E))          │
+│                             [consolidated text, as                           │
+│                             → The system shall flag suspicious transactions  │
+│                             and cash transactions above the prescribed       │
+│                             threshold, keep their records, and produce       │
+│                             suspicious- and cash-transaction reports for     │
+│                             the Financial Intelligence Unit.                 │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-03    Medium    System clocks synchronised to NIC/NPL time       │
+│                             servers                                          │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall synchronise all its clocks    │
+│                             to the NIC or NPL NTP servers (or servers        │
+│                             traceable to them), so that log timestamps are   │
+│                             reliable.                                        │
+│  CMP-KYC-02       High      weak — Transaction records kept at least five    │
+│                             years from the date of transaction               │
+│                             REQ-011 covers this but states no period; at     │
+│                             least 5 years is required                        │
+│                             Master Direction — Know Your Customer (KYC)      │
+│                             Direction, 2016 §(a) (RBI/DBR/2015-16/18)        │
+│                             → The system shall retain records of all         │
+│                             transactions with the customer for at least      │
+│                             five years from the date of the transaction.     │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-003   partial         REs shall have a documented data migration        │
+│                            policy specifying a systematic process for data   │
+│                            migration, ensuring data integrity, completeness  │
+│                            and consistency. The policy shall, inter alia,    │
+│                            contain provisions pertaining to signoffs from    │
+│                            business users and application owners at each     │
+│                            stage of migration, maintenance of audit trails,  │
+│                            etc.                                              │
+│                            Master Direction on Information Technology        │
+│                            Governance, Risk, Controls and Assurance          │
+│                            Practices §14 (R · IN                             │
+│                            → The requirement addresses the outcome           │
+│                            (integrity) and verification method               │
+│                            (reconciliation reports) but fails to commit to   │
+│                            the specific obligations of maintaining a         │
+│                            documented policy, obtaining signoffs from        │
+│                            business users/application owners at each stage,  │
+│                            or maintaining audit trails.                      │
+│  REQ-005   addressed       Enough care is to be taken to capture audit logs  │
+│                            pertaining to user actions in a system. Such      │
+│                            arrangements should facilitate forensic           │
+│                            auditing, if need be.                             │
+│                            Cyber Security Framework in Banks §16.3           │
+│                            (RBI/2015-16/418) [2016 framework (partly         │
+│                            superseded by the  · IN                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ retention   Transaction records kept at least five years from the date of    │
+│ transaction                                                                  │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(a) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ retention   REs shall have a documented data migration policy specifying a   │
+│ systematic process for data migration, ensuring data integrity, completeness │
+│ and consistency. The policy shall, inter alia, contain provisions pertaining │
+│ to signoffs from business users and application owners at each stage of      │
+│ migration, maintenance of audit trails, etc.                                 │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §14 (R                                      │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ reporting   Suspicious and large cash transactions recorded and reported     │
+│ (STR/CTR)                                                                    │
+│             Prevention of Money-laundering (Maintenance of Records) Rules,   │
+│ 2005 §3 (G.S.R. 444(E)) [consolidated                                        │
+│ approval    REs shall have a documented data migration policy specifying a   │
+│ systematic process for data migration, ensuring data integrity, completeness │
+│ and consistency. The policy shall, inter alia, contain provisions pertaining │
+│ to signoffs from business users and application owners at each stage of      │
+│ migration, maintenance of audit trails, etc.                                 │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §14 (R                                      │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  5 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-CRYPTO-01    High      Sensitive data encrypted at rest and in transit  │
+│                             Cyber Security Framework in Banks §8.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall encrypt customer and          │
+│                             transaction data at rest and in transit using    │
+│                             algorithms and key lengths approved under the    │
+│                             bank's cryptographic policy.                     │
+│                             needs compliance/legal sign-off                  │
+│  SEC-APPSEC-01    Medium    Input validated and secure coding practices      │
+│                             applied  (practice, not regulation)              │
+│                             OWASP ASVS (industry practice; not in the        │
+│                             knowledge base)                                  │
+│                             → The system shall validate all input on the     │
+│                             server side and be built and tested against the  │
+│                             OWASP Application Security Verification          │
+│                             Standard.                                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  18 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-003   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-004   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-005   4×4=16  Suspicious and large cash            Compliance officer  │
+│                     transactions recorded and reported                       │
+│                     (STR/CTR) (Compliance)                                   │
+│                     No requirement covers this                               │
+│                     obligation. (Prevention of                               │
+│                     Money-laundering (Maintenance of                         │
+│                     Records) Rules, 2005 §3 (G.S.R.                          │
+│                     444(E)) )                                                │
+│  RISK-006   4×3=12  System clocks synchronised to        Compliance officer  │
+│                     NIC/NPL time servers (Compliance)                        │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(i) (No.                                     │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-007   3×4=12  Transaction records kept at least    Compliance officer  │
+│                     five years from the date of                              │
+│                     transaction (Compliance)                                 │
+│                     REQ-011 covers this but states no                        │
+│                     period; at least 5 years is                              │
+│                     required. (Master Direction — Know                       │
+│                     Your Customer (KYC) Direction, 2016                      │
+│                     §(a) (RBI/DBR/2015-16/18) )                              │
+│  RISK-008   3×4=12  Infeasibility in REQ-006 (Delivery)  Business analyst    │
+│                     The requirement assumes the system                       │
+│                     can distinguish between 'legacy                          │
+│                     COBOL service' and 'new Java                             │
+│                     service' active states for 'each                         │
+│                     transaction type' during a                               │
+│                     migration where features are being                       │
+│                     replicated. If REQ-001 is met                            │
+│                     (identical results), the services                        │
+│                     are functionally identical, making                       │
+│                     the distinction of 'which one is                         │
+│                     active' potentially logically                            │
+│                     inconsistent unless referring to                         │
+│                     infrastructure routing which is not                      │
+│                     defined.                                                 │
+│  RISK-009   3×4=12  Small team — key-person dependency   Project manager     │
+│                     (Operational)                                            │
+│                     The problem statement says: "The                         │
+│                     project team consists of 2                               │
+│                     developers and needs to be                               │
+│                     completed within 3-4 months."                            │
+│  RISK-010   3×4=12  Integrations authenticated,          Information-secur…  │
+│                     encrypted and rate-limited           team                │
+│                     (Security)                                               │
+│                     No requirement provides this                             │
+│                     control (practice: Industry                              │
+│                     practice (OWASP API Security Top                         │
+│                     10)).                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 8 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'banking' in the scenario, 'banking' in    │
+│ REQ-001                                                                      │
+│ CQ-002 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'banking' in the scenario, 'banking' in   │
+│ REQ-001                                                                      │
+│ CQ-003 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'bank*' in the scenario, 'bank*' in REQ-001  │
+│ CQ-004 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'banking' in the scenario, 'banking' in   │
+│ REQ-001                                                                      │
+│ CQ-005 Suspicious and large cash transactions recorded and reported          │
+│ (STR/CTR) (Prevention of Money-laundering (Maintenance of Records) Rules,    │
+│ 2005 §3 (G.S.R. 444(E)) [consolidated text, as amended]). Nothing in the     │
+│ requirements covers this. Should the system include: “The system shall flag  │
+│ suspicious transactions and cash transactions above the prescribed           │
+│ threshold, keep their records, and produce suspicious- and cash-transaction  │
+│ reports for the Financial Intelligence Unit”?                                │
+│        CMP-PML-01: triggered by 'transaction*' in REQ-006, 'transaction*' in │
+│ REQ-008                                                                      │
+│ CQ-006 About “The system shall display a real-time status indicator on the   │
+│ user interface showing whether the legacy COBOL service or the new Java      │
+│ servic…”: The requirement assumes the system can distinguish between 'legacy │
+│ COBOL service' and 'new Java service' active states for 'each transaction    │
+│ type' during a migration where features are being replicated. If REQ-001 is  │
+│ met (identical results), the services are functionally identical, making the │
+│ distinction of 'which one is active' potentially logically inconsistent      │
+│ unless referring to infrastructure routing which is not defined. (For        │
+│ example: Clarify if this refers to a specific routing flag or if the UI      │
+│ should simply indicate 'System Under Maintenance' vs 'Normal Operation'. The │
+│ current phrasing implies a capability that contradicts the goal of           │
+│ functional parity.)                                                          │
+│        Infeasibility (High)                                                  │
+│ CQ-007 Transaction records kept at least five years from the date of         │
+│ transaction: REQ-011 covers this but states no period; at least 5 years is   │
+│ required. Should this be corrected?                                          │
+│        CMP-KYC-02: triggered by 'transaction*' in REQ-006, 'transaction*' in │
+│ REQ-008                                                                      │
+│ CQ-008 Integrations authenticated, encrypted and rate-limited. Should the    │
+│ system include: “Every integration with an external system shall be mutually │
+│ authenticated, encrypted in transit, allow-listed and rate-limited, with     │
+│ failures logged”?                                                            │
+│        SEC-API-01 (practice)                                                 │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  TIED  Spiral and Waterfall                                                  │
+│  the evidence does not separate these two. More about the project would.     │
+│                                                                              │
+│  also considered: Agile, Incremental                                         │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen V-Shaped        │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Spiral ─────────────────────────────────────────────────────────────────────╮
+│        fits • this is not an extension of an existing system                 │
+│             • funding is not settled for the life of the project             │
+│             • the product will be running for years                          │
+│             • verification is required at every stage, not once at the end   │
+│                                                                              │
+│    buys you Risk assessed and addressed every cycle                          │
+│               This capability directly mitigates the High risk level         │
+│             associated with replicating legacy COBOL features without        │
+│             breaking functionality, as mandated by REQ-001.                  │
+│             Expensive commitments deferred until risk drops                  │
+│               This allows the project to manage the High priority            │
+│             requirement in REQ-003 regarding data integrity and consistency  │
+│             by only committing to complex migration steps once the risk of   │
+│             data loss is reduced.                                            │
+│             Prototyping and planning combined                                │
+│               This supports the Medium priority availability goal in REQ-004 │
+│             by enabling a phased or parallel migration strategy that         │
+│             minimizes downtime during the transition.                        │
+│             Natural stopping points if funding changes                       │
+│               This aligns with the unstable funding profile implied by the   │
+│             short 3-4 month delivery window and small team size described in │
+│             REQ-001's context.                                               │
+│                                                                              │
+│    gives up Spiral assumes this takes the organisation somewhere it has not  │
+│             been before, and that the system has to interoperate with        │
+│             systems outside itself — neither is true here, so that part of   │
+│             its design earns nothing on this project.                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Waterfall ──────────────────────────────────────────────────────────────────╮
+│        fits —                                                                │
+│    buys you Risk assessed and addressed every cycle                          │
+│               This capability directly mitigates the High risk level         │
+│             associated with replicating legacy COBOL features without        │
+│             breaking functionality, as mandated by REQ-001.                  │
+│             Expensive commitments deferred until risk drops                  │
+│               This allows the project to manage the High priority            │
+│             requirement in REQ-003 regarding data integrity and consistency  │
+│             by only committing to complex migration steps once the risk of   │
+│             data loss is reduced.                                            │
+│             Prototyping and planning combined                                │
+│               This supports the Medium priority availability goal in REQ-004 │
+│             by enabling a phased or parallel migration strategy that         │
+│             minimizes downtime during the transition.                        │
+│             Natural stopping points if funding changes                       │
+│               This aligns with the unstable funding profile implied by the   │
+│             short 3-4 month delivery window and small team size described in │
+│             REQ-001's context.                                               │
+│                                                                              │
+│    gives up PTR-1, PTR-2                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Spiral is recommended over Waterfall because it explicitly handles unstable  │
+│ funding (PTR-4) and non-enhancement projects (PTR-3), whereas Waterfall      │
+│ assumes stable funding and system integration. The tie-breaker would be      │
+│ PTR-4: if the project had stable long-term funding, Waterfall might become a │
+│ stronger candidate.                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ High risk legacy replication + unstable short-term funding + long-lived      │
+│ product -> Spiral                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/model_compare_20261124/qwen3_5_9b/bank_migration.json
+time: sdlc 76s · extraction 61s · quality 59s · conflicts 39s  (pipeline 304s, warm-up 37s)
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • 6 high-severity regulatory obligation(s) have no covering requirement:     │
+│ Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for │
+│ a rolling 180 days within India; Cyber security incidents reported promptly  │
+│ to RBI (and 3 more).                                                         │
+│ • the framework does not separate Spiral = Waterfall; the reported           │
+│ recommendation is first by name, not by fit                                  │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

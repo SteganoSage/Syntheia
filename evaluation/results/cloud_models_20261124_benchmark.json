@@ -1,0 +1,1128 @@
+{
+  "tiers": {
+    "cloud": {
+      "tier": "cloud",
+      "endpoint": "https://unashamed-prodigal-march.ngrok-free.dev",
+      "temperature": 0.2,
+      "repeats_per_scenario": 1,
+      "scenarios": [
+        "bank_migration",
+        "credit_risk",
+        "fintech_startup",
+        "insurance_claims",
+        "kyc_onboarding"
+      ],
+      "taxonomy": [
+        "Business",
+        "Stakeholder",
+        "Functional",
+        "Security",
+        "Privacy",
+        "Regulatory",
+        "Performance",
+        "Availability",
+        "Usability",
+        "Data-management",
+        "Integration",
+        "Audit/Reporting",
+        "Operational"
+      ],
+      "results": {
+        "llama3.1:8b": {
+          "meta": {
+            "params": "8B",
+            "expected_gb": 4.9,
+            "expected_fit": false
+          },
+          "summary": {
+            "runs": 5,
+            "failed": 0,
+            "tokens_per_sec": 28.46,
+            "eval_seconds": 25.17,
+            "load_seconds_first": 0.0,
+            "wall_seconds": 24.41,
+            "peak_vram_mb": null,
+            "valid_json_rate": 0.8,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 0.8,
+            "shall_rate": 0.97,
+            "field_completeness": 0.0,
+            "requirements_mean": 6.2,
+            "requirements_range": [
+              0,
+              15
+            ]
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 30.42,
+              "eval_tokens": 611,
+              "eval_seconds": 20.08,
+              "load_seconds": 0.0,
+              "wall_seconds": 19.99,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 15,
+              "shall_rate": 0.867,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall replicate the existing features exactly.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be migrated to a modern Java-based framework.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall undergo testing and validation at every stage of the migration.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure that no existing functionality breaks during the migration.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The project team shall consist of at least 2 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The project shall be completed within 3-4 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall meet the required security standards.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure data integrity during the migration.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be integrated with existing systems.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall meet regulatory requirements.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be available 24/7.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be auditable.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall provide accurate and timely reporting.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be user-friendly.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall meet performance standards.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "bank_migration"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 27.49,
+              "eval_tokens": 2048,
+              "eval_seconds": 74.51,
+              "load_seconds": 0.0,
+              "wall_seconds": 70.48,
+              "peak_vram_mb": null,
+              "valid_json": false,
+              "needed_salvage": false,
+              "schema_valid": false,
+              "schema_error": null,
+              "n_requirements": 0,
+              "shall_rate": null,
+              "field_completeness": null,
+              "extracted": [],
+              "scenario": "credit_risk"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 28.74,
+              "eval_tokens": 227,
+              "eval_seconds": 7.9,
+              "load_seconds": 0.0,
+              "wall_seconds": 7.99,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 4,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall disburse loans within 10 minutes.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow for rapid iteration and deployment of new features.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be launched in 2 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall prioritize user feedback and adapt to changing user needs.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "fintech_startup"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 28.18,
+              "eval_tokens": 275,
+              "eval_seconds": 9.76,
+              "load_seconds": 0.0,
+              "wall_seconds": 10.13,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall process claims for rural customers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall comply with IRDAI regulations.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be designed for 15 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be completed within 18 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall not have any changes to requirements once signed off.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "insurance_claims"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 27.48,
+              "eval_tokens": 373,
+              "eval_seconds": 13.58,
+              "load_seconds": 0.0,
+              "wall_seconds": 13.48,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 7,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall validate PAN details against the NSDL database in real-time.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall store video KYC sessions for a minimum of 8 years.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence before account activation.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall complete the onboarding process for low-risk customers within 15 minutes on a stable internet connection.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow customers to upload PAN card and Aadhaar for identity verification.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall support both video KYC and document-based KYC flows.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            }
+          ]
+        },
+        "qwen2.5:14b": {
+          "meta": {},
+          "summary": {
+            "runs": 5,
+            "failed": 0,
+            "tokens_per_sec": 13.32,
+            "eval_seconds": 31.85,
+            "load_seconds_first": 78.64,
+            "wall_seconds": 47.87,
+            "peak_vram_mb": null,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "shall_rate": 1.0,
+            "field_completeness": 0.0,
+            "requirements_mean": 5.6,
+            "requirements_range": [
+              5,
+              7
+            ]
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 7.42,
+              "eval_tokens": 390,
+              "eval_seconds": 52.53,
+              "load_seconds": 78.64,
+              "wall_seconds": 135.4,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall migrate the existing core banking system from a legacy COBOL framework to a modern Java-based framework.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure that the migrated system replicates all existing features of the legacy system without adding any new functionality.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall undergo thorough testing and validation at every stage of the migration process to ensure that no existing functionality is broken.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be completed within a timeframe of 3-4 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed by a project team consisting of 2 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "bank_migration"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 15.05,
+              "eval_tokens": 391,
+              "eval_seconds": 25.98,
+              "load_seconds": 0.0,
+              "wall_seconds": 25.25,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall identify and utilize appropriate data sources for the AI-based credit risk scoring engine.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall develop a proof of concept to validate the feasibility and effectiveness of the AI-based credit risk scoring engine.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall conduct a technical risk assessment to evaluate the challenges and risks associated with building an AI-based credit risk scoring engine.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall determine the budget based on the initial results of the proof of concept.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall design and implement a suitable model architecture for the AI-based credit risk scoring engine.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "credit_risk"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.97,
+              "eval_tokens": 539,
+              "eval_seconds": 36.0,
+              "load_seconds": 0.0,
+              "wall_seconds": 34.71,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 7,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall allow users to apply for personal loans within 10 minutes.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall provide a user-friendly interface for loan application.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall securely store user data and comply with relevant data protection regulations.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall integrate with third-party financial services for verification purposes.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall generate reports for the CEO to track user feedback and usage patterns.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure high availability and minimal downtime.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow for iterative development and easy incorporation of new requirements.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "fintech_startup"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.43,
+              "eval_tokens": 275,
+              "eval_seconds": 19.05,
+              "load_seconds": 0.0,
+              "wall_seconds": 18.82,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall provide a claims processing portal for rural customers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall comply with IRDAI regulations.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure that requirements do not change once signed off.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed by a team of 15 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed within an 18-month funding period.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "insurance_claims"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.74,
+              "eval_tokens": 379,
+              "eval_seconds": 25.7,
+              "load_seconds": 0.0,
+              "wall_seconds": 25.17,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support both video KYC and document-based KYC flows for customer onboarding.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall validate PAN card details against the NSDL database in real-time.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall record and store video KYC sessions for a minimum of 8 years.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence before account activation.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure the entire onboarding process takes no longer than 15 minutes for low-risk customers on a stable internet connection.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            }
+          ]
+        },
+        "qwen3:14b": {
+          "meta": {},
+          "summary": {
+            "runs": 5,
+            "failed": 0,
+            "tokens_per_sec": 14.4,
+            "eval_seconds": 27.31,
+            "load_seconds_first": 59.63,
+            "wall_seconds": 37.69,
+            "peak_vram_mb": null,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "shall_rate": 1.0,
+            "field_completeness": 0.0,
+            "requirements_mean": 6,
+            "requirements_range": [
+              5,
+              7
+            ]
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 13.78,
+              "eval_tokens": 387,
+              "eval_seconds": 28.09,
+              "load_seconds": 59.63,
+              "wall_seconds": 82.74,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall replicate the existing features of the legacy COBOL framework exactly.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be migrated to a modern Java-based framework.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall not introduce any new functionality during the migration.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall undergo testing and validation at every stage of the migration to ensure nothing breaks.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed by a project team consisting of exactly 2 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be completed within a timeframe of 3 to 4 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "bank_migration"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.38,
+              "eval_tokens": 399,
+              "eval_seconds": 27.75,
+              "load_seconds": 0.0,
+              "wall_seconds": 27.18,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall use AI-based techniques to calculate credit risk scores for loan applicants.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed as a proof of concept before full-scale implementation.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall identify and utilize appropriate data sources for training and inference.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall define a suitable model architecture for the AI-based credit risk scoring engine.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall include mechanisms to manage and mitigate technical risks associated with building an ML system for the first time.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow for budget flexibility based on initial results and proof of concept outcomes.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "credit_risk"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.99,
+              "eval_tokens": 394,
+              "eval_seconds": 26.28,
+              "load_seconds": 0.0,
+              "wall_seconds": 25.55,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 6,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall disburse loans within 10 minutes of application submission.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall support rapid development and iteration of features based on user feedback.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be designed as a minimum viable product (MVP) with core functionality focused on loan application and disbursement.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed by a small product team of 3 people.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be launched within 2 months from the start of development.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be designed to accommodate evolving requirements based on user feedback.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "fintech_startup"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.4,
+              "eval_tokens": 308,
+              "eval_seconds": 21.39,
+              "load_seconds": 0.0,
+              "wall_seconds": 20.94,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall comply with IRDAI regulations.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be accessible to rural customers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed by a team of 15 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be developed within an 18-month timeframe.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall not require any changes to its requirements once signed off.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "insurance_claims"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 14.44,
+              "eval_tokens": 477,
+              "eval_seconds": 33.02,
+              "load_seconds": 0.0,
+              "wall_seconds": 32.03,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 7,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support both video KYC and document-based KYC flows for customer onboarding.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall require customers to upload PAN card and Aadhaar for identity verification.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall validate PAN details against the NSDL database in real-time.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall record and store video KYC sessions for a minimum of 8 years as per RBI's KYC master direction.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence before account activation.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall complete the onboarding process in no longer than 15 minutes for low-risk customers on a stable internet connection.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            }
+          ]
+        },
+        "qwen3.5:9b": {
+          "meta": {},
+          "summary": {
+            "runs": 5,
+            "failed": 0,
+            "tokens_per_sec": 24.63,
+            "eval_seconds": 19.55,
+            "load_seconds_first": 20.87,
+            "wall_seconds": 23.32,
+            "peak_vram_mb": null,
+            "valid_json_rate": 1.0,
+            "salvage_rate": 0.0,
+            "schema_valid_rate": 1.0,
+            "shall_rate": 0.86,
+            "field_completeness": 0.05,
+            "requirements_mean": 6.8,
+            "requirements_range": [
+              4,
+              11
+            ]
+          },
+          "runs": [
+            {
+              "ok": true,
+              "tokens_per_sec": 25.38,
+              "eval_tokens": 191,
+              "eval_seconds": 7.53,
+              "load_seconds": 20.87,
+              "wall_seconds": 28.08,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 4,
+              "shall_rate": 0.5,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall replicate all existing features of the legacy COBOL framework exactly without adding new functionality.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall undergo testing and validation at every stage of the migration process.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The migrated system shall be built using a modern Java-based framework.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The migration project shall be completed within a timeframe of 3 to 4 months.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "bank_migration"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 23.71,
+              "eval_tokens": 557,
+              "eval_seconds": 23.49,
+              "load_seconds": 0.0,
+              "wall_seconds": 23.06,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 7,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall ingest data from multiple external and internal sources to support credit risk scoring.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall utilize an AI-based model architecture capable of generating credit risk scores.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall provide a Proof of Concept (PoC) environment to validate technical feasibility before full-scale development.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow for iterative model architecture adjustments based on initial PoC results.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall support decision-making processes that account for significant technical risk associated with new ML implementations.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall enable budget allocation decisions contingent upon the performance and outcomes of the initial PoC.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall provide clear reporting on data source utilization and model performance metrics to guide stakeholder decisions.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "credit_risk"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 24.03,
+              "eval_tokens": 569,
+              "eval_seconds": 23.68,
+              "load_seconds": 0.0,
+              "wall_seconds": 23.31,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 7,
+              "shall_rate": 1.0,
+              "field_completeness": 0.25,
+              "extracted": [
+                {
+                  "statement": "The system shall disburse approved personal loans to the borrower's account within 10 minutes of approval.",
+                  "stakeholder": "CEO/Product Team",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall support a Minimum Viable Product (MVP) release within a 2-month timeline.",
+                  "stakeholder": "CEO",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be designed to accommodate frequent requirement changes based on user feedback.",
+                  "stakeholder": "Product Team",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall provide a user interface tailored for young professionals.",
+                  "stakeholder": "Product Team",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall collect and process user feedback to drive iterative product improvements.",
+                  "stakeholder": "Product Team",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall ensure data security and privacy compliance for financial transactions.",
+                  "stakeholder": "Regulatory/Security",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall maintain high availability to support quick disbursal operations.",
+                  "stakeholder": "Business",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "fintech_startup"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 25.26,
+              "eval_tokens": 177,
+              "eval_seconds": 7.01,
+              "load_seconds": 0.0,
+              "wall_seconds": 7.65,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 5,
+              "shall_rate": 0.8,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall provide a dedicated claims processing portal accessible to rural customers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall comply with all regulations issued by the Insurance Regulatory and Development Authority of India (IRDAI).",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall support a development team of up to 15 developers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall be designed and deployed within an 18-month project timeline.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system requirements shall remain fixed and immutable once the final sign-off is obtained.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "insurance_claims"
+            },
+            {
+              "ok": true,
+              "tokens_per_sec": 24.77,
+              "eval_tokens": 893,
+              "eval_seconds": 36.05,
+              "load_seconds": 0.0,
+              "wall_seconds": 34.51,
+              "peak_vram_mb": null,
+              "valid_json": true,
+              "needed_salvage": false,
+              "schema_valid": true,
+              "schema_error": null,
+              "n_requirements": 11,
+              "shall_rate": 1.0,
+              "field_completeness": 0.0,
+              "extracted": [
+                {
+                  "statement": "The system shall support two distinct customer identity verification flows: video KYC and document-based KYC.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall allow customers to upload PAN card and Aadhaar documents for identity verification.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall validate PAN card details against the NSDL database in real-time.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall record and store video KYC sessions for a minimum duration of 8 years.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall store video recordings in compliance with RBI's KYC master direction.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall assign a risk score to each customer based on their profile, income declaration, and PEP screening results.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall screen customers against Politically Exposed Person (PEP) lists.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall escalate high-risk customers to a compliance officer for enhanced due diligence.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall prevent account activation for high-risk customers until enhanced due diligence is completed.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall complete the entire onboarding process within a maximum of 15 minutes for low-risk customers.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                },
+                {
+                  "statement": "The system shall maintain performance levels sufficient to complete onboarding within 15 minutes on a stable internet connection.",
+                  "stakeholder": "",
+                  "acceptance_criteria": ""
+                }
+              ],
+              "scenario": "kyc_onboarding"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

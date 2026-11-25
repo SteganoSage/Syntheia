@@ -531,8 +531,18 @@ def test_generate_srs_offline_writes_both_layouts(tmp_path):
     from src.generators.srs import generate_srs
 
     for layout in ("ieee830", "iso29148"):
-        paths = generate_srs(RUN, tmp_path, layout=layout, use_llm=False, sim=SIM, verbose=False)
+        paths = generate_srs(RUN, tmp_path, layout=layout, use_llm=False, sim=SIM, verbose=False,
+                             formats=("docx", "md"))
+        assert {p.suffix for p in paths.values()} == {".docx", ".md"}
         assert all(p.exists() and p.stat().st_size > 1000 for p in paths.values())
+
+
+def test_markdown_is_the_default_format(tmp_path):
+    from src.generators.srs import generate_srs
+
+    paths = generate_srs(RUN, tmp_path, use_llm=False, sim=SIM, verbose=False)
+    assert [p.name for p in paths.values()] == ["srs.md"]
+    assert not (tmp_path / "srs.docx").exists()
 
 
 def test_both_layouts_share_one_analysis_pass(tmp_path, monkeypatch):
@@ -546,4 +556,25 @@ def test_both_layouts_share_one_analysis_pass(tmp_path, monkeypatch):
                         lambda *a, **k: calls.append("use_cases") or real(*a, **k))
     paths = gen.generate_srs(RUN, tmp_path, layout="both", use_llm=False, sim=SIM, verbose=False)
     assert calls == ["narrative", "use_cases"]
-    assert {p.name for p in paths.values()} == {"srs.docx", "srs.md", "srs_iso29148.docx", "srs_iso29148.md"}
+    assert {p.name for p in paths.values()} == {"srs.md", "srs_iso29148.md"}
+
+
+def test_camelcase_entity_names_are_split_before_grounding(monkeypatch):
+    # qwen3:14b wrote "KYCDocument"; read as one word it matched nothing in the
+    # scenario and 5 of 7 entities were dropped.
+    from src.generators.srs.analysis_models import spaced
+
+    assert spaced("VideoKYCSession") == "Video KYC Session"
+    assert spaced("KYC_Document") == "KYC Document"
+    assert spaced("Customer") == "Customer"
+    reqs = [{"id": "REQ-001", "statement": "The system shall store each customer's KYC document"}]
+    monkeypatch.setattr("src.utils.llm.call_structured", lambda **kw: DataModelDraft(
+        entities=[EntityDraft(name="Customer", description="d", attributes=["customer_id"],
+                              identifier="customer_id"),
+                  EntityDraft(name="KYCDocument", description="d", attributes=["document_id", "customer_id"],
+                              identifier="document_id")],
+        relationships=[RelationshipDraft(source="Customer", verb="has", target="KYCDocument",
+                                         targets_per_source="many", sources_per_target="one")]))
+    dm = write_data_model("", reqs)
+    assert [e[0] for e in dm.entities] == ["Customer", "KYC Document"]
+    assert dm.relationships[0][:3] == ("Customer", "has", "KYC Document")

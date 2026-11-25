@@ -103,6 +103,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--tier", default=None, choices=["local", "cloud"],
                    help="label for the results file (inferred from OLLAMA_HOST if omitted)")
     p.add_argument("--temperature", type=float, default=0.2)
+    p.add_argument("--scenarios", nargs="*", default=None,
+                   help="scenario directory names under data/test_cases (default: all)")
+    p.add_argument("--out", type=Path, default=OUT_PATH,
+                   help="results file; tiers already in it are kept (default: the Day 12 file)")
     return p.parse_args()
 
 
@@ -302,7 +306,11 @@ def main() -> None:
     if not models:
         raise SystemExit(f"None of {list(CANDIDATES)} are installed. Found: {installed}")
 
-    scenarios = [(p.parent.name, p.read_text().strip()) for p in SCENARIOS]
+    chosen = [p for p in SCENARIOS if not args.scenarios or p.parent.name in args.scenarios]
+    unknown = set(args.scenarios or []) - {p.parent.name for p in chosen}
+    if unknown:
+        raise SystemExit(f"No such scenario(s): {sorted(unknown)}")
+    scenarios = [(p.parent.name, p.read_text().strip()) for p in chosen]
 
     print(f"Endpoint   {O.get_host()}  [{tier}]")
     print(f"Models     {', '.join(models)}")
@@ -351,7 +359,8 @@ def main() -> None:
               f"{shall:>7.0%}{fields:>8.0%}"
               f"{s['requirements_mean']:>7.1f}{flag}")
 
-    OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    out_path = args.out.resolve()
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "tier": tier,
         "endpoint": O.get_host(),
@@ -361,12 +370,12 @@ def main() -> None:
         "taxonomy": ALL_CATEGORIES,
         "results": results,
     }
-    existing = json.loads(OUT_PATH.read_text()) if OUT_PATH.exists() else {}
+    existing = json.loads(out_path.read_text()) if out_path.exists() else {}
     if not isinstance(existing, dict) or "tiers" not in existing:
         existing = {"tiers": {}}
     existing["tiers"][tier] = payload          # keep local and cloud side by side
-    OUT_PATH.write_text(json.dumps(existing, indent=2) + "\n")
-    print(f"\n  Saved to {OUT_PATH.relative_to(REPO)} (tier: {tier})")
+    out_path.write_text(json.dumps(existing, indent=2) + "\n")
+    print(f"\n  Saved to {out_path} (tier: {tier})")
 
     print("\n  Reading this table: tok/s is throughput, but it is the last thing "
           "to decide on.\n  lbl/req above ~4 means the model is spraying "

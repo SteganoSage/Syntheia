@@ -75,11 +75,15 @@ def build_parser() -> argparse.ArgumentParser:
                           "notebooks/11_eval_sdlc.py --runs)")
     out.add_argument("--export", type=Path, default=None, metavar="DIR",
                      help="also write the Software Requirements Specification "
-                          "(.docx and .md) to DIR")
+                          "to DIR (Markdown; see --srs-format). In the "
+                          "interactive app, every scenario is written as soon "
+                          "as it finishes, each to its own DIR/NN-<words>/")
     out.add_argument("--srs-layout", choices=["ieee830", "iso29148", "both"],
                      default="ieee830",
                      help="SRS structure: IEEE Std 830-1998 (default) or "
                           "ISO/IEC/IEEE 29148:2018")
+    out.add_argument("--srs-format", choices=["md", "docx", "both"], default="md",
+                     help="SRS file format: Markdown (default), Word, or both")
     out.add_argument("--detail", action="store_true",
                      help="also print the framework working -- every score, "
                           "answer and coverage figure. Off by default: it is "
@@ -356,9 +360,13 @@ def main(argv: list[str] | None = None) -> int:
             _die("no scenario given. Pass a file, or '-' to read stdin.")
         from src.cli.app import App
 
+        from src.generators.srs.generate import FORMATS
+
         return App(use_rag=not args.no_rag, run_sdlc=not args.no_sdlc,
                    classifier=args.classifier,
-                   run_analysis=not args.no_analysis).run()
+                   run_analysis=not args.no_analysis,
+                   export_dir=args.export, srs_layout=args.srs_layout,
+                   srs_formats=FORMATS[args.srs_format]).run()
 
     text = read_scenario(scenario_arg)
 
@@ -476,9 +484,11 @@ def main(argv: list[str] | None = None) -> int:
             print("syntheia: no requirements, so no SRS was written", file=sys.stderr)
         else:
             from src.generators.srs import generate_srs
+            from src.generators.srs.generate import FORMATS
 
             generate_srs(run_payload(scenario_arg, text, state), args.export,
-                         layout=args.srs_layout, verbose=not args.quiet)
+                         layout=args.srs_layout, formats=FORMATS[args.srs_format],
+                         verbose=not args.quiet)
 
     if not args.quiet:
         slow = sorted(node_times.items(), key=lambda kv: -kv[1])[:4]

@@ -1,0 +1,871 @@
+🦙 LLM Provider: Ollama [cloud] qwen3:14b @ https://unashamed-prodigal-march.ngrok-free.dev
+Classifier: fine-tuned (roberta_classifier)
+Warming up:
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights:  45%|████▌     | 90/199 [00:00<00:00, 892.13it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 1030.04it/s]
+  classifier     12.3s  roberta_classifier
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 1296.27it/s]
+  embedder        3.6s  all-MiniLM-L6-v2
+  llm            38.9s  qwen3:14b [cloud]
+  total          54.7s
+
+Grounding:  retrieval-augmented
+
+12 requirements in 537s
+
+╭─ REQ-001  High priority ─────────────────────────────────────────────────────╮
+│                The system shall allow users to apply for a personal loan     │
+│                through a mobile application                                  │
+│                                                                              │
+│     categories Business, Functional, Usability                               │
+│    stakeholder End User                                                      │
+│      rationale Enables users to access loan services conveniently from their │
+│                mobile devices                                                │
+│     acceptance The mobile application is functional and accessible on both   │
+│                iOS and Android platforms                                     │
+│       grounded 0.59  Master Direction on Digital Payment Security Controls   │
+│                (RBI/2020-21/74 DoS.CO.CSITE.SEC.No.1852/31.01.015/2020-21)   │
+│                [issued 18 Feb 2021; in force six months from publication]    │
+│                                                                              │
+│      precedent 0.65  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §22 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.59  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §6 (Final RFP   │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.9                                                    │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-002  High priority ─────────────────────────────────────────────────────╮
+│                The system shall process loan applications and disburse funds │
+│                within 10 minutes of submission                               │
+│                                                                              │
+│     categories Functional, Performance                                       │
+│    stakeholder End User                                                      │
+│      rationale Quick disbursal is a key differentiator for attracting young  │
+│                professionals who need immediate financial support            │
+│     acceptance Loan applications are processed and funds are disbursed       │
+│                within 10 minutes from submission                             │
+│    regulations none claimed, none found (best match 0.65)                    │
+│      precedent 0.65  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §185 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.61  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §4 (Final RFP   │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.85                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-003  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support iterative updates and feature        │
+│                enhancements based on user feedback                           │
+│                                                                              │
+│     categories Functional                                                    │
+│    stakeholder Product Team                                                  │
+│      rationale Enables the startup to continuously improve the product and   │
+│                adapt to user needs without requiring a complete rewrite      │
+│     acceptance The system allows for the addition, modification, or removal  │
+│                of features without disrupting existing functionality         │
+│    regulations none claimed, none found (best match 0.44)                    │
+│    risk / conf Medium · 0.8                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-004  High priority ─────────────────────────────────────────────────────╮
+│                The system shall be developed as an MVP with core             │
+│                functionalities to meet the launch timeline of 2 months       │
+│                                                                              │
+│     categories Business, Stakeholder, Operational                            │
+│    stakeholder CEO                                                           │
+│      rationale Meeting the 2-month timeline is critical for the startup to   │
+│                validate the product concept and secure further investment    │
+│     acceptance The MVP includes all core functionalities required for loan   │
+│                application, processing, and disbursement                     │
+│    regulations none claimed, none found (best match 0.61)                    │
+│      precedent 0.61  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §26 (RFP No. 375) [RFP 375]       │
+│                                                                              │
+│    risk / conf High · 0.85                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-005  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall provide users with real-time status tracking │
+│                of their loan application, including any delays or pending    │
+│                actions.                                                      │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability                            │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance Users must see a progress bar or status message that updates  │
+│                automatically as the application moves through processing     │
+│                stages.                                                       │
+│    regulations none claimed, none found (best match 0.60)                    │
+│      precedent 0.60  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §8 (Final RFP   │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.59  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §24 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.75                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-006  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow users to cancel or modify their loan   │
+│                application within 1 hour of submission.                      │
+│                                                                              │
+│     categories Functional, Performance                                       │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance A 'Cancel Application' button must be visible on the          │
+│                application confirmation screen and remain accessible for 1   │
+│                hour.                                                         │
+│    regulations none claimed, none found (best match 0.55)                    │
+│      precedent 0.55  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §4 (Final RFP   │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-007  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall log and display a history of all user        │
+│                actions related to their loan application, including          │
+│                submission, modifications, and cancellations.                 │
+│                                                                              │
+│     categories Functional, Usability, Audit/Reporting                        │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance A 'Loan History' section must be accessible to users, showing │
+│                a chronological list of actions with timestamps.              │
+│    regulations none claimed, none found (best match 0.66)                    │
+│      precedent 0.66  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §4.1     │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                0.63  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §24 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-008  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall send automated notifications to users via    │
+│                email and in-app messages for key events such as application  │
+│                submission, approval, disbursement, and rejection.            │
+│                                                                              │
+│     categories Stakeholder, Functional, Usability, Integration               │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance Users must receive a confirmation email and in-app            │
+│                notification within 1 minute of submitting their application. │
+│    regulations none claimed, none found (best match 0.65)                    │
+│      precedent 0.65  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §165 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.59  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §24 (RFP No. 375) [RFP 375]       │
+│                                                                              │
+│    risk / conf High · 0.75                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-009  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support retry mechanisms for failed loan     │
+│                disbursements due to external service errors, with a maximum  │
+│                of 3 retries over a 24-hour period.                           │
+│                                                                              │
+│     categories Integration, Operational                                      │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance The system must log failed disbursements and automatically    │
+│                retry them at intervals of 15 minutes, 1 hour, and 24 hours.  │
+│    regulations none claimed, none found (best match 0.56)                    │
+│      precedent 0.56  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §164 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.75                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-010  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall allow administrators to configure loan       │
+│                eligibility thresholds, such as income limits and credit      │
+│                score requirements, through a centralized dashboard.          │
+│                                                                              │
+│     categories Business, Stakeholder, Functional                             │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance Administrators must be able to adjust and save configuration  │
+│                settings in real-time without requiring system downtime.      │
+│       grounded 0.56  Reserve Bank of India (Digital Lending) Directions,     │
+│                2025 §7 (RBI/2025-26/36 DOR.STR.REC.19/21.07.001/2025-26)     │
+│                [issued 08 May 2025 (para 6 from 01 Nov 2025, para 17 from 15 │
+│                Jun 2025)]                                                    │
+│                                                                              │
+│      precedent 0.61  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §144 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.58  Request for Proposal — Procurement, Implementation and  │
+│                Maintenance of Fraud Detection and Prevention System §1.3     │
+│                (RFP — Fraud Detection and Prevention System) [current        │
+│                procurement]                                                  │
+│                                                                              │
+│    risk / conf Medium · 0.75                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-011  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall store all user loan application data,        │
+│                including personal information, financial details, and        │
+│                application status, in a secure, encrypted database with      │
+│                retention for at least 5 years.                               │
+│                                                                              │
+│     categories Security, Privacy, Regulatory, Data-management                │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance All user data must be encrypted at rest and in transit, and   │
+│                the system must support data archiving after 5 years.         │
+│       grounded 0.61  The Aadhaar (Authentication and Offline Verification)   │
+│                Regulations, 2021 §27 (No. 2 of 2021                          │
+│                (K-11020/240/2021/Auth/UIDAI)) [updated 15 Dec 2025]          │
+│                                                                              │
+│      precedent 0.58  RFP for Digital Banking Platform with Omni-Channel      │
+│                Mobile App and Web Solution §21.7.5.2 (RFP No. 375) [RFP 375] │
+│                0.57  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §24 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.75                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ REQ-012  Medium priority ───────────────────────────────────────────────────╮
+│                The system shall support concurrent processing of at least    │
+│                1,000 loan applications per hour during peak usage periods,   │
+│                with a response time of less than 2 seconds for 95% of        │
+│                requests.                                                     │
+│                                                                              │
+│     categories Performance                                                   │
+│    stakeholder —                                                             │
+│      rationale —                                                             │
+│     acceptance Load testing must confirm that the system can handle 1,000    │
+│                concurrent applications with the specified response time.     │
+│    regulations none claimed, none found (best match 0.65)                    │
+│      precedent 0.65  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §60 (Final RFP  │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                0.63  Request for Proposal — Supply and Implementation of     │
+│                Loan Origination System (MSME/CRE/Commercial) §174 (Final RFP │
+│                for LOS_03092021_V3.0) [V3.0]                                 │
+│                                                                              │
+│    risk / conf High · 0.75                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── quality  0 passed 12 flagged ────────────────────────╮
+│  req        severity   issue                                                 │
+│  REQ-001    Medium     Ambiguity — The term 'functional and accessible' is   │
+│                        vague and not measurable. It does not specify what    │
+│                        'functional' means or how 'accessible' is to be       │
+│                        verified.                                             │
+│                        → Define 'functional' with specific criteria (e.g.,   │
+│                        all features work as intended) and 'accessible' with  │
+│                        reference to a standard (e.g., WCAG 2.1 AA).          │
+│  REQ-002    Medium     Ambiguity — The term 'processed and funds are         │
+│                        disbursed within 10 minutes from submission' is not   │
+│                        fully measurable. It does not clarify what            │
+│                        constitutes 'processing' or 'disbursement'.           │
+│                        → Define 'processed' and 'disbursed' with measurable  │
+│                        criteria (e.g., system confirms processing, funds     │
+│                        are transferred to the user's account).               │
+│  REQ-003    Medium     Ambiguity — The term 'iterative updates and feature   │
+│                        enhancements based on user feedback' is vague and     │
+│                        not measurable.                                       │
+│                        → Define 'iterative updates' with measurable          │
+│                        criteria (e.g., at least one feature update per       │
+│                        month based on user feedback).                        │
+│  REQ-003    Low        Missing Source — The stakeholder is listed as         │
+│                        'Product Team', but no specific individual or role    │
+│                        is identified.                                        │
+│                        → Identify a specific stakeholder (e.g., Product      │
+│                        Manager, UX Designer) for the requirement.            │
+│  REQ-004    Medium     Ambiguity — The term 'core functionalities' is vague  │
+│                        and not measurable.                                   │
+│                        → Define 'core functionalities' with specific         │
+│                        criteria (e.g., loan application, processing, and     │
+│                        disbursement as defined in REQ-001 and REQ-002).      │
+│  REQ-004    Low        Missing Source — The stakeholder is listed as 'CEO',  │
+│                        but no specific individual or role is identified.     │
+│                        → Identify a specific stakeholder (e.g., CEO, CTO)    │
+│                        for the requirement.                                  │
+│  REQ-005    Medium     Ambiguity — The term 'real-time status tracking' is   │
+│                        vague and not measurable.                             │
+│                        → Define 'real-time' with measurable criteria (e.g.,  │
+│                        updates occur within 1 minute of a change in the      │
+│                        application status).                                  │
+│  REQ-005    Low        Missing Source — The stakeholder is listed as 'Not    │
+│                        specified'.                                           │
+│                        → Identify a specific stakeholder (e.g., End User,    │
+│                        Product Manager) for the requirement.                 │
+│  REQ-006    Medium     Ambiguity — The term 'within 1 hour of submission'    │
+│                        is not fully measurable. It does not clarify what     │
+│                        constitutes 'submission' or how the 1-hour window is  │
+│                        enforced.                                             │
+│                        → Define 'submission' with measurable criteria        │
+│                        (e.g., the system confirms receipt of the             │
+│                        application) and clarify how the 1-hour window is     │
+│                        enforced.                                             │
+│  REQ-006    Low        Missing Source — The stakeholder is listed as 'Not    │
+│                        specified'.                                           │
+│                        → Identify a specific stakeholder (e.g., End User,    │
+│                        Product Manager) for the requirement.                 │
+│  REQ-007    Medium     Ambiguity — The term 'history of all user actions'    │
+│                        is vague and not measurable.                          │
+│                        → Define 'history of all user actions' with           │
+│                        measurable criteria (e.g., all actions are logged     │
+│                        with timestamps and user identifiers).                │
+│  REQ-007    Low        Missing Source — The stakeholder is listed as 'Not    │
+│                        specified'.                                           │
+│                        → Identify a specific stakeholder (e.g., End User,    │
+│                        Compliance Officer) for the requirement.              │
+│  REQ-008    Medium     Ambiguity — The term 'within 1 minute of submitting   │
+│                        their application' is not fully measurable. It does   │
+│                        not clarify what constitutes 'submitting' or how the  │
+│                        1-minute window is enforced.                          │
+│                        → Define 'submitting' with measurable criteria        │
+│                        (e.g., the system confirms receipt of the             │
+│                        application) and clarify how the 1-minute window is   │
+│                        enforced.                                             │
+│  REQ-008    Low        Missing Source — The stakeholder is listed as 'Not    │
+│                        specified'.                                           │
+│                        → Identify a specific stakeholder (e.g., End User,    │
+│                        Product Manager) for the requirement.                 │
+│  REQ-008    High       Missing security/compliance — The requirement         │
+│                        involves sending notifications with user data but     │
+│                        does not mention encryption or access control.        │
+│                        → Add a requirement for encryption of user data in    │
+│                        notifications and ensure compliance with applicable   │
+│                        regulations (e.g., GDPR, PCI-DSS).                    │
+│  REQ-009    Medium     Missing Source — The requirement does not specify     │
+│                        the stakeholder who requested this feature. The       │
+│                        'source_stakeholder' field is empty.                  │
+│                        → Identify and document the stakeholder who provided  │
+│                        this requirement.                                     │
+│  REQ-010    Medium     Missing Source — The requirement does not specify     │
+│                        the stakeholder who requested this feature. The       │
+│                        'source_stakeholder' field is empty.                  │
+│                        → Identify and document the stakeholder who provided  │
+│                        this requirement.                                     │
+│  REQ-011    Medium     Missing Source — The requirement does not specify     │
+│                        the stakeholder who requested this feature. The       │
+│                        'source_stakeholder' field is empty.                  │
+│                        → Identify and document the stakeholder who provided  │
+│                        this requirement.                                     │
+│  REQ-012    Medium     Missing Source — The requirement does not specify     │
+│                        the stakeholder who requested this feature. The       │
+│                        'source_stakeholder' field is empty.                  │
+│                        → Identify and document the stakeholder who provided  │
+│                        this requirement.                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────── consistency  5 conflict 0 duplicate ─────────────────────╮
+│ POSSIBLE CONFLICT   REQ-002 REQ-006                                          │
+│     REQ-002: The system shall process loan applications and disburse funds   │
+│ within 10 minutes of submission                                              │
+│     REQ-006: The system shall allow users to cancel or modify their loan     │
+│ application within 1 hour of submission.                                     │
+│     Possible conflict: the two statements state different values for         │
+│ duration. The judge read it as unrelated: A relates to processing and        │
+│ disbursing funds, while B relates to allowing users to cancel or modify      │
+│ their application. They address different aspects of the loan application    │
+│ process.                                                                     │
+│     → Confirm with the stakeholders which statement is correct.              │
+│ POSSIBLE CONFLICT   REQ-002 REQ-012                                          │
+│     REQ-002: The system shall process loan applications and disburse funds   │
+│ within 10 minutes of submission                                              │
+│     REQ-012: The system shall support concurrent processing of at least      │
+│ 1,000 loan applications per hour during peak usage periods, with a response  │
+│ time of less than 2 seconds for 95% of requests.                             │
+│     Possible conflict: the two statements state different values for         │
+│ duration. The judge read it as overlap: REQ-002 focuses on the time to       │
+│ process and disburse funds (10 minutes), while REQ-012 specifies performance │
+│ under load (concurrent processing of 1,000 applications per hour with 95% of │
+│ requests under 2 seconds). Both relate to processing loan applications but   │
+│ address different aspects: one is about end-to-end time, the other about     │
+│ system performance during peak usage.                                        │
+│     → Confirm with the stakeholders which statement is correct.              │
+│ POSSIBLE CONFLICT   REQ-006 REQ-012                                          │
+│     REQ-006: The system shall allow users to cancel or modify their loan     │
+│ application within 1 hour of submission.                                     │
+│     REQ-012: The system shall support concurrent processing of at least      │
+│ 1,000 loan applications per hour during peak usage periods, with a response  │
+│ time of less than 2 seconds for 95% of requests.                             │
+│     Possible conflict: the two statements state different values for         │
+│ duration. The judge read it as unrelated: REQ-006 focuses on user ability to │
+│ cancel or modify a loan application within a time window, while REQ-012      │
+│ focuses on system performance metrics during peak usage. They address        │
+│ different aspects of the system.                                             │
+│     → Confirm with the stakeholders which statement is correct.              │
+│ POSSIBLE CONFLICT   REQ-011 REQ-012                                          │
+│     REQ-011: The system shall store all user loan application data,          │
+│ including personal information, financial details, and application status,   │
+│ in a secure, encrypted database with retention for at least 5 years.         │
+│     REQ-012: The system shall support concurrent processing of at least      │
+│ 1,000 loan applications per hour during peak usage periods, with a response  │
+│ time of less than 2 seconds for 95% of requests.                             │
+│     Possible conflict: the two statements state different values for         │
+│ duration. The judge read it as unrelated: REQ-011 focuses on data storage,   │
+│ security, and retention, while REQ-012 focuses on system performance and     │
+│ concurrency during peak usage. They address different aspects of the system. │
+│     → Confirm with the stakeholders which statement is correct.              │
+│ POSSIBLE CONFLICT   REQ-006 REQ-011                                          │
+│     REQ-006: The system shall allow users to cancel or modify their loan     │
+│ application within 1 hour of submission.                                     │
+│     REQ-011: The system shall store all user loan application data,          │
+│ including personal information, financial details, and application status,   │
+│ in a secure, encrypted database with retention for at least 5 years.         │
+│     Possible conflict: the two statements state different values for         │
+│ duration. The judge read it as unrelated: REQ-006 is about allowing users to │
+│ cancel or modify their loan application within a specific timeframe, while   │
+│ REQ-011 is about storing loan application data securely and retaining it for │
+│ a specific period. These are different functionalities and do not directly   │
+│ affect each other.                                                           │
+│     → Confirm with the stakeholders which statement is correct.              │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── compliance  17 gap 0 covered ────────────────────────╮
+│  rule             sev       finding                                          │
+│  CMP-CERTIN-01    High      Cyber incidents reported to CERT-In within 6     │
+│                             hours                                            │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall support reporting cyber       │
+│                             incidents to CERT-In within 6 hours of their     │
+│                             being noticed, with a copy to the sector         │
+│                             regulator.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CERTIN-02    High      ICT system logs kept for a rolling 180 days      │
+│                             within India                                     │
+│                             CERT-In Directions under section 70B(6) of the   │
+│                             IT Act, 2000 — information security practices    │
+│                             and reporting of                                 │
+│                             → The system shall keep logs of all its ICT      │
+│                             components securely for a rolling 180 days,      │
+│                             within India, and make them available to         │
+│                             CERT-In on request.                              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-CSF-01       High      Cyber security incidents reported promptly to    │
+│                             RBI                                              │
+│                             Cyber Security Framework in Banks §15            │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dire                   │
+│                             → The system shall detect and log cyber          │
+│                             security incidents and support reporting them    │
+│                             to RBI (and CERT-In) within the mandated         │
+│                             timelines.                                       │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DL-01        High      Borrower given a Key Facts Statement before the  │
+│                             loan contract                                    │
+│                             Reserve Bank of India (Digital Lending)          │
+│                             Directions, 2025 §8 (RBI/2025-26/36              │
+│                             DOR.STR.REC.19/21.07.001/2025-26)                │
+│                             → The system shall present the borrower with a   │
+│                             Key Facts Statement (APR, repayment schedule,    │
+│                             all charges) before the loan contract is         │
+│                             executed.                                        │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DL-02        High      Cooling-off period to exit a digital loan        │
+│                             without penalty                                  │
+│                             Reserve Bank of India (Digital Lending)          │
+│                             Directions, 2025 §10 (RBI/2025-26/36             │
+│                             DOR.STR.REC.19/21.07.001/2025-26)                │
+│                             → The system shall let a borrower exit a         │
+│                             digital loan during a cooling-off period of at   │
+│                             least one day by repaying the principal and      │
+│                             proportionate APR, without penalty.              │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DL-03        High      Lending app does not access contacts, call logs  │
+│                             or media; device access only with explicit       │
+│                             consent                                          │
+│                             Reserve Bank of India (Digital Lending)          │
+│                             Directions, 2025 §12 (RBI/2025-26/36             │
+│                             DOR.STR.REC.19/21.07.001/2025-26)                │
+│                             → The lending app shall not access the           │
+│                             borrower's files and media, contact list, call   │
+│                             logs or telephony functions; camera, microphone  │
+│                             and location may be accessed once, for           │
+│                             onboarding/KYC only, with explicit consent       │
+│                             recorded in an audit trail.                      │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DL-04        High      Loans disbursed only into the borrower's own     │
+│                             bank account, never via a third party            │
+│                             Reserve Bank of India (Digital Lending)          │
+│                             Directions, 2025 §9 (RBI/2025-26/36              │
+│                             DOR.STR.REC.19/21.07.001/2025-26)                │
+│                             → The system shall disburse loans only into the  │
+│                             borrower's own bank account and never through    │
+│                             any third-party or lending-service-provider      │
+│                             account.                                         │
+│                             needs compliance/legal sign-off                  │
+│  CMP-DL-05        High      Digital lending data stored only on servers in   │
+│                             India                                            │
+│                             Reserve Bank of India (Digital Lending)          │
+│                             Directions, 2025 §13 (RBI/2025-26/36             │
+│                             DOR.STR.REC.19/21.07.001/2025-26)                │
+│                             → The system shall store all borrower and loan   │
+│                             data only on servers located in India.           │
+│                             needs compliance/legal sign-off                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 9 more (in --json)
+╭─────────────────────────────── clause mapping ───────────────────────────────╮
+│  req       coverage        obligation                                        │
+│  REQ-011   not_applicable  (obligation not traceable to the clause)          │
+│                            The Aadhaar (Authentication and Offline           │
+│                            Verification) Regulations, 2021 §27 (No. 2 of     │
+│                            2021 (K-11020/ · IN                               │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            regulates the retention and deletion of           │
+│                            authentication transaction data by the            │
+│                            Authority, which is not the same activity as      │
+│                            storing user loan application data in a secure,   │
+│                            encrypted database for at least 5 years.)         │
+│  REQ-001   not_applicable  (obligation not traceable to the clause)          │
+│                            Master Direction on Digital Payment Security      │
+│                            Controls (RBI/2020-21/74                          │
+│                            DoS.CO.CSITE.SEC.No.1852/31.01 · IN               │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            regulates security controls for mobile payments   │
+│                            applications, which is not the same activity as   │
+│                            allowing users to apply for a personal loan       │
+│                            through a mobile application.)                    │
+│  REQ-010   not_applicable  (obligation not traceable to the clause)          │
+│                            Reserve Bank of India (Digital Lending)           │
+│                            Directions, 2025 §7 (RBI/2025-26/36               │
+│                            DOR.STR.REC.19/21.07.001 · IN                     │
+│                            none of the 1 retrieved clause(s) read governs    │
+│                            this requirement — its regulation citation is     │
+│                            unsupported. First read: the retrieved clause     │
+│                            does not appear to govern this requirement — the  │
+│                            grounding citation is doubtful (The clause        │
+│                            regulates the assessment of borrower              │
+│                            creditworthiness and the handling of credit       │
+│                            limit increases, which is not the same activity   │
+│                            as allowing administrators to configure loan      │
+│                            eligibility thresholds through a centralized      │
+│                            dashboard.)                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────── retention, reporting and approval obligations ────────────────╮
+│ retention   ICT system logs kept for a rolling 180 days within India         │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ retention   Personal data erased when consent is withdrawn or the purpose is │
+│ served — unless law requires retention                                       │
+│             Digital Personal Data Protection Act, 2023 §8(a) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ retention   Transaction records kept at least five years from the date of    │
+│ transaction                                                                  │
+│             Master Direction — Know Your Customer (KYC) Direction, 2016 §(a) │
+│ (RBI/DBR/2015-16/18) [updated 14 Au                                          │
+│ reporting   Cyber incidents reported to CERT-In within 6 hours               │
+│             CERT-In Directions under section 70B(6) of the IT Act, 2000 —    │
+│ information security practices and rep                                       │
+│ reporting   Cyber security incidents reported promptly to RBI                │
+│             Cyber Security Framework in Banks §15 (RBI/2015-16/418) [2016    │
+│ framework (partly superseded by the 20                                       │
+│ reporting   Personal data breaches notified to the Data Protection Board and │
+│ affected individuals                                                         │
+│             Digital Personal Data Protection Act, 2023 §8(b) (Act No. 22 of  │
+│ 2023) [as enacted]                                                           │
+│ audit       Audit trails on every application that can access or affect      │
+│ critical or sensitive information                                            │
+│             Master Direction on Information Technology Governance, Risk,     │
+│ Controls and Assurance Practices §15 (R                                      │
+│ consent     Lending app does not access contacts, call logs or media; device │
+│ access only with explicit consent                                            │
+│             Reserve Bank of India (Digital Lending) Directions, 2025 §12     │
+│ (RBI/2025-26/36 DOR.STR.REC.19/21.07.00                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────── sensitive data ───────────────────────────────╮
+│  data                      found in  protected by                            │
+│  Financial profile         REQ-010   nothing                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────── security controls  7 missing ────────────────────────╮
+│  rule             sev       finding                                          │
+│  SEC-API-01       High      Integrations authenticated, encrypted and        │
+│                             rate-limited  (practice, not regulation)         │
+│                             Industry practice (OWASP API Security Top 10)    │
+│                             → Every integration with an external system      │
+│                             shall be mutually authenticated, encrypted in    │
+│                             transit, allow-listed and rate-limited, with     │
+│                             failures logged.                                 │
+│  SEC-AUTHZ-01     High      Role-based access with least privilege for       │
+│                             staff and administrators                         │
+│                             Cyber Security Framework in Banks §8.3           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall grant staff access by role    │
+│                             on a least-privilege, need-to-know basis, and    │
+│                             enforce maker-checker approval for sensitive     │
+│                             operations.                                      │
+│                             needs compliance/legal sign-off                  │
+│  PRIV-MIN-01      Medium    Only the personal data necessary for the stated  │
+│                             purpose is collected                             │
+│                             Digital Personal Data Protection Act, 2023 §6    │
+│                             (Act No. 22 of 2023)                             │
+│                             → The system shall collect only the personal     │
+│                             data necessary for each specified purpose and    │
+│                             reject or discard fields not required for it.    │
+│  SEC-CRYPTO-02    Medium    Cryptographic keys and secrets managed outside   │
+│                             the application                                  │
+│                             Master Direction on Information Technology       │
+│                             Governance, Risk, Controls and Assurance         │
+│                             Practices §16 (RBI/2023-24                       │
+│                             → The system shall keep cryptographic keys and   │
+│                             service credentials in a managed key store or    │
+│                             HSM, rotate them on a defined schedule, and      │
+│                             never embed them in code or configuration        │
+│                             files.                                           │
+│  SEC-MOBILE-01    Medium    Mobile app refuses rooted/jailbroken devices     │
+│                             and checks its own integrity                     │
+│                             Master Direction on Digital Payment Security     │
+│                             Controls §58 (RBI/2020-21/74                     │
+│                             DoS.CO.CSITE.SEC.No.1852/31.01.015/2             │
+│                             → The mobile app shall refuse to install or run  │
+│                             on rooted or jailbroken devices, bind itself to  │
+│                             the customer's device and SIM, and verify its    │
+│                             own checksum at start-up.                        │
+│  SEC-MON-01       Medium    Security events monitored and alerted on         │
+│                             Cyber Security Framework in Banks §19.6(b)       │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT                        │
+│                             → The system shall forward security events to    │
+│                             the bank's security operations monitoring and    │
+│                             raise alerts on anomalous access or activity.    │
+│  SEC-VULN-01      Medium    Vulnerability management, patching and security  │
+│                             testing before release                           │
+│                             Cyber Security Framework in Banks §7.1           │
+│                             (RBI/2015-16/418) [2016 framework (partly        │
+│                             superseded by the 2023 IT dir                    │
+│                             → The system shall undergo vulnerability         │
+│                             assessment and penetration testing before        │
+│                             go-live and after major changes, and its         │
+│                             components shall be patched under the bank's     │
+│                             patch management policy.                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────── risk register  39 risks ───────────────────────────╮
+│  id         L×I     risk                                 owner               │
+│  RISK-001   4×4=16  Audit trails on every application    Compliance officer  │
+│                     that can access or affect critical                       │
+│                     or sensitive information                                 │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §15 (RBI/2023-24/107) )                        │
+│  RISK-002   4×4=16  Borrower given a Key Facts           Compliance officer  │
+│                     Statement before the loan contract                       │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Reserve Bank of India                       │
+│                     (Digital Lending) Directions, 2025                       │
+│                     §8 (RBI/2025-26/36                                       │
+│                     DOR.STR.REC.19/21.07.001/2025-26) )                      │
+│  RISK-003   4×4=16  Business continuity and disaster     Compliance officer  │
+│                     recovery for the system                                  │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Master Direction on                         │
+│                     Information Technology Governance,                       │
+│                     Risk, Controls and Assurance                             │
+│                     Practices §28 (RBI/2023-24/107) )                        │
+│  RISK-004   4×4=16  Cooling-off period to exit a         Compliance officer  │
+│                     digital loan without penalty                             │
+│                     (Compliance)                                             │
+│                     No requirement covers this                               │
+│                     obligation. (Reserve Bank of India                       │
+│                     (Digital Lending) Directions, 2025                       │
+│                     §10 (RBI/2025-26/36                                      │
+│                     DOR.STR.REC.19/21.07.001/2025-26) )                      │
+│  RISK-005   4×4=16  Cyber incidents reported to CERT-In  Compliance officer  │
+│                     within 6 hours (Compliance)                              │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents (No. 20(3)/2022-CERT-In)                       │
+│                     )                                                        │
+│  RISK-006   4×4=16  Cyber security incidents reported    Compliance officer  │
+│                     promptly to RBI (Compliance)                             │
+│                     No requirement covers this                               │
+│                     obligation. (Cyber Security                              │
+│                     Framework in Banks §15                                   │
+│                     (RBI/2015-16/418) [2016 framework                        │
+│                     (partly superseded by the 2023 IT                        │
+│                     directions)])                                            │
+│  RISK-007   4×4=16  Digital lending data stored only on  Compliance officer  │
+│                     servers in India (Compliance)                            │
+│                     No requirement covers this                               │
+│                     obligation. (Reserve Bank of India                       │
+│                     (Digital Lending) Directions, 2025                       │
+│                     §13 (RBI/2025-26/36                                      │
+│                     DOR.STR.REC.19/21.07.001/2025-26) )                      │
+│  RISK-008   4×4=16  ICT system logs kept for a rolling   Compliance officer  │
+│                     180 days within India (Compliance)                       │
+│                     No requirement covers this                               │
+│                     obligation. (CERT-In Directions                          │
+│                     under section 70B(6) of the IT Act,                      │
+│                     2000 — information security                              │
+│                     practices and reporting of cyber                         │
+│                     incidents §6(iv) (No.                                    │
+│                     20(3)/2022-CERT-In) )                                    │
+│  RISK-009   4×4=16  Lending app does not access          Compliance officer  │
+│                     contacts, call logs or media;                            │
+│                     device access only with explicit                         │
+│                     consent (Compliance)                                     │
+│                     No requirement covers this                               │
+│                     obligation. (Reserve Bank of India                       │
+│                     (Digital Lending) Directions, 2025                       │
+│                     §12 (RBI/2025-26/36                                      │
+│                     DOR.STR.REC.19/21.07.001/2025-26) )                      │
+│  RISK-010   4×4=16  Loans disbursed only into the        Compliance officer  │
+│                     borrower's own bank account, never                       │
+│                     via a third party (Compliance)                           │
+│                     No requirement covers this                               │
+│                     obligation. (Reserve Bank of India                       │
+│                     (Digital Lending) Directions, 2025                       │
+│                     §9 (RBI/2025-26/36                                       │
+│                     DOR.STR.REC.19/21.07.001/2025-26) )                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+… and 29 more (in --json)
+╭───────────────────────────── open questions  15 ─────────────────────────────╮
+│ CQ-001 Audit trails on every application that can access or affect critical  │
+│ or sensitive information (Master Direction on Information Technology         │
+│ Governance, Risk, Controls and Assurance Practices §15 (RBI/2023-24/107)     │
+│ [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep tamper-evident audit trails of every  │
+│ access to and change of customer and transaction data, recording who acted,  │
+│ what changed and when”?                                                      │
+│        CMP-ITGOV-01: triggered by 'loan*' in the scenario, 'loan*' in        │
+│ REQ-001                                                                      │
+│ CQ-002 Borrower given a Key Facts Statement before the loan contract         │
+│ (Reserve Bank of India (Digital Lending) Directions, 2025 §8 (RBI/2025-26/36 │
+│ DOR.STR.REC.19/21.07.001/2025-26) [issued 08 May 2025 (para 6 from 01 Nov    │
+│ 2025, para 17 from 15 Jun 2025)]). Nothing in the requirements covers this.  │
+│ Should the system include: “The system shall present the borrower with a Key │
+│ Facts Statement (APR, repayment schedule, all charges) before the loan       │
+│ contract is executed”?                                                       │
+│        CMP-DL-01: triggered by 'loan app*' in the scenario, 'loan app*' in   │
+│ REQ-002                                                                      │
+│ CQ-003 Business continuity and disaster recovery for the system (Master      │
+│ Direction on Information Technology Governance, Risk, Controls and Assurance │
+│ Practices §28 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the        │
+│ requirements covers this. Should the system include: “The system shall have  │
+│ a disaster recovery arrangement with defined recovery time and recovery      │
+│ point objectives, tested periodically under the bank's business continuity   │
+│ plan”?                                                                       │
+│        CMP-ITGOV-02: triggered by 'loan*' in the scenario, 'loan*' in        │
+│ REQ-001                                                                      │
+│ CQ-004 Cooling-off period to exit a digital loan without penalty (Reserve    │
+│ Bank of India (Digital Lending) Directions, 2025 §10 (RBI/2025-26/36         │
+│ DOR.STR.REC.19/21.07.001/2025-26) [issued 08 May 2025 (para 6 from 01 Nov    │
+│ 2025, para 17 from 15 Jun 2025)]). Nothing in the requirements covers this.  │
+│ Should the system include: “The system shall let a borrower exit a digital   │
+│ loan during a cooling-off period of at least one day by repaying the         │
+│ principal and proportionate APR, without penalty”?                           │
+│        CMP-DL-02: triggered by 'loan app*' in the scenario, 'loan app*' in   │
+│ REQ-002                                                                      │
+│ CQ-005 Cyber incidents reported to CERT-In within 6 hours (CERT-In           │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued  │
+│ 28 Apr 2022]). Nothing in the requirements covers this. Should the system    │
+│ include: “The system shall support reporting cyber incidents to CERT-In      │
+│ within 6 hours of their being noticed, with a copy to the sector regulator”? │
+│        CMP-CERTIN-01: triggered by 'loan*' in the scenario, 'loan*' in       │
+│ REQ-001                                                                      │
+│ CQ-006 Cyber security incidents reported promptly to RBI (Cyber Security     │
+│ Framework in Banks §15 (RBI/2015-16/418) [2016 framework (partly superseded  │
+│ by the 2023 IT directions)]). Nothing in the requirements covers this.       │
+│ Should the system include: “The system shall detect and log cyber security   │
+│ incidents and support reporting them to RBI (and CERT-In) within the         │
+│ mandated timelines”?                                                         │
+│        CMP-CSF-01: triggered by 'loan*' in the scenario, 'loan*' in REQ-001  │
+│ CQ-007 Digital lending data stored only on servers in India (Reserve Bank of │
+│ India (Digital Lending) Directions, 2025 §13 (RBI/2025-26/36                 │
+│ DOR.STR.REC.19/21.07.001/2025-26) [issued 08 May 2025 (para 6 from 01 Nov    │
+│ 2025, para 17 from 15 Jun 2025)]). Nothing in the requirements covers this.  │
+│ Should the system include: “The system shall store all borrower and loan     │
+│ data only on servers located in India”?                                      │
+│        CMP-DL-05: triggered by 'loan app*' in the scenario, 'loan app*' in   │
+│ REQ-002                                                                      │
+│ CQ-008 ICT system logs kept for a rolling 180 days within India (CERT-In     │
+│ Directions under section 70B(6) of the IT Act, 2000 — information security   │
+│ practices and reporting of cyber incidents §6(iv) (No. 20(3)/2022-CERT-In)   │
+│ [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the   │
+│ system include: “The system shall keep logs of all its ICT components        │
+│ securely for a rolling 180 days, within India, and make them available to    │
+│ CERT-In on request”?                                                         │
+│        CMP-CERTIN-02: triggered by 'loan*' in the scenario, 'loan*' in       │
+│ REQ-001                                                                      │
+│ … and 7 more (in --json)                                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────── recommended approach ────────────────────────────╮
+│                                                                              │
+│  Prototype                                                                   │
+│                                                                              │
+│  also considered: Agile, Spiral, RAD                                         │
+│                                                                              │
+│  a second, independent read disagreed — it would have chosen Agile           │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Prototype ──────────────────────────────────────────────────────────────────╮
+│        fits • the requirements are not yet well understood                   │
+│             • the full set cannot be pinned down before build starts         │
+│             • scope is expected to keep changing as work goes on             │
+│             • stakeholders need to see something working before they can say │
+│             what they want                                                   │
+│             • this takes the organisation somewhere it has not been before   │
+│             • the system has to interoperate with systems outside itself     │
+│                                                                              │
+│    buys you A working model quickly                                          │
+│               REQ-004 requires the system to be developed as an MVP with     │
+│             core functionalities to meet the launch timeline of 2 months. A  │
+│             working model quickly aligns with this requirement.              │
+│             Requirements clarified by seeing them run                        │
+│               REQ-003 states that the system shall support iterative updates │
+│             and feature enhancements based on user feedback. Clarifying      │
+│             requirements by seeing them run supports this iterative process. │
+│             Technical risk investigated before committing                    │
+│               REQ-002 requires the system to process loan applications and   │
+│             disburse funds within 10 minutes of submission. Investigating    │
+│             technical risks before committing ensures this performance       │
+│             requirement is met.                                              │
+│             Early feedback from real users                                   │
+│               REQ-003 requires the system to support iterative updates based │
+│             on user feedback. Early feedback from real users directly        │
+│             supports this requirement.                                       │
+│                                                                              │
+│    gives up Prototype assumes technical feasibility itself is in doubt and   │
+│             has to be proven — that is not the case here, so that part of    │
+│             its design earns nothing on this project.                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────────────────────────────────────╮
+│ Prototype+new_product+integration+short_life+user_involvement->Prototype     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ in one line ────────────────────────────────────────────────────────────────╮
+│ new_product+integration+short_life+user_involvement->Prototype               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Wrote evaluation/results/model_compare_20261124/qwen3_14b/fintech_startup.json
+time: sdlc 132s · quality 128s · extraction 87s · conflicts 78s  (pipeline 537s, warm-up 55s)
+╭──────────────────────────────── needs review ────────────────────────────────╮
+│ • 13 high-severity regulatory obligation(s) have no covering requirement:    │
+│ Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for │
+│ a rolling 180 days within India; Cyber security incidents reported promptly  │
+│ to RBI (and 10 more).                                                        │
+│ • 3 requirement(s) cite a regulation that, on reading, does not govern them: │
+│ "The system shall store all user loan application data, including personal   │
+│ information, financial details, and application status, in a secure,         │
+│ encrypted database with retention for at least 5 years."; "The system shall  │
+│ allow users to apply for a personal loan through a mobile application" (and  │
+│ 1 more).                                                                     │
+│ • could not establish whether funding is settled for the life of the project │
+│ — the model gave an answer but could not point at anything in the scenario   │
+│ that says so, so it was left out of the scoring.                             │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯

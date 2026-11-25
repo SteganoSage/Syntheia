@@ -46,8 +46,19 @@ def corpus_of(scenario: str, requirements: list[dict]) -> str:
     return " ".join(parts).lower()
 
 
+def spaced(name: str) -> str:
+    """'VideoKYCSession' / 'KYC_Document' -> 'Video KYC Session' / 'KYC Document'.
+
+    qwen3:14b names entities in CamelCase. Read as one word, "KYCDocument" is
+    "kycdocument", which no scenario contains -- 5 of its 7 KYC entities were
+    dropped as ungrounded while the 8B's "KYC_Document" passed (24 Nov)."""
+    s = (name or "").replace("_", " ")
+    s = re.sub(r"(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
 def _distinctive(name: str) -> list[str]:
-    return [w for w in re.findall(r"[a-z0-9]+", (name or "").lower())
+    return [w for w in re.findall(r"[a-z0-9]+", spaced(name).lower())
             if w not in _STOP and len(w) >= 3]
 
 
@@ -57,7 +68,7 @@ def grounded(name: str, corpus: str) -> bool:
     ALL, not any: one shared word let "Internet Service Provider" through on
     "internet", and "Business Owner" on "business"."""
     words = _distinctive(name)
-    if " ".join(re.findall(r"[a-z0-9]+", (name or "").lower())) in corpus:
+    if " ".join(re.findall(r"[a-z0-9]+", spaced(name).lower())) in corpus:
         return True
     if not words:
         return False
@@ -393,7 +404,7 @@ def write_data_model(scenario: str, reqs: list[dict], use_llm: bool = True) -> D
         return DataModel()
     ents, names = [], set()
     for e in out.entities[:8]:
-        n = e.name.strip()
+        n = spaced(e.name.strip())
         if n and n.lower() not in names and grounded(n, corpus):
             names.add(n.lower())
             ents.append((n, e.description.strip(), [a.strip() for a in e.attributes if a.strip()][:8],
@@ -409,7 +420,7 @@ def write_data_model(scenario: str, reqs: list[dict], use_llm: bool = True) -> D
 
     rels = []
     for r in out.relationships:
-        s, t = r.source.strip(), r.target.strip()
+        s, t = spaced(r.source.strip()), spaced(r.target.strip())
         if s.lower() in names and t.lower() in names and s.lower() != t.lower():
             per_s, per_t = r.targets_per_source, r.sources_per_target
             if holds_key(t, s):

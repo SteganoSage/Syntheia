@@ -1,6 +1,7 @@
 """Turn a saved pipeline run into requirement artefacts.
 
-    python -m src.generators.export RUN.json --out out/            # IEEE 830 SRS
+    python -m src.generators.export RUN.json --out out/            # IEEE 830 SRS, Markdown
+    python -m src.generators.export RUN.json --out out/ --format both   # + Word
     python -m src.generators.export RUN.json --out out/ --layout iso29148
     python -m src.generators.export RUN.json --out out/ --no-llm   # fully offline
 
@@ -22,6 +23,8 @@ def main(argv=None) -> int:
     ap.add_argument("run", type=Path, help="a run JSON written by main.py --json")
     ap.add_argument("--out", type=Path, required=True, help="output directory")
     ap.add_argument("--layout", choices=["ieee830", "iso29148", "both"], default="ieee830")
+    ap.add_argument("--format", choices=["md", "docx", "both"], default="md",
+                    help="Markdown (default), Word, or both")
     ap.add_argument("--no-llm", action="store_true",
                     help="deterministic narrative and stakeholder-grouped features; no model call")
     args = ap.parse_args(argv)
@@ -35,10 +38,11 @@ def main(argv=None) -> int:
         return 2
 
     from src.generators.srs import generate_srs
+    from src.generators.srs.generate import FORMATS
     from src.utils.similarity import default_similarity
 
     generate_srs(run, args.out, layout=args.layout, use_llm=not args.no_llm,
-                 sim=default_similarity())
+                 formats=FORMATS[args.format], sim=default_similarity())
     return 0
 
 

@@ -12,7 +12,8 @@ paths -- if the tiers diverge, the benchmark numbers stop being comparable and
 the demo-day fallback stops being tested by everyday use.
 
     OLLAMA_HOST    base URL         (default http://localhost:11434)
-    OLLAMA_MODEL   model tag        (default phi3.5)
+    OLLAMA_MODEL   model tag        (default llama3.2:3b)
+    OLLAMA_THINK   0 / 1            reasoning models only; unset sends nothing
 
 Interface mirrors `llm_gemini.py` so `src/utils/llm.py` can route between them:
 `call_structured(system_prompt, user_prompt, response_model, model, temperature)`.
@@ -95,6 +96,21 @@ def get_num_ctx() -> int:
 
 def get_num_predict() -> int:
     return int(os.getenv("OLLAMA_NUM_PREDICT", DEFAULT_NUM_PREDICT))
+
+
+def get_think() -> bool | None:
+    """Whether a reasoning model (qwen3, qwen3.5) thinks before answering.
+
+    Unset means "send nothing", so models without the capability -- llama3.1,
+    llama3.2 -- get exactly the request they always did. A thinking model left
+    to its default spends thousands of tokens per call reasoning before the
+    JSON, across a pipeline that makes dozens of calls; OLLAMA_THINK=0 is how
+    such a model is compared like for like.
+    """
+    raw = os.getenv("OLLAMA_THINK", "").strip().lower()
+    if not raw:
+        return None
+    return raw not in {"0", "false", "no", "off"}
 
 
 def get_keep_alive() -> int | str:
@@ -227,6 +243,9 @@ def generate(
         # A dict here constrains decoding to that schema; "json" only forces
         # syntactically valid JSON of any shape.
         payload["format"] = schema if schema else "json"
+    think = get_think()
+    if think is not None:
+        payload["think"] = think
 
     url = f"{get_host()}/api/generate"
 

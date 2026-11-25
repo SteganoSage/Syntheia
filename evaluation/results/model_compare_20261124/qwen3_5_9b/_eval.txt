@@ -1,0 +1,58 @@
+
+  FAIL  bank_migration     want V-Shaped           got Spiral = Waterfall
+         answers: 14/20 match  (1 wrong, 5 missed, 0 unsupported)
+           REQ-1    want yes         got not_stated  Are the requirements easily defined and/or wel
+           REQ-2    want yes         got not_stated  Can the requirements be defined early in the c
+           REQ-3    want no          got not_stated  Will the requirements change often in the cycl
+           REQ-4    want no          got not_stated  Is there a need to demonstrate the requirement
+           REQ-5    want no          got not_stated  Is a proof of concept required to demonstrate 
+           PTR-4    want yes         got no          Is the funding for the project expected to be 
+
+  PASS  credit_risk        want Spiral/Prototype   got Spiral
+         answers: 16/20 match  (1 wrong, 1 missed, 2 unsupported)
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-4    want no          got not_stated  Is the funding for the project expected to be 
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  FAIL  fintech_startup    want Agile/RAD          got Prototype
+         answers: 12/20 match  (1 wrong, 5 missed, 2 unsupported)
+           REQ-1    want no          got not_stated  Are the requirements easily defined and/or wel
+           REQ-2    want no          got not_stated  Can the requirements be defined early in the c
+           REQ-3    want yes         got not_stated  Will the requirements change often in the cycl
+           REQ-4    want yes         got not_stated  Is there a need to demonstrate the requirement
+           REQ-5    want yes         got not_stated  Is a proof of concept required to demonstrate 
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-5    want not_stated  got no          Is the product expected to have a long life in
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  FAIL  insurance_claims   want Waterfall          got Spiral = V-Shaped
+         answers: 12/20 match  (1 wrong, 6 missed, 1 unsupported)
+           REQ-1    want yes         got not_stated  Are the requirements easily defined and/or wel
+           REQ-2    want yes         got not_stated  Can the requirements be defined early in the c
+           REQ-3    want no          got not_stated  Will the requirements change often in the cycl
+           REQ-4    want no          got not_stated  Is there a need to demonstrate the requirement
+           REQ-5    want no          got not_stated  Is a proof of concept required to demonstrate 
+           PTR-2    want no          got yes         Is the project a system integration project?
+           PTR-4    want yes         got not_stated  Is the funding for the project expected to be 
+           PTR-6    want not_stated  got yes         Does the project require formal verification a
+
+  FAIL  kyc_onboarding     want Agile/Spiral       got Waterfall
+         answers: 13/20 match  (1 wrong, 5 missed, 1 unsupported)
+           REQ-1    want yes         got not_stated  Are the requirements easily defined and/or wel
+           REQ-2    want yes         got not_stated  Can the requirements be defined early in the c
+           REQ-3    want no          got not_stated  Will the requirements change often in the cycl
+           REQ-4    want no          got not_stated  Is there a need to demonstrate the requirement
+           REQ-5    want no          got not_stated  Is a proof of concept required to demonstrate 
+           PTR-1    want yes         got no          Does the project identify a new product direct
+           PTR-6    want not_stated  got no          Does the project require formal verification a
+
+  Totals over 5 runs:
+     67 correct
+      5 answered wrongly        (inference quality)
+     22 missed                  (scenario says it, model abstained)
+      6 unsupported             (answered from nothing)
+     49 questions the scenarios actually answer
+
+  NOTE: expected answers are unverified for bank_migration, credit_risk, fintech_startup, insurance_claims, kyc_onboarding, prof_payroll_conversion, prof_wristwatch.
+  Recommendation-level results above are real; answer-level results are a comparison against a draft.
