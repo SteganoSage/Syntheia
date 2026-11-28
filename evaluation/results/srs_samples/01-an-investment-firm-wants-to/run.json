@@ -1,0 +1,1971 @@
+{
+  "scenario": "<stdin>",
+  "scenario_name": "<stdin>",
+  "scenario_text": "An investment firm wants to develop a platform that allows users to invest in mutual funds, stocks and other financial instruments. The system should collect users' financial goals, income and risk preferences before suggesting suitable investment options. Users should be able to track portfolio performance, view profits and losses, and receive investment alerts. Financial advisors should be able to monitor client portfolios and provide recommendations.",
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "statement": "The system shall allow users to invest in mutual funds, stocks, and other financial instruments",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Users want to invest in various financial instruments; the system should support multiple investment options",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have access to necessary financial information and resources",
+      "acceptance_criteria": "Users can successfully invest in mutual funds, stocks, and other financial instruments",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-002",
+      "statement": "The system shall collect users' financial goals, income, and risk preferences",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Users' financial goals, income, and risk preferences are necessary for providing suitable investment options",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users provide accurate and complete financial information",
+      "acceptance_criteria": "Users' financial goals, income, and risk preferences are accurately collected and stored",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Business",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-003",
+      "statement": "The system shall suggest suitable investment options based on users' financial goals, income, and risk preferences",
+      "source_stakeholder": "Business Analyst",
+      "business_justification": "Users need personalized investment recommendations to make informed decisions",
+      "priority": "High",
+      "dependencies": [
+        "REQ-002"
+      ],
+      "assumptions": "Users' financial information is accurate and up-to-date",
+      "acceptance_criteria": "Users receive personalized investment recommendations based on their financial goals, income, and risk preferences",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Business",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-004",
+      "statement": "The system shall allow users to track portfolio performance, view profits and losses, and receive investment alerts",
+      "source_stakeholder": "End User",
+      "business_justification": "Users want to monitor their investment performance and receive timely alerts",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Users have access to necessary financial information and resources",
+      "acceptance_criteria": "Users can successfully track portfolio performance, view profits and losses, and receive investment alerts",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Stakeholder",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-005",
+      "statement": "The system shall allow financial advisors to monitor client portfolios and provide recommendations",
+      "source_stakeholder": "Financial Advisor",
+      "business_justification": "Financial advisors need to monitor client portfolios and provide personalized recommendations",
+      "priority": "High",
+      "dependencies": [],
+      "assumptions": "Financial advisors have access to necessary client information and resources",
+      "acceptance_criteria": "Financial advisors can successfully monitor client portfolios and provide personalized recommendations",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.9,
+      "approval_status": "Pending",
+      "origin": "stated",
+      "category": [
+        "Business",
+        "Stakeholder",
+        "Functional"
+      ]
+    },
+    {
+      "id": "REQ-006",
+      "statement": "The system shall allow users to cancel or modify their investment plans",
+      "source_stakeholder": "",
+      "business_justification": "Users should be able to change their investment goals or risk preferences, and the system should accommodate these changes.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "A user can cancel or modify their investment plan and the system updates the portfolio accordingly.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Business",
+        "Functional",
+        "Usability"
+      ]
+    },
+    {
+      "id": "REQ-007",
+      "statement": "The system shall handle exceptions such as failed investment transactions, unavailable external services, or timeouts",
+      "source_stakeholder": "",
+      "business_justification": "The system should be able to recover from unexpected errors and provide a good user experience.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system logs and notifies the user of any exceptions, and provides a retry mechanism for failed transactions.",
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73.4.11 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Availability",
+        "Operational"
+      ]
+    },
+    {
+      "id": "REQ-008",
+      "statement": "The system shall store user financial data securely and in compliance with relevant regulations",
+      "source_stakeholder": "",
+      "business_justification": "User financial data is sensitive and must be protected.",
+      "priority": "Medium",
+      "dependencies": [],
+      "assumptions": "",
+      "acceptance_criteria": "The system encrypts user data and implements access controls to ensure data security and compliance with regulations.",
+      "applicable_regulations": [],
+      "risk_level": "Medium",
+      "confidence_score": 0.75,
+      "approval_status": "Pending",
+      "origin": "implied",
+      "category": [
+        "Privacy",
+        "Regulatory",
+        "Data-management"
+      ]
+    }
+  ],
+  "dropped": [],
+  "implied_rejected": [
+    {
+      "statement": "The system shall provide financial advisors with a dashboard to monitor client portfolios and provide recommendations",
+      "reason": "restates an existing requirement (0.93): The system shall allow financial advisors to monitor client portfolios and provide recommendations"
+    },
+    {
+      "statement": "The system shall provide user notifications for investment alerts, portfolio performance, and other relevant events",
+      "reason": "restates an existing requirement (0.84): The system shall allow users to track portfolio performance, view profits and losses, and receive investment alerts"
+    },
+    {
+      "statement": "The system shall allow financial advisors to view and manage client portfolios, including adding or removing investments",
+      "reason": "restates an existing requirement (0.87): The system shall allow financial advisors to monitor client portfolios and provide recommendations"
+    },
+    {
+      "statement": "The system shall provide performance metrics and analytics for financial advisors to evaluate client portfolio performance",
+      "reason": "restates an existing requirement (0.82): The system shall allow financial advisors to monitor client portfolios and provide recommendations"
+    }
+  ],
+  "sectors": [],
+  "grounding": {
+    "REQ-001": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a7136 (RFP No. 375) [RFP 375]",
+          "clause_id": "136",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5892,
+          "excerpt": "136 Personalized financial advisory- investment \nrecommendations for wide range of financial \nproducts- Deposits, mutual funds, insurance, \ngovt schemes, etc. based on: \n- Customer's risk profile \n- Customer's goals  \nPhase 3"
+        }
+      ],
+      "confidence": 0.5892,
+      "needs_review": true
+    },
+    "REQ-002": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5355,
+      "needs_review": true
+    },
+    "REQ-003": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a7136 (RFP No. 375) [RFP 375]",
+          "clause_id": "136",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.6704,
+          "excerpt": "136 Personalized financial advisory- investment \nrecommendations for wide range of financial \nproducts- Deposits, mutual funds, insurance, \ngovt schemes, etc. based on: \n- Customer's risk profile \n- Customer's goals  \nPhase 3"
+        }
+      ],
+      "confidence": 0.6704,
+      "needs_review": true
+    },
+    "REQ-004": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.5044,
+      "needs_review": true
+    },
+    "REQ-005": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a7136 (RFP No. 375) [RFP 375]",
+          "clause_id": "136",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5834,
+          "excerpt": "136 Personalized financial advisory- investment \nrecommendations for wide range of financial \nproducts- Deposits, mutual funds, insurance, \ngovt schemes, etc. based on: \n- Customer's risk profile \n- Customer's goals  \nPhase 3"
+        }
+      ],
+      "confidence": 0.5834,
+      "needs_review": true
+    },
+    "REQ-006": {
+      "citations": [],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [],
+      "precedents": [],
+      "confidence": 0.4966,
+      "needs_review": true
+    },
+    "REQ-007": {
+      "citations": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73.4.11 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "3.4.11",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.5552,
+          "excerpt": "3.4.11 Exception \nManagement  \nAn \u201cexception\u201d shall be defined as circumstances when a particular \npolicy or standard; security program requirement; or security best \npractice cannot be fully implemented.  \nOrganization shall develop, publish and implement administrative, \ntechnical and physical saf"
+        }
+      ],
+      "named_instrument_unmatched": false,
+      "applicable_regulations": [
+        "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73.4.11 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]"
+      ],
+      "precedents": [],
+      "confidence": 0.5552,
+      "needs_review": false
+    },
+    "REQ-008": {
+      "citations": [],
+      "named_instrument_unmatched": true,
+      "applicable_regulations": [],
+      "precedents": [
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a72 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "2",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.6922,
+          "excerpt": "2. Personal data of customers/employees shall be securely stored, in \nmanual or electronic form, and in accordance with the IT Act."
+        },
+        {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "clause_id": "3",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "version": "issued 24 Apr 2023",
+          "doc_type": "regulation",
+          "url": "",
+          "confidence": 0.6075,
+          "excerpt": "1. Password\n2. User details as provided at the time of registration or thereafter\n3. Information related to financial information such as Bank account \n/ credit card / debit card / other payment instrument details of \nthe users"
+        },
+        {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a77 (Act No. 22 of 2023) [as enacted]",
+          "clause_id": "7",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "issuer": "Government of India",
+          "version": "as enacted",
+          "doc_type": "regulation",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "confidence": 0.6047,
+          "excerpt": "7.  Breach of any other provision of this Act or the rules \nmade thereunder. \n \nMay extend to fifty crore \nrupees. \n \n \n  \n\n25 \n \nSTATEMENT OF OBJECTS AND REASONS \nDigital transactions have transformed economic as well as social interactions. Use of personal data \nfor provision of services and other"
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.15 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.15",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.6336,
+          "excerpt": "2.13 The system should store transactional / alert / reports \ndata securely in a centralized data repository.\n2.14 The system should have ability to cleanse and \nnormalize data to remove inconsistencies and errors.\n2.15 The system should have the ability to transform data \ninto a unified format for "
+        },
+        {
+          "citation": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System \u00a72.3 (RFP \u2014 Fraud Detection and Prevention System) [current procurement]",
+          "clause_id": "2.3",
+          "title": "Request for Proposal \u2014 Procurement, Implementation and Maintenance of Fraud Detection and Prevention System",
+          "issuer": "GIC Housing Finance Ltd",
+          "version": "current procurement",
+          "doc_type": "tender",
+          "url": "https://www.gichfindia.com/dashinsur/uploads/tenders/RFPForFraudDetectionandPreventionSystem_compressed.pdf",
+          "confidence": 0.5909,
+          "excerpt": "2.3 The system shall have the capability to integrate with \nmultiple authorized fintech and government-\napproved agencies to perform real-time verification \nand validation of customer identity and supporting \ndocuments. (e.g., PAN, Aadhaar, mobile number, \nemail, bank account details, etc.)."
+        },
+        {
+          "citation": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution \u00a732.37 (RFP No. 375) [RFP 375]",
+          "clause_id": "32.37",
+          "title": "RFP for Digital Banking Platform with Omni-Channel Mobile App and Web Solution",
+          "issuer": "Central Bank of India",
+          "version": "RFP 375",
+          "doc_type": "tender",
+          "url": "https://centralbank.bank.in/sites/default/files/2023-02/rfp_375_%20digital%20banking%20platform%20with%20omni%20channel%20mobile%20app%20and%20web%20solution%20.pdf",
+          "confidence": 0.5794,
+          "excerpt": "32.37 Compliance and assurance \n\uf0b7 Assisting the Bank in attaining and ensuring on- going compliance to various regulatory               \nand data security/ privacy requirements \n\uf0b7 Addressing relevant threats/ risks identified in a proactive manner and through audit   \nobservations \n\uf0b7 For all existin"
+        }
+      ],
+      "confidence": 0.6922,
+      "needs_review": true
+    }
+  },
+  "quality_report": {
+    "result_list": [
+      {
+        "requirement_id": "REQ-001",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'other financial instruments' is not defined.",
+            "severity": "Medium",
+            "suggestion": "Define what 'other financial instruments' means in the context of this system."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-002",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-003",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'suitable investment options' is not defined.",
+            "severity": "Medium",
+            "suggestion": "Define what 'suitable investment options' means in the context of this system."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-004",
+        "issues": [
+          {
+            "issue_type": "Undefined Terminology",
+            "description": "The term 'investment alerts' is not defined.",
+            "severity": "Medium",
+            "suggestion": "Define what 'investment alerts' means in the context of this system."
+          }
+        ],
+        "passed": false
+      },
+      {
+        "requirement_id": "REQ-005",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-006",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-007",
+        "issues": [],
+        "passed": true
+      },
+      {
+        "requirement_id": "REQ-008",
+        "issues": [
+          {
+            "issue_type": "Missing security/compliance",
+            "description": "The requirement mentions storing user financial data securely, but does not specify what security measures will be taken.",
+            "severity": "High",
+            "suggestion": "Specify what security measures will be taken to protect user financial data."
+          }
+        ],
+        "passed": false
+      }
+    ]
+  },
+  "sdlc": {
+    "recommendation": "Prototype",
+    "ranking": [
+      {
+        "model_id": "prototype",
+        "name": "Prototype",
+        "score": 0.6667,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3",
+          "PTR-4",
+          "PTR-6",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-5"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "waterfall",
+        "name": "Waterfall",
+        "score": 0.5833,
+        "matched": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-4",
+          "PTR-5",
+          "PTR-6"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "agile",
+        "name": "Agile",
+        "score": 0.5,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-5",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-3",
+          "PTR-4",
+          "PTR-6"
+        ],
+        "is_derived": true
+      },
+      {
+        "model_id": "spiral",
+        "name": "Spiral",
+        "score": 0.5,
+        "matched": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-3",
+          "PTR-5"
+        ],
+        "missed": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-2",
+          "PTR-4",
+          "PTR-6",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "incremental",
+        "name": "Incremental",
+        "score": 0.4167,
+        "matched": [
+          "REQ-1",
+          "REQ-3",
+          "REQ-5",
+          "PTR-1",
+          "PTR-5"
+        ],
+        "missed": [
+          "REQ-2",
+          "REQ-4",
+          "PTR-2",
+          "PTR-3",
+          "PTR-4",
+          "PTR-6",
+          "USER-4"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "rad",
+        "name": "RAD",
+        "score": 0.4167,
+        "matched": [
+          "REQ-3",
+          "REQ-4",
+          "PTR-4",
+          "PTR-6",
+          "USER-4"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-5",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-5"
+        ],
+        "is_derived": false
+      },
+      {
+        "model_id": "v_shaped",
+        "name": "V-Shaped",
+        "score": 0.3333,
+        "matched": [
+          "REQ-3",
+          "REQ-5",
+          "PTR-4",
+          "PTR-5"
+        ],
+        "missed": [
+          "REQ-1",
+          "REQ-2",
+          "REQ-4",
+          "PTR-1",
+          "PTR-2",
+          "PTR-3",
+          "PTR-6",
+          "USER-4"
+        ],
+        "is_derived": false
+      }
+    ],
+    "tied_with": [],
+    "criteria": [
+      {
+        "question_id": "REQ-1",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements imply a new system is being developed, as they describe a platform that allows users to invest in mutual funds, stocks and other financial instruments, which suggests the organisation is still working out what it wants."
+      },
+      {
+        "question_id": "REQ-2",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements imply a new system is being developed, which suggests the organisation is still working out what it wants, and therefore the full set of requirements cannot be pinned down before build starts."
+      },
+      {
+        "question_id": "REQ-3",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The original problem statement mentions that the system should collect users' financial goals, income and risk preferences before suggesting suitable investment options, which implies a fixed scope and therefore stable requirements."
+      },
+      {
+        "question_id": "REQ-4",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements imply a new system is being developed, which suggests that stakeholders may need to see something working before they can say what they want."
+      },
+      {
+        "question_id": "REQ-5",
+        "answer": "no",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements are specific and well-defined, which suggests that technical feasibility is not in doubt, and therefore a proof of concept is not required to demonstrate capability."
+      },
+      {
+        "question_id": "PTR-1",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The project involves developing a new platform for investment, which implies a new product direction for the organization."
+      },
+      {
+        "question_id": "PTR-2",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that the system must interoperate with external systems or services."
+      },
+      {
+        "question_id": "PTR-3",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "The problem statement describes developing a new platform, which implies a new system rather than an enhancement to an existing one."
+      },
+      {
+        "question_id": "PTR-4",
+        "answer": "yes",
+        "evidence": [
+          "Original problem statement: An investment firm wants to develop a platform..."
+        ],
+        "reasoning": "The problem statement mentions that the firm wants to develop a platform, implying that funding has been approved or committed."
+      },
+      {
+        "question_id": "PTR-5",
+        "answer": "yes",
+        "evidence": [
+          "REQ-001",
+          "REQ-002"
+        ],
+        "reasoning": "The requirements imply that the system will be used for investment and portfolio management, which are typical functions of a long-lived infrastructure system."
+      },
+      {
+        "question_id": "PTR-6",
+        "answer": "no",
+        "evidence": [],
+        "reasoning": "There is no indication that the project calls for formal verification and testing at multiple stages."
+      },
+      {
+        "question_id": "TEAM-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the project team at all."
+      },
+      {
+        "question_id": "TEAM-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the project team at all."
+      },
+      {
+        "question_id": "TEAM-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the project team at all."
+      },
+      {
+        "question_id": "TEAM-4",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the project team at all."
+      },
+      {
+        "question_id": "TEAM-5",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the project team at all."
+      },
+      {
+        "question_id": "USER-1",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the availability of user representatives."
+      },
+      {
+        "question_id": "USER-2",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "UNSUPPORTED (claimed yes, nothing traceable to the problem statement): The problem statement does not mention the user representatives' experience with specifying software."
+      },
+      {
+        "question_id": "USER-3",
+        "answer": "not_stated",
+        "evidence": [],
+        "reasoning": "The problem statement does not mention the user representatives' expertise in the problem domain."
+      },
+      {
+        "question_id": "USER-4",
+        "answer": "yes",
+        "evidence": [
+          "The system should collect users' financial goals, income and risk preferences before suggesting suitable investment options.",
+          "Users should be able to track portfolio performance, view profits and losses, and receive investment alerts."
+        ],
+        "reasoning": "The problem statement mentions the system's interaction with users throughout the development process, including collecting information, tracking performance, and receiving feedback."
+      }
+    ],
+    "justifications": [
+      {
+        "model": "Prototype",
+        "advantages": [
+          {
+            "advantage": "A working model quickly",
+            "relevance": "This project requires a new system to be developed, and a working model will help stakeholders understand the system's capabilities and make informed decisions."
+          },
+          {
+            "advantage": "Requirements clarified by seeing them run",
+            "relevance": "The system's interaction with users throughout the development process, including collecting information, tracking performance, and receiving feedback, implies that stakeholders may need to see something working before they can say what they want."
+          },
+          {
+            "advantage": "Technical risk investigated before committing",
+            "relevance": "The project involves developing a new platform for investment, which implies a new product direction for the organization, and therefore technical risk should be investigated before committing to the project."
+          },
+          {
+            "advantage": "Early feedback from real users",
+            "relevance": "The system should collect users' financial goals, income and risk preferences before suggesting suitable investment options, and users should be able to track portfolio performance, view profits and losses, and receive investment alerts, implying that early feedback from real users is essential."
+          }
+        ],
+        "gives_up": "Prototype assumes scope is expected to keep changing as work goes on, and that technical feasibility itself is in doubt and has to be proven \u2014 neither is true here, so that part of its design earns nothing on this project."
+      }
+    ],
+    "summary": "The Prototype model is recommended because it fits the project's needs, including the need for a working model quickly, requirements clarification, technical risk investigation, and early feedback from real users. The project's requirements are not well-defined, and the system's interaction with users throughout the development process implies a need for early feedback and clarification of requirements. The Prototype model is the best choice for this project because it allows for early feedback, clarification of requirements, and investigation of technical risk, which are essential for this project's success.",
+    "shortcut": "New system + New product direction + Stakeholder involvement + Long-lived infrastructure system -> Prototype",
+    "coverage": {
+      "requirements": {
+        "name": "Requirements",
+        "source": "inferred",
+        "answered": 5,
+        "total": 5,
+        "assessed": true
+      },
+      "project_type_risk": {
+        "name": "Project Type & Risk",
+        "source": "inferred",
+        "answered": 6,
+        "total": 6,
+        "assessed": true
+      },
+      "project_team": {
+        "name": "Project Team",
+        "source": "supplied",
+        "answered": 0,
+        "total": 5,
+        "assessed": false
+      },
+      "user_community": {
+        "name": "User Community",
+        "source": "supplied",
+        "answered": 1,
+        "total": 4,
+        "assessed": true
+      }
+    },
+    "cross_check_ranking": [
+      "Agile",
+      "Incremental",
+      "RAD",
+      "Spiral",
+      "Prototype",
+      "V-Shaped",
+      "Waterfall"
+    ],
+    "cross_check_reasoning": "Agile fits because it allows for flexibility and adaptability in response to changing requirements, such as the need to integrate multiple financial instruments and user data. Incremental and RAD also fit because they allow for iterative development and delivery of working software, which is suitable for high-priority requirements with medium risk levels.",
+    "cross_check_agrees": false,
+    "framework_version": "1.1",
+    "uses_derived_models": true
+  },
+  "conflicts": [],
+  "compliance": {
+    "rule_findings": [
+      {
+        "rule_id": "CMP-CERTIN-01",
+        "title": "Cyber incidents reported to CERT-In within 6 hours",
+        "family": "incident_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'financial' in the scenario",
+          "'financial' in REQ-001",
+          "'financial' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (ii)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "Page 6 of 8 \n\nxx. Attacks or malicious/ suspicious activities affecting systems/ \nservers/software/ applications related to Artificial Intelligence and Machine \nLearning \nThe incidents can be reported to CERT -In via email (incident@cert -in.org.in), \nPhone (1800-11-4949) and Fax (1800-11-6969). The details regarding methods and \nformats of reporting cyber security incidents is also published on the website of \nCERT-In www.cert-in.org.in and will be updated from time to time. \n*****\n\nPage 7 of 8",
+          "confidence": 0.751
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-02",
+        "title": "ICT system logs kept for a rolling 180 days within India",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'financial' in the scenario",
+          "'financial' in REQ-001",
+          "'financial' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (iv)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(iv)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(iv) All service providers, int ermediaries, data centres , body corporate and \nGovernment organisations shall mandatorily enable logs of all their ICT \nsystems and maintain them securely for a rolling period of 180 days  and \nthe same shall be maintained within the Indian jurisdiction . These should \nbe provided to CERT -In along with reporting of any incident or when \nordered / directed by CERT-In.",
+          "confidence": 0.9044
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-01",
+        "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "consent",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+        "reference": "DPDP Act 2023, s. 4 and s. 6",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "4",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "CHAPTER II \nOBLIGATIONS OF DATA FIDUCIARY\n4. Grounds for processing personal data.\u2014(1) A person may process the personal data of a Data \nPrincipal only in accordance with the provisions of this Act and for a lawful purpose,\u2014",
+          "confidence": 0.8082
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-04",
+        "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+        "reference": "DPDP Act 2023, s. 8(6)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(b)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) used to make a decision that affects the Data Principal; or \n\n11\n(b) disclosed to another Data Fiduciary,  \nthe Data Fiduciary processing such personal data shall ensure its completeness, accuracy and \nconsistency.  \n(4) A Data Fiduciary shall implement appropriate technical and organisational measures to ensure \neffective observance of the provisions of this Act and the rules made thereunder.  \n(5) A Data Fiduciary shall protect personal data in its possession or under its control, including in \nrespect of any processing undertaken by it or on its behalf by a Data Processor, by taking rea",
+          "confidence": 0.8509
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-01",
+        "title": "Audit trails on every application that can access or affect critical or sensitive information",
+        "family": "audit",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "audit",
+        "triggered_by": [
+          "'financial' in the scenario",
+          "'financial' in REQ-001",
+          "'financial' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+        "reference": "RBI Master Direction on IT Governance, Risk, Controls and Assurance Practices 2023, para 15",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "15",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "15. Audit Trails\n(a)Every IT application which can access or affect critical or sensitive information, shall have necessary audit and system logging capability and should provide audit trails.\n(b)The audit trails shall satisfy a RE\u2019s business requirements apart from regulatory and legal requirements. The audit trails must be detailed enough to facilitate the conduct of audit, serve as forensic evidence when required and assist in dispute resolution, including for non-repudiation purposes.\n(c)REs shall put in place a system for regularly monitoring the audit trails and system logs to detect any",
+          "confidence": 0.8626
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-ITGOV-02",
+        "title": "Business continuity and disaster recovery for the system",
+        "family": "continuity",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "continuity",
+        "triggered_by": [
+          "'financial' in the scenario",
+          "'financial' in REQ-001",
+          "'financial' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+        "reference": "RBI Master Direction on IT Governance 2023, Chapter V (paras 28\u201329)",
+        "source": {
+          "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+          "title": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices",
+          "clause_id": "28",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2024-04-01",
+          "version": "issued 07 Nov 2023",
+          "url": "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
+          "excerpt": "Chapter V - Business Continuity and Disaster Recovery Management\n28. Business Continuity Plan (BCP) and Disaster Recovery (DR) Policy\n(a) The BCP and DR policy shall adopt best practices 18 to guide its actions in reducing the likelihood or impact of the disruptive incidents and maintaining business continuity. The policy shall be updated based on major developments/ risk assessment.\n(b) RE\u2019s BCP/ DR capabilities shall be designed to effectively support its resilience objectives and enable it to rapidly recover and securely resume its critical operations (including security controls) post cybe",
+          "confidence": 0.8406
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-KYC-02",
+        "title": "Transaction records kept at least five years from the date of transaction",
+        "family": "record_retention",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'transaction*' in REQ-007"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+        "reference": "RBI KYC Master Direction 2016 \u2014 record management (maintenance of transaction records)",
+        "source": {
+          "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+          "title": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016",
+          "clause_id": "(a)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-02-25",
+          "version": "updated 14 Aug 2025",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/MD18KYCF6E92C82E1E1419D87323E3869BC9F13.pdf",
+          "excerpt": "(a) maintain all necessary records of transactions between the RE and the \ncustomer, both domestic and international, for at least five years from the date \nof transaction;",
+          "confidence": 0.888
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-PML-01",
+        "title": "Suspicious and large cash transactions recorded and reported (STR/CTR)",
+        "family": "aml_reporting",
+        "status": "gap",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "reporting",
+        "triggered_by": [
+          "'transaction*' in REQ-007"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall flag suspicious transactions and cash transactions above the prescribed threshold, keep their records, and produce suspicious- and cash-transaction reports for the Financial Intelligence Unit.",
+        "reference": "Prevention of Money-laundering (Maintenance of Records) Rules 2005, rule 3",
+        "source": {
+          "citation": "Prevention of Money-laundering (Maintenance of Records) Rules, 2005 \u00a73 (G.S.R. 444(E)) [consolidated text, as amended]",
+          "title": "Prevention of Money-laundering (Maintenance of Records) Rules, 2005",
+          "clause_id": "3",
+          "issuer": "Ministry of Finance (Department of Revenue), Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2005-07-01",
+          "version": "consolidated text, as amended",
+          "url": "",
+          "excerpt": "3. Maintenance of records of transactions (nature and value). \n\u2014[Every reporting entity shall maintain the record of all transactions including, the \nrecord of\u2014 \n(A) all cash transactions of the value of more than ten lakh rupees or its \nequivalent in foreign currency; \n(B) all series of cash transactions integrally connected to each other which \nhave been individually valued below Rupees Ten lakh or its equivalent in \nforeign currency where such series of transactions have taken place within a \nmonth and the monthly aggregate e xceeds an amount of Ten lakh rupees or \nits equivalent in foreign",
+          "confidence": 0.7092
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-CERTIN-03",
+        "title": "System clocks synchronised to NIC/NPL time servers",
+        "family": "audit",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "security_control",
+        "triggered_by": [
+          "'financial' in the scenario",
+          "'financial' in REQ-001",
+          "'financial' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+        "reference": "CERT-In Directions under s.70B(6), 28 Apr 2022, direction (i)",
+        "source": {
+          "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+          "title": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents",
+          "clause_id": "6(i)",
+          "issuer": "Indian Computer Emergency Response Team (CERT-In), MeitY",
+          "jurisdiction": "IN",
+          "effective_date": "2022-04-28",
+          "version": "issued 28 Apr 2022",
+          "url": "",
+          "excerpt": "(i) All service provider s, intermediaries, data centre s, body corporate and \nGovernment organisation s shall connect to the Network Time Protocol \n(NTP) Server of National Informatics Centre (NIC) or National Physical \nLaboratory (NPL) or with NTP servers traceable to these NTP servers, for \nsynchronisation of all their ICT systems clocks.  Entities having ICT \ninfrastructure spanning multiple geographies may also use accurate and \nstandard time source other than NPL and NIC, however it is to be ensured \nthat their time source shall not deviate from NPL and NIC.",
+          "confidence": 0.8649
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-02",
+        "title": "Notice to the data principal stating what personal data is collected and why",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "notice",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+        "reference": "DPDP Act 2023, s. 5",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "5",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "5. Notice .\u2014(1) Every request made to a Data Principal under section 6 for consent shall be \naccompanied or preceded by a notice given by the Data Fiduciary to the Data Principal, informing \nher,\u2014",
+          "confidence": 0.8746
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "CMP-DPDP-03",
+        "title": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "family": "personal_data",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "retention",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall erase a customer's personal data when consent is withdrawn or the purpose is no longer served, except where retention is required by law (such as the five-year KYC record retention), and record the basis for any retention.",
+        "reference": "DPDP Act 2023, s. 8(7)",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "8(a)",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "(a) erase personal data, upon the Data Principal withdrawing her consent or as soon as it is \nreasonable to assume that the specified purpose is no longer being served, whichever is earlier; and",
+          "confidence": 0.9068
+        },
+        "requires_legal_review": true,
+        "rule_verified": false
+      }
+    ],
+    "mappings": [
+      {
+        "requirement_id": "REQ-007",
+        "source": {
+          "citation": "IRDAI Information and Cyber Security Guidelines, 2023 \u00a73.4.11 (IRDAI/GA&HR/GDL/MISC/88/04/2023) [issued 24 Apr 2023]",
+          "title": "IRDAI Information and Cyber Security Guidelines, 2023",
+          "clause_id": "3.4.11",
+          "issuer": "Insurance Regulatory and Development Authority of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-04-24",
+          "version": "issued 24 Apr 2023",
+          "url": "",
+          "excerpt": "3.4.11 Exception \nManagement  \nAn \u201cexception\u201d shall be defined as circumstances when a particular \npolicy or standard; security program requirement; or security best \npractice cannot be fully implemented.  \nOrganization shall develop, publish and implement administrative, \ntechnical and physical safeguards in an effort to adequately protect \nthe confidentiality, integrity and availability of its assets on an \nexception basis. \nThe Exception Management for Cloud Services shall  be followed in \naccordance with the existing \u201cInformation and Cyber Security Policy, \nGeneral Guidelines, Section 1.8 ",
+          "confidence": 0.5552
+        },
+        "obligation": "",
+        "obligation_types": [],
+        "coverage": "not_applicable",
+        "missing": "",
+        "checkpoint": "",
+        "requires_legal_review": false,
+        "note": "none of the 1 retrieved clause(s) read governs this requirement \u2014 its regulation citation is unsupported. First read: the retrieved clause does not appear to govern this requirement \u2014 the grounding citation is doubtful (The clause defines an exception as a circumstance when a policy or standard cannot be fully implemented, and requires administrative, technical, and physical safeguards to protect assets on an exception basis. The requirement describes handling exceptions such as failed transactions, but does not relate to implementing policies or standards.)",
+        "candidates_checked": 1
+      }
+    ],
+    "obligations": [
+      {
+        "kind": "retention",
+        "text": "ICT system logs kept for a rolling 180 days within India",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-02"
+      },
+      {
+        "kind": "retention",
+        "text": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-03"
+      },
+      {
+        "kind": "retention",
+        "text": "Transaction records kept at least five years from the date of transaction",
+        "citation": "Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]",
+        "origin": "CMP-KYC-02"
+      },
+      {
+        "kind": "reporting",
+        "text": "Cyber incidents reported to CERT-In within 6 hours",
+        "citation": "CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]",
+        "origin": "CMP-CERTIN-01"
+      },
+      {
+        "kind": "reporting",
+        "text": "Personal data breaches notified to the Data Protection Board and affected individuals",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-04"
+      },
+      {
+        "kind": "reporting",
+        "text": "Suspicious and large cash transactions recorded and reported (STR/CTR)",
+        "citation": "Prevention of Money-laundering (Maintenance of Records) Rules, 2005 \u00a73 (G.S.R. 444(E)) [consolidated text, as amended]",
+        "origin": "CMP-PML-01"
+      },
+      {
+        "kind": "audit",
+        "text": "Audit trails on every application that can access or affect critical or sensitive information",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-01"
+      },
+      {
+        "kind": "consent",
+        "text": "Personal data processed only with the data principal's consent (or another lawful ground)",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-01"
+      },
+      {
+        "kind": "notice",
+        "text": "Notice to the data principal stating what personal data is collected and why",
+        "citation": "Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted]",
+        "origin": "CMP-DPDP-02"
+      },
+      {
+        "kind": "continuity",
+        "text": "Business continuity and disaster recovery for the system",
+        "citation": "Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]",
+        "origin": "CMP-ITGOV-02"
+      }
+    ],
+    "checkpoints": [
+      "Compliance/legal sign-off needed: Cyber incidents reported to CERT-In within 6 hours (CMP-CERTIN-01)",
+      "Compliance/legal sign-off needed: ICT system logs kept for a rolling 180 days within India (CMP-CERTIN-02)",
+      "Compliance/legal sign-off needed: Personal data processed only with the data principal's consent (or another lawful ground) (CMP-DPDP-01)",
+      "Compliance/legal sign-off needed: Personal data breaches notified to the Data Protection Board and affected individuals (CMP-DPDP-04)",
+      "Compliance/legal sign-off needed: Audit trails on every application that can access or affect critical or sensitive information (CMP-ITGOV-01)",
+      "Compliance/legal sign-off needed: Business continuity and disaster recovery for the system (CMP-ITGOV-02)",
+      "Compliance/legal sign-off needed: Transaction records kept at least five years from the date of transaction (CMP-KYC-02)",
+      "Compliance/legal sign-off needed: Suspicious and large cash transactions recorded and reported (STR/CTR) (CMP-PML-01)",
+      "Compliance/legal sign-off needed: Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention (CMP-DPDP-03)"
+    ]
+  },
+  "security": {
+    "controls": [
+      {
+        "rule_id": "PRIV-MIN-01",
+        "title": "Only the personal data necessary for the stated purpose is collected",
+        "family": "data_protection",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+        "reference": "DPDP Act 2023, s. 6(1) \u2014 consent limited to data necessary for the purpose",
+        "source": {
+          "citation": "Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]",
+          "title": "Digital Personal Data Protection Act, 2023",
+          "clause_id": "6",
+          "issuer": "Government of India",
+          "jurisdiction": "IN",
+          "effective_date": "2023-08-11",
+          "version": "as enacted",
+          "url": "https://www.indiacode.nic.in/bitstream/123456789/22037/1/a2023-22.pdf",
+          "excerpt": "6. Consent .\u2013\u2013(1) The consent given by the Data Principal shall be free, specific, informed, \nunconditional and unambiguous with a clear affirmative action, and shall signify an agreement to the \nprocessing of her personal data for the specified purpose and be limited to su ch personal data as is \nnecessary for such specified purpose. \nIllustration. \n X, an individual, downloads Y, a telemedicine app. Y requests the consent of X for (i) the processing \nof her personal data for making available telemedicine services, and ( ii) accessing her mobile phone \ncontact list, and X signifies her consen",
+          "confidence": 0.7067
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-MON-01",
+        "title": "Security events monitored and alerted on",
+        "family": "monitoring",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+        "reference": "RBI Cyber Security Framework 2016 \u2014 continuous surveillance / SOC",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "19.6(b)",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "(b) Establish and implement a Security Operations Centre for \ncentralised and coordinated monitoring and management of security \nrelated incidents.",
+          "confidence": 0.7011
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-VULN-01",
+        "title": "Vulnerability management, patching and security testing before release",
+        "family": "secure_development",
+        "status": "gap",
+        "severity": "Medium",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'system' in the scenario",
+          "'system' in REQ-001",
+          "'system' in REQ-002"
+        ],
+        "satisfied_by": [],
+        "method": "",
+        "detail": "",
+        "proposed_requirement": "The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 7",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "7.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "7.1 Follow a documented risk -based strategy for inventorying IT components that \nneed to be patched, identification of patches and applying patches so as to minimize \nthe number of vulnerable systems and the time window of vulnerability/exposure.",
+          "confidence": 0.9004
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      },
+      {
+        "rule_id": "SEC-CRYPTO-01",
+        "title": "Sensitive data encrypted at rest and in transit",
+        "family": "cryptography",
+        "status": "satisfied",
+        "severity": "High",
+        "basis": "regulation",
+        "obligation": "",
+        "triggered_by": [
+          "'income' in the scenario",
+          "'income' in REQ-002",
+          "'income' in REQ-003"
+        ],
+        "satisfied_by": [
+          "REQ-008"
+        ],
+        "method": "terms",
+        "detail": "",
+        "proposed_requirement": "",
+        "reference": "RBI Cyber Security Framework 2016, Annex 1 para 8.1; IT Governance Direction 2023, para 16",
+        "source": {
+          "citation": "Cyber Security Framework in Banks \u00a78.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]",
+          "title": "Cyber Security Framework in Banks",
+          "clause_id": "8.1",
+          "issuer": "Reserve Bank of India",
+          "jurisdiction": "IN",
+          "effective_date": "2016-06-02",
+          "version": "2016 framework (partly superseded by the 2023 IT directions)",
+          "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/NT41802062016.pdf",
+          "excerpt": "8.1 Provide secure access to the bank\u2019s assets/services from within/outside bank\u2019s \nnetwork by protecting data/information at rest (e.g. using encryption, if supported by \nthe device) and in -transit (e.g. using technologies such as VPN or other secure web \nprotocols, etc.)",
+          "confidence": 0.8077
+        },
+        "requires_legal_review": false,
+        "rule_verified": false
+      }
+    ],
+    "data_inventory": [
+      {
+        "kind": "financial",
+        "label": "Financial profile",
+        "sensitivity": "high",
+        "found_in": [
+          "scenario",
+          "REQ-002",
+          "REQ-003"
+        ],
+        "protected_by": []
+      }
+    ]
+  },
+  "risk_register": [
+    {
+      "id": "RISK-001",
+      "title": "Audit trails on every application that can access or affect critical or sensitive information",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-002",
+      "title": "Business continuity and disaster recovery for the system",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan.",
+      "owner": "Compliance officer",
+      "source": "CMP-ITGOV-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-003",
+      "title": "Cyber incidents reported to CERT-In within 6 hours",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-004",
+      "title": "ICT system logs kept for a rolling 180 days within India",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-005",
+      "title": "Personal data breaches notified to the Data Protection Board and affected individuals",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-04",
+      "evidence": []
+    },
+    {
+      "id": "RISK-006",
+      "title": "Personal data processed only with the data principal's consent (or another lawful ground)",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-007",
+      "title": "Suspicious and large cash transactions recorded and reported (STR/CTR)",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Prevention of Money-laundering (Maintenance of Records) Rules, 2005 \u00a73 (G.S.R. 444(E)) [consolidated text, as amended])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-007"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall flag suspicious transactions and cash transactions above the prescribed threshold, keep their records, and produce suspicious- and cash-transaction reports for the Financial Intelligence Unit.",
+      "owner": "Compliance officer",
+      "source": "CMP-PML-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-008",
+      "title": "Transaction records kept at least five years from the date of transaction",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-007"
+      ],
+      "likelihood": 4,
+      "impact": 4,
+      "score": 16,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall retain records of all transactions with the customer for at least five years from the date of the transaction.",
+      "owner": "Compliance officer",
+      "source": "CMP-KYC-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-009",
+      "title": "Financial profile handled without stated protection",
+      "category": "Security",
+      "cause": "Financial profile appears in scenario, REQ-002, REQ-003 and no requirement encrypts, masks or restricts it.",
+      "consequence": "Exposure of Financial profile \u2014 a reportable personal data breach.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 5,
+      "score": 15,
+      "rating": "High",
+      "mitigation": "Add a requirement protecting Financial profile (encryption, masking, access control).",
+      "owner": "Information-security team",
+      "source": "data:financial",
+      "evidence": []
+    },
+    {
+      "id": "RISK-010",
+      "title": "Notice to the data principal stating what personal data is collected and why",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a75 (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall present a notice, before or at the time of collection, stating the personal data collected, the purpose of processing and how the customer can exercise their rights and complain.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-02",
+      "evidence": []
+    },
+    {
+      "id": "RISK-011",
+      "title": "Personal data erased when consent is withdrawn or the purpose is served \u2014 unless law requires retention",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (Digital Personal Data Protection Act, 2023 \u00a78(a) (Act No. 22 of 2023) [as enacted])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall erase a customer's personal data when consent is withdrawn or the purpose is no longer served, except where retention is required by law (such as the five-year KYC record retention), and record the basis for any retention.",
+      "owner": "Compliance officer",
+      "source": "CMP-DPDP-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-012",
+      "title": "System clocks synchronised to NIC/NPL time servers",
+      "category": "Compliance",
+      "cause": "No requirement covers this obligation. (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(i) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022])",
+      "consequence": "Regulatory breach found at audit or inspection, with penalty and rework.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 4,
+      "impact": 3,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Add the requirement: The system shall synchronise all its clocks to the NIC or NPL NTP servers (or servers traceable to them), so that log timestamps are reliable.",
+      "owner": "Compliance officer",
+      "source": "CMP-CERTIN-03",
+      "evidence": []
+    },
+    {
+      "id": "RISK-013",
+      "title": "Missing security/compliance in REQ-008",
+      "category": "Delivery",
+      "cause": "The requirement mentions storing user financial data securely, but does not specify what security measures will be taken.",
+      "consequence": "The requirement cannot be built or tested as written.",
+      "linked_requirements": [
+        "REQ-008"
+      ],
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Specify what security measures will be taken to protect user financial data.",
+      "owner": "Business analyst",
+      "source": "quality",
+      "evidence": []
+    },
+    {
+      "id": "RISK-014",
+      "title": "Data quality issues",
+      "category": "Business",
+      "cause": "The problem statement says: \"collect users' financial goals, income and risk preferences before suggesting suitable investment options.\"",
+      "consequence": "The platform may rely on inaccurate or incomplete user data, leading to poor investment decisions",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "collect users' financial goals, income and risk preferences before suggesting suitable investment options."
+      ]
+    },
+    {
+      "id": "RISK-015",
+      "title": "Insufficient user adoption",
+      "category": "Business",
+      "cause": "The problem statement says: \"users should be able to track portfolio performance, view profits and losses, and receive investment alerts. Financial advisors should be able to monitor client portfolios and provide recommendations.\"",
+      "consequence": "The platform may not be widely adopted by users, leading to low usage and revenue",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "users should be able to track portfolio performance, view profits and losses, and receive investment alerts. Financial advisors should be able to monitor client portfolios and provide recommendations."
+      ]
+    },
+    {
+      "id": "RISK-016",
+      "title": "Inaccurate investment recommendations",
+      "category": "Delivery",
+      "cause": "The problem statement says: \"suggest suitable investment options. Users should be able to track portfolio performance, view profits and losses, and receive investment alerts.\"",
+      "consequence": "The platform may provide investment recommendations that are not suitable for users, leading to financial losses",
+      "linked_requirements": [],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Review with the project manager.",
+      "owner": "Project manager",
+      "source": "scenario:llm",
+      "evidence": [
+        "suggest suitable investment options. Users should be able to track portfolio performance, view profits and losses, and receive investment alerts."
+      ]
+    },
+    {
+      "id": "RISK-017",
+      "title": "Only the personal data necessary for the stated purpose is collected",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Digital Personal Data Protection Act, 2023 \u00a76 (Act No. 22 of 2023) [as enacted]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-002",
+        "REQ-003"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall collect only the personal data necessary for each specified purpose and reject or discard fields not required for it.",
+      "owner": "Information-security team",
+      "source": "PRIV-MIN-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-018",
+      "title": "Security events monitored and alerted on",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a719.6(b) (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall forward security events to the bank's security operations monitoring and raise alerts on anomalous access or activity.",
+      "owner": "Information-security team",
+      "source": "SEC-MON-01",
+      "evidence": []
+    },
+    {
+      "id": "RISK-019",
+      "title": "Vulnerability management, patching and security testing before release",
+      "category": "Security",
+      "cause": "No requirement provides this control (regulation: Cyber Security Framework in Banks \u00a77.1 (RBI/2015-16/418) [2016 framework (partly superseded by the 2023 IT directions)]).",
+      "consequence": "An exploitable weakness reaches production.",
+      "linked_requirements": [
+        "REQ-001",
+        "REQ-002"
+      ],
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Add the requirement: The system shall undergo vulnerability assessment and penetration testing before go-live and after major changes, and its components shall be patched under the bank's patch management policy.",
+      "owner": "Information-security team",
+      "source": "SEC-VULN-01",
+      "evidence": []
+    }
+  ],
+  "clarifications": {
+    "questions": [
+      {
+        "id": "CQ-001",
+        "question": "Audit trails on every application that can access or affect critical or sensitive information (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a715 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep tamper-evident audit trails of every access to and change of customer and transaction data, recording who acted, what changed and when\u201d?",
+        "why": "CMP-ITGOV-01: triggered by 'financial' in the scenario, 'financial' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "skipped",
+        "answer": ""
+      },
+      {
+        "id": "CQ-002",
+        "question": "Business continuity and disaster recovery for the system (Master Direction on Information Technology Governance, Risk, Controls and Assurance Practices \u00a728 (RBI/2023-24/107) [issued 07 Nov 2023]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall have a disaster recovery arrangement with defined recovery time and recovery point objectives, tested periodically under the bank's business continuity plan\u201d?",
+        "why": "CMP-ITGOV-02: triggered by 'financial' in the scenario, 'financial' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "skipped",
+        "answer": ""
+      },
+      {
+        "id": "CQ-003",
+        "question": "Cyber incidents reported to CERT-In within 6 hours (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support reporting cyber incidents to CERT-In within 6 hours of their being noticed, with a copy to the sector regulator\u201d?",
+        "why": "CMP-CERTIN-01: triggered by 'financial' in the scenario, 'financial' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "skipped",
+        "answer": ""
+      },
+      {
+        "id": "CQ-004",
+        "question": "ICT system logs kept for a rolling 180 days within India (CERT-In Directions under section 70B(6) of the IT Act, 2000 \u2014 information security practices and reporting of cyber incidents \u00a76(iv) (No. 20(3)/2022-CERT-In) [issued 28 Apr 2022]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall keep logs of all its ICT components securely for a rolling 180 days, within India, and make them available to CERT-In on request\u201d?",
+        "why": "CMP-CERTIN-02: triggered by 'financial' in the scenario, 'financial' in REQ-001",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "skipped",
+        "answer": ""
+      },
+      {
+        "id": "CQ-005",
+        "question": "Personal data breaches notified to the Data Protection Board and affected individuals (Digital Personal Data Protection Act, 2023 \u00a78(b) (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall support detection of personal data breaches and notification of each breach to the Data Protection Board and every affected customer in the prescribed form and time\u201d?",
+        "why": "CMP-DPDP-04: triggered by 'income' in the scenario, 'income' in REQ-002",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "skipped",
+        "answer": ""
+      },
+      {
+        "id": "CQ-006",
+        "question": "Personal data processed only with the data principal's consent (or another lawful ground) (Digital Personal Data Protection Act, 2023 \u00a74 (Act No. 22 of 2023) [as enacted]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall obtain and record the customer's consent for each specified purpose before processing their personal data, and allow the consent to be withdrawn as easily as it was given\u201d?",
+        "why": "CMP-DPDP-01: triggered by 'income' in the scenario, 'income' in REQ-002",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-007",
+        "question": "Suspicious and large cash transactions recorded and reported (STR/CTR) (Prevention of Money-laundering (Maintenance of Records) Rules, 2005 \u00a73 (G.S.R. 444(E)) [consolidated text, as amended]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall flag suspicious transactions and cash transactions above the prescribed threshold, keep their records, and produce suspicious- and cash-transaction reports for the Financial Intelligence Unit\u201d?",
+        "why": "CMP-PML-01: triggered by 'transaction*' in REQ-007",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-008",
+        "question": "Transaction records kept at least five years from the date of transaction (Master Direction \u2014 Know Your Customer (KYC) Direction, 2016 \u00a7(a) (RBI/DBR/2015-16/18) [updated 14 Aug 2025]). Nothing in the requirements covers this. Should the system include: \u201cThe system shall retain records of all transactions with the customer for at least five years from the date of the transaction\u201d?",
+        "why": "CMP-KYC-02: triggered by 'transaction*' in REQ-007",
+        "topic": "Regulatory and security constraints",
+        "source": "compliance",
+        "priority": 20,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-009",
+        "question": "Financial profile is handled (scenario, REQ-002, REQ-003) but nothing says how it is protected. Should it be encrypted, masked, or restricted to certain roles?",
+        "why": "unprotected financial data",
+        "topic": "Data collection and retention",
+        "source": "security",
+        "priority": 32,
+        "requirement_ids": [
+          "REQ-002",
+          "REQ-003"
+        ],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-010",
+        "question": "Are there transaction or approval limits \u2014 amounts above which extra checks or a senior approval are needed?",
+        "why": "\u00a77 topic not covered: Financial transaction limits",
+        "topic": "Financial transaction limits",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-011",
+        "question": "How is this done today, and what in the current process must stay the same?",
+        "why": "\u00a77 topic not covered: Existing workflow",
+        "topic": "Existing workflow",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-012",
+        "question": "How should customers and staff sign in, and who is allowed to see, change or approve what?",
+        "why": "\u00a77 topic not covered: Authentication and authorisation",
+        "topic": "Authentication and authorisation",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-013",
+        "question": "What reports, audit trails or regulatory returns must the system produce, and for whom?",
+        "why": "\u00a77 topic not covered: Audit and reporting",
+        "topic": "Audit and reporting",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-014",
+        "question": "Which existing systems or external services must it connect to \u2014 core banking, credit bureaus, payment networks, identity services?",
+        "why": "\u00a77 topic not covered: Integration with existing systems",
+        "topic": "Integration with existing systems",
+        "source": "coverage",
+        "priority": 40,
+        "requirement_ids": [],
+        "status": "open",
+        "answer": ""
+      },
+      {
+        "id": "CQ-015",
+        "question": "About \u201cThe system shall allow users to invest in mutual funds, stocks, and other financial instruments\u201d: The term 'other financial instruments' is not defined. (For example: Define what 'other financial instruments' means in the context of this system.)",
+        "why": "Undefined Terminology (Medium)",
+        "topic": "Undefined Terminology",
+        "source": "quality",
+        "priority": 45,
+        "requirement_ids": [
+          "REQ-001"
+        ],
+        "status": "open",
+        "answer": ""
+      }
+    ],
+    "changes": [],
+    "rounds": 1
+  },
+  "timing": null,
+  "needs_review": [
+    "8 high-severity regulatory obligation(s) have no covering requirement: Cyber incidents reported to CERT-In within 6 hours; ICT system logs kept for a rolling 180 days within India; Personal data processed only with the data principal's consent (or another lawful ground) (and 5 more).",
+    "1 requirement(s) cite a regulation that, on reading, does not govern them: \"The system shall handle exceptions such as failed investment transactions, unavailable external services, or timeouts\".",
+    "could not establish whether the user representatives have not specified software before \u2014 the model gave an answer but could not point at anything in the scenario that says so, so it was left out of the scoring."
+  ]
+}
